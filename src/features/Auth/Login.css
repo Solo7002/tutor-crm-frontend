@@ -2,12 +2,32 @@
 @tailwind components;
 @tailwind utilities;
 
+@keyframes movePattern {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: 350px 200px;
+  }
+}
+
+.pattern-image{
+  background-image: url('../../../public/assets/patterns/pattern10.png');
+  background-size: 350px 200px;
+  background-repeat: repeat;
+  animation: movePattern 40s linear infinite;
+  @apply 
+  w-full h-screen
+  absolute
+  opacity-20;
+}
+
 .login-container {
   @apply 
   flex 
   items-center 
   justify-center 
-  w-full h-screen 
+  w-full h-screen
   bg-gray-200;
 }
 
@@ -15,33 +35,50 @@
   @apply 
   flex 
   w-[900px] 
-  h-[550px] 
+  h-[630px] 
   rounded-2xl 
-  shadow-lg 
-  overflow-hidden;
+  shadow-xl 
+  overflow-hidden
 }
 
 .login-left {
   background-color: #130c37;
   @apply 
   flex 
-  flex-col 
-  items-center 
-  justify-center 
-  w-1/2 
+  flex-col
+  w-3/5 
   text-white 
   text-center 
-  p-6 
+  p-6
+  pl-10 
   relative;
 }
 
-.login-logo {
+.center-vertival-wave{
+  @apply
+  absolute
+  top-0
+  right-0
+}
+
+.logo-img-cont{
+  width: 100%;
   @apply 
-  w-20 
+  grid 
+  mt-7
+  place-items-center;
+}
+
+.login-logo {
+  width: 100px;
+  @apply  
   mb-5;
 }
 
 .login-text {
+  font-family: 'Nunito', sans-serif;
+  font-size: 20px;
+  font-weight: 500;
   @apply 
   max-w-sm 
   text-lg 
@@ -58,20 +95,32 @@
   @apply 
   flex 
   flex-col 
-  items-center 
-  justify-center
   w-1/2 
-  bg-white p-6;
+  bg-white 
+  p-6
+  relative;
+}
+
+.center-horizontal-wave{
+  @apply
+  hidden
+  absolute
+  bottom-0
+  left-0;
 }
 
 .login-title {
-  @apply 
-  text-2xl 
-  mb-5;
+  font-family: 'Nunito', sans-serif;
+  font-size: 32px;
+  font-weight: bold;
+  @apply
+  mt-5
+  mb-12;
 }
 
 .login-form {
   @apply 
+  mt-3
   flex 
   flex-col
   w-full 
@@ -79,22 +128,27 @@
 }
 
 .login-input {
-    @apply 
-    w-full 
-    p-2 
-    mb-3 
-    border-2
-    border-gray-300 
-    rounded-md 
-    hover:border-purple-300 
-    focus:border-purple-600
-    focus:border-4;
+  border: 1px solid gray; 
+  outline: none;
+  @apply 
+  w-full 
+  pt-3
+  pb-3
+  pl-4 
+  mb-3 
+  border-gray-300 
+  rounded-2xl
+  hover:border-purple-300 
+  focus:border-purple-600
+  focus:border-2;
 }
 
 .login-forgot {
   @apply 
   text-right 
-  text-sm mb-3;
+  text-sm 
+  mb-6
+  mt-1;
 }
 
 .login-forgot a {
@@ -104,8 +158,11 @@
 }
 
 .login-button {
-  border: 1px solid #9a94b6;
-  background-color: #9a94b6;
+  border: 1px solid #8A48E6;
+  background-color: #8A48E6;
+  font-family: 'Inter', sans-serif;
+  font-size: 20px;
+  font-weight: 300;
   @apply w-full 
   p-2
   text-white 
@@ -117,6 +174,9 @@
 
 .register-button{
   border: 1px solid purple;
+  font-family: 'Inter', sans-serif;
+  font-size: 20px;
+  font-weight: 400;
   @apply 
   w-full 
   p-2 
@@ -127,18 +187,20 @@
 }
 
 .login-divider {
+  font-family: 'Lato', sans-serif;
+  font-weight: 600;
   @apply 
   flex 
   items-center 
   w-full 
   max-w-xs
-  my-5;
+  my-7;
 }
 
 .line {
   @apply 
   flex-grow 
-  h-px 
+  h-0.5 
   bg-gray-700;
 }
 
@@ -151,14 +213,15 @@
 .login-socials {
   @apply 
   flex 
-  gap-3;
+  gap-3
+  pr-11
+  justify-around;
 }
 
 .social-button {
   @apply 
   w-10 
   h-10 
-  bg-gray-100 
   rounded-full 
   flex 
   items-center 
@@ -168,7 +231,19 @@
 
 .social-button img {
   @apply
-  w-5;
+  w-8;
+}
+
+@media (max-width: 850px) {
+  .login-socials{
+    @apply
+    pr-0
+  }
+
+  .login-text{
+    @apply
+    pr-5
+  }
 }
 
 @media (max-width: 768px) {
@@ -191,6 +266,65 @@
   .login-right {
     @apply 
     w-full 
-    h-1/2;
+    h-2/5;
+  }
+
+  .login-right{
+    @apply
+    h-full;
+  }
+
+  .center-vertival-wave{
+    @apply
+    hidden;
+  }
+
+  .teacher-img-cont{
+    @apply
+    hidden;
+  }
+
+  .login-text{
+    @apply
+    hidden;
+  }
+
+  .center-horizontal-wave{
+    @apply
+    block;
+  }
+
+  .centered-login-div{
+    @apply
+    flex flex-col items-center justify-center
+  }
+
+  .login-form {
+    @apply
+    max-w-full
+  }
+
+  .login-divider {
+    @apply
+    mt-12
+    max-w-full
+  }
+
+  .login-socials{
+    @apply
+    w-full
+    p-0
+    mt-3;
+  }
+
+  .login-title{
+    @apply
+    mt-0
+    mb-8
+  }
+
+  .login-forgot{
+    @apply
+    mb-10
   }
 }
