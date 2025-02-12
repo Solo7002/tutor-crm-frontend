@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import "tailwindcss/tailwind.css";
 
 const Navbar = ({ children }) => {
@@ -30,159 +31,182 @@ const Navbar = ({ children }) => {
                 </div>
                 {/* Profile Section */}
                 <div className="ml-7 mb-[40px] pl-8 h-[60px]">
-                    <button
-                        onClick={() => handleNavItemClick("profile")}
-                        style={{
-                            width: "60px",
-                            height: "60px",
-                            position: "absolute",
-                            left: "18px",
-                            top: "110px",
-                            borderRadius: "50%",
-                            border: "1px solid #ccc",
-                            cursor: "pointer",
-                            overflow: "hidden",
-                        }}
-                    >
-                        <img
-                            src="../../../assets/images/avatar.jpg"
-                            alt="Avatar"
+                    <Link to="/profile">
+                        <button
+                            onClick={() => handleNavItemClick("profile")}
                             style={{
-                                width: "100%",
-                                height: "100%",
-                                objectFit: "cover",
+                                width: "60px",
+                                height: "60px",
+                                position: "absolute",
+                                left: "18px",
+                                top: "110px",
                                 borderRadius: "50%",
+                                border: "1px solid #ccc",
+                                cursor: "pointer",
+                                overflow: "hidden",
                             }}
-                        />
-                    </button>
-                    {isSidebarOpen && (
-                        <div className="absolute left-24 top-28">
-                            <p
+                        >
+                            <img
+                                src="../../../assets/images/avatar.jpg"
+                                alt="Avatar"
                                 style={{
-                                    fontFamily: "Nunito",
-                                    fontWeight: "700",
-                                    fontSize: "15px",
-                                    lineHeight: "20px",
-                                    letterSpacing: "-0.005em",
-                                    color: "#827FAE",
-                                    margin: "5px"
+                                    width: "100%",
+                                    height: "100%",
+                                    objectFit: "cover",
+                                    borderRadius: "50%",
                                 }}
-                            >
-                                Ім’я студента
-                            </p>
-                            <p
-                                style={{
-                                    fontFamily: "Lato",
-                                    fontWeight: "400",
-                                    fontSize: "15px",
-                                    lineHeight: "18px",
-                                    letterSpacing: "-0.005em",
-                                    color: "#827FAE",
-                                    margin: "5px"
-                                }}
-                            >
-                                Рейтинг: 11
-                            </p>
-                        </div>
-                    )}
+                            />
+                        </button>
+                        {isSidebarOpen && (
+                            <div className="absolute left-24 top-28">
+                                <p
+                                    style={{
+                                        fontFamily: "Nunito",
+                                        fontWeight: "700",
+                                        fontSize: "15px",
+                                        lineHeight: "20px",
+                                        letterSpacing: "-0.005em",
+                                        color: "#827FAE",
+                                        margin: "5px"
+                                    }}
+                                >
+                                    Ім’я студента
+                                </p>
+                                <p
+                                    style={{
+                                        fontFamily: "Lato",
+                                        fontWeight: "400",
+                                        fontSize: "15px",
+                                        lineHeight: "18px",
+                                        letterSpacing: "-0.005em",
+                                        color: "#827FAE",
+                                        margin: "5px"
+                                    }}
+                                >
+                                    Рейтинг: 11
+                                </p>
+                            </div>
+                        )}
+                    </Link>
                 </div>
                 <nav className="flex-grow p-7 flex flex-col space-y-6">
-                    <NavItem
-                        iconUrl="../../../assets/navbarIcons/homeIcon.png"
-                        text="Головна"
-                        isOpen={isSidebarOpen}
-                        isActive={activeNavItem === 'home'}
-                        onClick={() => handleNavItemClick('home')}
-                        group="main"
-                        textStyle={{ fontSize: '15px', fontFamily: 'Nunito', fontWeight: '700' }}
-                    />
-                    <NavItem
-                        iconUrl="../../../assets/navbarIcons/book3Icon.png"
-                        text="Завдання"
-                        isOpen={isSidebarOpen}
-                        isActive={activeNavItem === 'task'}
-                        onClick={() => handleNavItemClick('task')}
-                        group="main"
-                        textStyle={{ fontSize: '15px', fontFamily: 'Nunito', fontWeight: '700' }}
-                    />
-                    <NavItem
-                        iconUrl="../../../assets/navbarIcons/testIcon.png"
-                        text="Тести"
-                        isOpen={isSidebarOpen}
-                        isActive={activeNavItem === 'test'}
-                        onClick={() => handleNavItemClick('test')}
-                        group="main"
-                        textStyle={{ fontSize: '15px', fontFamily: 'Nunito', fontWeight: '700' }}
-                    />
-                    <NavItem
-                        iconUrl="../../../assets/navbarIcons/calendarIcon.png"
-                        text="Розклад"
-                        isOpen={isSidebarOpen}
-                        isActive={activeNavItem === 'calendar'}
-                        onClick={() => handleNavItemClick('calendar')}
-                        group="main"
-                        textStyle={{ fontSize: '15px', fontFamily: 'Nunito', fontWeight: '700' }}
-                    />
-                    <NavItem
-                        iconUrl="../../../assets/navbarIcons/book2Icon.png"
-                        text="Бібліотека"
-                        isOpen={isSidebarOpen}
-                        isActive={activeNavItem === 'library'}
-                        onClick={() => handleNavItemClick('library')}
-                        group="main"
-                        textStyle={{ fontSize: '15px', fontFamily: 'Nunito', fontWeight: '700' }}
-                    />
-                    <NavItem
-                        iconUrl="../../../assets/navbarIcons/messageIcon.png"
-                        text="Відгуки"
-                        isOpen={isSidebarOpen}
-                        isActive={activeNavItem === 'review'}
-                        onClick={() => handleNavItemClick('review')}
-                        group="main"
-                        textStyle={{ fontSize: '15px', fontFamily: 'Nunito', fontWeight: '700' }}
-                    />
-                    <NavItem
-                        iconUrl="../../../assets/navbarIcons/payIcon.png"
-                        text="Оплата"
-                        isOpen={isSidebarOpen}
-                        isActive={activeNavItem === 'pay'}
-                        onClick={() => handleNavItemClick('pay')}
-                        group="main"
-                        textStyle={{ fontSize: '15px', fontFamily: 'Nunito', fontWeight: '700' }}
-                    />
-                    <NavItem
-                        iconUrl="../../../assets/navbarIcons/mapIcon.png"
-                        text="Мапа"
-                        isOpen={isSidebarOpen}
-                        isActive={activeNavItem === 'map'}
-                        onClick={() => handleNavItemClick('map')}
-                        group="main"
-                        textStyle={{ fontSize: '15px', fontFamily: 'Nunito', fontWeight: '700' }}
-                    />
+                    <Link to="/StudentHome">
+                        <NavItem
+                            iconUrl="../../../assets/navbarIcons/homeIcon.png"
+                            text="Головна"
+                            isOpen={isSidebarOpen}
+                            isActive={activeNavItem === 'home'}
+                            onClick={() => handleNavItemClick('home')}
+                            group="main"
+                            textStyle={{ fontSize: '15px', fontFamily: 'Nunito', fontWeight: '700' }}
+                        />
+                    </Link>
+                    <Link to="/StudentHometask">
+                        <NavItem
+                            iconUrl="../../../assets/navbarIcons/book3Icon.png"
+                            text="Завдання"
+                            isOpen={isSidebarOpen}
+                            isActive={activeNavItem === 'task'}
+                            onClick={() => handleNavItemClick('task')}
+                            group="main"
+                            textStyle={{ fontSize: '15px', fontFamily: 'Nunito', fontWeight: '700' }}
+                        />
+                    </Link>
+                    <Link to="/StudentTests">
+                        <NavItem
+                            iconUrl="../../../assets/navbarIcons/testIcon.png"
+                            text="Тести"
+                            isOpen={isSidebarOpen}
+                            isActive={activeNavItem === 'test'}
+                            onClick={() => handleNavItemClick('test')}
+                            group="main"
+                            textStyle={{ fontSize: '15px', fontFamily: 'Nunito', fontWeight: '700' }}
+                        />
+                    </Link>
+                    <Link to="/calendar">
+                        <NavItem
+                            iconUrl="../../../assets/navbarIcons/calendarIcon.png"
+                            text="Розклад"
+                            isOpen={isSidebarOpen}
+                            isActive={activeNavItem === 'calendar'}
+                            onClick={() => handleNavItemClick('calendar')}
+                            group="main"
+                            textStyle={{ fontSize: '15px', fontFamily: 'Nunito', fontWeight: '700' }}
+                        />
+                    </Link>
+
+                    <Link to="/StudentMaterials">
+                        <NavItem
+                            iconUrl="../../../assets/navbarIcons/book2Icon.png"
+                            text="Бібліотека"
+                            isOpen={isSidebarOpen}
+                            isActive={activeNavItem === 'library'}
+                            onClick={() => handleNavItemClick('library')}
+                            group="main"
+                            textStyle={{ fontSize: '15px', fontFamily: 'Nunito', fontWeight: '700' }}
+                        />
+                    </Link>
+                    <Link to="/StudentReview">
+                        <NavItem
+                            iconUrl="../../../assets/navbarIcons/messageIcon.png"
+                            text="Відгуки"
+                            isOpen={isSidebarOpen}
+                            isActive={activeNavItem === 'review'}
+                            onClick={() => handleNavItemClick('review')}
+                            group="main"
+                            textStyle={{ fontSize: '15px', fontFamily: 'Nunito', fontWeight: '700' }}
+                        />
+                    </Link>
+                    <Link to="/StudentPay">
+                        <NavItem
+                            iconUrl="../../../assets/navbarIcons/payIcon.png"
+                            text="Оплата"
+                            isOpen={isSidebarOpen}
+                            isActive={activeNavItem === 'pay'}
+                            onClick={() => handleNavItemClick('pay')}
+                            group="main"
+                            textStyle={{ fontSize: '15px', fontFamily: 'Nunito', fontWeight: '700' }}
+                        />
+                    </Link>
+                    <Link to="/StudentMap">
+                        <NavItem
+                            iconUrl="../../../assets/navbarIcons/mapIcon.png"
+                            text="Мапа"
+                            isOpen={isSidebarOpen}
+                            isActive={activeNavItem === 'map'}
+                            onClick={() => handleNavItemClick('map')}
+                            group="main"
+                            textStyle={{ fontSize: '15px', fontFamily: 'Nunito', fontWeight: '700' }}
+                        />
+                    </Link>
                 </nav>
                 <div className="p-7 flex flex-col justify-end space-y-4">
-                    <NavItem
-                        iconUrl="../../../assets/navbarIcons/questionIcon.png"
-                        text="Інформація"
-                        isOpen={isSidebarOpen}
-                        isActive={activeNavItem === 'info'}
-                        onClick={() => handleNavItemClick('info')}
-                        noBorder
-                        blackText
-                        group="footer"
-                        textStyle={{ fontSize: '15px', fontFamily: 'Nunito', fontWeight: '700' }}
-                    />
-                    <NavItem
-                        iconUrl="../../../assets/navbarIcons/settingsIcon.png"
-                        text="Налаштування"
-                        isOpen={isSidebarOpen}
-                        isActive={activeNavItem === 'settings'}
-                        onClick={() => handleNavItemClick('settings')}
-                        noBorder
-                        blackText
-                        group="footer"
-                        textStyle={{ fontSize: '15px', fontFamily: 'Nunito', fontWeight: '700' }}
-                    />
+                    <Link to="/StudentInfo">
+                        <NavItem
+                            iconUrl="../../../assets/navbarIcons/questionIcon.png"
+                            text="Інформація"
+                            isOpen={isSidebarOpen}
+                            isActive={activeNavItem === 'info'}
+                            onClick={() => handleNavItemClick('info')}
+                            noBorder
+                            blackText
+                            group="footer"
+                            textStyle={{ fontSize: '15px', fontFamily: 'Nunito', fontWeight: '700' }}
+                        />
+                    </Link>
+                    <Link to="/StudentSettings">
+                        <NavItem
+                            iconUrl="../../../assets/navbarIcons/settingsIcon.png"
+                            text="Налаштування"
+                            isOpen={isSidebarOpen}
+                            isActive={activeNavItem === 'settings'}
+                            onClick={() => handleNavItemClick('settings')}
+                            noBorder
+                            blackText
+                            group="footer"
+                            textStyle={{ fontSize: '15px', fontFamily: 'Nunito', fontWeight: '700' }}
+                        />
+                    </Link>
                 </div>
             </div>
             <div className="flex-1 flex flex-col ml-24">
@@ -195,66 +219,74 @@ const Navbar = ({ children }) => {
                         Головна
                     </span>
                     <div className="flex space-x-8">
-                        <button
-                            className="p-2 rounded-full border border-gray-300 hover:bg-purple-500 transition-all duration-300"
-                            onMouseEnter={(e) => {
-                                const icon = e.target.querySelector('img');
-                                if (icon) icon.style.filter = 'brightness(0) invert(1)';
-                            }}
-                            onMouseLeave={(e) => {
-                                const icon = e.target.querySelector('img');
-                                if (icon) icon.style.filter = 'none';
-                            }}
-                        >
-                            <img
-                                src="../../../assets/navbarIcons/languageIcon.png"
-                                alt="Language"
-                                className="h-5 w-5 transition-all duration-300"
-                            />
-                        </button>
-                        <button
-                            className="p-2 rounded-full border border-gray-300 hover:bg-purple-500 transition-all duration-300"
-                            onMouseEnter={(e) => {
-                                const icon = e.target.querySelector('img');
-                                if (icon) icon.style.filter = 'brightness(0) invert(1)';
-                            }}
-                            onMouseLeave={(e) => {
-                                const icon = e.target.querySelector('img');
-                                if (icon) icon.style.filter = 'none';
-                            }}
-                        >
-                            <img
-                                src="../../../assets/navbarIcons/sunIcon.png"
-                                alt="Theme"
-                                className="h-5 w-5 transition-all duration-300"
-                            />
-                        </button>
-                        <button
-                            className="p-2 rounded-full border border-gray-300 hover:bg-purple-500 transition-all duration-300"
-                            onMouseEnter={(e) => {
-                                const icon = e.target.querySelector('img');
-                                if (icon) icon.style.filter = 'brightness(0) invert(1)';
-                            }}
-                            onMouseLeave={(e) => {
-                                const icon = e.target.querySelector('img');
-                                if (icon) icon.style.filter = 'none';
-                            }}
-                        >
-                            <img
-                                src="../../../assets/navbarIcons/bellIcon.png"
-                                alt="Notifications"
-                                className="h-5 w-5 transition-all duration-300"
-                            />
-                        </button>
-                        <button
-                            className="p-2 rounded-full border border-gray-300 hover:bg-purple-500 transition-all duration-300"
-                        >
-                            <img
-                                src="../../../assets/navbarIcons/exitIcon.png"
-                                alt="LogOut"
-                                className="h-5 w-5 transition-all duration-300"
-                            />
-                        </button>
+                        <Link to="/">
+                            <button
+                                className="p-2 rounded-full border border-gray-300 hover:bg-purple-500 transition-all duration-300"
+                                onMouseEnter={(e) => {
+                                    const icon = e.target.querySelector('img');
+                                    if (icon) icon.style.filter = 'brightness(0) invert(1)';
+                                }}
+                                onMouseLeave={(e) => {
+                                    const icon = e.target.querySelector('img');
+                                    if (icon) icon.style.filter = 'none';
+                                }}
+                            >
+                                <img
+                                    src="../../../assets/navbarIcons/languageIcon.png"
+                                    alt="Language"
+                                    className="h-5 w-5 transition-all duration-300"
+                                />
+                            </button>
+                        </Link>
+                        <Link to="/">
+                            <button
+                                className="p-2 rounded-full border border-gray-300 hover:bg-purple-500 transition-all duration-300"
+                                onMouseEnter={(e) => {
+                                    const icon = e.target.querySelector('img');
+                                    if (icon) icon.style.filter = 'brightness(0) invert(1)';
+                                }}
+                                onMouseLeave={(e) => {
+                                    const icon = e.target.querySelector('img');
+                                    if (icon) icon.style.filter = 'none';
+                                }}
+                            >
+                                <img
+                                    src="../../../assets/navbarIcons/sunIcon.png"
+                                    alt="Theme"
+                                    className="h-5 w-5 transition-all duration-300"
+                                />
+                            </button>
+                        </Link>
+                        <Link to="/">
+                            <button
+                                className="p-2 rounded-full border border-gray-300 hover:bg-purple-500 transition-all duration-300"
+                                onMouseEnter={(e) => {
+                                    const icon = e.target.querySelector('img');
+                                    if (icon) icon.style.filter = 'brightness(0) invert(1)';
+                                }}
+                                onMouseLeave={(e) => {
+                                    const icon = e.target.querySelector('img');
+                                    if (icon) icon.style.filter = 'none';
+                                }}
+                            >
+                                <img
+                                    src="../../../assets/navbarIcons/bellIcon.png"
+                                    alt="Notifications"
+                                    className="h-5 w-5 transition-all duration-300"
+                                />
+                            </button>
+                        </Link>
+                        <Link to="/">
+                            <button
+                                className="p-2 rounded-full border border-gray-300 hover:bg-purple-500 transition-all duration-300"
+                            >
+                                <img
+                                    src="../../../assets/navbarIcons/exitIcon.png"
+                                    alt="LogOut"
+                                    className="h-5 w-5 transition-all duration-300"
+                                />
+                            </button>
+                        </Link>
                     </div>
                 </header>
                 {/* Content Area */}

@@ -14,6 +14,7 @@ const AppRoutes = () => {
         <Route path="/StudentHome" element={<HomeStudent />} />
         <Route path="/StudentHometask" element={<HometaskStudent />} />
         <Route path="/StudentMaterials" element={<MaterialsStudent />} />
+        <Route path="*" element={<Navigate to="/" replace />} /> {/* Заглушка */}
       </Routes>
     </Router>
   );
