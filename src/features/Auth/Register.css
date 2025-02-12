@@ -1,0 +1,139 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.register-page .register-title{
+  font-family: 'Nunito', sans-serif;
+  font-size: 32px;
+  font-weight: bold;
+  @apply
+  mt-5
+  mb-5;
+}
+
+.register-page .register-svg-bar-container{
+    @apply
+    mb-8
+}
+
+.register-page .half-input-width-div{
+    @apply
+    flex
+    justify-around
+}
+
+.register-page .login-input{
+    @apply
+    mb-3
+}
+
+.register-page .half-input-width-div > .login-input:first-child{
+    @apply
+    w-1/2
+    mr-3
+}
+
+.register-page .half-input-width-div > .login-input:last-child{
+    @apply
+    w-1/2
+    ml-3
+}
+
+.register-page .register-form{
+    @apply
+    w-full
+    pr-3
+}
+
+.register-page .register-stage-1 > .login-input:last-child{
+    @apply
+    mb-6;
+}
+
+/* 2 */
+
+.register-page .add-photo-text{
+    font-family: 'Lato', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    @apply
+    text-center;
+}
+
+.register-page .svg-photo-container {
+    @apply
+    w-full
+    h-full
+    flex
+    justify-center
+    mt-6
+    mb-12;
+}
+ 
+.register-page .svg-select-photo {
+  @apply 
+  transition-[filter] 
+  duration-500 
+  ease-in-out 
+  hover:brightness-75
+  cursor-pointer;
+}
+
+.register-page .svg-already-selected-photo{
+    @apply 
+    transition-[opacity] 
+    duration-500 
+    ease-in-out 
+    opacity-0
+    hover:opacity-50
+    cursor-pointer;
+}
+
+.register-page .photo-wrapper {
+    @apply
+    w-[219px]
+    h-[219px]
+    rounded-full 
+    bg-gray-400 
+    border-[5px] 
+    border-purple-600 
+    flex 
+    items-center 
+    justify-center 
+    cursor-pointer 
+    bg-cover 
+    bg-center;
+}
+
+/* 3 */
+
+.register-page .select-role-text{
+    font-family: 'Lato', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    @apply
+    text-center
+    mb-7;
+}
+
+.register-page  .teacher-student-select-div{
+    @apply
+    flex
+    w-full
+    gap-6
+}
+
+.register-page  .role-container{
+    @apply
+    cursor-pointer
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+    .register-title{
+        @apply
+        mt-0
+        mb-8;
+      }
+}
+
