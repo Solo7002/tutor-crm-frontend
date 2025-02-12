@@ -1,41 +1,41 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import "tailwindcss/tailwind.css";
 
 const Navbar = ({ children }) => {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const location = useLocation();
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+    const location = useLocation();
 
-  const getDefaultActiveNavItem = () => {
-    switch (location.pathname) {
-      case "/StudentHome":
-        return "home";
-      case "/StudentHometask":
-        return "task";
-      case "/StudentMaterials":
-        return "test";
-      case "/calendar":
-        return "calendar";
-      case "/library":
-        return "library";
-      case "/reviews":
-        return "review";
-      case "/payments":
-        return "pay";
-      case "/map":
-        return "map";
-      case "/info":
-        return "info";
-      case "/settings":
-        return "settings";
-      case "/profile":
-        return "profile";
-      default:
-        return "home";
-    }
-  };
+    const getDefaultActiveNavItem = () => {
+        switch (location.pathname) {
+            case "/StudentHome":
+                return "home";
+            case "/StudentHometask":
+                return "task";
+            case "/StudentMaterials":
+                return "test";
+            case "/calendar":
+                return "calendar";
+            case "/library":
+                return "library";
+            case "/reviews":
+                return "review";
+            case "/payments":
+                return "pay";
+            case "/map":
+                return "map";
+            case "/info":
+                return "info";
+            case "/settings":
+                return "settings";
+            case "/profile":
+                return "profile";
+            default:
+                return "home";
+        }
+    };
 
-  const [activeNavItem, setActiveNavItem] = useState(getDefaultActiveNavItem());
+    const [activeNavItem, setActiveNavItem] = useState(getDefaultActiveNavItem());
 
     const handleNavItemClick = (navItem) => {
         setActiveNavItem(navItem);
