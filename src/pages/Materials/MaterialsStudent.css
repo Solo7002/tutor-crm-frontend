@@ -1,0 +1,50 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+    background-color: hsl(268, 100%, 97%);
+}
+
+.MaterialsStudent {
+    @apply md:block;
+}
+
+.buttons-box {
+    @apply h-12 my-[18px] items-center flex justify-between;
+}
+
+.button {
+    @apply h-12 px-4 py-2 bg-white text-[#8a48e6] rounded-[32px] border border-[#8a48e6] justify-start items-center gap-2 flex;
+}
+
+.button>div,
+.button>div>svg>path {
+    @apply text-[#8a48e6] stroke-[#8a48e6];
+}
+
+.button:hover {
+    @apply bg-[#A768FF] border-[#A768FF];
+}
+
+.button:hover>div,
+.button:hover>div>svg>path {
+    @apply text-white border-white stroke-white;
+}
+
+.button:hover>div:last-child>div:first-child {
+    @apply bg-[#9E80C9];
+}
+
+.button-selected {
+    @apply bg-[#8a48e6];
+}
+
+.button-selected div,
+.button-selected>div>svg>path {
+    @apply text-white stroke-white border-white;
+}
+
+.button-selected>div:last-child>div:first-child {
+    @apply bg-[#8a48e6];
+}

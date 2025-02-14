@@ -1,0 +1,43 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.switch {
+    @apply w-[82px] h-[42px] flex items-center rounded-full border border-[#D7D7D7] cursor-pointer transition-all relative;
+}
+
+.switch:hover>div>svg>rect:first-child {
+    @apply fill-[#D7D7D7];
+}
+
+.switch:hover>div>svg>rect:nth-child(4) {
+    @apply stroke-[#D7D7D7];
+}
+
+.switch:hover>div>svg>rect:nth-child(3),
+.switch:hover>div>svg>:nth-child(5) {
+    @apply fill-[#120C38];
+}
+
+.switch>div>svg>rect:nth-child(3),
+.switch>div>svg>rect:nth-child(4) {
+    @apply -translate-x-[0px];
+}
+
+.switch-active>div>svg>rect:nth-child(3),
+.switch-active>div>svg>rect:nth-child(4) {
+    @apply -translate-x-[40px];
+}
+
+.switch-active>div>svg>:nth-child(5),
+.switch-active:hover>div>svg>:nth-child(5) {
+    @apply fill-white;
+}
+
+.switch-active:hover>div>svg>:nth-child(6) {
+    @apply stroke-[#120C38];
+}
+
+.switch-active>div>svg>:nth-child(6) {
+    @apply stroke-[#827FAE];
+}
