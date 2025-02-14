@@ -69,8 +69,8 @@ const Navbar = ({ children }) => {
                                 width: "60px",
                                 height: "60px",
                                 position: "absolute",
-                                left: "18px",
-                                top: "110px",
+                                left: "20px",
+                                top: "80px",
                                 borderRadius: "50%",
                                 border: "1px solid #ccc",
                                 cursor: "pointer",
@@ -89,7 +89,7 @@ const Navbar = ({ children }) => {
                             />
                         </button>
                         {isSidebarOpen && (
-                            <div className="absolute left-24 top-28">
+                            <div className="absolute left-24 top-[85px]">
                                 <p
                                     style={{
                                         fontFamily: "Nunito",
@@ -341,9 +341,10 @@ const NavItem = ({ iconUrl, text, isOpen, isActive, onClick, noBorder, blackText
         width: isOpen ? '228px' : '40px',
         justifyContent: isOpen ? 'flex-start' : 'center',
         border: noBorder ? 'none' : '1px solid #ccc',
-        transition: 'background-color 0.3s, color 0.3s',
+        transition: 'background-color 0.3s, color 0.3s, border 0.3s',
         borderRadius: '9999px',
         cursor: 'pointer',
+        position: 'relative',
     };
 
     const textStyles = {
@@ -352,12 +353,12 @@ const NavItem = ({ iconUrl, text, isOpen, isActive, onClick, noBorder, blackText
             hover: { color: '#120C38' },
         },
         main: {
-            default: isActive ? 'white' : '#827FAE',
-            hover: isActive ? 'white' : '#120C38',
+            default: { color: isActive ? 'white' : '#827FAE' },
+            hover: { color: isActive ? 'white' : '#120C38' },
         },
         footer: {
-            default: isActive ? 'white' : '#120C38',
-            hover: 'white',
+            default: { color: isActive ? 'white' : '#120C38' },
+            hover: { color: 'white' },
         },
     };
 
@@ -388,28 +389,41 @@ const NavItem = ({ iconUrl, text, isOpen, isActive, onClick, noBorder, blackText
             style={{
                 ...baseButtonStyle,
                 backgroundColor: isActive ? '#8A48E6' : 'white',
-                color: textStyles[group]?.default || 'black',
+                border: noBorder ? 'none' : '1px solid #ccc',
             }}
             onMouseEnter={(e) => {
                 if (group !== 'menu') {
-                    e.target.style.backgroundColor = hoverBackground[group];
-                    e.target.style.color = textStyles[group]?.hover || 'black';
+                    e.currentTarget.style.backgroundColor = hoverBackground[group];
+                    e.currentTarget.style.border = 'none';
 
-                    const icon = e.target.querySelector('img');
-                    if (icon) icon.style.filter = iconStyles[group]?.hover;
+                    const icon = e.currentTarget.querySelector('img');
+                    if (icon) {
+                        icon.style.border = '1px solid white';
+                        icon.style.filter = iconStyles[group]?.hover;
+                    }
+
+                    const textElement = e.currentTarget.querySelector('.nav-item-text');
+                    if (textElement) textElement.style.color = textStyles[group]?.hover?.color;
                 }
             }}
             onMouseLeave={(e) => {
                 if (group !== 'menu') {
-                    e.target.style.backgroundColor = isActive ? '#8A48E6' : 'white';
-                    e.target.style.color = textStyles[group]?.default || 'black';
+                    e.currentTarget.style.backgroundColor = isActive ? '#8A48E6' : 'white';
+                    e.currentTarget.style.border = noBorder ? 'none' : '1px solid #ccc';
 
-                    const icon = e.target.querySelector('img');
-                    if (icon) icon.style.filter = iconStyles[group]?.default;
+                    const icon = e.currentTarget.querySelector('img');
+                    if (icon) {
+                        icon.style.border = noBorder ? 'none' : '1px solid #ccc';
+                        icon.style.filter = iconStyles[group]?.default;
+                    }
+
+                    const textElement = e.currentTarget.querySelector('.nav-item-text');
+                    if (textElement) textElement.style.color = textStyles[group]?.default?.color;
                 }
             }}
             onClick={onClick}
         >
+            {/* Icon */}
             <img
                 src={iconUrl}
                 alt={text}
@@ -420,11 +434,18 @@ const NavItem = ({ iconUrl, text, isOpen, isActive, onClick, noBorder, blackText
                     width: '40px',
                     padding: '8px',
                     border: noBorder ? 'none' : '1px solid #ccc',
-                    transition: 'filter 0.3s',
+                    transition: 'filter 0.3s, border 0.3s',
                 }}
             />
+            {/* Text */}
             {isOpen && (
-                <span className="text-sm font-medium" style={textStyle}>
+                <span
+                    className="text-sm font-medium nav-item-text"
+                    style={{
+                        ...textStyle,
+                        color: textStyles[group]?.default?.color,
+                    }}
+                >
                     {text}
                 </span>
             )}
