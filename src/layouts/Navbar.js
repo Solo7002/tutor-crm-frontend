@@ -322,7 +322,7 @@ const Navbar = ({ children }) => {
                 </header>
                 {/* Content Area */}
                 <div
-                    className={`flex-1 flex flex-col ml-24 transition-all duration-300 ${isSidebarOpen ? "bg-gray-800/20 backdrop-blur-sm" : ""
+                    className={`flex-1 flex flex-col ml-[50px] mr-[50px] transition-all duration-300 ${isSidebarOpen ? "bg-gray-800/20 backdrop-blur-sm" : ""
                         }`}
                 >
                     {children}
