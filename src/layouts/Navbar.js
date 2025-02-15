@@ -12,23 +12,23 @@ const Navbar = ({ children }) => {
                 return "home";
             case "/StudentHometask":
                 return "task";
-            case "/StudentMaterials":
+            case "/StudentTests":
                 return "test";
-            case "/calendar":
+            case "/StudentCalendar":
                 return "calendar";
-            case "/library":
+            case "/StudentMaterials":
                 return "library";
-            case "/reviews":
+            case "/StudentReviews":
                 return "review";
-            case "/payments":
+            case "/StudentPayments":
                 return "pay";
-            case "/map":
+            case "/StudentMap":
                 return "map";
-            case "/info":
+            case "/StudentInfo":
                 return "info";
-            case "/settings":
+            case "/StudentSettings":
                 return "settings";
-            case "/profile":
+            case "/StudentProfile":
                 return "profile";
             default:
                 return "home";
@@ -62,7 +62,7 @@ const Navbar = ({ children }) => {
                 </div>
                 {/* Profile Section */}
                 <div className="ml-7 mb-[40px] pl-8 h-[60px]">
-                    <Link to="/profile">
+                    <Link to="/StudentProfile">
                         <button
                             onClick={() => handleNavItemClick("profile")}
                             style={{
@@ -154,7 +154,7 @@ const Navbar = ({ children }) => {
                             textStyle={{ fontSize: '15px', fontFamily: 'Nunito', fontWeight: '700' }}
                         />
                     </Link>
-                    <Link to="/calendar">
+                    <Link to="/StudentCalendar">
                         <NavItem
                             iconUrl="../../../assets/navbarIcons/calendarIcon.png"
                             text="Розклад"
