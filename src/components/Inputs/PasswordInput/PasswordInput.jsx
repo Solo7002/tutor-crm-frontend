@@ -1,21 +1,52 @@
 import { useState } from "react";
+import "./PasswordInput.css";
 
-const PasswordInput = ({ name="password", value="", placeholder="Пароль", onChange }) => {
+const PasswordInput = ({ 
+  name = "password", 
+  value = "", 
+  placeholder = "Пароль", 
+  onChange, 
+  validate,
+  onValidationChange
+}) => {
   const [isVisible, setIsVisible] = useState(false);
+  const [isValid, setIsValid] = useState(true);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const toggleVisibility = () => {
     setIsVisible(!isVisible);
   };
 
+  const handleBlur = () => {
+    if (validate) {
+      const errors = validate(value);
+      if (errors.length > 0) {
+        setIsValid(false);
+        setErrorMessage(errors[0]);
+        if (onValidationChange) onValidationChange(name, false);
+      } else {
+        setIsValid(true);
+        setErrorMessage("");
+        if (onValidationChange) onValidationChange(name, true);
+      }
+    }
+  };
+
+  const handleFocus = () => {
+    setIsValid(true);
+  }
+
   return (
-    <div className="password-box relative">
+    <div className={`password-box ${isValid?"mb-3":"mb-1"}`}>
       <input
-        className="login-input w-full pr-10"
+        className={`password-input ${!isValid ? "input-error" : ""} w-full pr-10`}
         type={isVisible ? "text" : "password"}
         name={name}
         value={value}
         placeholder={placeholder}
         onChange={onChange}
+        onBlur={handleBlur}
+        onFocus={handleFocus}
       />
       <button
         type="button"
@@ -36,6 +67,8 @@ const PasswordInput = ({ name="password", value="", placeholder="Пароль", 
           </svg>
         )}
       </button>
+
+      {!isValid && <p className="error-text">{errorMessage}</p>}
     </div>
   );
 };
