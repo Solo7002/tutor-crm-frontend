@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-d
 import Login from "../features/Auth/Login";
 import Register from "../features/Auth/Register";
 import AuthLayout from "../layouts/AuthLayout/AuthLayout";
+import Navbar from "../layouts/Navbar";
 import HomeStudent from "../pages/Home/HomeStudent";
 import HometaskStudent from "../pages/Hometasks/HometaskStudent";
 import MaterialsStudent from "../pages/Materials/MaterialsStudent";
@@ -10,16 +11,45 @@ const AppRoutes = () => {
   return (
     <Router>
       <Routes>
+        {/* Default */}
         <Route path="/" element={<Navigate to="/auth/login" replace />} />
         
+        {/* Auth Routes */}
         <Route path="/auth" element={<AuthLayout />}>
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
         </Route>
 
-        <Route path="/StudentHome" element={<HomeStudent />} />
-        <Route path="/StudentHometask" element={<HometaskStudent />} />
-        <Route path="/StudentMaterials" element={<MaterialsStudent />} />
+        {/* Student Routes */}
+        <Route path="/student" element={<Navbar />}>
+          <Route path="home" element={<HomeStudent />} />
+          <Route path="hometask" element={<HometaskStudent />} />
+          <Route path="materials" element={<MaterialsStudent />} />
+          {/* <Route path="tests" element={<TestsStudent />} /> */}
+          {/* <Route path="calendar" element={<CalendarStudent />} /> */}
+          {/* <Route path="reviews" element={<ReviewsStudent />} /> */}
+          {/* <Route path="payments" element={<PaymentsStudent />} /> */}
+          {/* <Route path="map" element={<MapStudent />} /> */}
+          {/* <Route path="info" element={<InfoStudent />} /> */}
+          {/* <Route path="settings" element={<SettingsStudent />} /> */}
+          {/* <Route path="profile" element={<ProfileStudent />} /> */}
+        </Route>
+
+        {/* Teacher Routes */}
+        {/* <Route path="/teacher" element={<Navbar />}> */}
+          {/* <Route path="home" element={<HomeTeacher />} /> */}
+          {/* <Route path="tasks" element={<TasksTeacher />} /> */}
+          {/* <Route path="materials" element={<MaterialsTeacher />} /> */}
+          {/* <Route path="tests" element={<TestsTeacher />} /> */}
+          {/* <Route path="calendar" element={<CalendarTeacher />} /> */}
+          {/* <Route path="reviews" element={<ReviewsTeacher />} /> */}
+          {/* <Route path="payments" element={<PaymentsTeacher />} /> */}
+          {/* <Route path="map" element={<MapTeacher />} /> */}
+          {/* <Route path="info" element={<InfoTeacher />} /> */}
+          {/* <Route path="settings" element={<SettingsTeacher />} /> */}
+          {/* <Route path="profile" element={<ProfileTeacher />} /> */}
+        {/* </Route> */}
+
         <Route path="*" element={<Navigate to="/" replace />} /> {/* Заглушка */}
       </Routes>
     </Router>
