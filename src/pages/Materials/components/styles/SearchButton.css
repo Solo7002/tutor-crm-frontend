@@ -1,0 +1,12 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+.searchButton:hover rect {
+    @apply fill-[#A768FF] transition ease-in-out duration-500;
+}
+
+.searchButton:hover path {
+    @apply stroke-white;
+}
