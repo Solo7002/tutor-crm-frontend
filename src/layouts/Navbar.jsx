@@ -106,9 +106,12 @@ const Navbar = () => {
     };
 
     const getStrokeColor = () => {
+      if (group === "footer") {
+        return isActive ? "white" : "#120C38";
+      }
       return isActive ? "white" : "#827FAE";
     };
-  
+
     const updatedIcon = React.cloneElement(icon, {
       children: React.Children.map(icon.props.children, (child) => {
         if (child.type === "path") {
@@ -413,56 +416,56 @@ const Navbar = () => {
           />
         </div>
         {/* Profile Section */}
-        
-      <Link to="/">
-        <div
-          style={{
-            width: "60px",
-            height: "60px",
-            position: "absolute",
-            left: "20px",
-            top: "80px",
-            borderRadius: "50%",
-            border: "1px solid #ccc",
-            cursor: "pointer",
-            overflow: "hidden",
-          }}
-          onClick={() => handleNavItemClick("profile")}
-        >
-          <img
-            src="../../../assets/images/avatar.jpg"
-            alt="Profile"
-            style={{
-              width: "100%",
-              height: "100%",
-              objectFit: "cover",
-            }}
-          />
-        </div>
 
-        {isSidebarOpen && (
+        <Link to="/">
           <div
             style={{
+              width: "60px",
+              height: "60px",
               position: "absolute",
-              left: "100px",
+              left: "20px",
               top: "80px",
-              color: "#120C38",
-              fontFamily: "Nunito",
-              fontWeight: "700",
+              borderRadius: "50%",
+              border: "1px solid #ccc",
+              cursor: "pointer",
+              overflow: "hidden",
             }}
+            onClick={() => handleNavItemClick("profile")}
           >
-            {userRole === "Student" ? "Ім’я студента" : "Ім’я вчителя"}
+            <img
+              src="../../../assets/images/avatar.jpg"
+              alt="Profile"
+              style={{
+                width: "100%",
+                height: "100%",
+                objectFit: "cover",
+              }}
+            />
+          </div>
+
+          {isSidebarOpen && (
             <div
               style={{
-                fontSize: "12px",
-                color: "#827FAE",
-                marginTop: "5px",
+                position: "absolute",
+                left: "100px",
+                top: "80px",
+                color: "#120C38",
+                fontFamily: "Nunito",
+                fontWeight: "700",
               }}
             >
-              Рейтинг: 11
+              {userRole === "Student" ? "Ім’я студента" : "Ім’я вчителя"}
+              <div
+                style={{
+                  fontSize: "12px",
+                  color: "#827FAE",
+                  marginTop: "5px",
+                }}
+              >
+                Рейтинг: 11
+              </div>
             </div>
-          </div>
-        )}</Link>
+          )}</Link>
 
         {/* Navigation Items */}
         <div style={{ marginTop: "80px", padding: "20px", flex: 1 }}>
