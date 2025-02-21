@@ -6,6 +6,7 @@ import MarkHistory from './components/MarkHistory';
 import NearestEvents from './components/NearestEvents';
 import Schedule from './components/Schedule';
 import Graphic from './components/Graphic';
+//import Map from './components/Map';
 
 export default function HomeStudent() {
   const leaders = [
@@ -29,8 +30,8 @@ export default function HomeStudent() {
   ];
 
   const days = [
-    { date: '2025-2-01', type: 'lesson' },
-    { date: '2025-2-05', type: 'homework' },
+    { date: '2025-2-01', type: 'Lesson' },
+    { date: '2025-2-05', type: 'Homework' },
   ];
 
   const chartData = [
@@ -56,14 +57,15 @@ export default function HomeStudent() {
         {/* Graphic and leader flex box */}
         <div className="flex flex-col md:flex-row gap-4 mb-6 h-[30vh]">
           <Graphic chartData={chartData} />
-          
+
           <Leaderboard leaders={leaders} />
         </div>
 
         {/* Map */}
         <div className="bg-white h-[33vh] flex items-center justify-center rounded-lg shadow-md">
-          <p>Мапа</p>
-        </div>
+          {/* <p>Мапа</p>*/}
+        </div> 
+         {/*<Map />*/}
       </div>
 
       {/* Right col */}

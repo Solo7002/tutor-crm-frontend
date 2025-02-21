@@ -103,7 +103,15 @@ const Leaderboard = ({ leaders }) => {
                                     color: "#120C38",
                                 }}
                             >
-                                <div>{leader.name}</div>
+                                <div
+                                style={{
+                                    fontFamily: "Mulish",
+                                    fontWeight: index === 0 ? "700" : "400",
+                                    fontSize: "15pt",
+                                    lineHeight: "18.83pt",
+                                    letterSpacing: "-0.5%",
+                                    color: "#120C38",
+                                }}>{leader.name}</div>
                                 {/* <div style={{ fontSize: "12px", color: "#827FAE" }}>{leader.subject}</div> */}
                             </div>
                         </li>

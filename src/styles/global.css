@@ -1,0 +1,30 @@
+:root {
+    --color-white: #ffffff;
+    --color-gray-light: #d7d7d7;
+    --color-purple: #827ead;
+    --color-purple-dark: #632dae;
+    --color-purple-light: #8a48e6;
+    --color-cyan: #88f2ff;
+    --color-navy: #120c38;
+    --color-orange: #ffa768;
+    --color-red: #e64851;
+    --color-green: #47c973;
+  
+    --font-nunito: 'Nunito', sans-serif;
+    --font-mulish: 'Mulish', sans-serif;
+    --font-inter: 'Inter', sans-serif;
+  
+    --text-size-xs: 10px;
+    --text-size-sm: 12px;
+    --text-size-md: 15px;
+    --text-size-lg: 20px;
+    --text-size-xl: 24px;
+    --text-size-xxl: 32px;
+  }
+  
+  body {
+    margin: 0;
+    font-family: var(--font-nunito);
+    color: var(--color-white);
+    background-color: var(--color-navy);
+  }

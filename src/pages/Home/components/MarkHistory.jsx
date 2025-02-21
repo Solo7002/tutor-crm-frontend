@@ -42,14 +42,14 @@ const MarkHistory = ({ grades }) => {
     }
   }
 
-  const getBgMark = (grade) => {
-    switch (grade) {
-      case 9:
-        return "#CAC2FC";
-      case 10:
-        return "#C4EAFA";
-      case 12:
-        return "#E0C8FF";
+  const getBgMark = (type) => {
+    switch (type) {
+      case "Classwork":
+        return "#88F2FF";
+      case "Homework":
+        return "#C3A2F2";
+      case "Test":
+        return "#827FAE";
       default:
         return "#E0C8FF";
     }
@@ -82,7 +82,7 @@ const MarkHistory = ({ grades }) => {
               <div className="text-[#6f6f6f] text-[10pt] font-normal font-['Mulish']">{getTypeUkr(grade.type)}</div>
             </div>
             {/* Grade Circle */}
-            <div className="ml-auto w-10 h-10 rounded flex items-center justify-center" style={{ backgroundColor: getBgMark(grade.grade) }}>
+            <div className="ml-auto w-10 h-10 rounded flex items-center justify-center" style={{ backgroundColor: getBgMark(grade.type) }}>
               <div className="text-center text-white text-[15px] font-semibold font-['Segoe UI']">{grade.grade}</div>
             </div>
           </li>

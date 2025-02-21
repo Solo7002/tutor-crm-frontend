@@ -35,9 +35,9 @@ const Schedule = ({ days }) => {
         );
       });
       if (day) {
-        return day.type === "lesson"
+        return day.type === "Lesson"
           ? "lesson-tile"
-          : day.type === "homework"
+          : day.type === "Homework"
             ? "homework-tile"
             : "";
       }

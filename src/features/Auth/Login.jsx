@@ -1,60 +1,35 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
-import StandartInput from "../../components/Inputs/StandartInput/StandartInput";
-import PasswordInput from "../../components/Inputs/PasswordInput/PasswordInput";
-import { PrimaryButton, SecondaryButton } from '../../components/Buttons/Buttons';
+import PasswordInput from "../../components/PasswordInput/PasswordInput";
 import "./Login.css";
 
 const Login = () => {
   const navigate = useNavigate();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-
-  useEffect(() => {
-    const savedEmail = sessionStorage.getItem("email");
-    const savedPassword = sessionStorage.getItem("password");
-
-    if (savedEmail) setEmail(savedEmail);
-    if (savedPassword) setPassword(savedPassword);
-  }, []);
 
   const handleRegisterClick = (event) => {
     event.preventDefault();
     navigate("/auth/register");
   };
 
-  const handleEmailChange = (em) => {
-    setEmail(em);
-  }
-
-  const handlePasswordChange = (pass) => {
-    setPassword(pass);
+  const handlePasswordChange = (e) => {
+    console.log("Password:", e.target.value);
   };
 
-  const handleLogIn = () =>{
-    
-  }
 
   return (
     <div>
       <h2 className="login-title">Вхід</h2>
 
       <form className="login-form">
-        <StandartInput
-          type="email"
-          name="Email"
-          placeholder="Email"
-          value={email}
-          onChange={handleEmailChange}
-        />
-        <PasswordInput placeholder={"Пароль"} value={password} onChange={handlePasswordChange} />
+        <input type="email" placeholder="Email" className="login-input" />
+        <PasswordInput placeholder={"Пароль"} onChange={handlePasswordChange} />
 
         <div className="login-forgot">
           <a href="/forgot-password">Забули пароль?</a>
         </div>
 
-        <PrimaryButton onClick={handleLogIn}>Далі</PrimaryButton>
-        <SecondaryButton onClick={handleRegisterClick}>Реєстрація</SecondaryButton>
+        <button className="login-button">Далі</button>
+        <button className="register-button" onClick={handleRegisterClick}>Реєстрація</button>
       </form>
 
       <div className="login-divider">
