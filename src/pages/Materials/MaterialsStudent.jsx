@@ -69,17 +69,25 @@ export default function MaterialsStudent() {
     // eslint-disable-next-line
     const [dir, setDir] = useState([]);
     const [searchValue, setSearchValue] = useState('');
+    const [selectedCategory, setSelectedCategory] = useState(null);
+    const [fileFormats, setFileFormats] = useState([]);
+    const fileCategories = {
+        "Усі формати": [],
+        "Презентації": [".pptx", ".ppt"],
+        "Документи": [".docx", ".doc"],
+        "Текстові файли": [".txt", ".rtf"],
+        "Таблиці": [".csv", ".xlsx"],
+        "PDF": [".pdf"]
+    };
 
-    useEffect(() => {
-        loadMaterials();
-        // eslint-disable-next-line
-    }, [parent])
+
+    useEffect(loadMaterials, [parent])
 
     function loadMaterials() {
         axios.get('http://localhost:4000/api/materials', { params: { ParentId: parent } }).then(res => {
             console.log('res', res)
             setMaterials(res.data);
-        })
+        }).catch(res => {})
     }
 
     const onFolderClick = (id, name) => {
@@ -107,11 +115,21 @@ export default function MaterialsStudent() {
             loadMaterials();
             return;
         }
-        axios.get('http://localhost:4000/api/materials/search', { params: { MaterialName: searchValue } }).then(res => {
+        axios.get('http://localhost:4000/api/materials/search', { params: { MaterialName: searchValue, Type: "file" } }).then(res => {
             console.log('res', res)
             setMaterials(res.data.data);
         })
     }
+    const handleCategorySelect = (category) => {
+        setSelectedCategory(category);
+        axios.get(`http://localhost:4000/api/materials/search`, { params: { FileExtension: fileCategories[category], ParentId: parent } })
+            .then(res => {
+                console.log('res', res)
+                setMaterials(res.data.data);
+            })
+            .catch(err => console.error(err));
+    };
+    
 
     return (
         <div className='MaterialsStudent'>
@@ -149,20 +167,12 @@ export default function MaterialsStudent() {
 
                 <div className="gap-2 flex">
                     <SearchButton onSearchClick={onSearchClick} value={searchValue} setValue={setSearchValue} />
-                    <div className="items-center gap-2 flex">
-                        <div data-svg-wrapper>
-                            <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <rect width="48" height="48" rx="24" fill="white" />
-                                <path d="M13.3334 13.3333H34.6667V16.2293C34.6666 16.9365 34.3855 17.6147 33.8854 18.1147L28 24V33.3333L20 36V24.6667L14.0267 18.096C13.5806 17.6052 13.3334 16.9659 13.3334 16.3027V13.3333Z" stroke="#120C38" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                            </svg>
-                        </div>
-                    </div>
                 </div>
             </div>
             <div className='buttons-box'>
                 <div className="gap-2 flex">
                     <ToggleSwitch isOn={isBlock} setIsOn={setIsBlock} />
-                    <Dropdown />
+                    <Dropdown categories={fileCategories} onSelect={handleCategorySelect} />
                 </div>
 
                 <div className="gap-2 flex">
