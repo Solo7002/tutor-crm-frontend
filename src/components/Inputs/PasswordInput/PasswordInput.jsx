@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./PasswordInput.css";
 
 const PasswordInput = ({ 
@@ -7,7 +7,9 @@ const PasswordInput = ({
   placeholder = "Пароль", 
   onChange, 
   validate,
-  onValidationChange
+  onValidationChange,
+  onBlurOff=false,
+  onTrigger=false
 }) => {
   const [isVisible, setIsVisible] = useState(false);
   const [isValid, setIsValid] = useState(true);
@@ -18,6 +20,10 @@ const PasswordInput = ({
   };
 
   const handleBlur = () => {
+    if (onBlurOff){
+      return;
+    }
+
     if (validate) {
       const errors = validate(value);
       if (errors.length > 0) {
@@ -31,6 +37,25 @@ const PasswordInput = ({
       }
     }
   };
+
+  useEffect(() => {
+    if (!onTrigger){
+      return;
+    }
+
+    if (validate) {
+      const errors = validate(value);
+      if (errors.length > 0) {
+        setIsValid(false);
+        setErrorMessage(errors[0]);
+        if (onValidationChange) onValidationChange(name, false);
+      } else {
+        setIsValid(true);
+        setErrorMessage("");
+        if (onValidationChange) onValidationChange(name, true);
+      }
+    }
+  }, [onTrigger])
 
   const handleFocus = () => {
     setIsValid(true);

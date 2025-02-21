@@ -1,15 +1,42 @@
-import React from "react";
+import React, { useState } from "react";
 import { Outlet } from "react-router-dom";
+import Slider from 'react-slick';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 import "./AuthLayout.css";
 
 const AuthLayout = () => {
+
+  const [isFirstElement, setIsFirstElement] = useState(true);
+
+  const settings = {
+    autoplay: true,
+    autoplaySpeed: 10000,
+    infinite: true,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    arrows: false,
+    beforeChange: (oldIndex, index) => {
+      setIsFirstElement(index === 0 ? true : false);
+    }
+  };
+
+  const settings2 = {
+    autoplay: true,
+    autoplaySpeed: 10000,
+    infinite: true,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    arrows: false,
+  };
+
   return (
     <div className="login-container">
       <div className="pattern-image"></div>
 
       <div className="login-wrapper">
-        <div className="login-left">
-          <div className="center-vertival-wave">
+        <div className="login-left relative">
+          <div className="center-vertival-wave z-50">
             <svg width="40" height="630" viewBox="0 0 40 630" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path fillRule="evenodd" clipRule="evenodd" d="M-0.00147394 630L439.998 630C451.043 630 459.998 621.046 459.998 610V20C459.998 8.95431 451.044 0 439.998 0H-0.00147394C-0.00147394 0 36.682 59.815 36.8351 104.514C36.9122 127.037 27.6645 142.147 18.4168 157.257C9.16909 172.367 -0.0786071 187.477 -0.00147394 210C0.0750642 232.349 9.24593 247.303 18.4168 262.257C27.5877 277.211 36.7585 292.164 36.8351 314.514C36.9122 337.037 27.6645 352.147 18.4168 367.257C9.16909 382.367 -0.0786071 397.477 -0.00147394 420C0.0750641 442.349 9.24593 457.303 18.4168 472.257C27.5877 487.211 36.7585 502.164 36.8351 524.514C36.9893 569.56 26.7647 593.837 -0.00147394 630Z" fill="white" />
             </svg>
@@ -27,12 +54,42 @@ const AuthLayout = () => {
           <div className="logo-img-cont">
             <img src="/assets/dark_logo.png" alt="Logo" className="login-logo" />
           </div>
-          <p className="login-text">
-            Керуйте навчальним процесом легко: від розкладу до управління матеріалами – усе під рукою.
-          </p>
 
-          <div className="teacher-img-cont">
-            <img src="/assets/login/girl.png" alt="Illustration" className="teacher-image" />
+          <div className="slider-cont w-[450px]">
+            <Slider {...settings2}>
+              <div>
+                <p className="login-text">
+                  Ласкаво просимо до океану можливостей для репетиторів!
+                </p>
+              </div>
+              <div>
+                <p className="login-text">
+                  Керуйте навчальним процесом легко: від розкладу до управління матеріалами — усе під рукою.
+                </p>
+              </div>
+              <div>
+                <p className="login-text">
+                  Пірнайте глибше з преміум-підпискою! Отримайте детальну аналітику та ще більше інструментів для успіху.
+                </p>
+              </div>
+            </Slider>
+          </div>
+
+          <div className="slider-cont w-full absolute bottom-0 left-0 z-10">
+            <Slider {...settings}>
+              <div className="teacher-img-cont h-full">
+                <br />
+                <img src="/assets/login/1anima.gif" alt="Illustration" className={`teacher-image ${isFirstElement ? "mt-3" : "mt-0"}`} />
+              </div>
+              <div className="teacher-img-cont h-full">
+                <br />
+                <img src="/assets/login/2anima.gif" alt="Illustration" className="teacher-image" />
+              </div>
+              <div className="teacher-img-cont h-full">
+                <br />
+                <img src="/assets/login/3anima.gif" alt="Illustration" className="teacher-image" />
+              </div>
+            </Slider>
           </div>
         </div>
         <div className="login-right">

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import StandartInput from "../../components/Inputs/StandartInput/StandartInput";
 import PasswordInput from "../../components/Inputs/PasswordInput/PasswordInput";
@@ -9,6 +9,8 @@ import "./Register.css";
 
 const Register = () => {
     const navigate = useNavigate();
+    const location = useLocation();
+    const queryParams = new URLSearchParams(location.search);
     const fileInputRef = useRef(null);
     const [step, setStep] = useState(1);
     const [selectedRole, setSelectedRole] = useState(null);
@@ -18,9 +20,9 @@ const Register = () => {
 
     const [formData, setFormData] = useState({
         Username: "",
-        FirstName: "",
-        LastName: "",
-        Email: "",
+        FirstName: queryParams.get("firstName") || "",
+        LastName: queryParams.get("lastName") || "",
+        Email: queryParams.get("email") || "",
         Password: "",
         confirmPassword: "",
         ImageFilePath: null,
@@ -28,16 +30,16 @@ const Register = () => {
     });
 
     const [step1Validation, setStep1Validation] = useState({
-        LastName: false,
-        FirstName: false,
-        Email: false, 
-        Password: false,
-        confirmPassword: false,
-      });
-  
-      const handleValidationChange = (fieldName, isValid) => {
-        setStep1Validation(prev => ({ ...prev, [fieldName]: isValid }));
-      };
+      LastName: false,
+      FirstName: false,
+      Email: false, 
+      Password: false,
+      confirmPassword: false,
+    });
+
+    const handleValidationChange = (fieldName, isValid) => {
+      setStep1Validation(prev => ({ ...prev, [fieldName]: isValid }));
+    };
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -60,16 +62,16 @@ const Register = () => {
         return errors;
     };
 
-    const validateEmail = async (email) => {
+    const validateEmail = async (Email) => {
         const errors = [];
         
-        if (!email) {
+        if (!Email) {
             errors.push("Це поле не може бути порожнім");
-        } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(Email)) {
             errors.push("Некоректний email");
         } else {
             try {
-                const response = await axios.get(`http://localhost:4000/api/users/search?email=${email}`);
+                const response = await axios.get(`http://localhost:4000/api/users/search?email=${Email}`);
                 if (response.status === 200) {
                     errors.push("Користувач з таким email вже існує");
                 }
@@ -274,7 +276,7 @@ const Register = () => {
                             type="email"
                             name="Email"
                             placeholder="Email"
-                            value={formData.email}
+                            value={formData.Email}
                             onChange={handleChange}
                             validate={validateEmail}
                             onValidationChange={handleValidationChange}

@@ -65,15 +65,16 @@
   width: 100%;
   @apply 
   grid 
-  mt-7
-  pr-6
+  mt-4
+  pr-16
   place-items-center;
 }
 
 .login-logo {
   width: 100px;
   @apply  
-  mb-5;
+  mb-5
+  mr-2;
 }
 
 .login-text {
@@ -149,6 +150,7 @@
   text-right 
   text-sm 
   mb-6
+  mr-3
   mt-1;
 }
 
@@ -217,7 +219,7 @@
   @apply 
   flex 
   gap-3
-  pr-11
+  pr-5
   justify-around;
 }
 
@@ -249,7 +251,7 @@
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 768px) and (min-height: 786px) {
   .login-container {
     @apply 
     h-screen;
@@ -263,6 +265,10 @@
     h-full 
     rounded-none 
     shadow-none;
+  }
+  
+  .slider-cont{
+    display: none;
   }
 
   .login-left,
@@ -334,5 +340,103 @@
   .login-forgot{
     @apply
     mb-10
+  }
+}
+
+@media (max-width: 768px) and (max-height: 786px) {
+  .login-container {
+    @apply 
+    h-screen;
+  }
+
+  .login-wrapper {
+    @apply 
+    flex 
+    flex-col 
+    w-full 
+    h-full 
+    rounded-none 
+    shadow-none;
+  }
+
+  .login-left,
+  .login-right {
+    @apply 
+    w-full
+    pt-2;
+  }
+
+  .login-left{
+    @apply
+    h-1/4;
+  }
+
+  .login-right{
+    @apply
+    h-3/4;
+  }
+
+  .center-vertival-wave{
+    @apply
+    hidden;
+  }
+
+  .teacher-img-cont{
+    @apply
+    hidden;
+  }
+
+  .logo-img-cont{
+    @apply 
+    pr-3
+    mt-0;
+  }
+
+  .login-text{
+    @apply
+    hidden;
+  }
+
+  .center-horizontal-wave{
+    @apply
+    block;
+  }
+
+  .slider-cont{
+    display: none;
+  }
+
+  .centered-login-div{
+    @apply
+    flex flex-col items-center justify-center
+  }
+
+  .login-form {
+    @apply
+    max-w-full
+  }
+
+  .login-divider {
+    @apply
+    mt-3
+    max-w-full
+  }
+
+  .login-socials{
+    @apply
+    w-full
+    p-0
+    mt-3;
+  }
+
+  .login-title{
+    @apply
+    mt-0
+    mb-4
+  }
+
+  .login-forgot{
+    @apply
+    mb-3
   }
 }

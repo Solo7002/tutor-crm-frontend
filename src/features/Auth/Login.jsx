@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import StandartInput from "../../components/Inputs/StandartInput/StandartInput";
 import PasswordInput from "../../components/Inputs/PasswordInput/PasswordInput";
 import { PrimaryButton, SecondaryButton } from '../../components/Buttons/Buttons';
@@ -7,8 +8,9 @@ import "./Login.css";
 
 const Login = () => {
   const navigate = useNavigate();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [Email, setEmail] = useState("");
+  const [Password, setPassword] = useState("");
+  const [errorLogin, setErrorLogin] = useState(false);
 
   useEffect(() => {
     const savedEmail = sessionStorage.getItem("email");
@@ -18,22 +20,81 @@ const Login = () => {
     if (savedPassword) setPassword(savedPassword);
   }, []);
 
+  /* Validation */
+
+  const [loginValidation, setLoginValidation] = useState({
+    Email: false,
+    Password: false
+  });
+
+  const handleValidationChange = (fieldName, isValid) => {
+    setLoginValidation(prev => ({ ...prev, [fieldName]: isValid }));
+  };
+
+  const validatePassword = (password) => {
+  console.log("const validatePassword = (password)");
+  const errors = [];
+  if (errorLogin) {
+    console.log("errorLogin - Неправильний email або пароль");
+    errors.push("Неправильний email або пароль");
+  }
+  return errors;
+  };
+
+  /* Login/Register */
+
+  const handleEmailChange = (e) => {
+    setEmail(e.target.value);
+  }
+
+  const handlePasswordChange = (e) => {
+    setPassword(e.target.value);
+    setErrorLogin(false);
+  };
+  
   const handleRegisterClick = (event) => {
     event.preventDefault();
     navigate("/auth/register");
   };
 
-  const handleEmailChange = (em) => {
-    setEmail(em);
-  }
-
-  const handlePasswordChange = (pass) => {
-    setPassword(pass);
+  const handleForgotPasswordClick = (event) => {
+    event.preventDefault();
+    navigate("/auth/forgot-password");
   };
 
-  const handleLogIn = () =>{
-    
-  }
+  const handleLogIn = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post("http://localhost:4000/api/auth/login", {
+        Email: Email,
+        Password: Password,
+      });
+
+      if (response.data.token) {
+        sessionStorage.setItem("token", response.data.token);
+        sessionStorage.setItem("user", JSON.stringify(response.data.user));
+        sessionStorage.setItem("email", Email);
+        sessionStorage.setItem("password", Password);
+
+        navigate("/student/home");
+      } else {
+        setErrorLogin(true);
+      }
+    } catch (error) {
+      console.log("error");
+      setErrorLogin(true);
+    }
+  };
+
+  /* OAuth2 */
+
+  const oAuthGoogleHandler = () => {
+    window.location.href = "http://localhost:4000/api/auth/google";
+  };
+
+  const oAuthFacebookHandler = () => {
+    window.location.href = "http://localhost:4000/api/auth/facebook";
+  };
 
   return (
     <div>
@@ -44,13 +105,20 @@ const Login = () => {
           type="email"
           name="Email"
           placeholder="Email"
-          value={email}
+          value={Email}
           onChange={handleEmailChange}
         />
-        <PasswordInput placeholder={"Пароль"} value={password} onChange={handlePasswordChange} />
+        <PasswordInput 
+          placeholder={"Пароль"}
+          value={Password} 
+          onChange={handlePasswordChange} 
+          validate={validatePassword}
+          onValidationChange={handleValidationChange}
+          onTrigger={errorLogin}
+          />
 
         <div className="login-forgot">
-          <a href="/forgot-password">Забули пароль?</a>
+          <a className="cursor-pointer" onClick={handleForgotPasswordClick}>Забули пароль?</a>
         </div>
 
         <PrimaryButton onClick={handleLogIn}>Далі</PrimaryButton>
@@ -63,14 +131,14 @@ const Login = () => {
         <div className="line"></div>
       </div>
 
-      <div className="login-socials">
+      <div className="login-socials" onClick={oAuthGoogleHandler}>
         <button className="social-button">
           <img src="/assets/socialNetworkIcons/google.png" alt="Google" />
         </button>
         <button className="social-button">
           <img src="/assets/socialNetworkIcons/apple.png" alt="Apple" />
         </button>
-        <button className="social-button">
+        <button className="social-button" onClick={oAuthFacebookHandler}>
           <img src="/assets/socialNetworkIcons/facebook.png" alt="Facebook" />
         </button>
       </div>
