@@ -1,0 +1,8 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.HometaskModal .container{
+    @apply
+    w-[596px] h-[831px] rounded-lg
+}

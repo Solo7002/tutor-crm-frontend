@@ -1,0 +1,12 @@
+.HometaskDoneItem .file-item {
+    @apply flex items-center gap-2 p-2 border border-gray-300 rounded-lg m-1;
+  }
+  .HometaskDoneItem  .file-icon {
+    @apply w-6 h-6;
+  }
+  .HometaskDoneItem .file-name {
+    @apply text-[#827ead] text-base font-semibold font-['Lato'];
+  }
+  .HometaskDoneItem .delete-btn {
+    @apply w-6 h-6 flex items-center justify-center cursor-pointer transition-all;
+  }

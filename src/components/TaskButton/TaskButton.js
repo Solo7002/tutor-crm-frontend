@@ -32,8 +32,8 @@ const TaskButton = ({ text, icon, count, isSelected, onClick }) => {
       </div>
       {count > 0 && (
         <div className={`w-4 h-4 relative ${isSelected ? '' : 'button-invisible'}`}>
-          <div className="w-4 h-4 absolute bg-violet-600 rounded-full top-[-14px] left-[9px] border-2 border-white" />
-          <div className="w-3.5 h-3.5 absolute text-center text-white text-xs top-[-15px] left-[10px] font-bold font-['Nunito']">
+          <div className="w-5 h-5 absolute bg-['#8A48E6'] rounded-full top-[-14px] left-[6px] border-2 border-white" />
+          <div className="w-3.5 h-3.5 absolute text-center text-white text-xs top-[-13px] left-[10px] font-bold font-['Nunito']">
             {count}
           </div>
         </div>
