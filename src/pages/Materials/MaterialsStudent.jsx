@@ -10,85 +10,38 @@ import FolderList from './components/FolderList';
 import MaterialList from './components/MaterialList';
 import axios from 'axios';
 import FolderUpBlock from './components/FolderUpBlock';
+import FolderUpList from './components/FolderUpList';
 
 export default function MaterialsStudent() {
     const [isBlock, setIsBlock] = useState(true);
     const [parent, setParent] = useState(null);
-    //     {
-    //         MaterialName: "Основні матеріали",
-    //         Type: "folder"
-    //     },
-    //     {
-    //         MaterialName: "Додаткові матеріали",
-    //         Type: "folder"
-    //     },
-    //     {
-    //         MaterialName: "Назва книги",
-    //         Type: "file",
-    //         file: {
-    //             ext: "PDF",
-    //             img: null
-    //         }
-    //     },
-    //     {
-    //         MaterialName: "Документ",
-    //         Type: "file",
-    //         file: {
-    //             ext: "DOCX",
-    //             img: null
-    //         }
-    //     },
-    //     {
-    //         MaterialName: "Текстовий файл",
-    //         Type: "file",
-    //         file: {
-    //             ext: "TXT",
-    //             img: null
-    //         }
-    //     },
-    //     {
-    //         MaterialName: "Зображення",
-    //         Type: "file",
-    //         file: {
-    //             ext: "CSV",
-    //             img: "/assets/dark_logo.png"
-    //         }
-    //     },
-    //     {
-    //         MaterialName: "Документація",
-    //         Type: "file",
-    //         file: {
-    //             ext: "PDF",
-    //             img: null
-    //         }
-    //     },
-    // ]
-
     // eslint-disable-next-line
     const [materials, setMaterials] = useState([]);
     // eslint-disable-next-line
     const [dir, setDir] = useState([]);
     const [searchValue, setSearchValue] = useState('');
     const [selectedCategory, setSelectedCategory] = useState(null);
-    const [fileFormats, setFileFormats] = useState([]);
+    const [order, setOrder] = useState('За алфавітом');
     const fileCategories = {
-        "Усі формати": [],
+        "Усі формати": null,
         "Презентації": [".pptx", ".ppt"],
         "Документи": [".docx", ".doc"],
         "Текстові файли": [".txt", ".rtf"],
         "Таблиці": [".csv", ".xlsx"],
-        "PDF": [".pdf"]
+        "PDF": [".pdf"],
+        "Зображення": [".jpg", ".jpeg", ".png", ".gif", ".bmp", ".tiff", ".webp", ".svg"]
     };
 
 
-    useEffect(loadMaterials, [parent])
 
-    function loadMaterials() {
-        axios.get('http://localhost:4000/api/materials', { params: { ParentId: parent } }).then(res => {
+
+    const loadMaterials = () => {
+        axios.get('http://localhost:4000/api/materials', { params: { FileExtension: fileCategories[selectedCategory], ParentId: parent, order: order} }).then(res => {
             console.log('res', res)
             setMaterials(res.data);
-        }).catch(res => {})
+        }).catch(res => { })
     }
+    useEffect(loadMaterials, [parent, selectedCategory, order])
 
     const onFolderClick = (id, name) => {
         setParent(id);
@@ -109,9 +62,9 @@ export default function MaterialsStudent() {
 
     }
     const onSearchClick = () => {
+        setDir([]);
         if (searchValue === '') {
             setParent(null);
-            setDir([]);
             loadMaterials();
             return;
         }
@@ -122,14 +75,26 @@ export default function MaterialsStudent() {
     }
     const handleCategorySelect = (category) => {
         setSelectedCategory(category);
-        axios.get(`http://localhost:4000/api/materials/search`, { params: { FileExtension: fileCategories[category], ParentId: parent } })
-            .then(res => {
-                console.log('res', res)
-                setMaterials(res.data.data);
-            })
-            .catch(err => console.error(err));
+        // if (category === "Усі формати") {
+        //     axios.get(`http://localhost:4000/api/materials/search`, { params: { ParentId: parent } })
+        //         .then(res => {
+        //             console.log('res', res)
+        //             setMaterials(res.data.data);
+        //         })
+        //         .catch(err => console.error(err));
+        //     return;
+        // }
+        // axios.get(`http://localhost:4000/api/materials/search`, { params: { FileExtension: fileCategories[category], ParentId: parent } })
+        //     .then(res => {
+        //         console.log('res', res)
+        //         setMaterials(res.data.data);
+        //     })
+        //     .catch(err => console.error(err));
     };
-    
+    const handleSortSelect = (o) => {
+        setOrder(o);
+    }
+
 
     return (
         <div className='MaterialsStudent'>
@@ -177,8 +142,8 @@ export default function MaterialsStudent() {
 
                 <div className="gap-2 flex">
                     <SortDropdown
-                        options={["Спочатку нові", "Спочатку старі", "За алфавітом"]}
-                        onSelect={(option) => console.log("Выбрано:", option)}
+                        options={["За алфавітом", "Спочатку нові", "Спочатку старі"]}
+                        onSelect={(option) => handleSortSelect(option)}
                     />
 
                 </div>
@@ -197,15 +162,15 @@ export default function MaterialsStudent() {
                         ?
                         null
                         :
-                        <FolderUpBlock onClick={onFolderUpClick} />
+                        isBlock ? <FolderUpBlock onClick={onFolderUpClick} /> : <FolderUpList onClick={onFolderUpClick} />
                 }
                 {
                     materials.map((m, index) =>
                         m.Type === "folder"
                             ?
-                            isBlock ? <FolderBlock name={m.MaterialName} onClick={() => onFolderClick(m.MaterialId, m.MaterialName)} /> : <FolderList name={m.MaterialName} />
+                            isBlock ? <FolderBlock name={m.MaterialName} onClick={() => onFolderClick(m.MaterialId, m.MaterialName)} /> : <FolderList name={m.MaterialName} onClick={() => onFolderClick(m.MaterialId, m.MaterialName)} />
                             :
-                            isBlock ? <MaterialBlock name={m.MaterialName} ext={m.FilePath.split('.').pop().toUpperCase()} img={m.file?.img} onDownloadClick={() => onDownloadClick(m.FilePath)} /> : <MaterialList name={m.MaterialName} ext={m.FilePath.split('.').pop().toUpperCase()} />
+                            isBlock ? <MaterialBlock name={m.MaterialName} ext={m.FilePath.split('.').pop().toUpperCase()} img={m.file?.img} onDownloadClick={() => onDownloadClick(m.FilePath)} /> : <MaterialList name={m.MaterialName} ext={m.FilePath.split('.').pop().toUpperCase()} onDownloadClick={() => onDownloadClick(m.FilePath)} />
                     )
                 }
             </div>

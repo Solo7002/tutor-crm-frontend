@@ -46,7 +46,7 @@ export default function Dropdown({ onSelect, categories }) {
                                 }}
                                 className="p-2 hover:bg-[#f4f4f5] hover:rounded-2xl cursor-pointer text-[#827ead] text-[15px]"
                             >
-                                {category} ({categories[category].join(", ")})
+                                {category} {categories[category] ? `(${categories[category].join(", ")})` : null }
                             </li>
                         )
                     ))}
