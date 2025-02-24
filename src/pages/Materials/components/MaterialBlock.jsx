@@ -2,7 +2,7 @@ import React from 'react';
 
 export default function MaterialBlock({ name, ext, img }) {
     return (
-        <div className="w-[244px] h-[234px] relative bg-white rounded-3xl border border-[#d7d7d7]">
+        <div className="w-[244px] h-[234px] relative bg-white rounded-3xl border border-[#d7d7d7] transition-shadow duration-200 hover:shadow-[0_0_0_3px_#8A48E6]">
             <img className="w-[244px] h-40 rounded-tl-3xl rounded-tr-3xl absolute top-0 left-0" src={`${img ?? "/assets/materials/Rectangle47.png"}`} alt='' />
             <div className="self-stretch justify-between items-start inline-flex">
                 <div className="h-11 left-[15px] bottom-6 absolute flex-col justify-start items-start gap-2.5 inline-flex">
