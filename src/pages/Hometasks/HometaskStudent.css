@@ -7,3 +7,7 @@
     @apply
     grid grid-cols-[repeat(auto-fit,minmax(420px,1fr))] gap-3 justify-center items-center p-4;
 }
+
+.buttons-box {
+    @apply h-12 my-[18px] items-center flex justify-between;
+}

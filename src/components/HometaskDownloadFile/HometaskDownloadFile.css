@@ -1,0 +1,36 @@
+.book-card {
+  @apply self-stretch p-3.5 bg-white rounded-3xl border border-[#d7d7d7] justify-start items-center gap-5 inline-flex;
+}
+
+.book-card .book-icon {
+  @apply w-10 h-10;
+}
+
+.book-card .book-info {
+  @apply grow shrink basis-0 flex-col justify-start items-start gap-2.5 inline-flex;
+}
+
+.book-card .book-title {
+  @apply self-stretch text-[#120c38] text-base font-normal font-['Mulish'];
+}
+
+.book-card .book-format {
+  @apply self-stretch h-4 text-[#827ead] text-xs font-normal font-['Mulish'];
+}
+
+.book-card .download-icon {
+  @apply w-10 h-10 relative;
+}
+
+
+.book-card .download-icon:hover   path{
+ @apply
+  stroke-white
+}
+
+
+.book-card .download-icon:hover svg rect{
+ fill:#8A48E6
+}
+
+

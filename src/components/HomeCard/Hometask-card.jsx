@@ -1,56 +1,80 @@
 import React from "react";
 import "./Hometask-card.css";
 
-const StatusButton = ({ status, mark, maxmark }) => {
+
+
+  export const StatusButton = ({  status,  mark,  maxmark, onClick,disabled = false,children, svg,className,...props}) => {
     const statusColors = {
-        overdue: "overdue",
-        pending: "pending",
-        done: "done",
-        default: "default",
+      overdue: "overdue",
+      pending: "pending",
+      done: "done",
+      default: "default",
     };
-
-    if (status === "default" || status === "overdue") {
+  
+    const defaultTexts = {
+      overdue: "Надіслати",
+      pending: "Повернути",
+      done: `${mark}/${maxmark}`,
+      default: "Надіслати",
+    };
+  
+   
+    const getText = () => {
+      return children || defaultTexts[status] || "Кнопка";
+    };
+  
+    // Если передан svg, используем его, иначе используем дефолтные иконки для статусов
+    const getSvg = () => {
+      if (svg) return svg;
+  
+      if (status === "default" || status === "overdue") {
         return (
-            <div className={`flex items-center gap-x-4 homework-status-${statusColors[status]}`}>
-                <div className={`grow shrink basis-0 text-center text-base font-bold font-['Nunito'] `}>
-                    Надіслати
-                </div>
-                <div data-svg-wrapper>
-                    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M28 16L6.264 5.37866C6.14001 5.33043 6.00442 5.3204 5.87469 5.34987C5.74495 5.37933 5.627 5.44694 5.536 5.54399C5.44267 5.64355 5.37841 5.76679 5.3502 5.90031C5.32199 6.03382 5.33092 6.17252 5.376 6.30132L8.66667 16M28 16L6.264 26.6213C6.14001 26.6695 6.00442 26.6796 5.87469 26.6501C5.74495 26.6206 5.627 26.553 5.536 26.456C5.44267 26.3564 5.37841 26.2332 5.3502 26.0997C5.32199 25.9662 5.33092 25.8275 5.376 25.6987L8.66667 16M28 16H8.66667"  strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                </div>
-            </div>
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M28 16L6.264 5.37866C6.14001 5.33043 6.00442 5.3204 5.87469 5.34987C5.74495 5.37933 5.627 5.44694 5.536 5.54399C5.44267 5.64355 5.37841 5.76679 5.3502 5.90031C5.32199 6.03382 5.33092 6.17252 5.376 6.30132L8.66667 16M28 16L6.264 26.6213C6.14001 26.6695 6.00442 26.6796 5.87469 26.6501C5.74495 26.6206 5.627 26.553 5.536 26.456C5.44267 26.3564 5.37841 26.2332 5.3502 26.0997C5.32199 25.9662 5.33092 25.8275 5.376 25.6987L8.66667 16M28 16H8.66667" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
         );
-    }
-
-    if (status === "done") {
+      }
+  
+      if (status === "pending") {
         return (
-            <div className="flex items-center justify-center w-full grow shrink basis-0 text-center text-base font-bold font-['Nunito'] gap-x-2 ">
-                {mark}/{maxmark}
-            </div>
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M8 8L16 16M8 16L16 8" stroke="#FFA869" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
         );
-    }
+      }
+  
+      return null;
+    };
+  
+    // Основной рендеринг компонента
+    return (
+        <button
+        className={`bg-white rounded-3xl border justify-end items-center flex ${
+            status === "default"
+              ? "text-[#8A48E6] border-[#8A48E6] stroke-[#8A48E6] hover:bg-[#8A48E6] hover:text-white hover:stroke-white"
+              : status === "overdue"
+              ? "text-[#E64851] border-[#E64851] stroke-[#E64851] hover:bg-[#E64851] hover:text-white hover:stroke-white"
+              : status === "pending"
+              ? "text-[#FFA869] border-[#FFA869] stroke-[#FFA869] hover:bg-[#FFA869] hover:text-white hover:stroke-white"
+              : "text-[#44B56A] border-[#44B56A] hover:bg-white hover:text-[#44B56A] hover:border-[#44B56A]"
+          } ${className}`}
+    
+        onClick={onClick}
+        disabled={disabled}
+        {...props}
+      >
+        <div className={`grow shrink basis-0 text-center text-base font-bold font-['Nunito']`}>
+          {getText()}
+        </div>
+        {getSvg() && <div data-svg-wrapper>{getSvg()}</div>}
+       
+      </button>
+    );
+  };
 
-    if (status === "pending") {
-        return (
-            <div className="flex items-center justify-center">
-                <div data-svg-wrapper>
-                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M8 8L16 16M8 16L16 8" stroke="#FFA869" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                </div>
-                <div className={`grow shrink basis-0 text-center text-base font-bold font-['Nunito'] homework-status-pending`}>
-                    Повернути
-                </div>
-            </div>
-        );
-    }
+   
 
-    return null;
-};
-
-export const HomeTaskCardFull = ({ status = "default", subject, title, issuedDate, dueDate, teacher, photoSrc, mark = 0, maxmark = 0 }) => {
+export const HomeTaskCardFull = ({ status = "default", subject, title, issuedDate, dueDate, teacher, photoSrc, mark = 0, maxmark = 0,onClick}) => {
     const statusColors = {
         overdue: "overdue",
         pending: "pending",
@@ -60,7 +84,7 @@ export const HomeTaskCardFull = ({ status = "default", subject, title, issuedDat
 
     return (
         <div className="hometask-card">
-            <div className={`w-[420px] h-60 px-4 py-3 back-card bg-gradient-to-tr homework-status-${statusColors[status]} from-white to-emerald-30 rounded-3xl border border-neutral-200 justify-start items-start gap-4 inline-flex overflow-hidden`}>
+            <div className={`w-[420px] h-60 px-4 py-3 back-card bg-gradient-to-tr homework-status-${statusColors[status]} from-white to-emerald-30 rounded-3xl border  justify-start items-start gap-4 inline-flex overflow-hidden`}>
                 <div className="w-48 flex-col justify-start items-start gap-2 inline-flex">
                     <div className="justify-start items-center gap-2 inline-flex">
                         <div className="w-36 h-4 text-slate-400 text-base font-bold font-['Nunito']">{subject}</div>
@@ -96,9 +120,8 @@ export const HomeTaskCardFull = ({ status = "default", subject, title, issuedDat
                     <div className="self-stretch h-6 text-right text-slate-400 text-base font-bold font-['Nunito']">{teacher}</div>
                     <div className="self-stretch h-44 relative">
                         <img alt="img" className={`w-44 h-40 left-0 top-0 absolute rounded-tl-3xl rounded-tr-3xl`} src={photoSrc} />
-                        <button className={`w-44 h-11 px-4 py-2 left-0 top-[135px] absolute bg-white rounded-3xl border justify-between items-center inline-flex homework-status-${statusColors[status]}`}>
-                            <StatusButton status={status} mark={mark} maxmark={maxmark} />
-                        </button>
+                           <StatusButton status={status} mark={mark} maxmark={maxmark} className={`w-44 h-11 px-4 py-2 left-0 top-[135px] gap-5 absolute `} onClick={onClick} />
+                       
                     </div>
                 </div>
             </div>
@@ -106,7 +129,7 @@ export const HomeTaskCardFull = ({ status = "default", subject, title, issuedDat
     );
 };
 
-export const HomeTaskCard = ({ status, subject, title, issuedDate, dueDate, teacher, mark = 0, maxmark = 0 }) => {
+export const HomeTaskCard = ({ status= "default", subject, title, issuedDate, dueDate, teacher, mark = 0, maxmark = 0 ,onClick}) => {
     const statusColors = {
         overdue: "overdue",
         pending: "pending",
@@ -116,7 +139,7 @@ export const HomeTaskCard = ({ status, subject, title, issuedDate, dueDate, teac
 
     return (
         <div className="hometask-card">
-            <div className={`w-[408px] h-[184px] p-4 back-card bg-gradient-to-tr from-white to-emerald-30 rounded-3xl border border-neutral-200 flex-col justify-start items-start gap-3 inline-flex homework-status-${statusColors[status]}`}>
+            <div className={`w-[408px] h-[184px] p-4 back-card bg-gradient-to-tr from-white to-emerald-30 rounded-3xl border  flex-col justify-start items-start gap-3 inline-flex homework-status-${statusColors[status]}`}>
                 <div className="self-stretch h-20 flex-col justify-start items-start gap-2 flex">
                     <div className="self-stretch justify-start items-center gap-2 inline-flex">
                         <div className="grow shrink basis-0 h-6 text-slate-400 text-base font-bold font-['Nunito']">
@@ -157,9 +180,9 @@ export const HomeTaskCard = ({ status, subject, title, issuedDate, dueDate, teac
                             </div>
                         </div>
                     </div>
-                    <button className={`w-36 h-12 p-2 top-0 bg-white rounded-3xl border justify-end items-center gap-5 flex homework-status-${status !== 'done' ? statusColors[status] : 'default'}`}>
-                        <StatusButton status={status} mark={mark} maxmark={maxmark} />
-                    </button>
+                    <StatusButton status={status} mark={mark} maxmark={maxmark} onClick={onClick} className={`w-36 h-12 p-2 gap-2`} />
+
+                  
                 </div>
             </div>
         </div>

@@ -65,6 +65,20 @@
   @apply text-purple-300 border-purple-300 cursor-not-allowed;
 }
 
+.black-button {
+  @apply
+  px-4 py-2 bg-white text-black border border-black  text-center text-base font-bold font-['Nunito'] rounded-3xl;
+}
+
+
+.black-button:hover {
+  background-color: black;
+  color: white;
+}
+
+
+
+
 .fail {
   @apply text-red-500;
 }
