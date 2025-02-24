@@ -7,6 +7,7 @@ import Navbar from "../layouts/Navbar";
 import HomeStudent from "../pages/Home/HomeStudent";
 import HometaskStudent from "../pages/Hometasks/HometaskStudent";
 import MaterialsStudent from "../pages/Materials/MaterialsStudent";
+import TestStudent from "../pages/Tests/TestStudent"
 
 const AppRoutes = () => {
   return (
@@ -27,6 +28,7 @@ const AppRoutes = () => {
           <Route path="home" element={<HomeStudent />} />
           <Route path="hometask" element={<HometaskStudent />} />
           <Route path="materials" element={<MaterialsStudent />} />
+          <Route path="tests" element={<TestStudent />} />
           {/* <Route path="tests" element={<TestsStudent />} /> */}
           {/* <Route path="calendar" element={<CalendarStudent />} /> */}
           {/* <Route path="reviews" element={<ReviewsStudent />} /> */}
