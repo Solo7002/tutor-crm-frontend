@@ -3,7 +3,6 @@ import Login from "../features/Auth/Login";
 import Register from "../features/Auth/Register";
 import ForgotPassword from "../features/Auth/ForgotPassword";
 import AuthLayout from "../layouts/AuthLayout/AuthLayout";
-import Navbar from "../layouts/Navbar";
 import HomeStudent from "../pages/Home/HomeStudent";
 import HometaskStudent from "../pages/Hometasks/HometaskStudent";
 import MaterialsStudent from "../pages/Materials/MaterialsStudent";
@@ -13,10 +12,8 @@ const AppRoutes = () => {
   return (
     <Router>
       <Routes>
-        {/* Default */}
         <Route path="/" element={<Navigate to="/auth/login" replace />} />
         
-        {/* Auth Routes */}
         <Route path="/auth" element={<AuthLayout />}>
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />

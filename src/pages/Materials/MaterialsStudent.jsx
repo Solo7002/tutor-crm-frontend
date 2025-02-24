@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import './MaterialsStudent.css'
 import Dropdown from './components/Dropdown';
 import ToggleSwitch from './components/ToggleSwitch';
@@ -8,88 +8,64 @@ import FolderBlock from './components/FolderBlock';
 import MaterialBlock from './components/MaterialBlock';
 import FolderList from './components/FolderList';
 import MaterialList from './components/MaterialList';
-import Navbar from '../../layouts/Navbar';
-import axios from 'axios';
-import FolderUpBlock from './components/FolderUpBlock';
+
+import Navbar from "../../layouts/Navbar";
 
 export default function MaterialsStudent() {
     const [isBlock, setIsBlock] = useState(true);
-    const [parent, setParent] = useState(null);
-    // const materials = [
-    //     {
-    //         MaterialName: "Основні матеріали",
-    //         Type: "folder"
-    //     },
-    //     {
-    //         MaterialName: "Додаткові матеріали",
-    //         Type: "folder"
-    //     },
-    //     {
-    //         MaterialName: "Назва книги",
-    //         Type: "file",
-    //         file: {
-    //             ext: "PDF",
-    //             img: null
-    //         }
-    //     },
-    //     {
-    //         MaterialName: "Документ",
-    //         Type: "file",
-    //         file: {
-    //             ext: "DOCX",
-    //             img: null
-    //         }
-    //     },
-    //     {
-    //         MaterialName: "Текстовий файл",
-    //         Type: "file",
-    //         file: {
-    //             ext: "TXT",
-    //             img: null
-    //         }
-    //     },
-    //     {
-    //         MaterialName: "Зображення",
-    //         Type: "file",
-    //         file: {
-    //             ext: "CSV",
-    //             img: "/assets/dark_logo.png"
-    //         }
-    //     },
-    //     {
-    //         MaterialName: "Документація",
-    //         Type: "file",
-    //         file: {
-    //             ext: "PDF",
-    //             img: null
-    //         }
-    //     },
-    // ]
-
-    // eslint-disable-next-line
-    const [materials, setMaterials] = useState([]);
-    // eslint-disable-next-line
-    const [dir, setDir] = useState([]);
-
-    useEffect(() => {
-        axios.get('http://localhost:4000/api/materials', { params: { ParentId: parent } }).then(res => {
-            console.log('res', res)
-            setMaterials(res.data);
-        })
-    }, [parent])
-
-    const onFolderClick = (id, name) => {
-        setParent(id);
-        dir.push(name);
-    }
-    const onFolderUpClick = () => {
-        axios.get(`http://localhost:4000/api/materials/${parent}`).then(res => {
-            setParent(res.data.ParentId);
-            dir.pop();
-        })
-    }
+    const materials = [
+        {
+            MaterialName: "Основні матеріали",
+            Type: "folder"
+        },
+        {
+            MaterialName: "Додаткові матеріали",
+            Type: "folder"
+        },
+        {
+            MaterialName: "Назва книги",
+            Type: "file",
+            file: {
+                ext: "PDF",
+                img: null
+            }
+        },
+        {
+            MaterialName: "Документ",
+            Type: "file",
+            file: {
+                ext: "DOCX",
+                img: null
+            }
+        },
+        {
+            MaterialName: "Текстовий файл",
+            Type: "file",
+            file: {
+                ext: "TXT",
+                img: null
+            }
+        },
+        {
+            MaterialName: "Зображення",
+            Type: "file",
+            file: {
+                ext: "CSV",
+                img: "/assets/dark_logo.png"
+            }
+        },
+        {
+            MaterialName: "Документація",
+            Type: "file",
+            file: {
+                ext: "PDF",
+                img: null
+            }
+        },
+    ]
 
     return (
+
         <Navbar>
             <div className='MaterialsStudent'>
                 <div className='buttons-box'>
@@ -147,36 +123,19 @@ export default function MaterialsStudent() {
                             options={["Спочатку нові", "Спочатку старі", "За алфавітом"]}
                             onSelect={(option) => console.log("Выбрано:", option)}
                         />
-
                     </div>
                 </div>
-                <div className='mb-4 font-[Nunito] text-[15px] text-[#827FAE] font-bold'>
-                    Архів
-                    {
-                        dir.map((d, index) =>
-                            ' / ' + d
-                        )
-                    }
-                </div>
                 <div className={`main w-full ${isBlock ? "grid grid-cols-[repeat(auto-fill,minmax(234px,1fr))] gap-3" : "flex flex-col gap-3"}`}>
-                    {
-                        parent === null
-                            ?
-                            null
-                            :
-                            <FolderUpBlock onClick={onFolderUpClick} />
-                    }
                     {
                         materials.map((m, index) =>
                             m.Type === "folder"
                                 ?
-                                isBlock ? <FolderBlock name={m.MaterialName} onClick={() => onFolderClick(m.MaterialId, m.MaterialName)} /> : <FolderList name={m.MaterialName} />
+                                isBlock ? <FolderBlock name={m.MaterialName} /> : <FolderList name={m.MaterialName} />
                                 :
-                                isBlock ? <MaterialBlock name={m.MaterialName} ext={"ext"} img={m.file?.img} /> : <MaterialList name={m.MaterialName} ext={"ext"} />
+                                isBlock ? <MaterialBlock name={m.MaterialName} ext={m.file.ext} img={m.file.img} /> : <MaterialList name={m.MaterialName} ext={m.file.ext} img={m.file.img} />
                         )
                     }
                 </div>
-
             </div>
         </Navbar>
     );

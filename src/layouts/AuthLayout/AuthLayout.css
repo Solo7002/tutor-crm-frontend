@@ -15,7 +15,7 @@
   background-image: url('../../../public/assets/patterns/pattern4.png');
   background-size: 350px 200px;
   background-repeat: repeat;
-  animation: movePattern 0s linear infinite;
+  animation: movePattern 100s linear infinite;
   @apply 
   w-full h-screen
   absolute
@@ -291,11 +291,6 @@
   .teacher-img-cont{
     @apply
     hidden;
-  }
-
-  .logo-img-cont{
-    @apply 
-    pr-3;
   }
 
   .login-text{

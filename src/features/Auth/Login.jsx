@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import StandartInput from "../../components/Inputs/StandartInput/StandartInput";
@@ -121,8 +121,8 @@ const Login = () => {
           <a className="cursor-pointer" onClick={handleForgotPasswordClick}>Забули пароль?</a>
         </div>
 
-        <PrimaryButton onClick={handleLogIn}>Далі</PrimaryButton>
-        <SecondaryButton onClick={handleRegisterClick}>Реєстрація</SecondaryButton>
+        <button className="login-button">Далі</button>
+        <button className="register-button" onClick={handleRegisterClick}>Реєстрація</button>
       </form>
 
       <div className="login-divider">
