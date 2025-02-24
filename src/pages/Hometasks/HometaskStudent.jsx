@@ -330,7 +330,7 @@ const HometaskStudent = () => {
 
 
   return (
-    <Navbar>
+    <div>
       {isModalOpen && isDataLoaded && <HometaskModal onClose={handleCloseModal} status={status} token={token} hometaskDoneFiles={hometaskDoneFileInModal} hometask={hometaskInModal} hometaskDone={hometaskDoneInModal} hometaskFiles={hometaskFile} studentId={studentId} />}
       <main>
         <div className="hometask p-6">
@@ -419,7 +419,7 @@ const HometaskStudent = () => {
         <div>
         </div>
       </main>
-    </Navbar>
+    </div>
   );
 };
 
