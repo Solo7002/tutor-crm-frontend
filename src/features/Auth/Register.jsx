@@ -1,7 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
-import PasswordInput from "../../components/PasswordInput/PasswordInput";
+import StandartInput from "../../components/Inputs/StandartInput/StandartInput";
+import PasswordInput from "../../components/Inputs/PasswordInput/PasswordInput";
+import ConfirmCodeInput from "../../components/ConfirmCodeInput/ConfirmCodeInput";
+import { PrimaryButton, SecondaryButton } from '../../components/Buttons/Buttons';
 import "./Register.css";
 
 const Register = () => {
@@ -11,6 +14,10 @@ const Register = () => {
     const fileInputRef = useRef(null);
     const [step, setStep] = useState(1);
     const [selectedRole, setSelectedRole] = useState(null);
+    const [emailAlreadySent, setEmailAlreadySent] = useState(false);
+    const [confirmError, setConfirmError] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+
     const [formData, setFormData] = useState({
         Username: "",
         FirstName: queryParams.get("firstName") || "",
@@ -36,6 +43,9 @@ const Register = () => {
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
+        if (e.target.name === "Email") {
+            setEmailAlreadySent(false);
+        }
     };
 
     const handlePasswordChange = (e) => {
@@ -100,12 +110,11 @@ const Register = () => {
     const handleNext = (event) => {
         event.preventDefault();
 
-        console.log("form data: ", formData);
-
         if (step >= 5) {
             navigate("/auth/login");
             return;
         }
+
         setStep((prev) => prev + 1);
     }
 
@@ -136,19 +145,18 @@ const Register = () => {
                 const response = await axios.post(
                     "http://localhost:4000/api/files/upload",
                     ReqformData,
-                    { headers: { "Content-Type": "multipart/form-data" } }
                 );
 
-                if (formData.profilePicture) {
+                if (formData.ImageFilePath) {
                     const delResponse = await axios.delete(
-                        `http://localhost:4000/api/files/delete/${formData.profilePicture.split('/').pop()}`
+                        `http://localhost:4000/api/files/delete/${formData.ImageFilePath.split('/').pop()}`
                     );
                     console.log("del response.status: ", delResponse.status);
                 }
-                console.log("!!! new response.data.url: ", response.data.url);
+                console.log("!!! new response: ", response);
                 setFormData((prevFormData) => ({
                     ...prevFormData,
-                    profilePicture: response.data.url,
+                    ImageFilePath: response.data.fileUrl,
                 }));
             } catch (error) {
                 console.error("Error file upload:", error);
@@ -156,9 +164,73 @@ const Register = () => {
         }
     };
 
+    /* role */
+
+    const changeRole = (user_role) => {
+        setSelectedRole(user_role);
+        setFormData({ ...formData, ["Role"]: user_role });
+    }
+
+    /* Confirm email*/
+
+    const sendConfirmationCode = async () => {
+        try {
+            console.log("sendConfirmationCode");
+            await axios.post("http://localhost:4000/api/auth/register-email-code", {
+                Username: `${formData.LastName} ${formData.FirstName}`,
+                Email: formData.Email
+            }).then(() => { setEmailAlreadySent(true); console.log("then"); });
+        } catch (error) {
+            console.error("Error sending confirmation code:", error);
+        }
+    };
+
+    useEffect(() => {
+        if (step === 4 && !emailAlreadySent) {
+            sendConfirmationCode();
+        }
+        else if (step === 5) {
+            sessionStorage.setItem("email", formData.Email);
+            sessionStorage.setItem("password", formData.Password);
+        }
+    }, [step]);
+
+    const handleResendEmail = async (event) => {
+        event.preventDefault();
+        await sendConfirmationCode();
+    };
+
+    const handleConfirmCode = async (code) => {
+        if (isLoading) return;
+
+        try {
+            const response = await axios.post("http://localhost:4000/api/auth/confirm-email-code", {
+                Username: `${formData.LastName} ${formData.FirstName}`,
+                Password: formData.Password,
+                LastName: formData.LastName,
+                FirstName: formData.FirstName,
+                Email: formData.Email,
+                ImageFilePath: formData.ImageFilePath,
+                Role: formData.Role,
+                Code: code
+            });
+            if (response.status === 201) {
+                setStep(5);
+            }
+        }
+        catch (error) {
+            if (error.response?.status === 400) {
+                setConfirmError(true);
+            }
+        }
+        finally {
+            setIsLoading(false);
+        }
+    };
+
     return (
         <div className="register-page">
-            <h2 className="register-title">Реєстрація</h2>
+            <h2 className="register-title">Реєстрація {step === 5 && ("успішна")}</h2>
 
             <div className="register-svg-bar-container">
                 <svg width="332" height="15" viewBox="0 0 332 15" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -175,15 +247,29 @@ const Register = () => {
                 </svg>
             </div>
 
-
             <form className="register-form">
                 {step === 1 && (
                     <div className="register-stage-1">
-                        <div className="half-input-width-div">
-                            <input className="login-input" type="text" name="firstName" placeholder="Ім'я" value={formData.firstName} onChange={handleChange} />
-                            <input className="login-input" type="text" name="lastName" placeholder="Прізвище" value={formData.lastName}  onChange={handleChange} />
+                        <div className="half-input-width-div gap-6">
+                            <StandartInput
+                                type="text"
+                                name="LastName"
+                                placeholder="Прізвище"
+                                value={formData.LastName}
+                                onChange={handleChange}
+                                validate={validateName}
+                                onValidationChange={handleValidationChange}
+                            />
+                            <StandartInput
+                                type="text"
+                                name="FirstName"
+                                placeholder="Ім'я"
+                                value={formData.FirstName}
+                                onChange={handleChange}
+                                validate={validateName}
+                                onValidationChange={handleValidationChange}
+                            />
                         </div>
-                        <input className="login-input" type="email" name="email" placeholder="Email" value={formData.email}  onChange={handleChange} />
 
                         <StandartInput
                             type="email"
@@ -194,11 +280,9 @@ const Register = () => {
                             validate={validateEmail}
                             onValidationChange={handleValidationChange}
                         />
-                        <PasswordInput placeholder={"Пароль"} name="password" value={formData.password}  onChange={handlePasswordChange} />
-                        <PasswordInput placeholder={"Підтвердження пароля"} name="confirmPassword" value={formData.confirmPassword}  onChange={handlePasswordChange} />
 
-                        <button className="login-button mt-20" onClick={handleNext}>Далі</button>
-                        <button className="register-button" onClick={handlePrev}>Повернутися на сторінку входу</button>
+                        <PasswordInput placeholder={"Пароль"} name="Password" value={formData.Password} onChange={handlePasswordChange} validate={validatePassword} onValidationChange={handleValidationChange}/>
+                        <PasswordInput placeholder={"Підтвердження пароля"} name="confirmPassword" value={formData.confirmPassword} onChange={handlePasswordChange} validate={validateConfirmPassword} onValidationChange={handleValidationChange}/>
                     </div>
                 )}
                 {step === 2 && (
@@ -210,17 +294,17 @@ const Register = () => {
                                 className="photo-wrapper"
                                 onClick={handleOpenPhotoClick}
                                 style={{
-                                    backgroundImage: formData.profilePicture ? `url(${formData.profilePicture})` : "none",
+                                    backgroundImage: formData.ImageFilePath ? `url(${formData.ImageFilePath})` : "none",
                                 }}
                             >
-                                {!formData.profilePicture && (
+                                {!formData.ImageFilePath && (
                                     <svg className="svg-select-photo" width="219" height="219" viewBox="0 0 219 219" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <rect x="2.5" y="2.5" width="214" height="214" rx="107" fill="#D7D7D7" stroke="#D7D7D7" strokeWidth="5" />
                                         <path d="M110.228 143.061H81.0609C78.8507 143.061 76.7311 142.183 75.1683 140.62C73.6055 139.057 72.7275 136.937 72.7275 134.727V97.2273C72.7275 95.0172 73.6055 92.8976 75.1683 91.3348C76.7311 89.772 78.8507 88.894 81.0609 88.894H85.2275C87.4377 88.894 89.5573 88.016 91.1201 86.4532C92.6829 84.8904 93.5609 82.7708 93.5609 80.5606C93.5609 79.4556 93.9999 78.3958 94.7813 77.6144C95.5627 76.833 96.6225 76.394 97.7275 76.394H122.728C123.833 76.394 124.892 76.833 125.674 77.6144C126.455 78.3958 126.894 79.4556 126.894 80.5606C126.894 82.7708 127.772 84.8904 129.335 86.4532C130.898 88.016 133.017 88.894 135.228 88.894H139.394C141.604 88.894 143.724 89.772 145.287 91.3348C146.85 92.8976 147.728 95.0172 147.728 97.2273V111.811M126.894 138.894H151.894M139.394 126.394V151.394" stroke="#827FAE" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" />
                                         <path d="M97.7275 113.894C97.7275 117.209 99.0445 120.389 101.389 122.733C103.733 125.077 106.912 126.394 110.228 126.394C113.543 126.394 116.722 125.077 119.066 122.733C121.411 120.389 122.728 117.209 122.728 113.894C122.728 110.579 121.411 107.399 119.066 105.055C116.722 102.711 113.543 101.394 110.228 101.394C106.912 101.394 103.733 102.711 101.389 105.055C99.0445 107.399 97.7275 110.579 97.7275 113.894Z" stroke="#827FAE" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" />
                                     </svg>
                                 )}
-                                {formData.profilePicture && (
+                                {formData.ImageFilePath && (
                                     <svg className="svg-already-selected-photo" width="219" height="219" viewBox="0 0 219 219" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <rect x="2.5" y="2.5" width="214" height="214" rx="107" fill="black" stroke="black" strokeWidth="5" />
                                         <path d="M110.228 143.061H81.0609C78.8507 143.061 76.7311 142.183 75.1683 140.62C73.6055 139.057 72.7275 136.937 72.7275 134.727V97.2273C72.7275 95.0172 73.6055 92.8976 75.1683 91.3348C76.7311 89.772 78.8507 88.894 81.0609 88.894H85.2275C87.4377 88.894 89.5573 88.016 91.1201 86.4532C92.6829 84.8904 93.5609 82.7708 93.5609 80.5606C93.5609 79.4556 93.9999 78.3958 94.7813 77.6144C95.5627 76.833 96.6225 76.394 97.7275 76.394H122.728C123.833 76.394 124.892 76.833 125.674 77.6144C126.455 78.3958 126.894 79.4556 126.894 80.5606C126.894 82.7708 127.772 84.8904 129.335 86.4532C130.898 88.016 133.017 88.894 135.228 88.894H139.394C141.604 88.894 143.724 89.772 145.287 91.3348C146.85 92.8976 147.728 95.0172 147.728 97.2273V111.811M126.894 138.894H151.894M139.394 126.394V151.394" stroke="#827FAE" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" />
@@ -237,9 +321,6 @@ const Register = () => {
                             accept="image/*"
                             onChange={handleFileChange}
                         />
-
-                        <button className="login-button" onClick={handleNext}>Далі</button>
-                        <button className="register-button" onClick={handlePrev}>Назад</button>
                     </div>
                 )}
                 {step === 3 && (
@@ -247,21 +328,56 @@ const Register = () => {
                         <h2 className="select-role-text">Обери свою роль</h2>
 
                         <div className="teacher-student-select-div">
-                            <div className="role-container" onClick={() => setSelectedRole("Student")}>
-                                <img src="/assets/register/student.png" alt="student" className={`rounded-full border-purple-600 ${selectedRole==="Student"?"border-4 hover:border-4":"border-0 hover:border-2"}`} />
-                                <p className={`text-center mt-2 ${selectedRole==="Student"?"font-bold":""}`}>Учень</p>
+                            <div className="role-container" onClick={() => changeRole("Student")}>
+                                <img src="/assets/register/student.png" alt="student" className={`rounded-full border-purple-600 ${selectedRole === "Student" ? "border-4 hover:border-4" : "border-0 hover:border-2"}`} />
+                                <p className={`text-center mt-2 ${selectedRole === "Student" ? "font-bold" : ""}`}>Учень</p>
                             </div>
-                            <div className="role-container" onClick={() => setSelectedRole("Teacher")}>
-                                <img src="/assets/register/teacher.png" alt="teacher" className={`rounded-full border-purple-600 ${selectedRole==="Teacher"?"border-4 hover:border-4":"border-0 hover:border-2"}`} />
-                                <p className={`text-center mt-2 ${selectedRole==="Teacher"?"font-bold":""}`}>Вчитель</p>
+                            <div className="role-container" onClick={() => changeRole("Teacher")}>
+                                <img src="/assets/register/teacher.png" alt="teacher" className={`rounded-full border-purple-600 ${selectedRole === "Teacher" ? "border-4 hover:border-4" : "border-0 hover:border-2"}`} />
+                                <p className={`text-center mt-2 ${selectedRole === "Teacher" ? "font-bold" : ""}`}>Вчитель</p>
                             </div>
                         </div>
-
-                        <button className="login-button mt-20" onClick={handleNext}>Далі</button>
-                        <button className="register-button" onClick={handlePrev}>Назад</button>
                     </div>
                 )}
+                {step === 4 && (
+                    <div className="register-stage-4">
+                        <h1 className='text-center text-lg'>Код підтвердження надіслано на адресу <b>{formData.Email}</b></h1>
+
+                        <h1 className='text-lg mt-8 text-center'><b>Введіть код підтвердження</b></h1>
+
+                        <div className='w-full flex justify-center mt-3'>
+                            <ConfirmCodeInput isLoading={isLoading} callback={handleConfirmCode} />
+                        </div>
+
+                        <div className='big-error-text'>
+                            <h2 className={`text-md ${confirmError ? "text-red-600" : "text-white"} ml-1 mt-2 pr-5`}>Код підтвердження не вірний, або термін його дії закінчився</h2>
+                        </div>
+                    </div>
+                )}
+                {step === 5 && (
+                    <div className="register-step-5">
+                        <h2 className="register-confirmed-text">Вітаємо в нашій підводній команді! Досліджуй платформу, налаштовуй свій простір і пірнай до нових відкриттів!</h2>
+                        <img src="/assets/register/successfullRegistration.png" alt="" />
+                    </div>
+                )}
+
+                
             </form>
+            <div className='form-buttons'>
+                {(step === 1) && (<PrimaryButton onClick={handleNext} disabled={!Object.values(step1Validation).every(val => val)}>Далі</PrimaryButton>)}
+                {(step === 1) && (<SecondaryButton onClick={handlePrev}>Авторизація</SecondaryButton>)}
+
+                {(step === 2) && (<PrimaryButton onClick={handleNext}>Далі</PrimaryButton>)}
+                {(step === 2) && (<SecondaryButton onClick={handlePrev}>Назад</SecondaryButton>)}
+
+                {(step === 3) && (<PrimaryButton onClick={handleNext} disabled={!selectedRole}>Далі</PrimaryButton>)}
+                {(step === 3) && (<SecondaryButton onClick={handlePrev}>Назад</SecondaryButton>)}
+
+                {(step === 4) && (<PrimaryButton onClick={handleResendEmail}>Повторно надіслати листа</PrimaryButton>)}
+                {(step === 4) && (<SecondaryButton onClick={handlePrev}>Назад</SecondaryButton>)}
+
+                {(step === 5) && (<PrimaryButton onClick={handleNext}>Авторизація</PrimaryButton>)}
+            </div>
         </div>
     );
 };

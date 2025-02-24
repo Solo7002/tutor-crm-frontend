@@ -2,6 +2,27 @@
 @tailwind components;
 @tailwind utilities;
 
+.register-page{
+    @apply
+    h-full
+    relative;
+}
+
+.register-page .register-form{
+    @apply
+    h-full
+    w-full
+    pr-3
+}
+
+.register-page .form-buttons{
+    @apply
+    w-full
+    absolute
+    bottom-0
+    left-0
+}
+
 .register-page .register-title{
   font-family: 'Nunito', sans-serif;
   font-size: 32px;
@@ -39,11 +60,7 @@
     ml-3
 }
 
-.register-page .register-form{
-    @apply
-    w-full
-    pr-3
-}
+
 
 .register-page .register-stage-1 > .login-input:last-child{
     @apply
@@ -116,17 +133,47 @@
     mb-7;
 }
 
-.register-page  .teacher-student-select-div{
+.register-page .teacher-student-select-div{
     @apply
     flex
     w-full
     gap-6
 }
 
-.register-page  .role-container{
+.register-page .role-container{
     @apply
     cursor-pointer
 }
+
+/* 4 */
+
+
+.register-page .registered-email-text{
+    font-family: 'Lato', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    @apply
+    text-center;
+}
+
+/* 5 */
+
+.register-page .register-step-5{
+    @apply
+    mr-2;
+}
+
+.register-page .register-confirmed-text{
+    font-family: Nunito;
+    font-weight: 700;
+    font-size: 15px;
+    line-height: 18px;
+    letter-spacing: 0%;
+    text-align: center;
+    @apply
+    mb-10;
+}
+
 
 /* Mobile */
 @media (max-width: 768px) {
@@ -135,5 +182,10 @@
         mt-0
         mb-8;
       }
-}
 
+    .register-page .register-form{
+      @apply
+      w-full
+      pr-0
+    }
+}
