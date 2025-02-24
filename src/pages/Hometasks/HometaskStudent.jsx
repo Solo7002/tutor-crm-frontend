@@ -4,6 +4,7 @@ import TaskButton from '../../components/TaskButton/TaskButton';
 import { HomeTaskCardFull, HomeTaskCard } from '../../components/HomeCard/Hometask-card';
 import "./HometaskStudent.css";
 import axios from 'axios';
+import { DateTime } from "luxon";
 
 import SearchButton from '../Materials/components/SearchButton';
 import ToggleSwitch from '../Materials/components/ToggleSwitch';
@@ -45,7 +46,7 @@ const HometaskStudent = () => {
     const loadSubjects = async () => {
       const subjects = await fetchSubjectsByStudentId(studentId);
       setSubjects(subjects);
-    };
+  };
 
     loadSubjects();
   }, [studentId]);
@@ -83,7 +84,7 @@ const HometaskStudent = () => {
         headers: { Authorization: `Bearer ${token}` }
       });
       const tasks = response.data.data;
-
+  
       const tasksWithStatus = await Promise.all(
         tasks.map(async (task) => {
           const deadlineDate = new Date(task.DeadlineDate);
@@ -109,16 +110,17 @@ const HometaskStudent = () => {
               { headers: { Authorization: `Bearer ${token}` } }
             );
             subjectName = subjectResponse.data.SubjectName;
-
+           
           } catch (error) {
             console.log(
               `Ошибка при получении данных о предмете (ID: ${task.HomeTaskId}):`,
               error
             );
           }
-
+         
           if (statusType === "pending" || statusType === "done") {
             try {
+              console.log(task);
               const homeTaskResponse = await axios.get(
                 `http://localhost:4000/api/hometasks/${task.HomeTaskId}`,
                 { headers: { Authorization: `Bearer ${token}` } }
@@ -131,7 +133,8 @@ const HometaskStudent = () => {
               );
             }
           }
-
+          console.log("homeTaskDetails:", homeTaskDetails);
+        
           let status;
           if (statusType === "new") {
             status = deadlineDate < now ? "overdue" : "default";
@@ -140,7 +143,7 @@ const HometaskStudent = () => {
           } else if (statusType === "done") {
             status = "done";
           }
-
+         
           return {
             ...task, ...homeTaskDetails,
             status,
@@ -185,7 +188,7 @@ const HometaskStudent = () => {
       const filteredDoneTasks = originalDoneHomeTasks.filter((task) =>
         task.title.toLowerCase().includes(query.toLowerCase())
       );
-
+  
       setNewHomeTasks(filteredNewTasks);
       setPendingHomeTasks(filteredPendingTasks);
       setDoneHomeTasks(filteredDoneTasks);
@@ -305,28 +308,28 @@ const HometaskStudent = () => {
     const fetchData = async () => {
       if (status === "default") {
         await fetchTasksByStatus(
-          `http://localhost:4000/api/hometasks/newHometask/${studentId}`,
-          setNewHomeTasks,
-          "new"
-        );
+      `http://localhost:4000/api/hometasks/newHometask/${studentId}`,
+      setNewHomeTasks,
+      "new"
+    );
       } else if (status === "pending") {
         await fetchTasksByStatus(
-          `http://localhost:4000/api/donehometasks/pendingHometask/${studentId}`,
-          setPendingHomeTasks,
-          "pending"
-        );
+      `http://localhost:4000/api/donehometasks/pendingHometask/${studentId}`,
+      setPendingHomeTasks,
+      "pending"
+    );
       } else if (status === "done") {
         await fetchTasksByStatus(
-          `http://localhost:4000/api/donehometasks/doneHometask/${studentId}`,
-          setDoneHomeTasks,
-          "done"
-        );
+      `http://localhost:4000/api/donehometasks/doneHometask/${studentId}`,
+      setDoneHomeTasks,
+      "done"
+    );
       }
     };
-
+   
     fetchData();
   }, [status])
-
+  
 
 
   return (
@@ -385,36 +388,50 @@ const HometaskStudent = () => {
           <div className="card-container">
             {(selectedButton === 0 ? newHomeTasks : selectedButton === 1 ? pendingHomeTasks : doneHomeTasks).map((task) => (
               isBlock ? (
-                <HomeTaskCardFull
+        <HomeTaskCardFull
                   key={task.HomeTaskId}
-                  status={task.status}
-                  subject={task.subject}
-                  title={task.HomeTaskHeader}
-                  issuedDate={formatDate(task.StartDate)}
-                  dueDate={formatDate(task.DeadlineDate)}
-                  teacher={task.teacher}
+        status={task.status}
+        subject={task.subject}
+        title={task.HomeTaskHeader}
+        issuedDate={formatDate(task.StartDate)}
+        dueDate={formatDate(task.DeadlineDate)}
+        teacher={task.teacher}
                   mark={task.Mark}
                   maxmark={task.MaxMark}
-                  photoSrc={task.ImageFilePath}
+        photoSrc={task.ImageFilePath}
                   onClick={() => handleOpenModal(task.HomeTaskId)}
-                />
+      />
               ) : (
                 <HomeTaskCard
-                  key={task.id}
-                  status={task.status}
-                  subject={task.subject}
-                  title={task.HomeTaskHeader}
-                  issuedDate={formatDate(task.StartDate)}
-                  dueDate={formatDate(task.DeadlineDate)}
-                  teacher={task.teacher}
-                  mark={task.Mark}
-                  maxmark={task.MaxMark}
+        key={task.id}
+        status={task.status}
+        subject={task.subject}
+        title={task.HomeTaskHeader}
+        issuedDate={formatDate(task.StartDate)}
+        dueDate={formatDate(task.DeadlineDate)}
+        teacher={task.teacher}
+        photoSrc={task.ImageFilePath}
+       
+      />
+      ))} 
+       {donegHomeTasks.map((task) => (
+        <HomeTaskCardFull
+       
+        status={task.status}
+        subject={task.subject}
+        title={task.HomeTaskHeader}
+        issuedDate={formatDate(task.StartDate)}
+        dueDate={formatDate(task.DeadlineDate)}
+        teacher={task.teacher}
+        photoSrc={task.ImageFilePath}
+        mark={task.Mark}
+        maxmark={task.MaxMark}
                   onClick={() => handleOpenModal(task.HomeTaskId)}
-                />
+      />
 
               )
-            ))}
-          </div>
+      ))}         
+      </div>
         </div>
         <div>
         </div>

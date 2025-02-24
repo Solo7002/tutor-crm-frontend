@@ -19,22 +19,27 @@
     @apply content-[''] absolute inset-0 bg-[url('../../../public/assets/patterns/pattern4.png')] bg-[length:30%] bg-repeat bg-center opacity-10 -z-10;
 }
 
+.hometask-card .homework-status-default {
 .homework-status-default {
     @apply text-[#8A48E6] border-[#8A48E6] stroke-[#8A48E6];
 }
 
+.hometask-card .homework-status-overdue {
  .homework-status-overdue {
     @apply border-[#E64851] text-[#E64851] stroke-[#E64851];
 }
 
+.hometask-card .homework-status-pending {
  .homework-status-pending {
     @apply border-[#FFA869] text-[#FFA869] stroke-[#FFA869];
 }
 
+.hometask-card .homework-status-done {
  .homework-status-done {
     @apply border-[#44B56A] text-[#44B56A] ;
 }
 
+.hometask-card .homework-status-done button {
 .homework-status-done button {
     @apply bg-[#44B56A] border-[#44B56A] text-white;
 }
@@ -45,35 +50,45 @@
 
 /* Hover effects */
 
+.hometask-card .homework-status-default button:hover  {
  .homework-status-default button:hover  {
     @apply bg-[#8A48E6] transition-all duration-300 ;
 }
+.hometask-card .homework-status-default button:hover  div {
  .homework-status-default button:hover  div {
     color: white; 
 }
+.hometask-card .homework-status-default button:hover svg path {
  .homework-status-default button:hover svg path {
     stroke: white; 
 }
 
+.hometask-card .homework-status-overdue button:hover  {
  .homework-status-overdue button:hover  {
     @apply bg-[#E64851]  transition-all duration-300;;
 }
+.hometask-card .homework-status-overdue button:hover  div {
 .homework-status-overdue button:hover  div {
     color: white;
 }
+.hometask-card .homework-status-overdue button:hover svg path {
  .homework-status-overdue button:hover svg path {
     stroke: white; 
 }
 
+.hometask-card .homework-status-pending button:hover  {
  .homework-status-pending button:hover  {
     @apply bg-[#FFA869] transition-all duration-300;
 }
+.hometask-card .homework-status-pending button:hover  div {
  .homework-status-pending button:hover  div {
     color: white;
 }
+.hometask-card .homework-status-pending button:hover svg path {
  .homework-status-pending button:hover svg path {
     stroke: white; 
 }
+.hometask-card .homework-status-done button:hover {
 .homework-status-done button:hover {
     @apply bg-white text-[#44B56A] border-[#44B56A] transition-all duration-300;;
 }

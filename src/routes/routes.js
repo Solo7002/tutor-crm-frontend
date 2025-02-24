@@ -31,7 +31,7 @@ const AppRoutes = () => {
           {/* <Route path="calendar" element={<CalendarStudent />} /> */}
           {/* <Route path="reviews" element={<ReviewsStudent />} /> */}
           {/* <Route path="payments" element={<PaymentsStudent />} /> */}
-          {/* <Route path="map" element={<MapStudent />} /> */}
+          {/* <Route path="search" element={<SearchStudent />} /> */}
           {/* <Route path="info" element={<InfoStudent />} /> */}
           {/* <Route path="settings" element={<SettingsStudent />} /> */}
           {/* <Route path="profile" element={<ProfileStudent />} /> */}
@@ -46,7 +46,7 @@ const AppRoutes = () => {
           {/* <Route path="calendar" element={<CalendarTeacher />} /> */}
           {/* <Route path="reviews" element={<ReviewsTeacher />} /> */}
           {/* <Route path="payments" element={<PaymentsTeacher />} /> */}
-          {/* <Route path="map" element={<MapTeacher />} /> */}
+          {/* <Route path="search" element={<SearchTeacher />} /> */}
           {/* <Route path="info" element={<InfoTeacher />} /> */}
           {/* <Route path="settings" element={<SettingsTeacher />} /> */}
           {/* <Route path="profile" element={<ProfileTeacher />} /> */}
