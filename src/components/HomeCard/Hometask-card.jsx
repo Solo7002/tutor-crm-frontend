@@ -5,12 +5,12 @@ import "./Hometask-card.css";
 
   export const StatusButton = ({  status,  mark,  maxmark, onClick,disabled = false,children, svg,className,...props}) => {
     const statusColors = {
-        overdue: "overdue",
-        pending: "pending",
-        done: "done",
-        default: "default",
+      overdue: "overdue",
+      pending: "pending",
+      done: "done",
+      default: "default",
     };
-
+  
     const defaultTexts = {
       overdue: "Надіслати",
       pending: "Повернути",
@@ -27,47 +27,25 @@ import "./Hometask-card.css";
     const getSvg = () => {
       if (svg) return svg;
   
-    if (status === "default" || status === "overdue") {
+      if (status === "default" || status === "overdue") {
         return (
-            <div className={`flex items-center gap-x-4 homework-status-${statusColors[status]}`}>
-                <div className={`grow shrink basis-0 text-center text-base font-bold font-['Nunito'] `}>
-                    Надіслати
-                </div>
-                <div data-svg-wrapper>
-                    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M28 16L6.264 5.37866C6.14001 5.33043 6.00442 5.3204 5.87469 5.34987C5.74495 5.37933 5.627 5.44694 5.536 5.54399C5.44267 5.64355 5.37841 5.76679 5.3502 5.90031C5.32199 6.03382 5.33092 6.17252 5.376 6.30132L8.66667 16M28 16L6.264 26.6213C6.14001 26.6695 6.00442 26.6796 5.87469 26.6501C5.74495 26.6206 5.627 26.553 5.536 26.456C5.44267 26.3564 5.37841 26.2332 5.3502 26.0997C5.32199 25.9662 5.33092 25.8275 5.376 25.6987L8.66667 16M28 16H8.66667" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                </div>
-            </div>
+          </svg>
         );
-    }
-
-    if (status === "done") {
+      }
+  
+      if (status === "pending") {
         return (
-            <div className="flex items-center justify-center w-full grow shrink basis-0 text-center text-base font-bold font-['Nunito'] gap-x-2 ">
-                {mark}/{maxmark}
-            </div>
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M8 8L16 16M8 16L16 8" stroke="#FFA869" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
         );
-    }
-
-    if (status === "pending") {
-        return (
-            <div className="flex items-center justify-center">
-                <div data-svg-wrapper>
-                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M8 8L16 16M8 16L16 8" stroke="#FFA869" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                </div>
-                <div className={`grow shrink basis-0 text-center text-base font-bold font-['Nunito'] homework-status-pending`}>
-                    Повернути
-                </div>
-            </div>
-        );
-    }
-
-    return null;
-};
-
+      }
+  
+      return null;
+    };
+  
     // Основной рендеринг компонента
     return (
         <button
