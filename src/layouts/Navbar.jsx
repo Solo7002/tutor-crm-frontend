@@ -24,8 +24,8 @@ const Navbar = () => {
           return "review";
         case "/student/payments":
           return "pay";
-        case "/student/map":
-          return "map";
+        case "/student/search":
+          return "search";
         case "/student/info":
           return "info";
         case "/student/settings":
@@ -49,8 +49,8 @@ const Navbar = () => {
           return "review";
         case "/teacher/payments":
           return "pay";
-        case "/teacher/map":
-          return "map";
+        case "/teacher/search":
+          return "search";
         case "/teacher/info":
           return "info";
         case "/teacher/settings":
@@ -65,6 +65,7 @@ const Navbar = () => {
 
   const handleNavItemClick = (navItem) => {
     setActiveNavItem(navItem);
+    if (isSidebarOpen) setIsSidebarOpen(false);
   };
 
   const NavItem = ({ icon, text, to, isActive, onClick, noBorder, blackText, group, fontSize }) => {
@@ -285,9 +286,9 @@ const Navbar = () => {
           )
         },
         {
-          path: "/student/map", label: "Карта", key: "map", icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M9 4L3 7V20L9 17M9 4L15 7M9 4V17M15 7L21 4V17L15 20M15 7V20M15 20L9 17" stroke="#827FAE" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
-          </svg>
+          path: "/student/search", label: "Пошук", key: "search", icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M21 21L15 15M3 10C3 10.9193 3.18106 11.8295 3.53284 12.6788C3.88463 13.5281 4.40024 14.2997 5.05025 14.9497C5.70026 15.5998 6.47194 16.1154 7.32122 16.4672C8.1705 16.8189 9.08075 17 10 17C10.9193 17 11.8295 16.8189 12.6788 16.4672C13.5281 16.1154 14.2997 15.5998 14.9497 14.9497C15.5998 14.2997 16.1154 13.5281 16.4672 12.6788C16.8189 11.8295 17 10.9193 17 10C17 9.08075 16.8189 8.1705 16.4672 7.32122C16.1154 6.47194 15.5998 5.70026 14.9497 5.05025C14.2997 4.40024 13.5281 3.88463 12.6788 3.53284C11.8295 3.18106 10.9193 3 10 3C9.08075 3 8.1705 3.18106 7.32122 3.53284C6.47194 3.88463 5.70026 4.40024 5.05025 5.05025C4.40024 5.70026 3.88463 6.47194 3.53284 7.32122C3.18106 8.1705 3 9.08075 3 10Z" stroke="#827FAE" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>            
           )
         },
       ];
@@ -506,7 +507,7 @@ const Navbar = () => {
 
       {/* Top Navbar */}
       <div className="flex-1 flex flex-col ml-24">
-        <header className="h-20 flex items-center justify-between bg-white shadow-md px-4"
+        <header className="h-20 md:flex items-center justify-between bg-white shadow-md px-4 hidden "
           style={{
             position: "fixed",
             top: 0,
