@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import SearchButton from "./components/SearchButton";
 import TaskButton from "./components/TaskButton/TaskButton";
 import TestCard from "./components/TestCard/TestCard"
+import TestModal from "./components/TestModal/TestModal";
 
 const tests = [
     { id: 1, type: "default", score: null },
@@ -11,7 +12,6 @@ const tests = [
     { id: 5, type: "done_bad", score: "3/10" },
 ];
 
-
 const buttons = [
     { text: 'До виконання', icon: 'M9 6H20M9 12H20M9 18H20M5 6V6.01M5 12V12.01M5 18V18.01', count: 0 },
     { text: 'Виконано', icon: 'M5 12L10 17L20 7', count: 0 }];
@@ -20,9 +20,10 @@ const TestStudent = () => {
     const [completedView, setCompletedView] = useState(false);
     const [selectedButton, setSelectedButton] = useState(0);
     const [searchQuery, setSearchQuery] = useState("");
+    const [tab, setTab] = useState(0);
 
-    const handleButtonClick = (index) => {
-        //   getStatus(index);
+    const handleTabButtonClick = (index) => {
+        setTab(index);
         setSelectedButton(index);
     };
 
@@ -31,7 +32,9 @@ const TestStudent = () => {
     }
 
     return (
-        <div className="test-page mt-8">
+        <div className="test-page w-full h-full mt-8 relative">
+            <TestModal></TestModal>
+
             <div className="nav flex items-center justify-between">
                 <div className="h-12 flex items-center gap-2 overflow-hidden">
                     {buttons.map((button, index) => (
@@ -41,7 +44,7 @@ const TestStudent = () => {
                             icon={button.icon}
                             count={button.count}
                             isSelected={selectedButton === index}
-                            onClick={() => handleButtonClick(index)}
+                            onClick={() => handleTabButtonClick(index)}
                         />
                     ))}
                 </div>
@@ -55,8 +58,9 @@ const TestStudent = () => {
             </div>
             <div className="w-full flex flex-wrap gap-3 mt-10">
                 {tests
+                    .filter(t => (tab == 0 && t.score == null) || (tab == 1 && t.score != null))
                     .map((test) => (
-                        <TestCard key={test.id} type={test.type}/>
+                        <TestCard key={test.id} type={test.type} />
                     ))}
             </div>
         </div>

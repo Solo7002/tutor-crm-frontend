@@ -143,7 +143,7 @@ const Register = () => {
 
             try {
                 const response = await axios.post(
-                    "http://localhost:4000/api/files/upload",
+                    "http://localhost:4000/api/files/uploadAndReturnLink",
                     ReqformData,
                     { headers: { "Content-Type": "multipart/form-data" } }
                 );
@@ -154,10 +154,10 @@ const Register = () => {
                     );
                     console.log("del response.status: ", delResponse.status);
                 }
-                console.log("!!! new response.data.url: ", response.data.url);
+                console.log("!!! new response.data.url: ", response.data.fileUrl);
                 setFormData((prevFormData) => ({
                     ...prevFormData,
-                    ImageFilePath: response.data.url,
+                    ImageFilePath: response.data.fileUrl,
                 }));
             } catch (error) {
                 console.error("Error file upload:", error);
