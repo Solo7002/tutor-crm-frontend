@@ -32,7 +32,7 @@ const Graphic = ({ chartData }) => {
                 item.type === "Homework" &&
                 months.indexOf(lastSixMonths[index]) === new Date(item.date).getMonth()
         );
-        return dataPoint ? dataPoint.score : null;
+        return dataPoint ? dataPoint.grade : null;
     });
 
     const classworkData = Array(6).fill(null).map((_, index) => {
@@ -41,7 +41,7 @@ const Graphic = ({ chartData }) => {
                 item.type === "Classwork" &&
                 months.indexOf(lastSixMonths[index]) === new Date(item.date).getMonth()
         );
-        return dataPoint ? dataPoint.score : null;
+        return dataPoint ? dataPoint.grade : null;
     });
 
     const options = {
