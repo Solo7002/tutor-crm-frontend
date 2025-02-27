@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-//import {jwtDecode} from 'jwt-decode';
 import axios from 'axios';
 import "./HomeStudent.css";
 import Greetings from './components/Greetings';
@@ -8,7 +7,9 @@ import MarkHistory from './components/MarkHistory';
 import NearestEvents from './components/NearestEvents';
 import Schedule from './components/Schedule';
 import Graphic from './components/Graphic';
+import SearchTeachers from './components/SearchTeacher';
 //import Map from './components/Map';
+//import {jwtDecode} from 'jwt-decode';
 
 export default function HomeStudent() {
   const [leaders, setLeaders] = useState([]);
@@ -64,11 +65,7 @@ export default function HomeStudent() {
           <Graphic chartData={grades} />
           <Leaderboard leaders={leaders} />
         </div>
-
-        {/* Map */}
-        <div className="bg-white h-[33vh] flex items-center justify-center rounded-lg shadow-md">
-          {/* <p>Мапа</p>*/}
-        </div>
+        <SearchTeachers/>
         {/*<Map />*/}
       </div>
       {/* Right col */}
