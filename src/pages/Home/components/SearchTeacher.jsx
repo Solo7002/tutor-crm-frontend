@@ -185,22 +185,22 @@ const SearchTeacher = () => {
                     src={teacher.ImagePathUrl || "/assets/images/avatar.jpg"}
                     alt="profile"
                   />
-                  <div className="w-[220px] left-[70px] top-[22px] absolute text-[#120c38] text-[15px] font-bold font-['Nunito']">
+                  <div className="w-auto left-[70px] top-[10px] absolute text-[#120c38] text-[15pt] font-bold font-['Nunito']">
                     {teacher.FullName || "Волкова Надія Миколаївна"}
                   </div>
-                  <div className="w-auto left-[70px] top-[43px] absolute text-[#827fae] text-xs font-normal font-['Lato']">
+                  <div className="w-auto left-[70px] top-[30px] absolute text-[#827fae] text-[12pt] font-normal font-['Lato']">
                     {teacher.SubjectName || "Математика"}
                   </div>
                 </div>
 
                 {/* Рейтинг вчителя */}
-                <div className="w-[624px] h-[35px] left-[21px] top-[85px] absolute text-[#6f6f6f] text-xs font-normal font-['Mulish']">
+                <div className="w-[624px] h-[35px] left-[21px] top-[85px] absolute text-[#6f6f6f] text-[12pt] font-normal font-['Mulish']">
                   {teacher.AboutTeacher ||
                     "Привіт! Я, Надія Волкова, вчитель математики та фізики. Я маю власну методику навчання, а також розробила авторські матеріали що гарантує якісне засвоєння нових знань."}
                 </div>
 
                 {/* Ціна */}
-                <div className="right-[50px] top-[29px] absolute text-center text-black text-2xl font-bold font-['Nunito']">
+                <div className="right-[60px] top-[29px] absolute text-center text-black text-2xl font-bold font-['Nunito']">
                   Від {teacher.LessonPrice} грн
                 </div>
               </div>
