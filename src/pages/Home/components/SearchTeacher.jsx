@@ -152,8 +152,8 @@ const SearchTeacher = () => {
         {/* стан загрузки */}
         {loading && <p>Загрузка...</p>}
 
-        {/* Помилка */}
-        {error && <p className="text-center text-red-500">{error}</p>}
+        {/* Помилка 
+        {error && <p className="text-center text-red-500">{error}</p>}*/}
 
         {/* Вчителі і наявність */}
         {teachers.length === 0 && !loading && error && (
