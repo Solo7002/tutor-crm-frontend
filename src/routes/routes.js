@@ -3,7 +3,7 @@ import Login from "../features/Auth/Login";
 import Register from "../features/Auth/Register";
 import ForgotPassword from "../features/Auth/ForgotPassword";
 import AuthLayout from "../layouts/AuthLayout/AuthLayout";
-import Navbar from "../layouts/Navbar";
+import Navbar from "../layouts/Navbar/Navbar";
 import HomeStudent from "../pages/Home/HomeStudent";
 import HometaskStudent from "../pages/Hometasks/HometaskStudent";
 import MaterialsStudent from "../pages/Materials/MaterialsStudent";

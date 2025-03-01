@@ -1,0 +1,203 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@media (max-width: 768px) {
+    /* Стили для скрытия сайдбара */
+    .navbar .sidebar {
+        visibility: hidden;
+        padding-left: 10px;
+    }
+
+    /* Стили для видимого сайдбара */
+    .navbar .sidebar.sidebar-visible {
+        visibility: visible !important;
+        width: 70%;
+        padding-right: 10px;
+    }
+
+    /* Стили для меню */
+    .navbar .menu {
+        align-items: center;
+        padding: 0px;
+        margin: 0px;
+    }
+
+    .navbar .menu div {
+        position: absolute;
+        left: 1vh;
+        top: 3vh;
+        padding: 0px;
+        margin: 0px;
+        height: 5vh !important;
+        width: 5vh !important;
+        visibility: visible;
+        border: 1px solid black !important;
+        border-radius: 50%;
+        background: white;
+    }
+
+    .navbar .menu .nav-item-text {
+        position: absolute;
+        left: 30%;
+        top: 3vh;
+        font-size: 24pt !important;
+    }
+
+    .navbar .menu .navlink {
+        align-items: space-between;
+    }
+
+    .navbar .profile{
+        top: 11vh !important;
+        width: 8vh !important;
+        height: 8vh !important;
+    }
+
+    .navbar .profile-name{
+        top: 12vh !important;
+        left: 38% !important;
+        font-size: 15pt;
+    }
+
+    .navbar .profile-name>div{
+        font-size: 12pt !important;
+    }
+
+    .navbar .navitems{
+        margin-top: 15vh !important;
+        padding: 10px 0px 0px 0px !important;
+    }
+
+    .navbar .navitems .navlink{
+        width: 95% !important;
+        height: 5vh !important;
+    }
+
+    .navbar .navitems .nav-icon{
+        width: 5vh !important;
+        height: 5vh !important;
+    }
+
+    .navbar .navitems .nav-icon svg{
+        width: 35px;
+        height: 35px;
+    }
+
+    .navbar .navitems .navlink .nav-item-text{
+        font-size: 15pt !important;
+        text-wrap: nowrap;
+        margin-left: 3% !important;
+    }
+
+    /* Стили для футера */
+    .navbar .footer {
+        flex-direction: row; 
+        justify-content: space-between !important;
+        gap: 10px;
+    }
+
+    .navbar .footer .navlink  {
+        width: 5vh !important;
+        height: 5vh !important;
+    }
+
+    .navbar .footer .navlink svg {
+        width: 5vh !important;
+        height: 5vh !important;
+    }
+
+    .navbar .footer .navlink div {
+        width: 5vh !important;
+        height: 5vh !important;
+        align-items: center !important;
+        justify-content: center !important;
+        margin: 0px !important;
+        padding: 0px !important;
+    }
+
+    .navbar .sidebar-visible .footer .navlink div,
+    .navbar .sidebar-visible .footer .navlink svg {
+        width: 100% !important; 
+        height: 100% !important; 
+    }
+
+    .navbar .sidebar-visible .footer .nav-icon svg{
+        width: 5vh !important;
+        padding: 5px;
+    }
+
+    .navbar .sidebar-visible .footer .nav-icon svg{
+        width: 5vh !important;
+    }
+   
+    /* Скрываем текст в футере */
+    .navbar .footer .nav-item-text {
+        display: none;
+    }
+
+    /* Стили для кнопок в видимом сайдбаре */
+    .navbar .sidebar-visible .footer a button {
+        visibility: visible !important;
+        display: block;
+        width: 5vh !important;
+        height: 5vh !important;
+        align-items: center !important;
+        justify-content: center !important;
+    }
+
+    .navbar .sidebar-visible .footer a{
+        margin-top: 0px;
+    }
+
+    .navbar .sidebar-visible .footer .navlink{
+        margin: 0px !important;
+        border: 1px solid grey !important;
+        border-opacity: 1;
+        padding: 0px !important;
+        @apply
+        border-gray-300 !important
+    }
+
+    .navbar .sidebar-visible .footer div{
+        align-items: center !important;
+        justify-content: center !important;
+        width: 5vh !important;
+        height: 5vh !important;
+    } 
+    
+    .navbar .sidebar-visible .footer svg{
+        align-items: center !important;
+        justify-content: center !important;
+        width: 5vh !important;
+        height: 5vh !important;
+        padding: 5px;
+    } 
+
+    /* Стили для шапки */
+    .navbar header>span {
+        padding-left: 100px;
+        font-size: 34pt !important;
+    }
+
+    .navbar header {
+        height: 90px !important;
+        background: #f7f0ff;
+        width: 100% !important;
+        @apply shadow-none;
+    }
+
+    .navbar header a {
+        visibility: hidden;
+    }
+
+    .navbar .nav-center {
+        padding: 5px !important;
+    }
+
+    .navbar .nav-center .nav-content {
+        padding: 5px !important;
+        margin: 5px;
+        margin-top: 90px;
+    }
+}
