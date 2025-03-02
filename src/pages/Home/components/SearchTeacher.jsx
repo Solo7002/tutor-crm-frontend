@@ -60,7 +60,7 @@ const SearchTeacher = () => {
   };
 
   return (
-    <div className="bg-[#E0C8FF] w-[100%] h-[33vh] flex flex-col rounded-lg shadow-md justify-between">
+    <div className="bg-[#E0C8FF] w-[100%] h-[33vh] flex flex-col rounded-lg shadow-md justify-between search-teachers-last">
       <div className="flex h-20 w-[100%] relative">
         <div className="flex p-4-lg p-3">
           {/* Вид навчання */}
@@ -80,7 +80,7 @@ const SearchTeacher = () => {
               borderRadius: "9999px",
             }}
           >
-            <option value="" disabled>
+            <option value="">
               Вид навчання
             </option>
             {lessonTypeOptions.map((option) => (
@@ -107,7 +107,7 @@ const SearchTeacher = () => {
               borderRadius: "9999px",
             }}
           >
-            <option value="" disabled>
+            <option value="">
               Формат
             </option>
             {meetingTypeOptions.map((option) => (
@@ -119,10 +119,10 @@ const SearchTeacher = () => {
         </div>
 
         {/* Шукати */}
-        <div className="m-4 h-12 justify-end items-center inline-flex">
+        <div className="m-4 h-12 justify-end items-center inline-flex find">
           <Link to="/student/search">
             <div className="absolute top-[20px] right-[20px] w-[420px] h-12 px-4 py-2 bg-white rounded-[40px] justify-end items-center gap-2.5 flex border hover:border-[#8a48e6]">
-              <div className="grow shrink basis-0 text-[#827ead] text-[15px] font-normal font-['Nunito']">
+              <div className="grow shrink basis-0 text-[#827ead] text-[15px] font-normal font-['Nunito'] find-text">
                 Шукати
               </div>
               <div data-svg-wrapper>
@@ -148,7 +148,7 @@ const SearchTeacher = () => {
       </div>
 
       {/* Блок вчителів */}
-      <div className="flex flex-col h-[calc(33vh-80px)] mb-2 pb-2 overflow-y-auto">
+      <div className="flex flex-col h-[calc(33vh-80px)] mb-2 pb-2 overflow-y-auto cards">
         {/* стан загрузки */}
         {loading && <p>Загрузка...</p>}
 
@@ -162,14 +162,14 @@ const SearchTeacher = () => {
 
         {/* Картки вчителів */}
         {teachers.length > 0 && (
-          <div className="space-y-4">
+          <div className="space-y-4 card-teacher">
             {teachers.map((teacher) => (
               <div key={teacher.TeacherId} className="relative my-1 mx-5">
                 {/* Основний блок картки */}
                 <div className="w-[100%] h-[138px] bg-white rounded-2xl border border-[#8a48e6]" />
 
                 {/* Переглянути */}
-                <div className="w-[200px] h-10 px-4 py-2 right-[20px] top-[83px] absolute bg-[#8a48e6] rounded-[40px] justify-center items-center gap-2.5 inline-flex">
+                <div className="w-[200px] h-10 px-4 py-2 right-[20px] top-[83px] absolute bg-[#8a48e6] rounded-[40px] justify-center items-center gap-2.5 inline-flex card-btn">
                   <Link
                     to={`/teacher/profile/${teacher.TeacherId}`}
                     className="text-white text-[15px] font-bold font-['Nunito']"
@@ -188,19 +188,19 @@ const SearchTeacher = () => {
                   <div className="w-auto left-[70px] top-[10px] absolute text-[#120c38] text-[15pt] font-bold font-['Nunito']">
                     {teacher.FullName || "Волкова Надія Миколаївна"}
                   </div>
-                  <div className="w-auto left-[70px] top-[30px] absolute text-[#827fae] text-[12pt] font-normal font-['Lato']">
+                  <div className="w-auto left-[70px] top-[30px] absolute text-[#827fae] text-[12pt] font-normal font-['Lato'] subjects-teacher">
                     {teacher.SubjectName || "Математика"}
                   </div>
                 </div>
 
                 {/* Рейтинг вчителя */}
-                <div className="w-[624px] h-[35px] left-[21px] top-[85px] absolute text-[#6f6f6f] text-[12pt] font-normal font-['Mulish']">
+                <div className="w-[624px] h-[35px] left-[21px] top-[85px] absolute text-[#6f6f6f] text-[12pt] font-normal font-['Mulish'] about-teacher">
                   {teacher.AboutTeacher ||
                     "Привіт! Я, Надія Волкова, вчитель математики та фізики. Я маю власну методику навчання, а також розробила авторські матеріали що гарантує якісне засвоєння нових знань."}
                 </div>
 
                 {/* Ціна */}
-                <div className="right-[60px] top-[29px] absolute text-center text-black text-2xl font-bold font-['Nunito']">
+                <div className="right-[60px] top-[29px] absolute text-center text-black text-2xl font-bold font-['Nunito'] price-teacher">
                   Від {teacher.LessonPrice} грн
                 </div>
               </div>

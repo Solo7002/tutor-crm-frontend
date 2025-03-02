@@ -57,22 +57,40 @@ export default function HomeStudent() {
 
   return (
     <div className="flex flex-col md:flex-row bg-[#F6EEFF] p-2 min-h-[90vh] overflow-hidden">
-      {/* Left col */}
-      <div className="w-full md:w-9/12 pr-4 mb-2 md:mb-0">
+      {/* Общий контейнер для всех блоков */}
+      <div className="flex flex-col w-full md:hidden">
+        {/* Greetings */}
         <Greetings />
-        {/* Graphic and leader flex box */}
-        <div className="flex flex-col md:flex-row gap-4 mb-6 h-[30vh]">
-          <Graphic chartData={grades} />
-          <Leaderboard leaders={leaders} />
-        </div>
-        <SearchTeachers/>
-        {/*<Map />*/}
-      </div>
-      {/* Right col */}
-      <div className="w-full md:w-3/12 ml-auto mr-4">
-        <Schedule days={days} />
+        {/* Graphic */}
+        <Graphic chartData={grades} />
+        {/* MarkHistory */}
         <MarkHistory grades={grades} />
+        {/* NearestEvents */}
         <NearestEvents events={events} />
+
+        <Leaderboard leaders={leaders} />
+        {/* SearchTeachers - будет последним */}
+        <SearchTeachers />
+      </div>
+
+      {/* Desktop layout */}
+      <div className="hidden md:flex md:flex-row w-full">
+        {/* Left col */}
+        <div className="w-full md:w-9/12 pr-4 mb-2 md:mb-0">
+          <Greetings />
+          {/* Graphic and leader flex box */}
+          <div className="flex flex-col md:flex-row gap-4 mb-6 h-[30vh]">
+            <Graphic chartData={grades} />
+            <Leaderboard leaders={leaders} />
+          </div>
+          <SearchTeachers />
+        </div>
+        {/* Right col */}
+        <div className="w-full md:w-3/12 ml-auto mr-4">
+          <Schedule days={days} className="schedule-mobile-hidden" />
+          <MarkHistory grades={grades} />
+          <NearestEvents events={events} />
+        </div>
       </div>
     </div>
   );

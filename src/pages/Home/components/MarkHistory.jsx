@@ -56,7 +56,7 @@ const MarkHistory = ({ grades }) => {
   };
 
   return (
-    <div className="bg-white p-4 rounded-lg mb-6 shadow-md h-[30vh] overflow-y-auto "> {/*no-scrollbar*/}
+    <div className="bg-white p-4 rounded-lg mb-6 shadow-md h-[30vh] overflow-y-auto marks"> {/*no-scrollbar*/}
       <h2
         className="text-lg font-semibold"
         style={{

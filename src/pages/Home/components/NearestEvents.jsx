@@ -2,7 +2,7 @@ import React from 'react';
 
 const NearestEvents = ({ events }) => {
   return (
-    <div className="bg-white p-4 rounded-lg shadow-md h-[25vh] overflow-y-auto">
+    <div className="bg-white p-4 rounded-lg shadow-md h-[25vh] overflow-y-auto events">
       {/* Header */}
       <h2
         className="text-lg font-semibold mt-1 mb-3"

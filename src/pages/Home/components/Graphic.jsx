@@ -120,7 +120,7 @@ const Graphic = ({ chartData }) => {
     };
 
     return (
-        <div className="flex-1 bg-white p-4 rounded-lg shadow-md h-full relative">
+        <div className="flex-1 bg-white p-4 rounded-lg shadow-md h-full relative graphic">
             {/* Header */}
             <h2
                 className="text-[#120c38] text-2xl font-bold font-['Nunito'] absolute top-[18px] left-[40px]"
@@ -131,6 +131,7 @@ const Graphic = ({ chartData }) => {
 
             {/* Graphic */}
             <Chart
+                className="chart"
                 options={options}
                 series={[
                     {

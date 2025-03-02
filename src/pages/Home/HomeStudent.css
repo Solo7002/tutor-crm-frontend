@@ -22,34 +22,6 @@
     pointer-events: none;
 }
 
-/* Leaders table */
-/* .custom-select {
-    font-family: "Nunito", sans-serif;
-    font-weight: 700;
-    font-size: 15px;
-    line-height: 20.46px;
-    letter-spacing: -0.5%;
-    color: #827FAE;
-    border: 1px solid #ccc;
-    padding: 10px;
-    border-radius: 4px;
-    background-color: white;
-    appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none; 
-    cursor: pointer; 
-  }
-  
-  .custom-select option {
-    font-family: "Nunito", sans-serif;
-    font-weight: 700;
-    font-size: 15px;
-    line-height: 20.46px;
-    letter-spacing: -0.5%;
-    color: #827FAE;
-    background-color: white;
-  } */
-
   .custom-select {
     position: relative;
     padding-right: 30px;
@@ -88,4 +60,153 @@
   
   .custom-scrollbar::-webkit-scrollbar-track {
     background-color: #E0C8FF;
+  }
+  
+  @media (max-width: 768px) {
+    /* Главный контейнер должен быть в колонку */
+    .schedule-mobile-hidden {
+      display: none !important;
+    }
+  
+    /* Перемещаем SearchTeachers в конец */
+    .order-last {
+      order: 5 !important; /* Порядковый номер для размещения в конце */
+    }
+  
+    /* Главный контейнер должен быть в колонку */
+    .flex.flex-col.w-full.md\\:hidden {
+      flex-direction: column !important;
+    }
+  
+    /* Убираем ширину для mobile */
+    .w-full.md\\:w-9\\/12,
+    .w-full.md\\:w-3\\/12 {
+      width: 100% !important;
+    }
+  
+    /* Добавляем прокрутку для содержимого */
+    .min-h-\[90vh\] {
+      min-height: 100vh !important;
+      overflow-y: auto !important;
+    }
+  
+    /* Graphic и Leaderboard должны быть в столбец */
+    .flex.flex-col.gap-4.mb-6 {
+      flex-direction: column !important;
+    }
+    .greetings{
+      padding: 0px !important;
+      height: clamp(21vh, 2vw, 35vh) !important;
+    }
+    .greetings>div{
+      padding-right: 5px !important;
+    }
+    .greetings>div>div{
+      font-size: 20pt !important;
+      width: auto !important;
+      word-wrap: nowrap !important;
+      margin-bottom: 5px;
+      position: absolute;
+    }
+    .greetings>div>p{
+      font-size: clamp(5pt, 2vw, 12pt) !important;
+      margin-bottom: 5px;
+      width: auto !important;
+      margin-top: clamp(40px, 2vw, 50px);
+      line-height: 12.55px;
+      width: clamp(40%, 2vw, 60%) !important;
+      position: absolute;
+    }
+    .greetings>svg{
+      margin-left: 20px !important;
+      margin-right: 0px;
+    }
+
+    .graphic{
+      margin-bottom: 24px;
+    }
+
+    .graphic>h2{
+      font-size: 20pt;
+      left: 30px;
+    }
+
+    .graphic .chart{
+      height: 90% !important;
+    }
+
+    .graphic .apexcharts-legend-text{
+        font-size: 8pt !important;
+    }
+    .graphic .apexcharts-legend{
+      display: flex;
+      flex-direction: column;
+    }
+
+    .graphic tspan{
+      font-size: 8pt !important;
+    }
+
+    .marks{
+      height: 40vh !important;
+    }
+
+    .events {
+      margin-bottom: 24px;
+      height: 20vh !important;
+    }
+
+    .leaders{
+      margin-bottom: 24px;
+      height: 50vh !important;
+    }
+
+    .leaders>div>div{
+      padding-left: 0px;
+      word-wrap: nowrap;
+      font-size: clamp(14pt, 2pt, 18pt) !important;
+    }
+
+    .leaders ol{
+      padding-left: 0px;
+    }
+
+    .search-teachers-last select.custom-select {
+      width: 100% !important;
+      margin-bottom: 0;
+    }
+  
+    .search-teachers-last .flex.p-4-lg {
+      display: flex !important;
+      flex-direction: column !important; 
+      align-items: center !important; 
+      padding: 10px !important;
+    }
+
+    .search-teachers-last .custom-select{
+      height: 3vh !important;
+    }
+    
+    .search-teachers-last .find>a>div{
+      width: 5vh !important;
+      height: 5vh !important;
+      padding: 5px;
+    }
+
+    .search-teachers-last .find .find-text{
+      display: none !important;
+    }
+
+    .search-teachers-last .cards .card-teacher .about-teacher{
+      display: none;
+    }
+
+    .search-teachers-last .cards .card-teacher .price-teacher{
+      left: -140px;
+      top: 85px;
+    }
+
+    .search-teachers-last .cards .card-teacher .card-btn{
+      width: 150px;
+    }
   }

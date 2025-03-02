@@ -18,7 +18,7 @@ const Leaderboard = ({ leaders }) => {
     }, [leaders, selectedSubject]);
 
     return (
-        <div className="flex-1 bg-white p-4 rounded-lg shadow-md h-full">
+        <div className="flex-1 bg-white p-4 rounded-lg shadow-md h-full leaders">
             {/* Filter by Subject */}
             <div className="flex justify-between">
                 <div
