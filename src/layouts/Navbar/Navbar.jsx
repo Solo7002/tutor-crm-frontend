@@ -7,7 +7,7 @@ const Navbar = () => {
   const [activeFooterItem, setActiveFooterItem] = useState(null);
   const location = useLocation();
 
-  const userRole = localStorage.getItem("role") || "Student"; // "Student" / "Teacher"
+  const userRole = localStorage.getItem("role") || "Teacher"; // "Student" / "Teacher"
 
   const getDefaultActiveNavItem = () => {
     if (userRole === "Student") {
@@ -33,7 +33,7 @@ const Navbar = () => {
         case "/student/settings":
           return "settings";
         default:
-          return "home";
+          return "profile";
       }
     } else if (userRole === "Teacher") {
       switch (location.pathname) {
@@ -58,7 +58,7 @@ const Navbar = () => {
         case "/teacher/settings":
           return "settings";
         default:
-          return "home";
+          return "profile";
       }
     }
   };
@@ -411,7 +411,7 @@ const Navbar = () => {
       location.pathname.startsWith(link.path)
     );
 
-    return currentLink?.label || "Головна";
+    return currentLink?.label || "Профіль";
   };
 
   const [currentPageTitle, setCurrentPageTitle] = useState(getDefaultPageTitle());
@@ -440,7 +440,7 @@ const Navbar = () => {
         </div>
         {/* Profile Section */}
 
-        <Link to="/">
+        <Link to={userRole == "Student" ? "/student/profile" : "/teacher/profile"}>
           <div 
             className="profile"
             style={{

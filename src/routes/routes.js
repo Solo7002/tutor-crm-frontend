@@ -4,12 +4,12 @@ import Register from "../features/Auth/Register";
 import ForgotPassword from "../features/Auth/ForgotPassword";
 import AuthLayout from "../layouts/AuthLayout/AuthLayout";
 import Navbar from "../layouts/Navbar/Navbar";
-import HomeStudent from "../pages/Home/HomeStudent";
+import HomeStudent from "../pages/Home/HomeStudent/HomeStudent";
 import HometaskStudent from "../pages/Hometasks/HometaskStudent";
 import MaterialsStudent from "../pages/Materials/MaterialsStudent";
 import TestStudent from "../pages/Tests/TestStudent"
 import ProfileTeacher from "../pages/Profile/ProfileTeacher";
-import HomeTeacher from "../pages/Home/HomeTeacher";
+import HomeTeacher from "../pages/Home/HomeTeacher/HomeTeacher";
 
 const AppRoutes = () => {
   return (

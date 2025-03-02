@@ -60,12 +60,12 @@ const Schedule = ({ days }) => {
     <div className="bg-white p-4 rounded-lg mb-6 shadow-md h-[28vh] justify-center items-start gap-[22.67px] overflow-hidden schedule-mobile-hidden">
       {/* Header */}
       <h2
-        className="text-lg font-semibold m-4"
+        className="text-lg font-semibold m-3"
         style={{
           fontFamily: "Nunito",
           fontWeight: "700",
-          fontSize: "22pt",
-          lineHeight: "19.2pt",
+          fontSize: "16pt",
+          lineHeight: "10.2pt",
           letterSpacing: "0.59pt",
           color: "#120C38",
         }}
