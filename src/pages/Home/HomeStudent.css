@@ -188,8 +188,8 @@
     }
     
     .search-teachers-last .find>a>div{
-      width: 5vh !important;
-      height: 5vh !important;
+      width: 45px !important;
+      height: 45px !important;
       padding: 5px;
     }
 
@@ -202,11 +202,19 @@
     }
 
     .search-teachers-last .cards .card-teacher .price-teacher{
-      left: -140px;
+      left: -120px;
       top: 85px;
+      font-size: 5vw;
     }
 
     .search-teachers-last .cards .card-teacher .card-btn{
       width: 150px;
+    }
+
+    .search-teachers-last .cards .card-teacher .subjects-teacher{
+      width: 60% !important;
+      font-size: 4vw;
+      line-height: 15px;
+      margin-top: 5px;
     }
   }
