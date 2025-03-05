@@ -440,7 +440,7 @@ const Navbar = () => {
         </div>
         {/* Profile Section */}
 
-        <Link to={userRole == "Student" ? "/student/profile" : "/teacher/profile"}>
+        <Link to={userRole === "Student" ? "/student/profile" : "/teacher/profile"}>
           <div 
             className="profile"
             style={{
@@ -547,6 +547,7 @@ const Navbar = () => {
                 }
               }
               }
+              onClick={handleFooterItemClick}
             >
               <div style={{ width: "24px", height: "24px", display: "flex", alignItems: "center", justifyContent: "center", alignContent: "center" }}>
                 {<svg className="stroke-[#120C38] transition-colors duration-300 " width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -559,6 +560,7 @@ const Navbar = () => {
           <Link to="/">
             <button
               className="rounded-full border border-gray-300 transition-all duration-300 hidden"
+              onClick={handleFooterItemClick}
             >
               <div style={{ width: "24px", height: "24px", display: "flex", alignItems: "center", justifyContent: "center" }}>
                 {<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

@@ -16,6 +16,7 @@ export default function HomeStudent() {
   const [grades, setGrades] = useState([]);
   const [events, setEvents] = useState([]);
   const [days, setDays] = useState([]);
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
     const fetchStudentData = async () => {
@@ -47,6 +48,11 @@ export default function HomeStudent() {
         const daysResponse = await axios.get(`http://localhost:4000/api/students/${studentId}/days`);
         setDays(daysResponse.data);
 
+        const userResponse = await axios.get(`http://localhost:4000/api/students/${studentId}/user`);
+        console.log(userResponse);
+        
+        setUser(userResponse.data);
+
       } catch (error) {
         console.error('Error fetching student data:', error);
       }
@@ -60,7 +66,7 @@ export default function HomeStudent() {
       {/* Общий контейнер для всех блоков */}
       <div className="flex flex-col w-full md:hidden">
         {/* Greetings */}
-        <Greetings />
+        <Greetings user={user}/>
         {/* Graphic */}
         <Graphic chartData={grades} />
         {/* MarkHistory */}
@@ -77,7 +83,7 @@ export default function HomeStudent() {
       <div className="hidden md:flex md:flex-row w-full">
         {/* Left col */}
         <div className="w-full md:w-9/12 pr-4 mb-2 md:mb-0">
-          <Greetings />
+          <Greetings user={user}/>
           {/* Graphic and leader flex box */}
           <div className="flex flex-col md:flex-row gap-4 mb-6 h-[30vh]">
             <Graphic chartData={grades} />

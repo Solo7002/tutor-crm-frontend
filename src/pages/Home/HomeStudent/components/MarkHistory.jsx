@@ -40,7 +40,7 @@ const MarkHistory = ({ grades }) => {
       default:
         return "Домашнє завдання";
     }
-  }
+  };
 
   const getBgMark = (type) => {
     switch (type) {
@@ -56,9 +56,9 @@ const MarkHistory = ({ grades }) => {
   };
 
   return (
-    <div className="bg-white p-4 rounded-lg mb-6 shadow-md h-[30vh] overflow-y-auto marks"> {/*no-scrollbar*/}
+    <div className="bg-white rounded-lg mb-6 shadow-md h-[30vh] overflow-y-auto marks relative">
       <h2
-        className="text-lg font-semibold"
+        className="text-lg font-semibold sticky top-0 bg-white z-10 w-full py-4 px-4"
         style={{
           fontFamily: "Nunito",
           fontWeight: "700",
@@ -70,24 +70,26 @@ const MarkHistory = ({ grades }) => {
       >
         Історія оцінок
       </h2>
-      <ul className="mt-4 custom-scrollbar">
-        {grades.map((grade, index) => (
-          <li key={index} className="mb-2 flex items-center">
-            {/* Icon */}
-            <div className="mr-4">{getIcon(grade.type)}</div>
-            {/* Content */}
-            <div>
-              <div className="text-[#6f6f6f] text-[10pt] font-normal font-['Mulish']">{grade.date}</div>
-              <div className="text-black text-[14pt] font-semibold font-['Segoe UI']">{grade.subject}</div>
-              <div className="text-[#6f6f6f] text-[10pt] font-normal font-['Mulish']">{getTypeUkr(grade.type)}</div>
-            </div>
-            {/* Grade Circle */}
-            <div className="ml-auto w-10 h-10 rounded flex items-center justify-center" style={{ backgroundColor: getBgMark(grade.type) }}>
-              <div className="text-center text-white text-[15px] font-semibold font-['Segoe UI']">{grade.grade}</div>
-            </div>
-          </li>
-        ))}
-      </ul>
+      <div className="px-4 pb-4">
+        <ul className="custom-scrollbar">
+          {grades.map((grade, index) => (
+            <li key={index} className="mb-2 flex items-center">
+              {/* Icon */}
+              <div className="mr-4">{getIcon(grade.type)}</div>
+              {/* Content */}
+              <div>
+                <div className="text-[#6f6f6f] text-[10pt] font-normal font-['Mulish']">{grade.date}</div>
+                <div className="text-black text-[14pt] font-semibold font-['Segoe UI']">{grade.subject}</div>
+                <div className="text-[#6f6f6f] text-[10pt] font-normal font-['Mulish']">{getTypeUkr(grade.type)}</div>
+              </div>
+              {/* Grade Circle */}
+              <div className="ml-auto w-10 h-10 rounded flex items-center justify-center" style={{ backgroundColor: getBgMark(grade.type) }}>
+                <div className="text-center text-white text-[15px] font-semibold font-['Segoe UI']">{grade.grade}</div>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 };
