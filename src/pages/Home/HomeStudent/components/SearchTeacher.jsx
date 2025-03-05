@@ -60,8 +60,8 @@ const SearchTeacher = () => {
   };
 
   return (
-    <div className="bg-[#E0C8FF] w-[100%] h-[33vh] flex flex-col rounded-lg shadow-md justify-between search-teachers-last">
-      <div className="flex h-20 w-[100%] relative">
+    <div className="bg-[#E0C8FF] w-[100%] h-[33vh] flex flex-col rounded-lg shadow-md justify-between search-teachers-last relative">
+      <div className="flex h-20 w-[100%] selects">
         <div className="flex p-4-lg p-3">
           {/* Вид навчання */}
           <select
@@ -166,7 +166,7 @@ const SearchTeacher = () => {
             {teachers.map((teacher) => (
               <div key={teacher.TeacherId} className="relative my-1 mx-5">
                 {/* Основний блок картки */}
-                <div className="w-[100%] h-[138px] bg-white rounded-2xl border border-[#8a48e6]" />
+                <div className="w-[100%] h-[138px] bg-white rounded-2xl border border-[#8a48e6] main-card-teacher" />
 
                 {/* Переглянути */}
                 <div className="w-[200px] h-10 px-4 py-2 right-[20px] top-[83px] absolute bg-[#8a48e6] rounded-[40px] justify-center items-center gap-2.5 inline-flex card-btn">

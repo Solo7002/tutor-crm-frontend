@@ -171,6 +171,17 @@
       padding-left: 0px;
     }
 
+    .search-teachers-last{
+      height: 70vh !important;
+      position: relative;
+    }
+
+    .search-teachers-last .selects{
+      margin-top: 60px;
+      justify-content: center;
+      display: block;
+    }
+
     .search-teachers-last select.custom-select {
       width: 100% !important;
       margin-bottom: 0;
@@ -178,37 +189,57 @@
   
     .search-teachers-last .flex.p-4-lg {
       display: flex !important;
-      flex-direction: column !important; 
       align-items: center !important; 
       padding: 10px !important;
     }
 
     .search-teachers-last .custom-select{
-      height: 3vh !important;
+      height: 48px !important;
+
     }
     
+    .search-teachers-last .find{
+      top: 10px;
+    }
+
     .search-teachers-last .find>a>div{
-      width: 45px !important;
-      height: 45px !important;
+      width: 90% !important;
       padding: 5px;
     }
 
     .search-teachers-last .find .find-text{
-      display: none !important;
+      padding: 10px;
+    }
+
+    .search-teachers-last .cards{
+      height: 60vh;
+    }
+
+    .search-teachers-last .cards .card-teacher{
+      height: 60vh;
+    }
+
+    .search-teachers-last .cards .card-teacher>div{
+      height: 228px;
+    }
+
+    .search-teachers-last .cards .card-teacher .main-card-teacher{
+      height: 228px;
     }
 
     .search-teachers-last .cards .card-teacher .about-teacher{
-      display: none;
+      width: auto;
     }
 
     .search-teachers-last .cards .card-teacher .price-teacher{
       left: -120px;
-      top: 85px;
+      top: 175px !important;
       font-size: 5vw;
     }
 
     .search-teachers-last .cards .card-teacher .card-btn{
       width: 150px;
+      top: 170px !important;
     }
 
     .search-teachers-last .cards .card-teacher .subjects-teacher{
