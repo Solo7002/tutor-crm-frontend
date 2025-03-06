@@ -1,25 +1,26 @@
 import React, { useState, useEffect } from "react";
 
 const Leaderboard = ({ leaders }) => {
-    const [selectedSubject, setSelectedSubject] = useState("Усі предмети");
+    const [selectedGroup, setSelectedGroup] = useState("Усі групи");
     const [filteredLeaders, setFilteredLeaders] = useState([]);
 
-    const subjects = ["Усі предмети", ...new Set(leaders.map((leader) => leader.subject))];
+    const groups = ["Усі групи", ...new Set(leaders.map((leader) => leader.group))];
+
     useEffect(() => {
         const getFilteredLeaders = () => {
-            if (selectedSubject === "Усі предмети") {
+            if (selectedGroup === "Усі групи") {
                 return Array.from(new Map(leaders.map((leader) => [leader.email, leader])).values());
             } else {
-                return leaders.filter((leader) => leader.subject === selectedSubject);
+                return leaders.filter((leader) => leader.group === selectedGroup);
             }
         };
 
         setFilteredLeaders(getFilteredLeaders());
-    }, [leaders, selectedSubject]);
+    }, [leaders, selectedGroup]);
 
     return (
         <div className="flex-1 bg-white p-4 rounded-lg shadow-md h-full leaders">
-            {/* Filter by Subject */}
+            {/* Filter by Group */}
             <div className="flex justify-between">
                 <div
                     className="text-lg font-semibold w-auto pl-3"
@@ -36,8 +37,8 @@ const Leaderboard = ({ leaders }) => {
                 </div>
                 <select
                     className="border pr-3 w-auto custom-select"
-                    value={selectedSubject}
-                    onChange={(e) => setSelectedSubject(e.target.value)}
+                    value={selectedGroup}
+                    onChange={(e) => setSelectedGroup(e.target.value)}
                     style={{
                         fontFamily: "Nunito",
                         fontWeight: "700",
@@ -49,10 +50,10 @@ const Leaderboard = ({ leaders }) => {
                         borderRadius: "9999px",
                     }}
                 >
-                    {/* Options for selecting a subject */}
-                    {subjects.map((subject, index) => (
-                        <option key={index} value={subject}>
-                            {subject}
+                    {/* Options for selecting a group */}
+                    {groups.map((group, index) => (
+                        <option key={index} value={group}>
+                            {group}
                         </option>
                     ))}
                 </select>
