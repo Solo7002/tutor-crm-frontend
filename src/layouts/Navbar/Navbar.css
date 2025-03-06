@@ -2,7 +2,19 @@
 @tailwind components;
 @tailwind utilities;
 
+.navbar .bg-nav-pattern{
+    background-image: url('../../../public/assets/patterns/pattern4.png');
+    background-repeat: repeat;
+    background-size: 200%;
+    opacity: 0.2;
+    pointer-events: none;
+}
+
 @media (max-width: 768px) {
+    .navbar .bg-nav-pattern{
+        display: none;
+    }
+
     /* Стили для скрытия сайдбара */
     .navbar .sidebar {
         visibility: hidden;

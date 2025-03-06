@@ -734,6 +734,7 @@ const Navbar = () => {
           )}
           <Outlet />
         </div>
+        <div className="absolute top-[80px] right-0 bg-repeat h-[90vh] w-[60px] bg-nav-pattern"/>
       </div>
     </div>
   );

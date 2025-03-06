@@ -175,7 +175,7 @@ export default function HomeTeacher() {
         reviewsReceived: 30,
         prevReviewsReceived: 35, // (-5) красным
         rating: 4.6,
-      });
+    });
     const [user, setUser] = useState({
         email: "test@example.com",
         firstName: "John",
@@ -224,6 +224,14 @@ export default function HomeTeacher() {
 
     return (
         <div className="flex flex-col md:flex-row bg-[#F6EEFF] p-2 min-h-[90vh] overflow-hidden">
+            <div className="flex flex-col w-full md:hidden space-y-4">
+                <Greetings user={user} />
+                <Productivity productivityData={productivityData} />
+                <LatestActivity activities={activities} />
+                <NearestEvents events={events} />
+                <Leaderboard leaders={leaders} />
+                <Graphic chartData={grades} />
+            </div>
             <div className="hidden md:flex md:flex-row w-full">
                 {/* Left col */}
                 <div className="w-full md:w-9/12 pr-4 mb-2 md:mb-0">
