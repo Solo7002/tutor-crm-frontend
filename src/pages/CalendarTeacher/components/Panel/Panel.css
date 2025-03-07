@@ -1,0 +1,70 @@
+/* Panel.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Кастомный слой для стилей с opacity */
+@layer components {
+  .bg-opacity-10 {
+    @apply bg-opacity-10;
+  }
+}
+
+.panel-container {
+    @apply w-full h-36 sm:h-44 md:h-48 relative overflow-hidden rounded-2xl bg-[#1E1A3C];
+}
+
+.panel-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('/public/assets/patterns/pattern4.png');
+    opacity: 0.1; /* Прозрачность 10% */
+    z-index: 0;
+    background-size:contain;
+    background-position: center;
+    background-repeat:repeat;
+}
+
+.panel-content {
+    @apply relative z-10 h-full flex flex-col justify-between p-4 sm:p-5 md:p-6;
+}
+
+.panel-text {
+    @apply text-center;
+}
+
+.panel-title {
+    @apply text-white text-2xl sm:text-3xl font-bold font-['Nunito'];
+}
+
+.panel-subtitle {
+    @apply text-[#827ead] text-sm sm:text-base font-normal font-['Mulish'] mt-2 max-w-60 mx-auto;
+}
+
+.panel-button-wrapper {
+    @apply flex justify-center;
+}
+
+.panel-button {
+    @apply w-28 sm:w-32 h-9 sm:h-10 px-4 py-2 bg-[#8a48e6] rounded-3xl text-white text-sm sm:text-base font-bold font-['Nunito'];
+}
+
+.panel-decor-left {
+    @apply absolute left-0 top-0 sm:w-80;
+}
+
+.panel-svg-left {
+    @apply absolute left-0 top-0 w-full h-auto;
+}
+
+.panel-decor-right {
+    @apply absolute right-0 bottom-0 sm:w-80;
+}
+
+.panel-svg-right {
+    @apply absolute right-0 bottom-0 w-full h-auto;
+}

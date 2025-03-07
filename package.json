@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@headlessui/react": "^2.2.0",
     "@radix-ui/react-dialog": "^1.1.6",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^16.2.0",
@@ -15,8 +16,10 @@
     "leaflet": "^1.9.4",
     "lucide-react": "^0.475.0",
     "luxon": "^3.5.0",
+    "motion": "^12.4.7",
     "react": "^19.0.0",
     "react-apexcharts": "^1.7.0",
+    "react-big-calendar": "^1.18.0",
     "react-calendar": "^5.1.0",
     "react-dom": "^19.0.0",
     "react-leaflet": "^5.0.0",
