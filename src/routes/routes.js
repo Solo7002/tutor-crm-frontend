@@ -9,6 +9,7 @@ import HometaskStudent from "../pages/Hometasks/HometaskStudent";
 import MaterialsStudent from "../pages/Materials/MaterialsStudent";
 import TestStudent from "../pages/Tests/TestStudent"
 import ProfileTeacher from "../pages/Profile/ProfileTeacher";
+import EditProfileTeacher from "../pages/EditProfile/EditProfileTeacher";
 import CalendarTeacher from "../pages/CalendarTeacher/CalendarTeacher";
 import RunTestStudent from "../pages/Tests/RunTestStudent";
 import DoneTestStudent from "../pages/Tests/DoneTestStudent";
@@ -57,6 +58,7 @@ const AppRoutes = () => {
           {/* <Route path="info" element={<InfoTeacher />} /> */}
           {/* <Route path="settings" element={<SettingsTeacher />} /> */}
           <Route path="profile" element={<ProfileTeacher />} />
+          <Route path="profile/edit" element={<EditProfileTeacher />} />
         </Route>
 
         <Route path="*" element={<Navigate to="/" replace />} /> {/* Заглушка */}
