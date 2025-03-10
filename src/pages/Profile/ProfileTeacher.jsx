@@ -3,16 +3,20 @@ import './ProfileTeacher.css';
 import Comment from './components/Comment';
 import axios from 'axios';
 import CourseList from './components/CourseList';
+import { useNavigate } from 'react-router-dom';
 
 export default function ProfileTeacher() {
+    const navigate = useNavigate();
     const [user, setUser] = useState({});
     const [teacher, setTeacher] = useState({});
+    // const [courses, setCourses] = useState([]);
 
     useEffect(() => {
         setUser(JSON.parse(sessionStorage.getItem("user")));
-        axios.get('http://localhost:4000/api/teachers/search', { params: { UserId: user.UserId } }).then(res => {
+        axios.get('http://localhost:4000/api/teachers/info', { params: { UserId: user.UserId } }).then(res => {
             console.log('res', res)
-            setTeacher(res.data.data[0]);
+            setTeacher(res.data.teacher);
+            // setCourses(res.data.courses);
         })
         // eslint-disable-next-line
     }, [])
@@ -47,10 +51,8 @@ export default function ProfileTeacher() {
                             </div>
 
                             <div className="w-[200px] mx-auto">
-                                <div className="w-full h-8 px-4 py-2 rounded-[40px] border border-[#8a48e6] flex justify-center items-center gap-2.5">
-                                    <div className="text-[#8a48e6] text-[15px] font-bold font-['Nunito']">
+                                <div className="w-full h-8 px-4 py-2 rounded-[40px] border border-[#8a48e6] flex justify-center hover:bg-[#632DAE] hover:text-white items-center gap-2.5 text-[#8a48e6] text-[15px] font-bold font-['Nunito']" onClick={() => navigate("/teacher/profile/edit")}>
                                         Редагувати профіль
-                                    </div>
                                 </div>
                             </div>
 

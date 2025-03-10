@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import '../ProfileTeacher.css';
 
-const CourseList = () => {
+const CourseList = ({courses}) => {
     const [expandedCourses, setExpandedCourses] = useState({});
 
-    const courses = [
+    courses = [
         { name: 'Математика' },
         { name: 'Фізика' },
     ];
