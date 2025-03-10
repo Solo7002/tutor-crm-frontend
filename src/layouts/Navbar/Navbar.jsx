@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import { Link, useLocation, Outlet } from "react-router-dom";
+import "./Navbar.css";
 
 const Navbar = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [activeFooterItem, setActiveFooterItem] = useState(null);
   const location = useLocation();
 
-  const userRole = localStorage.getItem("role") || "Student"; // "Student" / "Teacher"
+  const userRole = localStorage.getItem("role") || "Teacher"; // "Student" / "Teacher"
 
   const getDefaultActiveNavItem = () => {
     if (userRole === "Student") {
@@ -31,7 +33,7 @@ const Navbar = () => {
         case "/student/settings":
           return "settings";
         default:
-          return "home";
+          return "profile";
       }
     } else if (userRole === "Teacher") {
       switch (location.pathname) {
@@ -56,15 +58,16 @@ const Navbar = () => {
         case "/teacher/settings":
           return "settings";
         default:
-          return "home";
+          return "profile";
       }
     }
   };
 
   const [activeNavItem, setActiveNavItem] = useState(getDefaultActiveNavItem());
 
-  const handleNavItemClick = (navItem) => {
+  const handleNavItemClick = (navItem, label) => {
     setActiveNavItem(navItem);
+    setCurrentPageTitle(label);
     if (isSidebarOpen) setIsSidebarOpen(false);
   };
 
@@ -126,6 +129,7 @@ const Navbar = () => {
 
     return (
       <Link
+        className="navlink"
         to={to}
         style={baseButtonStyle}
         onMouseEnter={(e) => {
@@ -202,6 +206,7 @@ const Navbar = () => {
       >
         {/* Icon */}
         <div
+        className="nav-icon"
           style={{
             width: "40px",
             height: "40px",
@@ -234,6 +239,9 @@ const Navbar = () => {
     );
   };
 
+  const handleFooterItemClick = (itemKey) => {
+    setActiveFooterItem(itemKey);
+  };
   const getNavLinks = () => {
     if (userRole === "Student") {
       return [
@@ -287,8 +295,8 @@ const Navbar = () => {
         },
         {
           path: "/student/search", label: "Пошук", key: "search", icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M21 21L15 15M3 10C3 10.9193 3.18106 11.8295 3.53284 12.6788C3.88463 13.5281 4.40024 14.2997 5.05025 14.9497C5.70026 15.5998 6.47194 16.1154 7.32122 16.4672C8.1705 16.8189 9.08075 17 10 17C10.9193 17 11.8295 16.8189 12.6788 16.4672C13.5281 16.1154 14.2997 15.5998 14.9497 14.9497C15.5998 14.2997 16.1154 13.5281 16.4672 12.6788C16.8189 11.8295 17 10.9193 17 10C17 9.08075 16.8189 8.1705 16.4672 7.32122C16.1154 6.47194 15.5998 5.70026 14.9497 5.05025C14.2997 4.40024 13.5281 3.88463 12.6788 3.53284C11.8295 3.18106 10.9193 3 10 3C9.08075 3 8.1705 3.18106 7.32122 3.53284C6.47194 3.88463 5.70026 4.40024 5.05025 5.05025C4.40024 5.70026 3.88463 6.47194 3.53284 7.32122C3.18106 8.1705 3 9.08075 3 10Z" stroke="#827FAE" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>            
+            <path d="M21 21L15 15M3 10C3 10.9193 3.18106 11.8295 3.53284 12.6788C3.88463 13.5281 4.40024 14.2997 5.05025 14.9497C5.70026 15.5998 6.47194 16.1154 7.32122 16.4672C8.1705 16.8189 9.08075 17 10 17C10.9193 17 11.8295 16.8189 12.6788 16.4672C13.5281 16.1154 14.2997 15.5998 14.9497 14.9497C15.5998 14.2997 16.1154 13.5281 16.4672 12.6788C16.8189 11.8295 17 10.9193 17 10C17 9.08075 16.8189 8.1705 16.4672 7.32122C16.1154 6.47194 15.5998 5.70026 14.9497 5.05025C14.2997 4.40024 13.5281 3.88463 12.6788 3.53284C11.8295 3.18106 10.9193 3 10 3C9.08075 3 8.1705 3.18106 7.32122 3.53284C6.47194 3.88463 5.70026 4.40024 5.05025 5.05025C4.40024 5.70026 3.88463 6.47194 3.53284 7.32122C3.18106 8.1705 3 9.08075 3 10Z" stroke="#827FAE" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
           )
         },
       ];
@@ -343,8 +351,8 @@ const Navbar = () => {
           )
         },
         {
-          path: "/teacher/map", label: "Карта", key: "map", icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M9 4L3 7V20L9 17M9 4L15 7M9 4V17M15 7L21 4V17L15 20M15 7V20M15 20L9 17" stroke="#827FAE" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+          path: "/teacher/search", label: "Пошук", key: "search", icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M21 21L15 15M3 10C3 10.9193 3.18106 11.8295 3.53284 12.6788C3.88463 13.5281 4.40024 14.2997 5.05025 14.9497C5.70026 15.5998 6.47194 16.1154 7.32122 16.4672C8.1705 16.8189 9.08075 17 10 17C10.9193 17 11.8295 16.8189 12.6788 16.4672C13.5281 16.1154 14.2997 15.5998 14.9497 14.9497C15.5998 14.2997 16.1154 13.5281 16.4672 12.6788C16.8189 11.8295 17 10.9193 17 10C17 9.08075 16.8189 8.1705 16.4672 7.32122C16.1154 6.47194 15.5998 5.70026 14.9497 5.05025C14.2997 4.40024 13.5281 3.88463 12.6788 3.53284C11.8295 3.18106 10.9193 3 10 3C9.08075 3 8.1705 3.18106 7.32122 3.53284C6.47194 3.88463 5.70026 4.40024 5.05025 5.05025C4.40024 5.70026 3.88463 6.47194 3.53284 7.32122C3.18106 8.1705 3 9.08075 3 10Z" stroke="#827FAE" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
           </svg>
           )
         },
@@ -357,13 +365,6 @@ const Navbar = () => {
   const getSettingsAndInfoLinks = () => {
     if (userRole === "Student") {
       return [
-
-        {
-          path: "/student/info", label: "Інформація", key: "info", icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M11.9949 19.9786V20M11.9949 13.559C12.8928 13.5619 13.7655 13.2403 14.4719 12.6462C15.1783 12.0521 15.6773 11.2201 15.8883 10.2846C16.0992 9.34912 16.0098 8.36475 15.6345 7.49044C15.2591 6.61612 14.6198 5.90292 13.8197 5.46599C13.0254 5.0299 12.1169 4.89469 11.2418 5.08235C10.3667 5.27001 9.57658 5.76949 9 6.49955" stroke="#120C38" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-          </svg>
-          )
-        },
         {
           path: "/student/settings", label: "Налаштування", key: "settings", icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M10.325 4.317C10.751 2.561 13.249 2.561 13.675 4.317C13.7389 4.5808 13.8642 4.82578 14.0407 5.032C14.2172 5.23822 14.4399 5.39985 14.6907 5.50375C14.9414 5.60764 15.2132 5.65085 15.4838 5.62987C15.7544 5.60889 16.0162 5.5243 16.248 5.383C17.791 4.443 19.558 6.209 18.618 7.753C18.4769 7.98466 18.3924 8.24634 18.3715 8.51677C18.3506 8.78721 18.3938 9.05877 18.4975 9.30938C18.6013 9.55999 18.7627 9.78258 18.9687 9.95905C19.1747 10.1355 19.4194 10.2609 19.683 10.325C21.439 10.751 21.439 13.249 19.683 13.675C19.4192 13.7389 19.1742 13.8642 18.968 14.0407C18.7618 14.2172 18.6001 14.4399 18.4963 14.6907C18.3924 14.9414 18.3491 15.2132 18.3701 15.4838C18.3911 15.7544 18.4757 16.0162 18.617 16.248C19.557 17.791 17.791 19.558 16.247 18.618C16.0153 18.4769 15.7537 18.3924 15.4832 18.3715C15.2128 18.3506 14.9412 18.3938 14.6906 18.4975C14.44 18.6013 14.2174 18.7627 14.0409 18.9687C13.8645 19.1747 13.7391 19.4194 13.675 19.683C13.249 21.439 10.751 21.439 10.325 19.683C10.2611 19.4192 10.1358 19.1742 9.95929 18.968C9.7828 18.7618 9.56011 18.6001 9.30935 18.4963C9.05859 18.3924 8.78683 18.3491 8.51621 18.3701C8.24559 18.3911 7.98375 18.4757 7.752 18.617C6.209 19.557 4.442 17.791 5.382 16.247C5.5231 16.0153 5.60755 15.7537 5.62848 15.4832C5.64942 15.2128 5.60624 14.9412 5.50247 14.6906C5.3987 14.44 5.23726 14.2174 5.03127 14.0409C4.82529 13.8645 4.58056 13.7391 4.317 13.675C2.561 13.249 2.561 10.751 4.317 10.325C4.5808 10.2611 4.82578 10.1358 5.032 9.95929C5.23822 9.7828 5.39985 9.56011 5.50375 9.30935C5.60764 9.05859 5.65085 8.78683 5.62987 8.51621C5.60889 8.24559 5.5243 7.98375 5.383 7.752C4.443 6.209 6.209 4.442 7.753 5.382C8.753 5.99 10.049 5.452 10.325 4.317Z" stroke="#120C38" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
@@ -371,20 +372,27 @@ const Navbar = () => {
           </svg>
           )
         },
-      ];
-    } else if (userRole === "Teacher") {
-      return [
-
         {
-          path: "/teacher/info", label: "Інформація", key: "info", icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          path: "/student/info", label: "Інформація", key: "info", icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M11.9949 19.9786V20M11.9949 13.559C12.8928 13.5619 13.7655 13.2403 14.4719 12.6462C15.1783 12.0521 15.6773 11.2201 15.8883 10.2846C16.0992 9.34912 16.0098 8.36475 15.6345 7.49044C15.2591 6.61612 14.6198 5.90292 13.8197 5.46599C13.0254 5.0299 12.1169 4.89469 11.2418 5.08235C10.3667 5.27001 9.57658 5.76949 9 6.49955" stroke="#120C38" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
           </svg>
           )
         },
+
+      ];
+    } else if (userRole === "Teacher") {
+      return [
+
+
         {
           path: "/teacher/settings", label: "Налаштування", key: "settings", icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M10.325 4.317C10.751 2.561 13.249 2.561 13.675 4.317C13.7389 4.5808 13.8642 4.82578 14.0407 5.032C14.2172 5.23822 14.4399 5.39985 14.6907 5.50375C14.9414 5.60764 15.2132 5.65085 15.4838 5.62987C15.7544 5.60889 16.0162 5.5243 16.248 5.383C17.791 4.443 19.558 6.209 18.618 7.753C18.4769 7.98466 18.3924 8.24634 18.3715 8.51677C18.3506 8.78721 18.3938 9.05877 18.4975 9.30938C18.6013 9.55999 18.7627 9.78258 18.9687 9.95905C19.1747 10.1355 19.4194 10.2609 19.683 10.325C21.439 10.751 21.439 13.249 19.683 13.675C19.4192 13.7389 19.1742 13.8642 18.968 14.0407C18.7618 14.2172 18.6001 14.4399 18.4963 14.6907C18.3924 14.9414 18.3491 15.2132 18.3701 15.4838C18.3911 15.7544 18.4757 16.0162 18.617 16.248C19.557 17.791 17.791 19.558 16.247 18.618C16.0153 18.4769 15.7537 18.3924 15.4832 18.3715C15.2128 18.3506 14.9412 18.3938 14.6906 18.4975C14.44 18.6013 14.2174 18.7627 14.0409 18.9687C13.8645 19.1747 13.7391 19.4194 13.675 19.683C13.249 21.439 10.751 21.439 10.325 19.683C10.2611 19.4192 10.1358 19.1742 9.95929 18.968C9.7828 18.7618 9.56011 18.6001 9.30935 18.4963C9.05859 18.3924 8.78683 18.3491 8.51621 18.3701C8.24559 18.3911 7.98375 18.4757 7.752 18.617C6.209 19.557 4.442 17.791 5.382 16.247C5.5231 16.0153 5.60755 15.7537 5.62848 15.4832C5.64942 15.2128 5.60624 14.9412 5.50247 14.6906C5.3987 14.44 5.23726 14.2174 5.03127 14.0409C4.82529 13.8645 4.58056 13.7391 4.317 13.675C2.561 13.249 2.561 10.751 4.317 10.325C4.5808 10.2611 4.82578 10.1358 5.032 9.95929C5.23822 9.7828 5.39985 9.56011 5.50375 9.30935C5.60764 9.05859 5.65085 8.78683 5.62987 8.51621C5.60889 8.24559 5.5243 7.98375 5.383 7.752C4.443 6.209 6.209 4.442 7.753 5.382C8.753 5.99 10.049 5.452 10.325 4.317Z" stroke="#120C38" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
             <path d="M9 12C9 12.7956 9.31607 13.5587 9.87868 14.1213C10.4413 14.6839 11.2044 15 12 15C12.7956 15 13.5587 14.6839 14.1213 14.1213C14.6839 13.5587 15 12.7956 15 12C15 11.2044 14.6839 10.4413 14.1213 9.87868C13.5587 9.31607 12.7956 9 12 9C11.2044 9 10.4413 9.31607 9.87868 9.87868C9.31607 10.4413 9 11.2044 9 12Z" stroke="#120C38" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+          )
+        }, {
+          path: "/teacher/info", label: "Інформація", key: "info", icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M11.9949 19.9786V20M11.9949 13.559C12.8928 13.5619 13.7655 13.2403 14.4719 12.6462C15.1783 12.0521 15.6773 11.2201 15.8883 10.2846C16.0992 9.34912 16.0098 8.36475 15.6345 7.49044C15.2591 6.61612 14.6198 5.90292 13.8197 5.46599C13.0254 5.0299 12.1169 4.89469 11.2418 5.08235C10.3667 5.27001 9.57658 5.76949 9 6.49955" stroke="#120C38" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
           </svg>
           )
         },
@@ -394,14 +402,28 @@ const Navbar = () => {
 
   const settingsAndInfoLinks = getSettingsAndInfoLinks();
 
+  const getDefaultPageTitle = () => {
+    const navLinks = getNavLinks();
+    const settingsAndInfoLinks = getSettingsAndInfoLinks();
+    const allLinks = [...navLinks, ...settingsAndInfoLinks];
+
+    const currentLink = allLinks.find((link) =>
+      location.pathname.startsWith(link.path)
+    );
+
+    return currentLink?.label || "Профіль";
+  };
+
+  const [currentPageTitle, setCurrentPageTitle] = useState(getDefaultPageTitle());
+
   return (
-    <div className="flex h-screen">
+    <div className="flex h-screen w-[100%] navbar">
       {/* Sidebar */}
       <div
-        className={`h-screen fixed inset-y-0 left-0 bg-white shadow-lg transition-all duration-300 w-24 ${isSidebarOpen ? "w-[274px]" : ""
-          } flex flex-col z-50`}
+        className={`sidebar h-screen fixed inset-y-0 left-0 bg-white shadow-lg transition-all duration-300 w-24 ${isSidebarOpen ? "w-[274px]" : ""
+          } ${isSidebarOpen ? "sidebar-visible" : ""} flex flex-col z-50`}
       >
-        <div className="pl-5 pt-5">
+        <div className="pl-5 pt-5 menu">
           <NavItem
             icon={(<svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M5 22.5C4.64584 22.5 4.34917 22.38 4.11 22.14C3.87084 21.9 3.75084 21.6033 3.75 21.25C3.74917 20.8967 3.86917 20.6 4.11 20.36C4.35084 20.12 4.6475 20 5 20H25C25.3542 20 25.6513 20.12 25.8913 20.36C26.1313 20.6 26.2508 20.8967 26.25 21.25C26.2492 21.6033 26.1292 21.9004 25.89 22.1413C25.6508 22.3821 25.3542 22.5017 25 22.5H5ZM5 16.25C4.64584 16.25 4.34917 16.13 4.11 15.89C3.87084 15.65 3.75084 15.3533 3.75 15C3.74917 14.6467 3.86917 14.35 4.11 14.11C4.35084 13.87 4.6475 13.75 5 13.75H25C25.3542 13.75 25.6513 13.87 25.8913 14.11C26.1313 14.35 26.2508 14.6467 26.25 15C26.2492 15.3533 26.1292 15.6504 25.89 15.8913C25.6508 16.1321 25.3542 16.2517 25 16.25H5ZM5 10C4.64584 10 4.34917 9.88 4.11 9.64C3.87084 9.4 3.75084 9.10333 3.75 8.75C3.74917 8.39667 3.86917 8.1 4.11 7.86C4.35084 7.62 4.6475 7.5 5 7.5H25C25.3542 7.5 25.6513 7.62 25.8913 7.86C26.1313 8.1 26.2508 8.39667 26.25 8.75C26.2492 9.10333 26.1292 9.40042 25.89 9.64125C25.6508 9.88208 25.3542 10.0017 25 10H5Z" fill="#120C38" />
@@ -418,8 +440,9 @@ const Navbar = () => {
         </div>
         {/* Profile Section */}
 
-        <Link to="/">
-          <div
+        <Link to={userRole === "Student" ? "/student/profile" : "/teacher/profile"}>
+          <div 
+            className="profile"
             style={{
               width: "60px",
               height: "60px",
@@ -431,7 +454,7 @@ const Navbar = () => {
               cursor: "pointer",
               overflow: "hidden",
             }}
-            onClick={() => handleNavItemClick("profile")}
+            onClick={() => handleNavItemClick("profile", "Профіль")}
           >
             <img
               src="../../../assets/images/avatar.jpg"
@@ -446,6 +469,7 @@ const Navbar = () => {
 
           {isSidebarOpen && (
             <div
+              className="profile-name"
               style={{
                 position: "absolute",
                 left: "100px",
@@ -469,7 +493,7 @@ const Navbar = () => {
           )}</Link>
 
         {/* Navigation Items */}
-        <div style={{ marginTop: "80px", padding: "20px", flex: 1 }}>
+        <div className="navitems" style={{ marginTop: "80px", padding: "20px", flex: 1 }}>
           {navLinks.map((link) => (
             <NavItem
               key={link.key}
@@ -478,7 +502,7 @@ const Navbar = () => {
               to={link.path}
               isActive={activeNavItem === link.key}
               onClick={() => {
-                handleNavItemClick(link.key);
+                handleNavItemClick(link.key, link.label);
               }}
               group="main"
             />
@@ -486,7 +510,7 @@ const Navbar = () => {
         </div>
 
         {/* Settings and Info Container */}
-        <div className="p-5 flex flex-col justify-end space-y-4">
+        <div className="footer p-5 flex flex-col-reverse justify-end space-y-4">
           {settingsAndInfoLinks.map((link) => (
             <NavItem
               key={link.key}
@@ -502,12 +526,56 @@ const Navbar = () => {
               blackText
             />
           ))}
+          <Link to="/">
+            <button
+              className="rounded-full border border-gray-300 transition-all duration-300 hidden"
+              onMouseEnter={(e) => {
+                const svgPaths = e.currentTarget.querySelectorAll("path");
+                if (svgPaths) {
+                  svgPaths.forEach((path) => {
+                    path.setAttribute("stroke", "white");
+                  });
+                }
+              }
+              }
+              onMouseLeave={(e) => {
+                const svgPaths = e.currentTarget.querySelectorAll("path");
+                if (svgPaths) {
+                  svgPaths.forEach((path) => {
+                    path.setAttribute("stroke", "#120C38");
+                  });
+                }
+              }
+              }
+              onClick={handleFooterItemClick}
+            >
+              <div style={{ width: "24px", height: "24px", display: "flex", alignItems: "center", justifyContent: "center", alignContent: "center" }}>
+                {<svg className="stroke-[#120C38] transition-colors duration-300 " width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M9 17V18C9 18.7956 9.31607 19.5587 9.87868 20.1213C10.4413 20.6839 11.2044 21 12 21C12.7956 21 13.5587 20.6839 14.1213 20.1213C14.6839 19.5587 15 18.7956 15 18V17M10 5C10 4.46957 10.2107 3.96086 10.5858 3.58579C10.9609 3.21071 11.4696 3 12 3C12.5304 3 13.0391 3.21071 13.4142 3.58579C13.7893 3.96086 14 4.46957 14 5C15.1484 5.54303 16.1274 6.38833 16.8321 7.4453C17.5367 8.50227 17.9404 9.73107 18 11V14C18.0753 14.6217 18.2954 15.2171 18.6428 15.7381C18.9902 16.2592 19.4551 16.6914 20 17H4C4.54494 16.6914 5.00981 16.2592 5.35719 15.7381C5.70457 15.2171 5.92474 14.6217 6 14V11C6.05956 9.73107 6.4633 8.50227 7.16795 7.4453C7.8726 6.38833 8.85159 5.54303 10 5Z" stroke="#120C38" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+                }
+              </div>
+            </button>
+          </Link>
+          <Link to="/">
+            <button
+              className="rounded-full border border-gray-300 transition-all duration-300 hidden"
+              onClick={handleFooterItemClick}
+            >
+              <div style={{ width: "24px", height: "24px", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                {<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M13 12V12.01M3 21H21M5 21V5C5 4.46957 5.21071 3.96086 5.58579 3.58579C5.96086 3.21071 6.46957 3 7 3H14.5M17 13.5V21M14 7H21M21 7L18 4M21 7L18 10" stroke="#E64851" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+                }
+              </div>
+            </button>
+          </Link>
         </div>
       </div>
 
       {/* Top Navbar */}
-      <div className="flex-1 flex flex-col ml-24">
-        <header className="h-20 md:flex items-center justify-between bg-white shadow-md px-4 hidden "
+      <div className="nav-center flex-1 flex flex-col pl-24 w-[100%]">
+        <header className="h-20 flex items-center justify-between bg-white shadow-md px-4 "
           style={{
             position: "fixed",
             top: 0,
@@ -520,7 +588,8 @@ const Navbar = () => {
             className="text-lg font-semibold pl-[110px]"
             style={{ fontSize: '32px', fontFamily: 'Nunito', fontWeight: '700', color: '#120C38' }}
           >
-            Головна
+            {/* Головна */}
+            {currentPageTitle}
           </span>
           <div className="flex space-x-8">
             <Link to="/">
@@ -653,7 +722,7 @@ const Navbar = () => {
 
         {/* Content Area */}
         <div
-          className={`flex-1 flex flex-col ml-[50px] pr-[50px] mt-[80px] transition-all duration-300 ${isSidebarOpen ? "bg-gray-800/20 backdrop-blur-sm" : ""
+          className={`nav-content flex-1 flex flex-col ml-[50px] pr-[50px] mt-[80px] transition-all duration-300 ${isSidebarOpen ? "bg-gray-800/20 backdrop-blur-sm" : ""
             }`}
         >
           {/* Overlay */}
@@ -665,6 +734,7 @@ const Navbar = () => {
           )}
           <Outlet />
         </div>
+        <div className="absolute top-[80px] right-0 bg-repeat h-[90vh] w-[60px] bg-nav-pattern"/>
       </div>
     </div>
   );

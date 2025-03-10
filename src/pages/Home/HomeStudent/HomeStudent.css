@@ -1,0 +1,251 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Greetings */
+.bg-pattern {
+    position: relative;
+    background-color: #120C38;
+}
+
+.bg-pattern::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('../../../../public/assets/patterns/pattern4.png');
+    background-repeat: repeat;
+    background-size: 50%;
+    opacity: 0.1;
+    pointer-events: none;
+}
+
+  .custom-select {
+    position: relative;
+    padding-right: 30px;
+    padding-left: 10px;
+}
+
+.custom-select::after {
+    content: "▼";
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    color: #827FAE;
+}
+
+.custom-select:hover,
+.custom-select:focus {
+    border-color: #8A48E6;
+    outline: none;
+}
+
+/* Mark History */
+.no-scrollbar {
+    overflow: hidden;
+  }
+  
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 4px;
+  }
+  
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background-color: #8A48E6;
+    border-radius: 2px;
+  }
+  
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background-color: #E0C8FF;
+  }
+  
+  @media (max-width: 768px) {
+    /* Главный контейнер должен быть в колонку */
+    .schedule-mobile-hidden {
+      display: none !important;
+    }
+  
+    /* Перемещаем SearchTeachers в конец */
+    .order-last {
+      order: 5 !important; /* Порядковый номер для размещения в конце */
+    }
+  
+    /* Главный контейнер должен быть в колонку */
+    .flex.flex-col.w-full.md\\:hidden {
+      flex-direction: column !important;
+    }
+  
+    /* Убираем ширину для mobile */
+    .w-full.md\\:w-9\\/12,
+    .w-full.md\\:w-3\\/12 {
+      width: 100% !important;
+    }
+  
+    /* Добавляем прокрутку для содержимого */
+    .min-h-\[90vh\] {
+      min-height: 100vh !important;
+      overflow-y: auto !important;
+    }
+  
+    /* Graphic и Leaderboard должны быть в столбец */
+    .flex.flex-col.gap-4.mb-6 {
+      flex-direction: column !important;
+    }
+    .greetings{
+      padding: 0px !important;
+      height: clamp(21vh, 2vw, 35vh) !important;
+    }
+    .greetings>div{
+      padding-right: 5px !important;
+    }
+    .greetings>div>div{
+      font-size: 20pt !important;
+      width: auto !important;
+      word-wrap: nowrap !important;
+      margin-bottom: 5px;
+      position: absolute;
+    }
+    .greetings>div>p{
+      font-size: clamp(5pt, 2vw, 12pt) !important;
+      margin-bottom: 5px;
+      width: auto !important;
+      margin-top: clamp(40px, 2vw, 50px);
+      line-height: 12.55px;
+      width: clamp(40%, 2vw, 60%) !important;
+      position: absolute;
+    }
+    .greetings>svg{
+      margin-left: 20px !important;
+      margin-right: 0px;
+    }
+
+    .graphic{
+      margin-bottom: 24px;
+    }
+
+    .graphic>h2{
+      font-size: 20pt;
+      left: 30px;
+    }
+
+    .graphic .chart{
+      height: 90% !important;
+    }
+
+    .graphic .apexcharts-legend-text{
+        font-size: 8pt !important;
+    }
+    .graphic .apexcharts-legend{
+      display: flex;
+      flex-direction: column;
+    }
+
+    .graphic tspan{
+      font-size: 8pt !important;
+    }
+
+    .marks{
+      height: 40vh !important;
+    }
+
+    .events {
+      margin-bottom: 24px;
+      height: 20vh !important;
+    }
+
+    .leaders{
+      margin-bottom: 24px;
+      height: 50vh !important;
+    }
+
+    .leaders>div>div{
+      padding-left: 0px;
+      word-wrap: nowrap;
+      font-size: clamp(14pt, 2pt, 18pt) !important;
+    }
+
+    .leaders ol{
+      padding-left: 0px;
+    }
+
+    .search-teachers-last{
+      height: 70vh !important;
+      position: relative;
+    }
+
+    .search-teachers-last .selects{
+      margin-top: 60px;
+      justify-content: center;
+      display: block;
+    }
+
+    .search-teachers-last select.custom-select {
+      width: 100% !important;
+      margin-bottom: 0;
+    }
+  
+    .search-teachers-last .flex.p-4-lg {
+      display: flex !important;
+      align-items: center !important; 
+      padding: 10px !important;
+    }
+
+    .search-teachers-last .custom-select{
+      height: 48px !important;
+
+    }
+    
+    .search-teachers-last .find{
+      top: 10px;
+    }
+
+    .search-teachers-last .find>a>div{
+      width: 90% !important;
+      padding: 5px;
+    }
+
+    .search-teachers-last .find .find-text{
+      padding: 10px;
+    }
+
+    .search-teachers-last .cards{
+      height: 60vh;
+    }
+
+    .search-teachers-last .cards .card-teacher{
+      height: 60vh;
+    }
+
+    .search-teachers-last .cards .card-teacher>div{
+      height: 228px;
+    }
+
+    .search-teachers-last .cards .card-teacher .main-card-teacher{
+      height: 228px;
+    }
+
+    .search-teachers-last .cards .card-teacher .about-teacher{
+      width: auto;
+    }
+
+    .search-teachers-last .cards .card-teacher .price-teacher{
+      left: -120px;
+      top: 175px !important;
+      font-size: 5vw;
+    }
+
+    .search-teachers-last .cards .card-teacher .card-btn{
+      width: 150px;
+      top: 170px !important;
+    }
+
+    .search-teachers-last .cards .card-teacher .subjects-teacher{
+      width: 60% !important;
+      font-size: 4vw;
+      line-height: 15px;
+      margin-top: 5px;
+    }
+  }

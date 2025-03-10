@@ -1,0 +1,37 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@media (max-width: 768px) {
+    .students-success .apexcharts-legend {
+        top: 0px !important;
+        width: auto !important;
+        display: flex !important;
+        flex-wrap: nowrap !important;
+        overflow: hidden !important;
+    }
+
+    .students-success .apexcharts-legend .apexcharts-legend-text {
+        white-space: nowrap !important;
+        width: auto !important;
+    }
+
+    .students-success tspan{
+        font-size: 8px;
+    }
+
+    .students-success{
+        width: 100% !important;
+        height: 40vh !important;
+    }
+    .students-success > div:nth-child(2) {
+        margin-left: 0 !important;
+        margin-right: auto !important;
+        width: 95% !important;
+        justify-content: flex-start !important;
+    }
+    .students-success .apexcharts-canvas {
+        left: 0 !important;
+        margin-left: 0 !important;
+    }
+}

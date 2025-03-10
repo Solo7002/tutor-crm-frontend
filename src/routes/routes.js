@@ -3,8 +3,8 @@ import Login from "../features/Auth/Login";
 import Register from "../features/Auth/Register";
 import ForgotPassword from "../features/Auth/ForgotPassword";
 import AuthLayout from "../layouts/AuthLayout/AuthLayout";
-import Navbar from "../layouts/Navbar";
-import HomeStudent from "../pages/Home/HomeStudent";
+import Navbar from "../layouts/Navbar/Navbar";
+import HomeStudent from "../pages/Home/HomeStudent/HomeStudent";
 import HometaskStudent from "../pages/Hometasks/HometaskStudent";
 import MaterialsStudent from "../pages/Materials/MaterialsStudent";
 import TestStudent from "../pages/Tests/TestStudent"
@@ -12,6 +12,7 @@ import ProfileTeacher from "../pages/Profile/ProfileTeacher";
 import CalendarTeacher from "../pages/CalendarTeacher/CalendarTeacher";
 import RunTestStudent from "../pages/Tests/RunTestStudent";
 import DoneTestStudent from "../pages/Tests/DoneTestStudent";
+import HomeTeacher from "../pages/Home/HomeTeacher/HomeTeacher";
 
 const AppRoutes = () => {
   return (
@@ -45,7 +46,7 @@ const AppRoutes = () => {
 
         {/* Teacher Routes */}
         <Route path="/teacher" element={<Navbar />}>
-          {/* <Route path="home" element={<HomeTeacher />} /> */}
+          <Route path="home" element={<HomeTeacher />} />
           {/* <Route path="tasks" element={<TasksTeacher />} /> */}
           {/* <Route path="materials" element={<MaterialsTeacher />} /> */}
           {/* <Route path="tests" element={<TestsTeacher />} /> */}
