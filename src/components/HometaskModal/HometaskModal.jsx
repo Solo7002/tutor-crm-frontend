@@ -264,7 +264,7 @@ export const HometaskModal = ({ onClose, status, token, hometask, hometaskFiles,
               {/* Максимальний бал */}
               <div className="w-[167px] h-14 p-2.5 rounded-2xl border border-[#d7d7d7] flex justify-between items-center m-1">
                 <div className="w-28 h-8">
-                  <div className="text-[#827ead] text-xs font-normal font-['Mulish']">Максимальний бал</div>
+                  <div className="text-[#827ead] text-[11px] font-normal font-['Mulish']">Максимальний бал</div>
                   <div className="text-[#120c38]  font-bold font-['Nunito'] text-[15px]">{hometask.MaxMark}</div>
                 </div>
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

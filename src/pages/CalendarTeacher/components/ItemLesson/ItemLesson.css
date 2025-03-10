@@ -1,0 +1,77 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.item-lesson-container {
+  @apply relative w-72 bg-white rounded shadow-[0px_1px_4px_0px_rgba(138,74,230,0.20)] p-3;
+}
+
+.item-lesson-header {
+  @apply flex items-center gap-2 relative;
+}
+
+
+.item-lesson-circle {
+  @apply w-2.5 h-2.5 bg-[#8a48e6] rounded-full;
+}
+
+
+.item-lesson-title {
+  @apply text-[#120c38] text-sm font-semibold;
+}
+
+.item-lesson-subtitle {
+  @apply text-[#827ead] text-xs;
+}
+
+
+.item-lesson-icon {
+  @apply absolute right-0 top-1/2 -translate-y-1/2 cursor-pointer;
+}
+
+
+.item-lesson-collapsible {
+  @apply transition-all duration-300 ease-in-out overflow-hidden;
+}
+
+.item-lesson-collapsible.collapsed {
+  @apply max-h-0 opacity-0;
+}
+
+.item-lesson-collapsible.expanded {
+  @apply max-h-96 opacity-100;
+}
+
+
+.item-lesson-content {
+  @apply m-5;
+}
+
+.item-lesson-info {
+  @apply flex justify-between text-xs text-[#827ead];
+}
+
+.item-lesson-info-value {
+  @apply text-[#120c38];
+}
+
+.item-lesson-info-link {
+  @apply text-[#8a48e6] underline;
+}
+
+
+.item-lesson-buttons {
+  @apply flex flex-col gap-2 w-full px-3 mt-4;
+}
+
+.item-lesson-button {
+  @apply w-full py-2 border border-[#8a48e6] rounded-3xl text-[#8a48e6] font-bold;
+ 
+  @apply hover:bg-[#8a48e6] hover:text-white transition-colors duration-200;
+}
+
+.item-lesson-button-primary {
+  @apply w-full py-2 bg-[#8a48e6] rounded-3xl text-white font-bold;
+  
+  @apply hover:bg-[#6f38b7] transition-colors duration-200;
+}

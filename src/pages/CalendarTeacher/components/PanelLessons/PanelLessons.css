@@ -1,0 +1,38 @@
+/* Panel.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.panel {
+  @apply relative w-[350px] h-[830px] bg-white border border-[#8a48e6]/20 rounded-lg p-4 flex flex-col items-center;
+}
+
+.panel-header {
+  @apply flex justify-between w-full mb-4;
+}
+
+.panel-date-dropdown {
+  @apply text-[#8a48e6] font-semibold cursor-pointer;
+  max-width: 250px; 
+}
+
+
+.panel-date-dropdown .relative {
+  @apply w-full; 
+}
+
+.panel-date {
+  @apply text-[#120c38] font-semibold;
+}
+
+.panel-lessons {
+  @apply w-full h-[720px] flex flex-col gap-2 overflow-y-auto;
+}
+
+.panel-add-button {
+  @apply absolute bottom-4 w-12 h-12 rounded-full bg-[#8a48e6] flex items-center justify-center cursor-pointer;
+}
+
+.panel-debug {
+  @apply text-xs text-[#827ead] absolute bottom-2;
+}
