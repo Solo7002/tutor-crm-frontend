@@ -72,7 +72,6 @@ const Login = () => {
 
       if (response.data.token) {
         sessionStorage.setItem("token", response.data.token);
-        sessionStorage.setItem("user", JSON.stringify(response.data.user));
         sessionStorage.setItem("email", Email);
         sessionStorage.setItem("password", Password);
 
