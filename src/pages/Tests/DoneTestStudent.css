@@ -1,0 +1,103 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.done-test-page .main-container {
+    @apply bg-white shadow-sm rounded-[20px] px-6 py-2 mt-10;
+}
+
+.done-test-page .score-container {
+  @apply flex justify-between items-center border border-[#d7d7d7] rounded-2xl p-2.5 w-[200px] h-[54px];
+}
+
+.done-test-page .input-container {
+  @apply flex justify-between items-center border rounded-2xl p-2.5;
+}
+
+.done-test-page .question-container {
+  @apply bg-white shadow-sm rounded-[20px] p-4 mt-8;
+}
+
+.done-test-page .answer-container {
+  @apply flex items-center justify-between border p-2 rounded-[12px] mt-2;
+}
+
+.done-test-page .header-text{
+  font-family: Nunito;
+  font-weight: 700;
+  font-size: 15px;
+  line-height: 20.46px;
+  letter-spacing: -0.5%;
+  text-align: center;  
+
+  @apply
+  mt-3
+  mb-2;
+}
+
+.done-test-page .theme-text1{
+  font-family: Nunito;
+  font-weight: 700;
+  font-size: 15px;
+  line-height: 20.46px;
+  letter-spacing: -0.5%;   
+}
+
+.done-test-page .theme-text2{
+  font-family: Nunito;
+  font-weight: 700;
+  font-size: 15px;
+  line-height: 20.46px;
+  letter-spacing: -0.5%;
+  color: #827FAE;
+}
+
+.done-test-page .result-text{
+  font-family: Nunito;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 32.74px;
+  letter-spacing: -0.5%;
+}
+
+
+.done-test-page .attempts-text{
+  font-family: Nunito;
+  font-weight: 700;
+  font-size: 15px;
+  line-height: 20.46px;
+  letter-spacing: -0.5%;
+
+  @apply
+  text-center
+  my-4
+}
+
+.done-test-page .percent-text{
+  font-family: Nunito;
+  font-weight: 700;
+  font-size: 15px;
+  line-height: 20.46px;
+  letter-spacing: -0.5%;
+  text-align: right;
+  color: #827FAE;
+}
+
+.done-test-page .answer-text{
+  font-family: Mulish;
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 18.83px;
+  letter-spacing: -0.5%;
+
+  @apply
+  ml-2
+}
+
+.done-test-page .question-text{
+  font-family: Nunito;
+  font-weight: 700;
+  font-size: 15px;
+  line-height: 20.46px;
+  letter-spacing: -0.5%;
+}

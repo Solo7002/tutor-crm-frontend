@@ -434,8 +434,8 @@ const Navbar = () => {
             onClick={() => handleNavItemClick("profile")}
           >
             <img
-              src="../../../assets/images/avatar.jpg"
-              alt="Profile"
+              src="../../../assets/.png"
+              alt=""
               style={{
                 width: "100%",
                 height: "100%",

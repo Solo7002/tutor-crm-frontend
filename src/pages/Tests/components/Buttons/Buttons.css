@@ -1,0 +1,65 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.primary-button2 {
+    border: 1px solid #8A48E6;
+    background-color: #8A48E6;
+    font-family: Nunito;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 27.28px;
+    letter-spacing: -0.5%;
+    text-align: center;
+    @apply 
+    w-full 
+    text-white 
+    rounded-[16px] 
+    cursor-pointer 
+    p-2;
+}
+
+.primary-button2:hover {
+    @apply bg-purple-700;
+}
+
+.primary-button2:active {
+  @apply bg-purple-700;
+}
+
+.primary-button2:disabled {
+  @apply
+  opacity-50
+  cursor-default;
+}
+
+.secondary-button2 {
+    border: 1px solid purple;
+    font-family: Nunito;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 27.28px;
+    letter-spacing: -0.5%;
+    text-align: center;
+    @apply 
+    w-full 
+    p-2 
+    bg-white 
+    text-purple-600 
+    rounded-[16px] 
+    border-purple-600;
+}
+
+
+.secondary-button2:hover {
+    background-color: #8A48E6;
+    color: white;
+}
+
+.secondary-button2:active {
+  @apply text-purple-700 border-purple-700;
+}
+
+.secondary-button2:disabled {
+  @apply text-purple-300 border-purple-300 cursor-not-allowed;
+}

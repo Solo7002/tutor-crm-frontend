@@ -9,12 +9,15 @@ import HometaskStudent from "../pages/Hometasks/HometaskStudent";
 import MaterialsStudent from "../pages/Materials/MaterialsStudent";
 import TestStudent from "../pages/Tests/TestStudent"
 import ProfileTeacher from "../pages/Profile/ProfileTeacher";
+import RunTestStudent from "../pages/Tests/RunTestStudent";
+import DoneTestStudent from "../pages/Tests/DoneTestStudent";
 
 const AppRoutes = () => {
   return (
     <Router>
       <Routes>
         <Route path="/" element={<Navigate to="/auth/login" replace />} />
+        <Route path="/test/:encryptedTestId" element={<RunTestStudent />} />
         
         <Route path="/auth" element={<AuthLayout />}>
           <Route path="login" element={<Login />} />
@@ -27,7 +30,8 @@ const AppRoutes = () => {
           <Route path="home" element={<HomeStudent />} />
           <Route path="hometask" element={<HometaskStudent />} />
           <Route path="materials" element={<MaterialsStudent />} />
-          <Route path="tests" element={<TestStudent />} />
+          <Route path="tests" element={<TestStudent />}/>
+          <Route path="tests/complete/:encryptedTestId" element={<DoneTestStudent />}/>
           {/* <Route path="tests" element={<TestsStudent />} /> */}
           {/* <Route path="calendar" element={<CalendarStudent />} /> */}
           {/* <Route path="reviews" element={<ReviewsStudent />} /> */}
