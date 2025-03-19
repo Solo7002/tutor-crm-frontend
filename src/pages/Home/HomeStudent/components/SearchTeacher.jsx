@@ -4,12 +4,12 @@ import axios from "axios";
 
 const SearchTeacher = () => {
   const [teachers, setTeachers] = useState([]);
-  const [loading, setLoading] = useState(true); 
-  const [error, setError] = useState(null); 
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [filters, setFilters] = useState({
     lessonType: "",
     meetingType: "",
-    aboutTeacher: "", 
+    aboutTeacher: "",
   });
 
   const lessonTypeOptions = [
@@ -37,7 +37,7 @@ const SearchTeacher = () => {
       } else if (response.data.message === "No teachers found.") {
         setTeachers([]);
       } else {
-        throw new Error(response.data.message); 
+        throw new Error(response.data.message);
       }
     } catch (err) {
       setTeachers([]);
@@ -57,6 +57,46 @@ const SearchTeacher = () => {
       ...prevFilters,
       [name]: value,
     }));
+  };
+
+  // Функция для рендера звезд рейтинга
+  const renderStars = (rating) => {
+    const fullStars = Math.floor(rating || 0);
+    const fractionalPart = (rating || 0) - fullStars;
+
+    return (
+      <div className="flex">
+        {[1, 2, 3, 4, 5].map((star) => {
+          const isFilled = star <= fullStars;
+          const partialFill = star === fullStars + 1 && fractionalPart > 0;
+          const fillWidth = partialFill ? `${fractionalPart * 100}%` : "0%";
+
+          return (
+            <div key={star} className="relative w-5 h-5">
+              <svg
+                className="w-full h-full"
+                viewBox="0 0 16 16"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M5.56692 5.38811L5.82715 5.35038L5.94353 5.11459L7.84553 1.26126L7.84568 1.26096C7.85943 1.23305 7.88072 1.20955 7.90715 1.19311C7.93357 1.17668 7.96406 1.16797 7.99518 1.16797C8.02629 1.16797 8.05679 1.17668 8.08321 1.19311C8.10963 1.20955 8.13092 1.23305 8.14468 1.26096L8.14479 1.26119L10.0461 5.11453L10.1625 5.35033L10.4227 5.3881L14.676 6.00543L14.6762 6.00545C14.7053 6.00968 14.7329 6.02155 14.7559 6.03987C14.779 6.05819 14.7968 6.0823 14.8075 6.10974C14.8182 6.13718 14.8215 6.16698 14.817 6.19609C14.8129 6.22186 14.8029 6.24629 14.7878 6.26743L14.759 6.29881L11.6865 9.28896L11.4979 9.4725L11.5424 9.73188L12.2697 13.9685L12.2698 13.9687C12.2748 13.9979 12.2719 14.0278 12.2616 14.0555C12.2512 14.0832 12.2336 14.1076 12.2107 14.1263C12.1877 14.1449 12.1603 14.1572 12.131 14.1617C12.1049 14.1657 12.0782 14.1635 12.0532 14.1552L12.0157 14.138L8.23227 12.1443L7.99944 12.0216L7.7665 12.1441L3.9625 14.1441L3.9623 14.1442C3.93616 14.1579 3.90684 14.1645 3.87733 14.1632C3.84782 14.1619 3.81918 14.1527 3.79436 14.1367C3.76953 14.1207 3.74941 14.0984 3.73605 14.0721C3.72416 14.0486 3.718 14.0228 3.71801 13.9966L3.72286 13.9556L4.44731 9.73181L4.49179 9.4725L4.30326 9.28899L1.22193 6.28966L1.22147 6.28921C1.2003 6.26866 1.18497 6.24287 1.17704 6.21446C1.16911 6.18604 1.16885 6.15604 1.17631 6.1275C1.18377 6.09896 1.19867 6.07291 1.21948 6.05201C1.23799 6.03343 1.26059 6.01951 1.28542 6.01133L1.32765 6.00274L5.56692 5.38811Z"
+                  fill="none"
+                  stroke="#8A48E6"
+                  strokeWidth="1"
+                />
+                {(isFilled || partialFill) && (
+                  <path
+                    d="M5.56692 5.38811L5.82715 5.35038L5.94353 5.11459L7.84553 1.26126L7.84568 1.26096C7.85943 1.23305 7.88072 1.20955 7.90715 1.19311C7.93357 1.17668 7.96406 1.16797 7.99518 1.16797C8.02629 1.16797 8.05679 1.17668 8.08321 1.19311C8.10963 1.20955 8.13092 1.23305 8.14468 1.26096L8.14479 1.26119L10.0461 5.11453L10.1625 5.35033L10.4227 5.3881L14.676 6.00543L14.6762 6.00545C14.7053 6.00968 14.7329 6.02155 14.7559 6.03987C14.779 6.05819 14.7968 6.0823 14.8075 6.10974C14.8182 6.13718 14.8215 6.16698 14.817 6.19609C14.8129 6.22186 14.8029 6.24629 14.7878 6.26743L14.759 6.29881L11.6865 9.28896L11.4979 9.4725L11.5424 9.73188L12.2697 13.9685L12.2698 13.9687C12.2748 13.9979 12.2719 14.0278 12.2616 14.0555C12.2512 14.0832 12.2336 14.1076 12.2107 14.1263C12.1877 14.1449 12.1603 14.1572 12.131 14.1617C12.1049 14.1657 12.0782 14.1635 12.0532 14.1552L12.0157 14.138L8.23227 12.1443L7.99944 12.0216L7.7665 12.1441L3.9625 14.1441L3.9623 14.1442C3.93616 14.1579 3.90684 14.1645 3.87733 14.1632C3.84782 14.1619 3.81918 14.1527 3.79436 14.1367C3.76953 14.1207 3.74941 14.0984 3.73605 14.0721C3.72416 14.0486 3.718 14.0228 3.71801 13.9966L3.72286 13.9556L4.44731 9.73181L4.49179 9.4725L4.30326 9.28899L1.22193 6.28966L1.22147 6.28921C1.2003 6.26866 1.18497 6.24287 1.17704 6.21446C1.16911 6.18604 1.16885 6.15604 1.17631 6.1275C1.18377 6.09896 1.19867 6.07291 1.21948 6.05201C1.23799 6.03343 1.26059 6.01951 1.28542 6.01133L1.32765 6.00274L5.56692 5.38811Z"
+                    fill="#8A48E6"
+                    style={partialFill ? { clipPath: `inset(0 ${100 - fractionalPart * 100}% 0 0)` } : {}}
+                  />
+                )}
+              </svg>
+            </div>
+          );
+        })}
+      </div>
+    );
   };
 
   return (
@@ -80,9 +120,7 @@ const SearchTeacher = () => {
               borderRadius: "9999px",
             }}
           >
-            <option value="">
-              Вид навчання
-            </option>
+            <option value="">Вид навчання</option>
             {lessonTypeOptions.map((option) => (
               <option key={option.key} value={option.key}>
                 {option.value}
@@ -107,9 +145,7 @@ const SearchTeacher = () => {
               borderRadius: "9999px",
             }}
           >
-            <option value="">
-              Формат
-            </option>
+            <option value="">Формат</option>
             {meetingTypeOptions.map((option) => (
               <option key={option.key} value={option.key}>
                 {option.value}
@@ -152,8 +188,8 @@ const SearchTeacher = () => {
         {/* стан загрузки */}
         {loading && <p>Загрузка...</p>}
 
-        {/* Помилка 
-        {error && <p className="text-center text-red-500">{error}</p>}*/}
+        {/* Помилка */}
+        {error && <p className="text-center text-red-500">{error}</p>}
 
         {/* Вчителі і наявність */}
         {teachers.length === 0 && !loading && error && (
@@ -185,15 +221,20 @@ const SearchTeacher = () => {
                     src={teacher.ImagePathUrl || "/assets/images/avatar.jpg"}
                     alt="profile"
                   />
-                  <div className="w-auto left-[70px] top-[10px] absolute text-[#120c38] text-[15pt] font-bold font-['Nunito']">
+                  <div className="w-auto left-[70px] top-[15px] absolute text-[#120c38] text-[15pt] font-bold font-['Nunito']">
                     {teacher.FullName || "Волкова Надія Миколаївна"}
                   </div>
-                  <div className="w-auto left-[70px] top-[30px] absolute text-[#827fae] text-[12pt] font-normal font-['Lato'] subjects-teacher">
+                  <div className="w-auto left-[70px] top-[35px] absolute text-[#827fae] text-[12pt] font-normal font-['Lato'] subjects-teacher">
                     {teacher.SubjectName || "Математика"}
                   </div>
                 </div>
 
-                {/* Рейтинг вчителя */}
+                {/* Рейтинг вчителя в абсолютной позиции */}
+                <div className="absolute left-[85px] top-[10px]">
+                  {renderStars(teacher.Rating)}
+                </div>
+
+                {/* Описание вчителя */}
                 <div className="w-[624px] h-[35px] left-[21px] top-[85px] absolute text-[#6f6f6f] text-[12pt] font-normal font-['Mulish'] about-teacher">
                   {teacher.AboutTeacher ||
                     "Привіт! Я, Надія Волкова, вчитель математики та фізики. Я маю власну методику навчання, а також розробила авторські матеріали що гарантує якісне засвоєння нових знань."}
