@@ -9,7 +9,7 @@ import Schedule from './components/Schedule';
 import Graphic from './components/Graphic';
 import SearchTeachers from './components/SearchTeacher';
 //import Map from './components/Map';
-//import {jwtDecode} from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode';
 
 export default function HomeStudent() {
   const [leaders, setLeaders] = useState([]);
@@ -22,14 +22,14 @@ export default function HomeStudent() {
     const fetchStudentData = async () => {
       try {
         // Get studentId by token
-        /* const token = sessionStorage.getItem('token');
-         if (!token) {
-           console.error('No token found in session storage');
-           return;
-         }
-         const decodedToken = jwtDecode(token);*/
-
-        const studentId = 1; //decodedToken.studentId; // Поле studentId должно быть в токене
+        const token = sessionStorage.getItem('token');
+        if (!token) {
+          console.error('No token found in session storage');
+          return;
+        }
+        const decodedToken = jwtDecode(token);
+        
+        const studentId = decodedToken.studentId; //1; // Поле studentId должно быть в токене
 
         if (!studentId) {
           console.error('Student ID not found in token');
@@ -50,7 +50,7 @@ export default function HomeStudent() {
 
         const userResponse = await axios.get(`http://localhost:4000/api/students/${studentId}/user`);
         console.log(userResponse);
-        
+
         setUser(userResponse.data);
 
       } catch (error) {
@@ -66,7 +66,7 @@ export default function HomeStudent() {
       {/* Общий контейнер для всех блоков */}
       <div className="flex flex-col w-full md:hidden">
         {/* Greetings */}
-        <Greetings user={user}/>
+        <Greetings user={user} />
         {/* Graphic */}
         <Graphic chartData={grades} />
         {/* MarkHistory */}
@@ -83,7 +83,7 @@ export default function HomeStudent() {
       <div className="hidden md:flex md:flex-row w-full">
         {/* Left col */}
         <div className="w-full md:w-9/12 pr-4 mb-2 md:mb-0">
-          <Greetings user={user}/>
+          <Greetings user={user} />
           {/* Graphic and leader flex box */}
           <div className="flex flex-col md:flex-row gap-4 mb-6 h-[30vh]">
             <Graphic chartData={grades} />

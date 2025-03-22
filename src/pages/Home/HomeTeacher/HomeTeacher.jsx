@@ -8,7 +8,7 @@ import NearestEvents from './components/NearestEvents';
 import Schedule from './components/Schedule';
 import Graphic from './components/Graphic';
 import Productivity from './components/Productivity';
-// import { jwtDecode } from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode';
 
 export default function HomeTeacher() {
     const [leaders, setLeaders] = useState([]);
@@ -22,16 +22,13 @@ export default function HomeTeacher() {
     useEffect(() => {
         const fetchTeacherData = async () => {
             try {
-                // Получение teacherId из токена (раскомментируйте при использовании)
-                /* const token = sessionStorage.getItem('token');
+                const token = sessionStorage.getItem('token');
                 if (!token) {
                     console.error('No token found in session storage');
                     return;
                 }
                 const decodedToken = jwtDecode(token);
-                const teacherId = decodedToken.teacherId; */
-
-                const teacherId = 3; // Заглушка для тестирования
+                const teacherId = decodedToken.teacherId;
 
                 if (!teacherId) {
                     console.error('Teacher ID not found');
