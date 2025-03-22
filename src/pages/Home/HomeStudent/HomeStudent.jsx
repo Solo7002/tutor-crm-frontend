@@ -17,44 +17,62 @@ export default function HomeStudent() {
   const [events, setEvents] = useState([]);
   const [days, setDays] = useState([]);
   const [user, setUser] = useState(null);
+  const [studentId, setStudentId] = useState(null);
 
   useEffect(() => {
     const fetchStudentData = async () => {
       try {
-        // Get studentId by token
         const token = sessionStorage.getItem('token');
         if (!token) {
           console.error('No token found in session storage');
           return;
         }
-        const decodedToken = jwtDecode(token);
-        
-        const studentId = decodedToken.studentId; //1; // Поле studentId должно быть в токене
 
-        if (!studentId) {
-          console.error('Student ID not found in token');
+        let decodedToken;
+        try {
+          decodedToken = jwtDecode(token);
+        } catch (error) {
+          console.error('Error decoding token:', error);
           return;
         }
 
-        const leadersResponse = await axios.get(`http://localhost:4000/api/students/${studentId}/leaders`);
+        const userId = decodedToken.id;
+
+        if (!userId) {
+          console.error('User ID not found in token');
+          return;
+        }
+
+        const studentResponse = await axios.get(`http://localhost:4000/api/students/search/user/${userId}`, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+
+        if (!studentResponse.data.success || !studentResponse.data.data.length) {
+          console.error('No student found for this user');
+          return;
+        }
+
+        const student = studentResponse.data.data[0];
+        setStudentId(student.StudentId);
+
+        const [leadersResponse, gradesResponse, eventsResponse, daysResponse, userResponse] = await Promise.all([
+          axios.get(`http://localhost:4000/api/students/${student.StudentId}/leaders`),
+          axios.get(`http://localhost:4000/api/students/${student.StudentId}/grades`),
+          axios.get(`http://localhost:4000/api/students/${student.StudentId}/events`),
+          axios.get(`http://localhost:4000/api/students/${student.StudentId}/days`),
+          axios.get(`http://localhost:4000/api/students/${student.StudentId}/user`)
+        ]);
+
         setLeaders(leadersResponse.data);
-
-        const gradesResponse = await axios.get(`http://localhost:4000/api/students/${studentId}/grades`);
         setGrades(gradesResponse.data);
-
-        const eventsResponse = await axios.get(`http://localhost:4000/api/students/${studentId}/events`);
         setEvents(eventsResponse.data);
-
-        const daysResponse = await axios.get(`http://localhost:4000/api/students/${studentId}/days`);
         setDays(daysResponse.data);
-
-        const userResponse = await axios.get(`http://localhost:4000/api/students/${studentId}/user`);
-        console.log(userResponse);
-
         setUser(userResponse.data);
 
       } catch (error) {
-        console.error('Error fetching student data:', error);
+        console.error('Error fetching student data:', error.response?.data || error.message);
       }
     };
 

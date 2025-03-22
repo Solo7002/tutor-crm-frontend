@@ -104,11 +104,11 @@ const Navbar = () => {
 
   const [activeNavItem, setActiveNavItem] = useState(getDefaultActiveNavItem());
 
-  const handleNavItemClick = (navItem, label) => {
-    setActiveNavItem(navItem);
-    setCurrentPageTitle(label);
-    if (isSidebarOpen) setIsSidebarOpen(false);
-  };
+  // const handleNavItemClick = (navItem, label) => {
+  //   setActiveNavItem(navItem);
+  //   setCurrentPageTitle(label);
+  //   if (isSidebarOpen) setIsSidebarOpen(false);
+  // };
 
   const NavItem = ({ icon, text, to, isActive, onClick, noBorder, blackText, group, fontSize }) => {
     const baseButtonStyle = {
@@ -436,7 +436,17 @@ const Navbar = () => {
   };
 
   const [currentPageTitle, setCurrentPageTitle] = useState(getDefaultPageTitle());
+  useEffect(() => {
+    const newActiveItem = getDefaultActiveNavItem();
+    setActiveNavItem(newActiveItem);
+    setCurrentPageTitle(getDefaultPageTitle());
+  }, [location.pathname, userRole]);
 
+  const handleNavItemClick = (navItem, label) => {
+    setActiveNavItem(navItem);
+    setCurrentPageTitle(label);
+    if (isSidebarOpen) setIsSidebarOpen(false);
+  };
   return (
     <div className="flex h-screen w-[100%] navbar">
       {/* Sidebar */}

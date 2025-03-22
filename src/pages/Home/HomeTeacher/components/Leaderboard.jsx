@@ -36,21 +36,10 @@ const Leaderboard = ({ leaders }) => {
                     Таблиця лідерів
                 </div>
                 <select
-                    className="border pr-3 w-auto custom-select"
                     value={selectedGroup}
                     onChange={(e) => setSelectedGroup(e.target.value)}
-                    style={{
-                        fontFamily: "Nunito",
-                        fontWeight: "700",
-                        fontSize: "12pt",
-                        lineHeight: "20.46pt",
-                        letterSpacing: "-0.5%",
-                        color: "#827FAE",
-                        border: "1px solid #D7D7D7",
-                        borderRadius: "9999px",
-                    }}
+                    className="h-10 px-2 bg-white rounded-2xl border border-[#d7d7d7] text-[#827ead] text-lg font-bold font-['Nunito'] focus:outline-none"
                 >
-                    {/* Options for selecting a group */}
                     {groups.map((group, index) => (
                         <option key={index} value={group}>
                             {group}

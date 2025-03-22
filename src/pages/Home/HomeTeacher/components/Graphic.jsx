@@ -166,19 +166,17 @@ const Graphic = ({ chartData }) => {
         >
           Успішність учнів
         </div>
-        <div className="w-[116px] h-10 p-2 bg-white rounded-2xl border border-[#d7d7d7] flex-col justify-center items-start gap-1.5 inline-flex">
-          <select
-            value={selectedGroup}
-            onChange={(e) => setSelectedGroup(e.target.value)}
-            className="w-full h-6 text-[#827ead] text-[15px] font-bold font-['Nunito'] bg-transparent border-none"
-          >
-            {groups.map((group, index) => (
-              <option key={index} value={group}>
-                {group}
-              </option>
-            ))}
-          </select>
-        </div>
+        <select
+          value={selectedGroup}
+          onChange={(e) => setSelectedGroup(e.target.value)}
+          className="h-10 px-2 bg-white rounded-2xl border border-[#d7d7d7] text-[#827ead] text-lg font-bold font-['Nunito'] focus:outline-none"
+        >
+          {groups.map((group, index) => (
+            <option key={index} value={group}>
+              {group}
+            </option>
+          ))}
+        </select>
       </div>
 
       <div className="w-[90%] h-[80%] relative mx-auto">
