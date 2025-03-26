@@ -59,7 +59,6 @@ const SearchTeacher = () => {
     }));
   };
 
-  // Функция для рендера звезд рейтинга
   const renderStars = (rating) => {
     const fullStars = Math.floor(rating || 0);
     const fractionalPart = (rating || 0) - fullStars;
