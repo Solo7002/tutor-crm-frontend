@@ -1,0 +1,46 @@
+import "./StudentItem.css";
+
+const StudentItem = ({ name = "Ім’я студента", date = "01.03.2025", score = 6, maxScore = 12, status = "Active" }) => {
+  const scoreRatio = maxScore > 0 ? score / maxScore : 0;
+
+  let styleStatus = status;
+  if (status !== "Default") {
+    if (scoreRatio < 0.33) {
+      styleStatus = "Low";
+    } else if (scoreRatio < 0.66) {
+      styleStatus = "Medium";
+    } else {
+      styleStatus = "High";
+    }
+  }
+
+  return (
+    <div className="StudentItem">
+      <div
+        className="StudentItem-container"
+        data-style-status={styleStatus}
+      >
+        <img
+          className="StudentItem-avatar"
+          src="https://placehold.co/86x86"
+          alt="Student avatar"
+        />
+        <div className="StudentItem-name">{name}</div>
+        <div className="StudentItem-date">{date}</div>
+        {status !== "Default" && (
+          <div
+            data-property-1={status}
+            className="StudentItem-score"
+            data-style-status={styleStatus}
+          >
+            <div className="StudentItem-score-text">
+              {score}/{maxScore}
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
+export default StudentItem;

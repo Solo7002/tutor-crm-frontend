@@ -14,7 +14,8 @@ import CalendarTeacher from "../pages/CalendarTeacher/CalendarTeacher";
 import RunTestStudent from "../pages/Tests/RunTestStudent";
 import DoneTestStudent from "../pages/Tests/DoneTestStudent";
 import HomeTeacher from "../pages/Home/HomeTeacher/HomeTeacher";
-
+import TestsTeacher from "../pages/TestsTeacher/TestsTeacher";
+import TestResults from "../pages/TestsTeacher/TestResults";
 const AppRoutes = () => {
   return (
     <Router>
@@ -50,7 +51,8 @@ const AppRoutes = () => {
           <Route path="home" element={<HomeTeacher />} />
           {/* <Route path="tasks" element={<TasksTeacher />} /> */}
           {/* <Route path="materials" element={<MaterialsTeacher />} /> */}
-          {/* <Route path="tests" element={<TestsTeacher />} /> */}
+          <Route path="tests" element={<TestsTeacher />} />
+          <Route path="tests/results/:testId" element={<TestResults />} />
           <Route path="calendar" element={<CalendarTeacher />} />
           {/* <Route path="reviews" element={<ReviewsTeacher />} /> */}
           {/* <Route path="payments" element={<PaymentsTeacher />} /> */}

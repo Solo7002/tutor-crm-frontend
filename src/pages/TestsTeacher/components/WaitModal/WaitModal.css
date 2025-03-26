@@ -1,0 +1,49 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.wait-modal-overlay {
+    @apply fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-[1000];
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+.wait-modal {
+    @apply relative m-auto;
+}
+
+.wait-modal-container {
+    @apply w-[460px] h-[466px] relative bg-white rounded-[20px] p-4;
+}
+
+.wait-modal-title {
+    @apply w-96 absolute left-[11.66px] top-[20px] text-center justify-center text-[#120c38] text-2xl font-bold font-['Nunito'];
+}
+
+.wait-modal-svg-container {
+    @apply w-44 absolute left-[260px] top-[100px] overflow-hidden;
+}
+
+.wait-modal-description {
+    @apply w-56 h-40 absolute left-[20px] top-[161.52px] text-center justify-center text-[#827ead] text-base font-normal font-['Mulish'];
+}
+
+.wait-modal-button {
+    @apply w-96 h-12 absolute left-[30px] top-[398px] bg-white rounded-2xl outline outline-1 outline-offset-[-1px] outline-[#d7d7d7] inline-flex justify-center items-center gap-2.5 overflow-hidden px-10 py-2;
+}
+
+.wait-modal-button:hover {
+    @apply cursor-pointer bg-gray-100;
+}
+
+.wait-modal-button-text {
+    @apply flex-1 self-stretch text-center justify-center text-[#120c38] text-xl font-medium font-['Nunito'];
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
