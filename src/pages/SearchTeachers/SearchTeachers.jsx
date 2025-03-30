@@ -194,7 +194,16 @@ const SearchTeachers = () => {
                                         <div className="absolute top-23 left-0 w-[90vw] sm:w-[332px] bg-white rounded-2xl border border-[#D7D7D7] p-6 z-50 shadow-xl filter-popup">
                                             {/* Price Range */}
                                             <div className="mb-8">
-                                                <h3 className="text-[#120C38] text-2xl font-bold font-['Nunito'] mb-4">Вартість навчання</h3>
+                                                <h3 className="text-[#120C38] text-2xl font-bold font-['Nunito'] flex gap-3 mb-4">
+                                                    <button
+                                                        onClick={toggleFilters}
+                                                        className="w-12 h-12 mt-[2px] bg-white hidden sorts-back-btn"
+                                                    >
+                                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                            <path d="M5 12H19M5 12L11 18M5 12L11 6" stroke="#120C38" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                                        </svg>
+                                                    </button><span>Вартість навчання</span>
+                                                </h3>
                                                 <div className="flex mt-6">
                                                     <input
                                                         type="number"
@@ -393,74 +402,74 @@ const SearchTeachers = () => {
 
             {/* Scrollable Content Section */}
             <div className="flex-1 overflow-y-auto p-4 sm:p-6 pt-0">
-                    {/* Teacher Cards Grid */}
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 teacher-cards-grid">
-                        {teachers.map((teacher) => (
-                            <div
-                                key={teacher.TeacherId}
-                                className="bg-white min-h-[205px] max-h-[250px] w-full rounded-2xl border border-[#8a48e6] p-4 hover:shadow-lg transition-shadow teacher-card"
-                            >
-                                {/* Teacher Info */}
-                                <div className="flex items-start space-x-3 mb-4">
-                                    <img
-                                        className="w-16 h-16 rounded-full object-cover"
-                                        src={teacher.ImagePathUrl || "/assets/images/avatar.jpg"}
-                                        alt="profile"
-                                    />
-                                    <div className="flex-grow">
-                                        <div className="mt-1">{renderStars(teacher.Rating)}</div>
-                                        <h3 className="text-[#120c38] text-lg font-bold font-['Nunito'] mb-1">
-                                            {teacher.FullName || "Волкова Надія Миколаївна"}
-                                        </h3>
-                                        <p className="text-[#827fae] text-sm font-normal font-['Lato']">
-                                            {teacher.SubjectName || "Математика"}
-                                        </p>
-                                    </div>
-                                </div>
-
-                                {/* Teacher Description */}
-                                <p className="text-[#6f6f6f] text-sm font-normal font-['Mulish'] mb-4 line-clamp-3">
-                                    {teacher.AboutTeacher ||
-                                        "Привіт! Я, Надія Волкова, вчитель математики та фізики. Я маю власну методику навчання, а також розробила авторські матеріали що гарантує якісне засвоєння нових знань."}
-                                </p>
-
-                                {/* Price and View Button */}
-                                <div className="flex items-center justify-between mt-auto">
-                                    <div className="text-black text-xl font-bold font-['Nunito']">
-                                        Від {teacher.LessonPrice} грн
-                                    </div>
-                                    <Link
-                                        to={`/teacher/profile/${teacher.TeacherId}`}
-                                        className="px-6 py-2 bg-[#8a48e6] text-white rounded-full text-sm font-bold font-['Nunito'] hover:bg-[#7339cc] transition-colors"
-                                    >
-                                        Переглянути
-                                    </Link>
+                {/* Teacher Cards Grid */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 teacher-cards-grid">
+                    {teachers.map((teacher) => (
+                        <div
+                            key={teacher.TeacherId}
+                            className="bg-white min-h-[205px] max-h-[250px] w-full rounded-2xl border border-[#8a48e6] p-4 hover:shadow-lg transition-shadow teacher-card"
+                        >
+                            {/* Teacher Info */}
+                            <div className="flex items-start space-x-3 mb-4">
+                                <img
+                                    className="w-16 h-16 rounded-full object-cover"
+                                    src={teacher.ImagePathUrl || "/assets/images/avatar.jpg"}
+                                    alt="profile"
+                                />
+                                <div className="flex-grow">
+                                    <div className="mt-1">{renderStars(teacher.Rating)}</div>
+                                    <h3 className="text-[#120c38] text-lg font-bold font-['Nunito'] mb-1">
+                                        {teacher.FullName || "Волкова Надія Миколаївна"}
+                                    </h3>
+                                    <p className="text-[#827fae] text-sm font-normal font-['Lato']">
+                                        {teacher.SubjectName || "Математика"}
+                                    </p>
                                 </div>
                             </div>
-                        ))}
-                        {/* Load More Button */}
-                        {hasMore && !loading && (
-                            <div className="col-span-1 sm:col-span-2 lg:col-span-3 flex justify-center items-center mt-8 mb-6 more-btn">
-                                <button
-                                    onClick={loadMore}
-                                    className="w-full sm:w-auto px-8 py-3 bg-[#8a48e6] text-white rounded-full text-base font-bold font-['Nunito'] hover:bg-[#7339cc] transition-colors"
+
+                            {/* Teacher Description */}
+                            <p className="text-[#6f6f6f] text-sm font-normal font-['Mulish'] mb-4 line-clamp-3">
+                                {teacher.AboutTeacher ||
+                                    "Привіт! Я, Надія Волкова, вчитель математики та фізики. Я маю власну методику навчання, а також розробила авторські матеріали що гарантує якісне засвоєння нових знань."}
+                            </p>
+
+                            {/* Price and View Button */}
+                            <div className="flex items-center justify-between mt-auto">
+                                <div className="text-black text-xl font-bold font-['Nunito']">
+                                    Від {teacher.LessonPrice} грн
+                                </div>
+                                <Link
+                                    to={`/teacher/profile/${teacher.TeacherId}`}
+                                    className="px-6 py-2 bg-[#8a48e6] text-white rounded-full text-sm font-bold font-['Nunito'] hover:bg-[#7339cc] transition-colors"
                                 >
-                                    Переглянути більше
-                                </button>
+                                    Переглянути
+                                </Link>
                             </div>
-                        )}
-                    </div>
+                        </div>
+                    ))}
+                    {/* Load More Button */}
+                    {hasMore && !loading && (
+                        <div className="col-span-1 sm:col-span-2 lg:col-span-3 flex justify-center items-center mt-8 mb-6 more-btn">
+                            <button
+                                onClick={loadMore}
+                                className="w-full sm:w-auto px-8 py-3 bg-[#8a48e6] text-white rounded-full text-base font-bold font-['Nunito'] hover:bg-[#7339cc] transition-colors"
+                            >
+                                Переглянути більше
+                            </button>
+                        </div>
+                    )}
+                </div>
 
-                    {/* Loading and Error States */}
-                    {loading && (
-                        <p className="text-center mt-6 loading-pulse">Загрузка...</p>
-                    )}
-                    {error && <p className="text-center mt-6 text-red-500">{error}</p>}
-                    {teachers.length === 0 && !loading && !error && (
-                        <p className="text-center mt-6 text-gray-500">
-                            Немає доступних викладачів
-                        </p>
-                    )}
+                {/* Loading and Error States */}
+                {loading && (
+                    <p className="text-center mt-6 loading-pulse">Загрузка...</p>
+                )}
+                {error && <p className="text-center mt-6 text-red-500">{error}</p>}
+                {teachers.length === 0 && !loading && !error && (
+                    <p className="text-center mt-6 text-gray-500">
+                        Немає доступних викладачів
+                    </p>
+                )}
             </div>
         </div>
     );

@@ -200,12 +200,12 @@
     pointer-events: none;
 }
 
-/* Responsive adjustments */
+/* Responsive adjustments 
 @media (max-width: 1024px) {
   .teacher-cards-grid {
     grid-template-columns: repeat(2, 1fr);
   }
-}
+}*/
 
 @media (max-width: 768px) {
   .search-filters {
@@ -311,9 +311,15 @@
   .filter-popup {
     width: 90vw !important;
     max-width: 408px;
-    left: 50%;
     transform: translateX(-50%);
     bottom: -49vh;
+    right: 15px;
+    top: -200px;
+    height: 560px;
+  }
+
+  .search-teachers-page-sorts .sorts-back-btn{
+    display: flex;
   }
 
   /* Main container adjustments */
