@@ -4,6 +4,7 @@ import Comment from './components/Comment';
 import axios from 'axios';
 import CourseList from './components/CourseList';
 import { useNavigate } from 'react-router-dom';
+import {jwtDecode} from "jwt-decode";
 
 export default function ProfileTeacher() {
     const navigate = useNavigate();
@@ -12,12 +13,21 @@ export default function ProfileTeacher() {
     // const [courses, setCourses] = useState([]);
 
     useEffect(() => {
-        setUser(JSON.parse(sessionStorage.getItem("user")));
-        axios.get('http://localhost:4000/api/teachers/info', { params: { UserId: user.UserId } }).then(res => {
-            console.log('res', res)
-            setTeacher(res.data.teacher);
-            // setCourses(res.data.courses);
-        })
+        const token = sessionStorage.getItem("token");
+        if (token) {
+            try {
+                const decoded = jwtDecode(token);
+                axios.get('http://localhost:4000/api/teachers/info', { params: { UserId: decoded.id } }).then(res => {
+                    console.log('res', res)
+                    setTeacher(res.data.teacher);
+                    setUser(res.data.user);
+                    // setCourses(res.data.courses);
+                })
+
+            } catch (error) {
+                console.error("Ошибка при расшифровке токена:", error);
+            }
+        }
         // eslint-disable-next-line
     }, [])
 
@@ -52,7 +62,7 @@ export default function ProfileTeacher() {
 
                             <div className="w-[200px] mx-auto">
                                 <div className="w-full h-8 px-4 py-2 rounded-[40px] border border-[#8a48e6] flex justify-center hover:bg-[#632DAE] hover:text-white items-center gap-2.5 text-[#8a48e6] text-[15px] font-bold font-['Nunito']" onClick={() => navigate("/teacher/profile/edit")}>
-                                        Редагувати профіль
+                                    Редагувати профіль
                                 </div>
                             </div>
 
