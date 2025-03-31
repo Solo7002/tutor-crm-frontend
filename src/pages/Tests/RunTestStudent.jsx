@@ -1,8 +1,10 @@
-import React from "react";
+import React, {useState, useEffect, useParams} from "react";
 import { PrimaryButton } from "../../components/Buttons/Buttons";
+import { decryptData } from '../../utils/crypto';
 import "./RunTestStudent.css"; // Подключаем CSS-файл
 
 export default function RunTestStudent() {
+  const { encryptedTestId } = useParams();
   const currentQuestionIndex = 1;
   const totalQuestions = 12;
   const remainingTime = "00:25:30";
@@ -11,6 +13,11 @@ export default function RunTestStudent() {
   const questionText = "Скільки осей має прямокутна система координат у двовимірному просторі?";
   const imageUrl = "https://via.placeholder.com/300";
   const answers = ["Одна", "Дві", "Три", "Чотири"];
+
+  useEffect(() => {
+    const decryptedTestId = decryptData(encryptedTestId);
+    console.log("decryptedTestId: ", decryptedTestId);
+}, [encryptedTestId]);
 
   return (
     <div className="test-page-container">

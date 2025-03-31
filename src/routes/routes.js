@@ -14,6 +14,7 @@ import CalendarTeacher from "../pages/CalendarTeacher/CalendarTeacher";
 import RunTestStudent from "../pages/Tests/RunTestStudent";
 import DoneTestStudent from "../pages/Tests/DoneTestStudent";
 import HomeTeacher from "../pages/Home/HomeTeacher/HomeTeacher";
+import HometaskTeacher from "../pages/Hometasks/Teacher/HometaskTeacher";
 
 const AppRoutes = () => {
   return (
@@ -48,7 +49,7 @@ const AppRoutes = () => {
         {/* Teacher Routes */}
         <Route path="/teacher" element={<Navbar />}>
           <Route path="home" element={<HomeTeacher />} />
-          {/* <Route path="tasks" element={<TasksTeacher />} /> */}
+          <Route path="hometasks" element={<HometaskTeacher />} />
           {/* <Route path="materials" element={<MaterialsTeacher />} /> */}
           {/* <Route path="tests" element={<TestsTeacher />} /> */}
           <Route path="calendar" element={<CalendarTeacher />} />
