@@ -62,6 +62,9 @@ export const HometaskModal = ({ onClose, status, token, hometask, hometaskFiles,
 
       await Promise.all(
         uploadedFiles.map(async (file) => {
+          console.log("--------- DoneHomeTaskId", doneHometaskId);
+          console.log("--------- FileName", file.name);
+          console.log("--------- FilePath", file.url);
           await axios.post(
             'http://localhost:4000/api/doneHometaskFiles/',
             {

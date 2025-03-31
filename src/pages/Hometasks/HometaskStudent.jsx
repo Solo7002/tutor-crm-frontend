@@ -3,6 +3,7 @@ import TaskButton from '../../components/TaskButton/TaskButton';
 import { HomeTaskCardFull, HomeTaskCard } from '../../components/HomeCard/Hometask-card';
 import "./HometaskStudent.css";
 import axios from 'axios';
+import {jwtDecode} from "jwt-decode";
 
 import SearchButton from '../Materials/components/SearchButton';
 import ToggleSwitch from '../Materials/components/ToggleSwitch';
@@ -34,9 +35,38 @@ const HometaskStudent = () => {
     { text: 'Виконано', icon: 'M5 12L10 17L20 7', count: doneHomeTasks.length }];
   const [subjects, setSubjects] = useState([]);
   const [selectedSubject, setSelectedSubject] = useState("Усі предмети");
+  const [userId, setUserId] = useState(null);
+  const [studentId, setStudentId] = useState(null);
+  const [token, setToken] = useState(null);
 
-  const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJhcnRlbXJvZ296YW5AZ21haWwuY29tIiwiaWF0IjoxNzQwMzk2MjExLCJleHAiOjE3NDAzOTk4MTF9.duZ-ZWFrSgGUgL0Krq7yP_TlgJE1Iia5nvT5buOsxlk";
-  const studentId = 2;
+  useEffect(() => {
+    const tok = sessionStorage.getItem("token");
+    setToken(tok);
+    if (tok) {
+      try {
+        const decoded = jwtDecode(tok);
+        setUserId(decoded.id);
+
+      } catch (error) {
+        console.error("Ошибка при расшифровке токена:", error);
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    if (userId) {
+      axios
+        .get(`http://localhost:4000/api/students/search-by-user-id/${userId}`)
+        .then((response) => {
+          if (response.data.success) {
+            setStudentId(response.data.data[0].StudentId);
+          }
+        })
+        .catch((error) => {
+          console.error("Ошибка при получении studentId:", error);
+        });
+    }
+  }, [userId]);
 
 
   // Загрузка предметов при монтировании компонента
@@ -333,7 +363,6 @@ const HometaskStudent = () => {
       {isModalOpen && isDataLoaded && <HometaskModal onClose={handleCloseModal} status={status} token={token} hometaskDoneFiles={hometaskDoneFileInModal} hometask={hometaskInModal} hometaskDone={hometaskDoneInModal} hometaskFiles={hometaskFile} studentId={studentId} />}
       <main>
         <div className="hometask p-6">
-          <h1 className="text-2xl font-bold">Hometask Student</h1>
           <div className="nav flex items-center justify-between">
             <div className="h-12 flex items-center gap-2 overflow-hidden">
               {buttons.map((button, index) => (
