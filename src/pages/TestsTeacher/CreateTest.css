@@ -1,0 +1,53 @@
+.test-page-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  padding-bottom: 120px; /* Збільшуємо відступ знизу, щоб врахувати висоту фіксованої панелі */
+  min-height: 100vh; /* Забезпечуємо, що контейнер займає всю висоту екрана */
+  box-sizing: border-box;
+}
+
+.questions-container {
+  background-color: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+}
+
+.questions-section {
+  margin-top: 0;
+}
+
+.questions-section > div {
+  width: 100%;
+}
+
+button {
+  outline: none;
+  border: none;
+  cursor: pointer;
+}
+
+button:focus {
+  outline: none;
+}
+
+
+.fixed.bottom-0 {
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+  padding: 16px;
+}
+
+/* Додатковий клас для тіні */
+.shadow-top {
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+}
+
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  overflow-y: auto; 
+}

@@ -1,8 +1,8 @@
 import { useState } from "react";
 
-export default function Dropdown({ options, onSelectSubject }) {
+export default function Dropdown({textAll="Усі предмети", options, onSelectSubject }) {
   const [isOpen, setIsOpen] = useState(false);
-  const [selected, setSelected] = useState("Усі предмети");
+  const [selected, setSelected] = useState(textAll);
 
   return (
     <div className="relative w-[245px]">
@@ -33,7 +33,7 @@ export default function Dropdown({ options, onSelectSubject }) {
       {/* Выпадающий список */}
       {isOpen && (
         <ul className="absolute w-full mt-1 bg-white border border-[#d7d7d7] rounded-2xl shadow-lg z-10">
-          {["Усі предмети", ...options.map(subject => subject.SubjectName)].map((option) => (
+          {[textAll, ...options.map(subject => subject.SubjectName)].map((option) => (
             option === selected
               ? null
               : (
@@ -42,7 +42,7 @@ export default function Dropdown({ options, onSelectSubject }) {
                   onClick={() => {
                     setSelected(option);
                     setIsOpen(false);
-                    onSelectSubject(option); // Передаем выбранный предмет в родительский компонент
+                    onSelectSubject(option);
                   }}
                   className="p-2 hover:bg-[#f4f4f5] hover:rounded-2xl cursor-pointer text-[#827ead] text-[15px]"
                 >

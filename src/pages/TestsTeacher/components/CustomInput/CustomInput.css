@@ -1,0 +1,11 @@
+/* Remove spinner arrows for number inputs */
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type='number'] {
+  -moz-appearance: textfield; /* For Firefox */
+  appearance: none; /* For other browsers */
+}

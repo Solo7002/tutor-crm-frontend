@@ -2,10 +2,10 @@ import React from 'react';
 import './Buttons.css';
 import clsx from "clsx";
 
-export const PrimaryButton = ({ children, disabled, onClick, ...props }) => {
+export const PrimaryButton = ({ children, disabled,className, onClick, ...props }) => {
   return (
     <button
-      className="primary-button"
+      className={`${className} primary-button`} 
       disabled={disabled}
       onClick={onClick}
       {...props}

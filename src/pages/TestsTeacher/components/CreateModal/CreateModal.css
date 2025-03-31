@@ -1,0 +1,44 @@
+/* CreateModal.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.CreateModal {
+  @apply fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50;
+}
+
+.modal-container {
+  @apply w-full max-w-[460px] min-h-[16rem] bg-white rounded-[20px] relative shadow-xl p-4 mx-4 flex flex-col items-center justify-center; /* Flexbox для центрирования */
+}
+
+.close-button {
+  @apply w-6 h-6 absolute left-4 top-4 outline-2 outline-offset-[-1px] outline-[#827ead] rounded-full flex items-center justify-center;
+}
+
+.close-icon {
+  @apply w-3.5 h-3;
+}
+
+.modal-title {
+  @apply text-[#8a48e6] text-2xl font-bold font-['Nunito'] text-center mt-2 mb-4;
+}
+
+.dropdown-wrapper {
+  @apply w-full max-w-[300px] mx-auto mb-4;
+}
+
+.manual-test-button {
+  @apply w-full max-w-[24rem] h-12 bg-white rounded-2xl outline outline-1 outline-offset-[-1px] outline-[#8a48e6] flex items-center justify-center hover:bg-[#f4f4f5] transition-colors mb-4;
+}
+
+.manual-test-button span {
+  @apply text-[#8a48e6] text-xl font-medium font-['Nunito'];
+}
+
+.ai-test-button {
+  @apply w-full max-w-[24rem] h-12 bg-[#8a4ae6] rounded-2xl flex items-center justify-center hover:bg-[#7a3dd1] transition-colors;
+}
+
+.ai-test-button span {
+  @apply text-white text-xl font-medium font-['Nunito'];
+}

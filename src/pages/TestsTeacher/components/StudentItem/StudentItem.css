@@ -1,0 +1,77 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.StudentItem {
+  @apply w-full max-w-[420px] min-w-[300px] mx-auto; 
+}
+
+.StudentItem-container {
+  @apply w-full aspect-[420/86] relative rounded-3xl overflow-hidden; 
+  @apply min-h-[60px] max-h-[86px]; 
+}
+
+.StudentItem-container[data-style-status="Default"] {
+  @apply outline outline-1 outline-offset-[-1px] outline-[#8A48E6];
+}
+
+.StudentItem-container[data-style-status="Low"] {
+  @apply outline outline-1 outline-offset-[-1px] outline-[#ff0000];
+}
+
+.StudentItem-container[data-style-status="Medium"] {
+  @apply outline outline-1 outline-offset-[-1px] outline-[#ffa869];
+}
+
+.StudentItem-container[data-style-status="High"] {
+  @apply outline outline-1 outline-offset-[-1px] outline-[#47c974];
+}
+
+.StudentItem-avatar {
+  @apply w-[20%] aspect-square absolute left-[0.30%] top-[1%] rounded-3xl; 
+  @apply min-w-[48px] min-h-[48px]; 
+}
+
+.StudentItem-name {
+  @apply w-[40%] absolute left-[25%] top-[15%] text-[#120c38] font-normal font-['Mulish'] text-left; 
+  @apply text-[clamp(0.875rem,4vw,1.25rem)]; 
+}
+
+.StudentItem-date {
+  @apply w-[40%] absolute left-[25%] top-[60%] text-[#827ead] font-bold font-['Nunito'] text-left; 
+  @apply text-[clamp(0.75rem,3.5vw,1rem)]; 
+}
+
+.StudentItem-score {
+  @apply w-[30%] h-[45%] min-w-[80px] min-h-[28px] absolute left-[65%] top-[25%] rounded-[40px] inline-flex justify-center items-center gap-2.5 transition-colors duration-200; /* Размер и позиция в процентах */
+  @apply px-[1rem] py-[0.25rem]; 
+}
+
+.StudentItem-score[data-style-status="Low"] {
+  @apply bg-[#ff0000];
+}
+
+.StudentItem-score[data-style-status="Low"]:hover {
+  background-color: #e60000; 
+}
+
+.StudentItem-score[data-style-status="Medium"] {
+  @apply bg-[#ffa869];
+}
+
+.StudentItem-score[data-style-status="Medium"]:hover {
+  background-color: #f5934e;
+}
+
+.StudentItem-score[data-style-status="High"] {
+  @apply bg-[#47c974];
+}
+
+.StudentItem-score[data-style-status="High"]:hover {
+  background-color: #3db563;
+}
+
+.StudentItem-score-text {
+  @apply text-white font-bold font-['Nunito'] text-center;
+  @apply text-[clamp(0.75rem,3vw,1rem)];
+}
