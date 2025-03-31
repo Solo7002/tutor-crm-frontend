@@ -35,21 +35,10 @@ const Leaderboard = ({ leaders }) => {
                     Таблиця лідерів
                 </div>
                 <select
-                    className="border pr-3 w-auto custom-select"
                     value={selectedSubject}
                     onChange={(e) => setSelectedSubject(e.target.value)}
-                    style={{
-                        fontFamily: "Nunito",
-                        fontWeight: "700",
-                        fontSize: "12pt",
-                        lineHeight: "20.46pt",
-                        letterSpacing: "-0.5%",
-                        color: "#827FAE",
-                        border: "1px solid #D7D7D7",
-                        borderRadius: "9999px",
-                    }}
+                    className="h-[40px] px-3 bg-white rounded-2xl border border-[#d7d7d7] text-[#827ead] text-[12pt] font-bold font-['Nunito'] focus:outline-none"
                 >
-                    {/* Options for selecting a subject */}
                     {subjects.map((subject, index) => (
                         <option key={index} value={subject}>
                             {subject}

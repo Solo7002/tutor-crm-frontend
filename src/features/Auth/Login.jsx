@@ -4,6 +4,7 @@ import axios from "axios";
 import StandartInput from "../../components/Inputs/StandartInput/StandartInput";
 import PasswordInput from "../../components/Inputs/PasswordInput/PasswordInput";
 import { PrimaryButton, SecondaryButton } from '../../components/Buttons/Buttons';
+import { jwtDecode } from "jwt-decode";
 import "./Login.css";
 
 const Login = () => {
@@ -32,13 +33,13 @@ const Login = () => {
   };
 
   const validatePassword = (password) => {
-  console.log("const validatePassword = (password)");
-  const errors = [];
-  if (errorLogin) {
-    console.log("errorLogin - Неправильний email або пароль");
-    errors.push("Неправильний email або пароль");
-  }
-  return errors;
+    console.log("const validatePassword = (password)");
+    const errors = [];
+    if (errorLogin) {
+      console.log("errorLogin - Неправильний email або пароль");
+      errors.push("Неправильний email або пароль");
+    }
+    return errors;
   };
 
   /* Login/Register */
@@ -51,7 +52,7 @@ const Login = () => {
     setPassword(e.target.value);
     setErrorLogin(false);
   };
-  
+
   const handleRegisterClick = (event) => {
     event.preventDefault();
     navigate("/auth/register");
@@ -75,7 +76,18 @@ const Login = () => {
         sessionStorage.setItem("email", Email);
         sessionStorage.setItem("password", Password);
 
-        navigate("/student/home");
+        const decoded = jwtDecode(response.data.token);
+        axios
+        .get(`http://localhost:4000/api/users/${decoded.id}/balance`)
+        .then((response) => {
+          const { Role } = response.data;
+          if (Role === "Student") {
+            navigate("/student/home");
+          } else if (Role === "Teacher") {
+            navigate("/teacher/home");
+          }
+        })
+        //navigate("/student/home");
       } else {
         setErrorLogin(true);
       }
@@ -107,14 +119,14 @@ const Login = () => {
           value={Email}
           onChange={handleEmailChange}
         />
-        <PasswordInput 
+        <PasswordInput
           placeholder={"Пароль"}
-          value={Password} 
-          onChange={handlePasswordChange} 
+          value={Password}
+          onChange={handlePasswordChange}
           validate={validatePassword}
           onValidationChange={handleValidationChange}
           onTrigger={errorLogin}
-          />
+        />
 
         <div className="login-forgot">
           <a className="cursor-pointer" onClick={handleForgotPasswordClick}>Забули пароль?</a>

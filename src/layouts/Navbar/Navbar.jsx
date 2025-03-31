@@ -1,13 +1,58 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useLocation, Outlet } from "react-router-dom";
+import axios from "axios";
+import { jwtDecode } from "jwt-decode";
 import "./Navbar.css";
 
 const Navbar = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [activeFooterItem, setActiveFooterItem] = useState(null);
   const location = useLocation();
+  const [userId, setUserId] = useState(null);
+  const [imageUrl, setImageUrl] = useState("../../../assets/images/avatar.jpg");
+  const [userRole, setUserRole] = useState("Student");
+  const [userName, setUserName] = useState("");
+  const [balance, setBalance] = useState(0);
 
-  const userRole = localStorage.getItem("role") || "Teacher"; // "Student" / "Teacher"
+  useEffect(() => {
+    const token = sessionStorage.getItem("token");
+    if (token) {
+      try {
+        const decoded = jwtDecode(token);
+        setUserId(decoded.id);
+      } catch (error) {
+        console.error("Ошибка при расшифровке токена:", error);
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    if (userId) {
+      axios
+        .get(`http://localhost:4000/api/users/${userId}/balance`)
+        .then((response) => {
+          const { Role, Username, Balance } = response.data;
+          setUserRole(Role);
+          setUserName(Username);
+
+          if (Role === "Student") {
+            setBalance(Balance.Trophies);
+          } else if (Role === "Teacher") {
+            setBalance(Balance.OctoCoins);
+          }
+
+          return axios.get(`http://localhost:4000/api/users/${userId}`);
+        })
+        .then((userResponse) => {
+          const { ImageFilePath, FirstName, LastName } = userResponse.data;
+          setImageUrl(ImageFilePath || "../../../assets/images/avatar.jpg");
+          setUserName(`${FirstName} ${LastName}`);
+        })
+        .catch((error) => {
+          console.error("Ошибка при получении данных пользователя или баланса:", error);
+        });
+    }
+  }, [userId]);
 
   const getDefaultActiveNavItem = () => {
     if (userRole === "Student") {
@@ -24,8 +69,6 @@ const Navbar = () => {
           return "library";
         case "/student/reviews":
           return "review";
-        case "/student/payments":
-          return "pay";
         case "/student/search":
           return "search";
         case "/student/info":
@@ -49,10 +92,6 @@ const Navbar = () => {
           return "library";
         case "/teacher/reviews":
           return "review";
-        case "/teacher/payments":
-          return "pay";
-        case "/teacher/search":
-          return "search";
         case "/teacher/info":
           return "info";
         case "/teacher/settings":
@@ -65,11 +104,11 @@ const Navbar = () => {
 
   const [activeNavItem, setActiveNavItem] = useState(getDefaultActiveNavItem());
 
-  const handleNavItemClick = (navItem, label) => {
-    setActiveNavItem(navItem);
-    setCurrentPageTitle(label);
-    if (isSidebarOpen) setIsSidebarOpen(false);
-  };
+  // const handleNavItemClick = (navItem, label) => {
+  //   setActiveNavItem(navItem);
+  //   setCurrentPageTitle(label);
+  //   if (isSidebarOpen) setIsSidebarOpen(false);
+  // };
 
   const NavItem = ({ icon, text, to, isActive, onClick, noBorder, blackText, group, fontSize }) => {
     const baseButtonStyle = {
@@ -206,7 +245,7 @@ const Navbar = () => {
       >
         {/* Icon */}
         <div
-        className="nav-icon"
+          className="nav-icon"
           style={{
             width: "40px",
             height: "40px",
@@ -288,12 +327,6 @@ const Navbar = () => {
           )
         },
         {
-          path: "/student/payments", label: "Оплата", key: "pay", icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M3 10H21M7 15H7.01M11 15H13M3 8C3 7.20435 3.31607 6.44129 3.87868 5.87868C4.44129 5.31607 5.20435 5 6 5H18C18.7956 5 19.5587 5.31607 20.1213 5.87868C20.6839 6.44129 21 7.20435 21 8V16C21 16.7956 20.6839 17.5587 20.1213 18.1213C19.5587 18.6839 18.7956 19 18 19H6C5.20435 19 4.44129 18.6839 3.87868 18.1213C3.31607 17.5587 3 16.7956 3 16V8Z" stroke="#827FAE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-          </svg>
-          )
-        },
-        {
           path: "/student/search", label: "Пошук", key: "search", icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M21 21L15 15M3 10C3 10.9193 3.18106 11.8295 3.53284 12.6788C3.88463 13.5281 4.40024 14.2997 5.05025 14.9497C5.70026 15.5998 6.47194 16.1154 7.32122 16.4672C8.1705 16.8189 9.08075 17 10 17C10.9193 17 11.8295 16.8189 12.6788 16.4672C13.5281 16.1154 14.2997 15.5998 14.9497 14.9497C15.5998 14.2997 16.1154 13.5281 16.4672 12.6788C16.8189 11.8295 17 10.9193 17 10C17 9.08075 16.8189 8.1705 16.4672 7.32122C16.1154 6.47194 15.5998 5.70026 14.9497 5.05025C14.2997 4.40024 13.5281 3.88463 12.6788 3.53284C11.8295 3.18106 10.9193 3 10 3C9.08075 3 8.1705 3.18106 7.32122 3.53284C6.47194 3.88463 5.70026 4.40024 5.05025 5.05025C4.40024 5.70026 3.88463 6.47194 3.53284 7.32122C3.18106 8.1705 3 9.08075 3 10Z" stroke="#827FAE" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
           </svg>
@@ -341,18 +374,6 @@ const Navbar = () => {
           path: "/teacher/reviews", label: "Відгуки", key: "review", icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M9.5 9H9.51M14.5 9H14.51M18 4C18.7956 4 19.5587 4.31607 20.1213 4.87868C20.6839 5.44129 21 6.20435 21 7V15C21 15.7956 20.6839 16.5587 20.1213 17.1213C19.5587 17.6839 18.7956 18 18 18H13L8 21V18H6C5.20435 18 4.44129 17.6839 3.87868 17.1213C3.31607 16.5587 3 15.7956 3 15V7C3 6.20435 3.31607 5.44129 3.87868 4.87868C4.44129 4.31607 5.20435 4 6 4H18Z" stroke="#827FAE" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
             <path d="M9.5 13C9.82588 13.3326 10.2148 13.5968 10.6441 13.7772C11.0734 13.9576 11.5344 14.0505 12 14.0505C12.4656 14.0505 12.9266 13.9576 13.3559 13.7772C13.7852 13.5968 14.1741 13.3326 14.5 13" stroke="#827FAE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-          </svg>
-          )
-        },
-        {
-          path: "/teacher/payments", label: "Оплата", key: "pay", icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M3 10H21M7 15H7.01M11 15H13M3 8C3 7.20435 3.31607 6.44129 3.87868 5.87868C4.44129 5.31607 5.20435 5 6 5H18C18.7956 5 19.5587 5.31607 20.1213 5.87868C20.6839 6.44129 21 7.20435 21 8V16C21 16.7956 20.6839 17.5587 20.1213 18.1213C19.5587 18.6839 18.7956 19 18 19H6C5.20435 19 4.44129 18.6839 3.87868 18.1213C3.31607 17.5587 3 16.7956 3 16V8Z" stroke="#827FAE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-          </svg>
-          )
-        },
-        {
-          path: "/teacher/search", label: "Пошук", key: "search", icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M21 21L15 15M3 10C3 10.9193 3.18106 11.8295 3.53284 12.6788C3.88463 13.5281 4.40024 14.2997 5.05025 14.9497C5.70026 15.5998 6.47194 16.1154 7.32122 16.4672C8.1705 16.8189 9.08075 17 10 17C10.9193 17 11.8295 16.8189 12.6788 16.4672C13.5281 16.1154 14.2997 15.5998 14.9497 14.9497C15.5998 14.2997 16.1154 13.5281 16.4672 12.6788C16.8189 11.8295 17 10.9193 17 10C17 9.08075 16.8189 8.1705 16.4672 7.32122C16.1154 6.47194 15.5998 5.70026 14.9497 5.05025C14.2997 4.40024 13.5281 3.88463 12.6788 3.53284C11.8295 3.18106 10.9193 3 10 3C9.08075 3 8.1705 3.18106 7.32122 3.53284C6.47194 3.88463 5.70026 4.40024 5.05025 5.05025C4.40024 5.70026 3.88463 6.47194 3.53284 7.32122C3.18106 8.1705 3 9.08075 3 10Z" stroke="#827FAE" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
           </svg>
           )
         },
@@ -415,7 +436,17 @@ const Navbar = () => {
   };
 
   const [currentPageTitle, setCurrentPageTitle] = useState(getDefaultPageTitle());
+  useEffect(() => {
+    const newActiveItem = getDefaultActiveNavItem();
+    setActiveNavItem(newActiveItem);
+    setCurrentPageTitle(getDefaultPageTitle());
+  }, [location.pathname, userRole]);
 
+  const handleNavItemClick = (navItem, label) => {
+    setActiveNavItem(navItem);
+    setCurrentPageTitle(label);
+    if (isSidebarOpen) setIsSidebarOpen(false);
+  };
   return (
     <div className="flex h-screen w-[100%] navbar">
       {/* Sidebar */}
@@ -441,7 +472,7 @@ const Navbar = () => {
         {/* Profile Section */}
 
         <Link to={userRole === "Student" ? "/student/profile" : "/teacher/profile"}>
-          <div 
+          <div
             className="profile"
             style={{
               width: "60px",
@@ -457,7 +488,7 @@ const Navbar = () => {
             onClick={() => handleNavItemClick("profile", "Профіль")}
           >
             <img
-              src="../../../assets/images/avatar.jpg"
+              src={imageUrl}
               alt="Profile"
               style={{
                 width: "100%",
@@ -479,7 +510,8 @@ const Navbar = () => {
                 fontWeight: "700",
               }}
             >
-              {userRole === "Student" ? "Ім’я студента" : "Ім’я вчителя"}
+              {userName}
+              {/* {userRole === "Student" ? "Ім’я студента" : "Ім’я вчителя"} */}
               <div
                 style={{
                   fontSize: "12px",
@@ -487,7 +519,7 @@ const Navbar = () => {
                   marginTop: "5px",
                 }}
               >
-                Рейтинг: 11
+                Баланс: {balance}
               </div>
             </div>
           )}</Link>
@@ -734,7 +766,7 @@ const Navbar = () => {
           )}
           <Outlet />
         </div>
-        <div className="absolute top-[80px] right-0 bg-repeat h-[90vh] w-[60px] bg-nav-pattern"/>
+        <div className="absolute top-[80px] right-0 w-[60px] bg-nav-pattern bg-repeat pointer-events-none" style={{ height: 'calc(100% - 80px)' }} />
       </div>
     </div>
   );

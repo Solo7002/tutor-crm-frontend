@@ -8,7 +8,7 @@ import NearestEvents from './components/NearestEvents';
 import Schedule from './components/Schedule';
 import Graphic from './components/Graphic';
 import Productivity from './components/Productivity';
-// import { jwtDecode } from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode';
 
 export default function HomeTeacher() {
     const [leaders, setLeaders] = useState([]);
@@ -18,56 +18,69 @@ export default function HomeTeacher() {
     const [grades, setGrades] = useState([]);
     const [productivityData, setProductivityData] = useState(null);
     const [user, setUser] = useState(null);
+    const [teacherId, setTeacherId] = useState(null);
 
     useEffect(() => {
         const fetchTeacherData = async () => {
             try {
-                // Получение teacherId из токена (раскомментируйте при использовании)
-                /* const token = sessionStorage.getItem('token');
+                const token = sessionStorage.getItem('token');
                 if (!token) {
                     console.error('No token found in session storage');
                     return;
                 }
-                const decodedToken = jwtDecode(token);
-                const teacherId = decodedToken.teacherId; */
 
-                const teacherId = 3; // Заглушка для тестирования
-
-                if (!teacherId) {
-                    console.error('Teacher ID not found');
+                let decodedToken;
+                try {
+                    decodedToken = jwtDecode(token);
+                } catch (error) {
+                    console.error('Error decoding token:', error);
                     return;
                 }
 
-                // Запрос данных пользователя преподавателя
-                const userResponse = await axios.get(`http://localhost:4000/api/teachers/${teacherId}/user`);
+                const userId = decodedToken.id;
+
+                if (!userId) {
+                    console.error('User ID not found in token');
+                    return;
+                }
+
+                const teacherResponse = await axios.get(`http://localhost:4000/api/teachers/search/user/${userId}`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                });
+
+                if (!teacherResponse.data.success || !teacherResponse.data.data.length) {
+                    console.error('No teacher found for this user');
+                    return;
+                }
+
+                const teacher = teacherResponse.data.data[0];
+                console.log(teacher);
+                
+                setTeacherId(teacher.TeacherId);
+
+                const [userResponse, leadersResponse, activitiesResponse, eventsResponse,
+                    daysResponse, gradesResponse, productivityResponse] = await Promise.all([
+                        axios.get(`http://localhost:4000/api/teachers/${teacher.TeacherId}/user`),
+                        axios.get(`http://localhost:4000/api/teachers/${teacher.TeacherId}/leaders`),
+                        axios.get(`http://localhost:4000/api/teachers/${teacher.TeacherId}/activities`),
+                        axios.get(`http://localhost:4000/api/teachers/${teacher.TeacherId}/events`),
+                        axios.get(`http://localhost:4000/api/teachers/${teacher.TeacherId}/days`),
+                        axios.get(`http://localhost:4000/api/teachers/${teacher.TeacherId}/grades`),
+                        axios.get(`http://localhost:4000/api/teachers/${teacher.TeacherId}/productivity`)
+                    ]);
+
                 setUser(userResponse.data);
-
-                // Запрос лидеров
-                const leadersResponse = await axios.get(`http://localhost:4000/api/teachers/${teacherId}/leaders`);
                 setLeaders(leadersResponse.data);
-
-                // Запрос последних активностей
-                const activitiesResponse = await axios.get(`http://localhost:4000/api/teachers/${teacherId}/activities`);
                 setActivities(activitiesResponse.data);
-
-                // Запрос ближайших событий
-                const eventsResponse = await axios.get(`http://localhost:4000/api/teachers/${teacherId}/events`);
                 setEvents(eventsResponse.data);
-
-                // Запрос дней расписания
-                const daysResponse = await axios.get(`http://localhost:4000/api/teachers/${teacherId}/days`);
                 setDays(daysResponse.data);
-
-                // Запрос оценок
-                const gradesResponse = await axios.get(`http://localhost:4000/api/teachers/${teacherId}/grades`);
                 setGrades(gradesResponse.data);
-
-                // Запрос данных продуктивности
-                const productivityResponse = await axios.get(`http://localhost:4000/api/teachers/${teacherId}/productivity`);
                 setProductivityData(productivityResponse.data);
 
             } catch (error) {
-                console.error('Error fetching teacher data:', error);
+                console.error('Error fetching teacher data:', error.response?.data || error.message);
             }
         };
 

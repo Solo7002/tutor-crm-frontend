@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const NearestEvents = ({ events }) => {
   return (
@@ -51,14 +52,16 @@ const NearestEvents = ({ events }) => {
                 </div>
 
                 {/* Button */}
-                <div
-                  className="w-[90px] h-[35px] px-4 py-2 right-[10px] top-[12px] absolute rounded-[40px] border border-[#8a48e6] justify-center items-center gap-2.5 inline-flex cursor-pointer"
-                  onClick={() => window.open(event.link, "_blank")}
-                >
-                  <div className="text-[#8a48e6] text-[14px] font-normal font-['Mulish']">
-                    Перейти
+                <Link to="/teacher/calendar">
+                  <div
+                    className="w-[90px] h-[35px] px-4 py-2 right-[10px] top-[12px] absolute rounded-[40px] border border-[#8a48e6] justify-center items-center gap-2.5 inline-flex cursor-pointer"
+                    onClick={() => window.open(event.link, "_blank")}
+                  >
+                    <div className="text-[#8a48e6] text-[14px] font-normal font-['Mulish']">
+                      Перейти
+                    </div>
                   </div>
-                </div>
+                </Link>
               </div>
             </li>
           ))}
