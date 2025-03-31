@@ -33,12 +33,12 @@
 }
 
 .StudentItem-name {
-  @apply w-[40%] absolute left-[25%] top-[15%] text-[#120c38] font-normal font-['Mulish'] text-center; 
+  @apply w-[40%] absolute left-[25%] top-[15%] text-[#120c38] font-normal font-['Mulish'] text-left; 
   @apply text-[clamp(0.875rem,4vw,1.25rem)]; 
 }
 
 .StudentItem-date {
-  @apply w-[40%] absolute left-[25%] top-[60%] text-[#827ead] font-bold font-['Nunito'] text-center; 
+  @apply w-[40%] absolute left-[25%] top-[60%] text-[#827ead] font-bold font-['Nunito'] text-left; 
   @apply text-[clamp(0.75rem,3.5vw,1rem)]; 
 }
 

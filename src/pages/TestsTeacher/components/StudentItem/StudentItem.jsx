@@ -1,6 +1,6 @@
 import "./StudentItem.css";
 
-const StudentItem = ({ name = "Ім’я студента", date = "01.03.2025", score = 6, maxScore = 12, status = "Active" }) => {
+const StudentItem = ({ name = "Ім’я студента", date = "01.03.2025", score = 6, maxScore = 12, status = "Active" ,img}) => {
   const scoreRatio = maxScore > 0 ? score / maxScore : 0;
 
   let styleStatus = status;
@@ -22,12 +22,15 @@ const StudentItem = ({ name = "Ім’я студента", date = "01.03.2025",
       >
         <img
           className="StudentItem-avatar"
-          src="https://placehold.co/86x86"
+          src={img}
           alt="Student avatar"
         />
         <div className="StudentItem-name">{name}</div>
-        <div className="StudentItem-date">{date}</div>
+      
         {status !== "Default" && (
+          <>
+            <div className="StudentItem-date">{date}</div>
+          
           <div
             data-property-1={status}
             className="StudentItem-score"
@@ -37,6 +40,7 @@ const StudentItem = ({ name = "Ім’я студента", date = "01.03.2025",
               {score}/{maxScore}
             </div>
           </div>
+          </>
         )}
       </div>
     </div>
