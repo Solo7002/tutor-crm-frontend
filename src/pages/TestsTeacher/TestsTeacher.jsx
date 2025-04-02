@@ -141,7 +141,7 @@ const TestsTeacher = () => {
         </div>
       </div>
 
-      <div className="flex items-baseline space-x-4 m-2">
+      <div className="flex items-baseline space-x-4 m-2 mb-6">
         <Dropdown
           options={courses}
           textAll="Усі курси"
@@ -162,11 +162,14 @@ const TestsTeacher = () => {
         ) : filteredTests.length === 0 ? (
           <div>No tests found for this teacher.</div>
         ) : (
-          <div className="grid grid-cols-1 h-[730px] sm:grid-cols-[repeat(auto-fit,minmax(440px,1fr))] overflow-y-auto space-y-2">
+          <>
+          <div className="flex flex-wrap justify-start gap-4 mb-[200px] ">
             {filteredTests.map((test) => (
               <TestItem key={test.TestId} test={test} />
             ))}
           </div>
+         
+          </>
         )}
       </div>
 
@@ -176,7 +179,7 @@ const TestsTeacher = () => {
         </PrimaryButton>
       </div>
 
-      {isModalOpen && <CreateModal onClose={handleCloseModal} />}
+      {isModalOpen && <CreateModal onClose={handleCloseModal} teacher_id={teacher_id} token={token} />}
     </div>
   );
 };

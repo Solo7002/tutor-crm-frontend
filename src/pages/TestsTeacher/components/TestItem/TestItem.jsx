@@ -13,10 +13,8 @@ const TestItem = ({ test,token }) => {
   return (
     <div data-property-1="Valid" data-size="Small" className="test-item-card">
       <div className="test-item-content">
-        <div className="test-item-header">
-          <div className="test-item-title">{test.TestName}</div>
-        </div>
-        <div className="test-item-description">{test.TestDescription}</div>
+        
+        <div className="test-item-description">{test.TestName}</div>
         <div className="test-item-footer">
           <div className="test-item-dates">
             <div className="test-item-date-wrapper">

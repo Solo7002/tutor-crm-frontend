@@ -18,7 +18,7 @@
 
 .test-item-card::before {
     content: '';
-    @apply absolute inset-0;
+    @apply absolute inset-0 mb-3;
     z-index: -1;
     background: url('../../../../../public/assets/patterns/pattern4.png'); /* Исправленный путь */
     background-size: 40%;

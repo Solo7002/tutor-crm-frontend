@@ -112,7 +112,7 @@ const TestResults = () => {
               </div>
             </div>
           </div>
-          <div className="flex space-x-4 m-2">
+          <div className="flex space-x-4 m-2  mb-8">
             <TaskButton
               text={"Виконало учнів"}
               icon={"M1 6L6 11L16 1"}
@@ -131,13 +131,13 @@ const TestResults = () => {
             />
           </div>
 
-          <div className="w-full min-w-0">
+          <div >
             {displayedStudents.length === 0 ? (
               <div>
                
               </div>
             ) : (
-              <div className="flex flex-wrap justify-start gap-2">
+              <div className="flex flex-wrap justify-start gap-4 mb-[100px] ">
               {displayedStudents.map((student, index) => (
                 <StudentItem
                   key={index}
@@ -147,7 +147,7 @@ const TestResults = () => {
                   maxScore={student.MaxScore}
                   status={student.Status}
                   img={student.ImageFilePath}
-                  className="w-full sm:w-[440px]"
+                
                 />
               ))}
             </div>
