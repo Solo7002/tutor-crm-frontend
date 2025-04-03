@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import { encryptData } from '../../../../utils/crypto';
 
 const SearchTeacher = () => {
   const [teachers, setTeachers] = useState([]);
@@ -206,7 +207,7 @@ const SearchTeacher = () => {
                 {/* Переглянути */}
                 <div className="w-[200px] h-10 px-4 py-2 right-[20px] top-[83px] absolute bg-[#8a48e6] rounded-[40px] justify-center items-center gap-2.5 inline-flex card-btn">
                   <Link
-                    to={`/teacher/profile/${teacher.TeacherId}`}
+                    to={`/student/teacher_profile/${encryptData(teacher.TeacherId)}`}
                     className="text-white text-[15px] font-bold font-['Nunito']"
                   >
                     Переглянути

@@ -168,7 +168,7 @@ const TaskCardTile = ({ hometask, onEdit, setRefreshTrigger }) => {
             bg-white
             text-[#8A48E6]
             rounded-full
-            border border-[#8A48E6]
+            outline outline-1 outline-[#8A48E6]
             transform
             hover:bg-[#EFE2FB]
           "

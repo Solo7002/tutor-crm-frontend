@@ -9,6 +9,7 @@ import HometaskStudent from "../pages/Hometasks/HometaskStudent";
 import MaterialsStudent from "../pages/Materials/MaterialsStudent";
 import TestStudent from "../pages/Tests/TestStudent"
 import ProfileTeacher from "../pages/Profile/ProfileTeacher";
+import ProfileTeacher_forStudent from "../pages/Profile/ProfileTeacher_forStudent";
 import EditProfileTeacher from "../pages/EditProfile/EditProfileTeacher";
 import CalendarTeacher from "../pages/CalendarTeacher/CalendarTeacher";
 import RunTestStudent from "../pages/Tests/RunTestStudent";
@@ -36,6 +37,7 @@ const AppRoutes = () => {
         {/* Student Routes */}
         <Route path="/student" element={<Navbar />}>
           <Route path="home" element={<HomeStudent />} />
+          <Route path="teacher_profile/:encryptedTeacherId" element={<ProfileTeacher_forStudent/>} />
           <Route path="hometask" element={<HometaskStudent />} />
           <Route path="materials" element={<MaterialsStudent />} />
           <Route path="tests" element={<TestStudent />}/>

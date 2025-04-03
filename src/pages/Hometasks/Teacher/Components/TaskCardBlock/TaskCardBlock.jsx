@@ -2,10 +2,9 @@ import React from "react";
 import axios from 'axios';
 import { formatDate } from "../../../../../functions/formatDate";
 
-const TaskCardBlock = ({ hometask, onEdit, setRefreshTrigger  }) => {
+const TaskCardBlock = ({ hometask, onEdit, setRefreshTrigger }) => {
     const handleDelete = async () => {
         try {
-            console.log(hometask);
             await axios.delete(`http://localhost:4000/api/hometasks/${hometask.HometaskId}`);
             setRefreshTrigger();
         } catch (error) {
@@ -15,18 +14,18 @@ const TaskCardBlock = ({ hometask, onEdit, setRefreshTrigger  }) => {
     };
 
     return (
-        <div className="task-block-card relative flex w-[420px] h-[230px] p-4 rounded-3xl border border-[#e0e0e0]"
+        <div className="task-block-card relative flex flex-col sm:flex-row w-full max-w-[420px] h-auto sm:h-[230px] p-3 sm:p-4 rounded-2xl sm:rounded-3xl border border-[#e0e0e0]"
             style={{ backgroundImage: 'linear-gradient(to top right, white, transparent)' }}>
-            <div className="flex flex-col justify-between w-[55%]">
+            <div className="flex flex-col justify-between w-full sm:w-[55%] mb-4 sm:mb-0">
                 <div>
                     <p className="text-sm text-[#827FAE]" style={{ fontFamily: "Nunito", fontWeight: 700, fontSize: "15px" }}>
                         {hometask.SubjectName}
                     </p>
-                    <h3 className="text-lg font-semibold leading-tight mt-1" style={{ fontFamily: "Mulish", fontWeight: 400, fontSize: "19px" }}>
+                    <h3 className="text-base sm:text-lg font-semibold leading-tight mt-1" style={{ fontFamily: "Mulish", fontWeight: 400, fontSize: "19px" }}>
                         {hometask.HometaskHeader}
                     </h3>
                 </div>
-                <div className="text-sm text-gray-700 space-y-1">
+                <div className="text-sm text-gray-700 space-y-1 mt-3 sm:mt-0">
                     <p className="flex items-center gap-2">
                         <div>
                             <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -55,33 +54,35 @@ const TaskCardBlock = ({ hometask, onEdit, setRefreshTrigger  }) => {
                     </p>
                 </div>
             </div>
-            <div className="h-full w-[45%] flex flex-col items-center justify-between gap-5">
+            <div className="flex flex-col sm:h-full sm:w-[45%] items-center justify-between gap-3 sm:gap-5">
                 <img
-                    className="h-[65%] w-full object-container rounded-md"
+                    className="h-40 sm:h-[65%] w-full object-cover rounded-md"
                     src={hometask.HometaskCover || "https://via.placeholder.com/150"}
                     alt="Book Cover"
                 />
-                <div className="h-[30%] flex items-center gap-4">
-                    <div className="inline-flex">
+                <div className="flex w-full sm:h-[30%] items-center justify-center sm:justify-start gap-2 sm:gap-4">
+                    <div className="inline-flex w-full sm:w-auto">
                         <button
                             className="
-                relative flex items-center justify-center
-                pr-2 pl-3 py-2
-                bg-white
-                text-[#E64851]
-                rounded-l-full
-                border border-[#E64851]
-                transform
-                hover:bg-[#FFEDEE]
-              "
-                            onClick={handleDelete} // Додаємо обробник видалення
+                                relative flex items-center justify-center
+                                pr-1 sm:pr-2 pl-2 sm:pl-3 py-1 sm:py-2
+                                bg-white
+                                text-[#E64851]
+                                rounded-l-full
+                                outline outline-1 outline-[#E64851]
+                                transform
+                                hover:bg-[#FFEDEE]
+                                text-xs sm:text-sm
+                            "
+                            onClick={handleDelete}
                         >
                             <svg
-                                width="32"
-                                height="32"
+                                width="24"
+                                height="24"
                                 viewBox="0 0 32 32"
                                 fill="none"
                                 xmlns="http://www.w3.org/2000/svg"
+                                className="w-6 h-6 sm:w-8 sm:h-8"
                             >
                                 <path
                                     d="M5.33301 9.33333H26.6663M6.66634 9.33333L7.99967 25.3333C7.99967 26.0406 8.28063 26.7189 8.78072 27.219C9.28082 27.719 9.9591 28 10.6663 28H21.333C22.0403 28 22.7185 27.719 23.2186 27.219C23.7187 26.7189 23.9997 26.0406 23.9997 25.3333L25.333 9.33333M11.9997 9.33333V5.33333C11.9997 4.97971 12.1402 4.64057 12.3902 4.39052C12.6402 4.14048 12.9794 4 13.333 4H18.6663C19.02 4 19.3591 4.14048 19.6091 4.39052C19.8592 4.64057 19.9997 4.97971 19.9997 5.33333V9.33333M13.333 16L18.6663 21.3333M18.6663 16L13.333 21.3333"
@@ -94,19 +95,21 @@ const TaskCardBlock = ({ hometask, onEdit, setRefreshTrigger  }) => {
                         </button>
                         <button
                             className="
-                relative flex items-center
-                px-4 py-2
-                bg-white
-                text-[#8A48E6]
-                rounded-r-full
-                border border-[#8A48E6]
-                border-l-0
-                transform
-                hover:bg-[#EFE2FB]
-              "
+                                relative flex items-center
+                                px-2 sm:px-4 py-1 sm:py-2
+                                bg-white
+                                text-[#8A48E6]
+                                rounded-r-full
+                                outline outline-1 outline-[#8A48E6]
+                                border-l-0
+                                transform
+                                hover:bg-[#EFE2FB]
+                                flex-grow sm:flex-grow-0
+                                text-xs sm:text-sm
+                            "
                             onClick={() => onEdit(hometask)}
                         >
-                            <span className="mr-2" style={{
+                            <span className="mr-1 sm:mr-2" style={{
                                 fontFamily: "Nunito",
                                 fontWeight: 700,
                                 fontSize: "15px",
@@ -114,11 +117,12 @@ const TaskCardBlock = ({ hometask, onEdit, setRefreshTrigger  }) => {
                                 verticalAlign: "middle"
                             }}>Змінити</span>
                             <svg
-                                width="25"
-                                height="25"
+                                width="20"
+                                height="20"
                                 viewBox="0 0 25 25"
                                 fill="none"
                                 xmlns="http://www.w3.org/2000/svg"
+                                className="w-5 h-5 sm:w-6 sm:h-6"
                             >
                                 <path
                                     d="M5.33301 6.3335H3.99967C3.29243 6.3335 2.61415 6.61445 2.11406 7.11454C1.61396 7.61464 1.33301 8.29292 1.33301 9.00016V21.0002C1.33301 21.7074 1.61396 22.3857 2.11406 22.8858C2.61415 23.3859 3.29243 23.6668 3.99967 23.6668H15.9997C16.7069 23.6668 17.3852 23.3859 17.8853 22.8858C18.3854 22.3857 18.6663 21.7074 18.6663 21.0002V19.6668"
