@@ -20,6 +20,8 @@ import SearchTeachers from "../pages/SearchTeachers/SearchTeachers";
 import TestsTeacher from "../pages/TestsTeacher/TestsTeacher";
 import TestResults from "../pages/TestsTeacher/TestResults";
 import CreateTest from "../pages/TestsTeacher/CreateTest";
+import ProfileStudent from "../pages/Profile/ProfileStudent";
+import EditProfileStudent from "../pages/EditProfile/EditProfileStudent";
 
 const AppRoutes = () => {
   return (
@@ -49,7 +51,8 @@ const AppRoutes = () => {
           <Route path="search" element={<SearchTeachers />} />
           {/* <Route path="info" element={<InfoStudent />} /> */}
           {/* <Route path="settings" element={<SettingsStudent />} /> */}
-          {/* <Route path="profile" element={<ProfileStudent />} /> */}
+          <Route path="profile" element={<ProfileStudent />} />
+          <Route path="profile/edit" element={<EditProfileStudent />} />
         </Route>
 
         {/* Teacher Routes */}

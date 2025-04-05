@@ -1,0 +1,45 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.podpiska-bg {
+    background-image: url('/public/assets/patterns/pattern4.png');
+    background-size: 250px;
+}
+
+@media (max-width: 1400px) {
+    .main-block {
+        @apply flex flex-col;
+    }
+    .info-block {
+        @apply flex-col-reverse;
+    }
+    .big-block>.blocks {
+        @apply grid-cols-2;
+    }
+    .big-block>.blocks>.rating {
+        @apply col-span-2;
+    }
+    .big-block>.blocks>.groups {
+        @apply order-1;
+    }
+    .comments {
+        @apply flex flex-col;
+    }
+    .format {
+        display: none;
+    }
+    .gtable {
+        @apply grid-cols-4;
+    }
+}
+
+.main-block {
+    min-height: calc(100vh - 100px);
+}
+
+@media (max-width: 768px) {
+    .main-block {
+        min-height: calc(100vh - 80px);
+    }
+}

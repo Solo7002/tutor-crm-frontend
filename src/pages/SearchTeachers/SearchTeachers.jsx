@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import "./SearchTeachers.css";
+import { encryptData } from '../../utils/crypto';
 
 const SearchTeachers = () => {
     const [teachers, setTeachers] = useState([]);
@@ -439,7 +440,7 @@ const SearchTeachers = () => {
                                     Від {teacher.LessonPrice} грн
                                 </div>
                                 <Link
-                                    to={`/teacher/profile/${teacher.TeacherId}`}
+                                    to={`/student/teacher_profile/${encryptData(teacher.TeacherId)}`}
                                     className="px-6 py-2 bg-[#8a48e6] text-white rounded-full text-sm font-bold font-['Nunito'] hover:bg-[#7339cc] transition-colors"
                                 >
                                     Переглянути
