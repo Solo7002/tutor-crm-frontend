@@ -2,7 +2,7 @@ import React from "react";
 
 const LatestActivity = ({ activities }) => {
   return (
-    <div className="bg-white  rounded-lg mb-6 shadow-md h-[30vh] overflow-y-auto relative">
+    <div className="bg-white rounded-[20px] mb-6 shadow-md h-[30vh] overflow-y-auto relative">
       {/* Header */}
       <h2 className="text-[#120c38] text-[20pt] font-bold font-['Nunito'] leading-[20.74px] tracking-[-0.5%] sticky top-0 bg-white z-10 w-full py-4 p-4">
         Останні активності
@@ -19,10 +19,10 @@ const LatestActivity = ({ activities }) => {
               {/* Activity Image */}
               <img
                 className="w-[35px] h-[35px] absolute left-[10px] top-[12px] rounded-full"
-                src={activity.typeIcon || "/assets/images/avatar.jpg"}
+                src={activity.image || `https://ui-avatars.com/api/?name=${activity.name}&background=random&size=86`}
                 alt={`${activity.type} icon`}
                 onError={(e) => {
-                  e.target.src = "/assets/images/avatar.jpg";
+                  e.target.src = `https://ui-avatars.com/api/?name=${activity.name}&background=random&size=86`;
                 }}
               />
 

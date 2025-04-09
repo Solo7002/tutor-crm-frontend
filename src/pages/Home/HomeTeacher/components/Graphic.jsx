@@ -155,7 +155,7 @@ const Graphic = ({ chartData }) => {
   ];
 
   return (
-    <div className="relative bg-white w-[100%] h-[33vh] flex flex-col rounded-lg shadow-md justify-between border border-[#8a48e6] students-success">
+    <div className="relative bg-white w-[100%] h-[33vh] flex flex-col rounded-[20px] shadow-md justify-between border border-[#8a48e6] students-success">
       <div className="flex justify-between items-center px-4 pt-4">
         <div
           className="text-[#120c38] font-bold font-['Nunito']"

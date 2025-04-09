@@ -57,7 +57,7 @@ const Schedule = ({ days }) => {
   };
 
   return (
-    <div className="bg-white p-4 rounded-lg mb-6 shadow-md h-[28vh] justify-center items-start gap-[22.67px] overflow-hidden schedule-mobile-hidden">
+    <div className="bg-white p-4 rounded-[20px] mb-6 shadow-md h-[28vh] justify-center items-start gap-[22.67px] overflow-hidden schedule-mobile-hidden">
       {/* Header */}
       <h2
         className="text-lg font-semibold m-3"

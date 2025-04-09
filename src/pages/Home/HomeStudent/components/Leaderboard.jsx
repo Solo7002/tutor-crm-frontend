@@ -15,10 +15,11 @@ const Leaderboard = ({ leaders }) => {
         };
 
         setFilteredLeaders(getFilteredLeaders());
+        console.log('filteredLeaders',filteredLeaders)
     }, [leaders, selectedSubject]);
 
     return (
-        <div className="flex-1 bg-white p-4 rounded-lg shadow-md h-full leaders">
+        <div className="flex-1 bg-white p-4 rounded-[20px] shadow-md h-full leaders">
             {/* Filter by Subject */}
             <div className="flex justify-between">
                 <div
@@ -49,7 +50,10 @@ const Leaderboard = ({ leaders }) => {
 
             {/* Leaderboard List */}
             <ol className="mt-4 overflow-y-auto h-[calc(100%-60px)] pl-4">
-                {filteredLeaders.map((leader, index) => (
+                {
+                filteredLeaders.length > 0
+                ?
+                filteredLeaders.map((leader, index) => (
                     <li key={leader.email} className="mb-2 flex items-center">
                         {/* Rank Circle */}
                         <div
@@ -66,7 +70,7 @@ const Leaderboard = ({ leaders }) => {
                                 color: index < 3 ? "white" : "#120C38",
                                 fontWeight: "600",
                                 fontSize: "13pt",
-                                fontFamily: "Lato",
+                                fontFamily: "Mulish",
                                 lineHeight: "15.6pt",
                                 letterSpacing: "0%",
                             }}
@@ -76,10 +80,10 @@ const Leaderboard = ({ leaders }) => {
 
                         {/* Profile Image */}
                         <img
-                            src={leader.image ? leader.image : "/assets/images/avatar.jpg"}
+                            src={leader.image ? leader.image : `https://ui-avatars.com/api/?name=${leader.name}&background=random&size=86`}
                             alt={`${leader.name}'s profile`}
                             onError={(e) => {
-                                e.target.src = "/assets/images/avatar.jpg";
+                                e.target.src = `https://ui-avatars.com/api/?name=${leader.name}&background=random&size=86`;
                             }}
                             style={{
                                 width: "30pt",
@@ -116,7 +120,19 @@ const Leaderboard = ({ leaders }) => {
                             </div>
                         </div>
                     </li>
-                ))}
+                ))
+            :
+            <div
+                style={{
+                    fontFamily: "Mulish",
+                    fontSize: "15pt",
+                    lineHeight: "18.83pt",
+                    letterSpacing: "-0.5%",
+                    color: "#120C38",
+                }}
+            >
+                Немає інформації
+            </div>}
             </ol>
         </div>
     );
