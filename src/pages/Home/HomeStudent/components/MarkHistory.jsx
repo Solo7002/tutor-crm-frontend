@@ -56,7 +56,7 @@ const MarkHistory = ({ grades }) => {
   };
 
   return (
-    <div className="bg-white rounded-lg mb-6 shadow-md h-[30vh] overflow-y-auto marks relative">
+    <div className="bg-white rounded-[20px] mb-6 shadow-md h-[30vh] overflow-y-auto marks relative">
       <h2
         className="text-lg font-semibold sticky top-0 bg-white z-10 w-full py-4 px-4"
         style={{
@@ -72,7 +72,9 @@ const MarkHistory = ({ grades }) => {
       </h2>
       <div className="px-4 pb-4">
         <ul className="custom-scrollbar">
-          {grades.map((grade, index) => (
+          {
+          grades.length > 0
+          ?grades.map((grade, index) => (
             <li key={index} className="mb-2 flex items-center">
               {/* Icon */}
               <div className="mr-4">{getIcon(grade.type)}</div>
@@ -87,7 +89,18 @@ const MarkHistory = ({ grades }) => {
                 <div className="text-center text-white text-[15px] font-semibold font-['Segoe UI']">{grade.grade}</div>
               </div>
             </li>
-          ))}
+          )):
+          <div
+              style={{
+                  fontFamily: "Mulish",
+                  fontSize: "15pt",
+                  lineHeight: "18.83pt",
+                  letterSpacing: "-0.5%",
+                  color: "#120C38",
+              }}
+          >
+              Немає інформації
+          </div>}
         </ul>
       </div>
     </div>

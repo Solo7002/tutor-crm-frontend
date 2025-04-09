@@ -1,16 +1,16 @@
 .custom-calendar {
-    width: 100%;
+    width: 100% !important;
     border: none;
-  }
-  
-  .react-calendar__navigation {
+}
+
+.react-calendar__navigation {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 10px;
-  }
-  
-  .react-calendar__navigation__label {
+}
+
+.react-calendar__navigation__label {
     font-family: 'Lato', sans-serif;
     font-weight: 700;
     font-size: 16pt;
@@ -18,16 +18,16 @@
     letter-spacing: 0.59px;
     color: #120C38;
     text-transform: uppercase;
-  }
-  
-  .react-calendar__month-view__weekdays {
+}
+
+.react-calendar__month-view__weekdays {
     display: grid;
-    grid-template-columns: repeat(7, 1fr);
+    grid-template-columns: repeat(7, minmax(30px, 1fr)) !important;
     text-align: center;
     margin-bottom: 10px;
-  }
-  
-  .react-calendar__month-view__weekdays__weekday {
+}
+
+.react-calendar__month-view__weekdays__weekday {
     font-family: 'Nunito', sans-serif;
     font-size: 15.65pt;
     color: #8A48E6;
@@ -36,56 +36,113 @@
     cursor: default;
     outline: none !important;
     border-bottom: none !important;
-  }
-  
-  .react-calendar__month-view__weekdays__weekday::after,
-  .react-calendar__month-view__weekdays__weekday::before {
+}
+
+.react-calendar__month-view__weekdays__weekday::after,
+.react-calendar__month-view__weekdays__weekday::before {
     content: none !important;
-  }
-  
-  .react-calendar__month-view__weekdays__weekday a {
+}
+
+.react-calendar__month-view__weekdays__weekday a {
     text-decoration: none !important;
     color: #8A48E6;
-  }
-  
-  .react-calendar__tile {
+}
+
+/* Стили для самих ячеек */
+.react-calendar__tile {
     position: relative;
     text-align: center;
-    border-radius: 9999px;
-    width: 30px;
-    height: 30px;
+    border-radius: 50% !important;
+    width: 30px !important;
+    height: 30px !important;
+    min-width: 30px !important;
+    /* Предотвращаем сжатие */
+    max-width: 30px !important;
+    /* Предотвращаем растяжение */
+    aspect-ratio: 1 !important;
     font-size: 15pt;
     font-family: 'Nunito', sans-serif;
     transition: background-color 0.3s ease;
-    padding: 0;
-  }
-  
-  .outside-month-tile {
+    padding: 0 !important;
+    margin: 0 !important;
+    display: flex;
+    /* Для центрирования текста внутри */
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    /* Учитываем padding и border в размерах */
+}
+
+.outside-month-tile {
     color: #ddc1f4 !important;
-  }
-  
-  .react-calendar__tile:not(.outside-month-tile):not(.lesson-tile):not(.homework-tile) {
+}
+
+.react-calendar__tile:not(.outside-month-tile):not(.lesson-tile):not(.homework-tile) {
     color: #120c38 !important;
-  }
-  
-  .lesson-tile {
+}
+
+.lesson-tile {
     background-color: #8a48e6 !important;
     color: white !important;
-  }
-  
-  .homework-tile {
+}
+
+.homework-tile {
     background-color: #88f2ff !important;
     color: white !important;
-  }
-  
-  .react-calendar__month-view__days__day--weekend {
-    color: #8a48e6;
-  }
-  
-  .react-calendar__tile:disabled {
-    background-color: transparent;
-  }
+}
 
-  .react-calendar__month-view__weekdays__weekday abbr{
+.react-calendar__month-view__days__day--weekend {
+    color: #8a48e6;
+}
+
+.react-calendar__tile:disabled {
+    background-color: transparent;
+}
+
+.react-calendar__month-view__weekdays__weekday abbr {
     text-decoration: none;
+}
+
+/* Установим фиксированную ширину колонок для дней */
+.react-calendar__month-view__days {
+    display: grid !important;
+    grid-template-columns: repeat(7, minmax(30px, 1fr)) !important;
+    /* 7 колонок по 30px */
+    justify-content: center !important;
+    /* Центрируем сетку, если она уже ширины контейнера */
+    gap: 5px !important;
+    /* Опционально: добавим небольшой отступ между ячейками */
+}
+
+/* Сетка для дней недели */
+.react-calendar__month-view__weekdays {
+    display: grid !important;
+    grid-template-columns: repeat(7, minmax(30px, 1fr)) !important;
+    text-align: center !important;
+    margin-bottom: 10px !important;
+    justify-content: center !important; /* Центрируем сетку */
+    gap: 5px !important; /* Синхронизируем с gap в днях */
+  }
+  
+  /* Сами обозначения дней недели */
+  .react-calendar__month-view__weekdays__weekday {
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 15.65pt !important;
+    color: #8A48E6 !important;
+    text-transform: uppercase !important;
+    text-decoration: none !important;
+    cursor: default !important;
+    outline: none !important;
+    border-bottom: none !important;
+    width: 30px !important; /* Фиксируем ширину */
+    height: 30px !important; /* Для единообразия */
+    display: flex !important; /* Центрируем текст */
+    align-items: center !important;
+    justify-content: center !important;
+    box-sizing: border-box !important;
+  }
+  
+  /* Убираем подчеркивание у abbr */
+  .react-calendar__month-view__weekdays__weekday abbr {
+    text-decoration: none !important;
   }

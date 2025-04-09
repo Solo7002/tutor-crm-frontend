@@ -90,7 +90,7 @@ const Productivity = ({ productivityData }) => {
   );
 
   return (
-    <div className="flex-1 bg-white p-4 rounded-lg shadow-md h-full">
+    <div className="flex-1 bg-white p-4 rounded-[20px] shadow-md h-full">
       <div className="relative w-full h-[277px]">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-[#120c38] font-bold font-['Nunito'] text-xl md:text-2xl">

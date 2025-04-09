@@ -100,7 +100,7 @@ const SearchTeacher = () => {
   };
 
   return (
-    <div className="bg-[#E0C8FF] w-[100%] h-[33vh] flex flex-col rounded-lg shadow-md justify-between search-teachers-last relative">
+    <div className="bg-[#E0C8FF] w-[100%] h-[33vh] flex flex-col rounded-[20px] shadow-md justify-between search-teachers-last relative">
       <div className="flex h-20 w-[100%] selects">
         <div className="flex p-4-lg p-3">
           {/* Вид навчання */}
@@ -218,13 +218,13 @@ const SearchTeacher = () => {
                 <div className="w-[290px] h-[60px] left-[21px] top-[15px] absolute">
                   <img
                     className="w-[60px] h-[60px] left-0 top-0 absolute rounded-full"
-                    src={teacher.ImagePathUrl || "/assets/images/avatar.jpg"}
+                    src={teacher.ImagePathUrl || `https://ui-avatars.com/api/?name=${teacher.FullName}&background=random&size=86`}
                     alt="profile"
                   />
                   <div className="w-auto left-[70px] top-[15px] absolute text-[#120c38] text-[15pt] font-bold font-['Nunito']">
                     {teacher.FullName || "Волкова Надія Миколаївна"}
                   </div>
-                  <div className="w-auto left-[70px] top-[35px] absolute text-[#827fae] text-[12pt] font-normal font-['Lato'] subjects-teacher">
+                  <div className="w-auto left-[70px] top-[35px] absolute text-[#827fae] text-[12pt] font-normal font-['Mulish'] subjects-teacher">
                     {teacher.SubjectName || "Математика"}
                   </div>
                 </div>

@@ -16,10 +16,11 @@ const Leaderboard = ({ leaders }) => {
         };
 
         setFilteredLeaders(getFilteredLeaders());
+        console.log('filteredLeaders',filteredLeaders)
     }, [leaders, selectedGroup]);
 
     return (
-        <div className="flex-1 bg-white p-4 rounded-lg shadow-md h-full leaders">
+        <div className="flex-1 bg-white p-4 rounded-[20px] shadow-md h-full leaders">
             {/* Filter by Group */}
             <div className="flex justify-between">
                 <div
@@ -77,10 +78,10 @@ const Leaderboard = ({ leaders }) => {
 
                         {/* Profile Image */}
                         <img
-                            src={leader.image ? leader.image : "/assets/images/avatar.jpg"}
+                            src={leader.image ? leader.image : `https://ui-avatars.com/api/?name=${leader.name}&background=random&size=86`}
                             alt={`${leader.name}'s profile`}
                             onError={(e) => {
-                                e.target.src = "/assets/images/avatar.jpg";
+                                e.target.src = `https://ui-avatars.com/api/?name=${leader.name}&background=random&size=86`;
                             }}
                             style={{
                                 width: "30pt",

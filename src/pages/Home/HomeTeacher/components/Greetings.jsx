@@ -2,7 +2,7 @@ import React from "react";
 
 const Greetings = ({user}) => {
   return (
-    <div className="flex bg-[#120C38] pt-6 rounded-lg mb-6 shadow-md h-[20vh] bg-pattern greetings" style={{
+    <div className="flex bg-[#120C38] pt-6 rounded-[20px] mb-6 shadow-md h-[20vh] bg-pattern greetings" style={{
       backgroundRepeat: "repeat",
     }}
     >

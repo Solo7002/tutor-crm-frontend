@@ -48,7 +48,7 @@ export default function Map() {
   }, []);
 
   return (
-    <div className="relative w-full h-[33vh] rounded-lg shadow-md overflow-hidden ">
+    <div className="relative w-full h-[33vh] rounded-[20px] shadow-md overflow-hidden ">
         <div className="absolute top-[20px] left-[60px] flex gap-4 z-[9999]">
         <div className="w-[156px] h-12 p-2 bg-white rounded-2xl border border-[#d7d7d7] flex justify-between items-center">
           <div className="text-[#827ead] text-[15px] font-bold font-['Nunito']">Усі предмети</div>

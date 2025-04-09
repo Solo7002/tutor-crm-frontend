@@ -45,7 +45,7 @@ const Navbar = () => {
         })
         .then((userResponse) => {
           const { ImageFilePath, FirstName, LastName } = userResponse.data;
-          setImageUrl(ImageFilePath || "../../../assets/images/avatar.jpg");
+          setImageUrl(ImageFilePath || null);
           setUserName(`${FirstName} ${LastName}`);
         })
         .catch((error) => {
@@ -82,8 +82,8 @@ const Navbar = () => {
       switch (location.pathname) {
         case "/teacher/home":
           return "home";
-        case "/teacher/hometask":
-          return "hometask";
+        case "/teacher/hometasks":
+          return "task";
         case "/teacher/tests":
           return "test";
         case "/teacher/calendar":
@@ -118,7 +118,7 @@ const Navbar = () => {
       alignItems: "center",
       width: isSidebarOpen ? "228px" : "40px",
       justifyContent: isSidebarOpen ? "flex-start" : "center",
-      border: noBorder ? "none" : "1px solid #D7D7D7",
+      border: (noBorder ? "none" : (isActive ? "1px solid #8A48E6" : "1px solid #D7D7D7")),
       transition: "background-color 0.3s, color 0.3s, border 0.3s",
       borderRadius: "9999px",
       cursor: "pointer",
@@ -320,13 +320,6 @@ const Navbar = () => {
           )
         },
         {
-          path: "/student/reviews", label: "Відгуки", key: "review", icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M9.5 9H9.51M14.5 9H14.51M18 4C18.7956 4 19.5587 4.31607 20.1213 4.87868C20.6839 5.44129 21 6.20435 21 7V15C21 15.7956 20.6839 16.5587 20.1213 17.1213C19.5587 17.6839 18.7956 18 18 18H13L8 21V18H6C5.20435 18 4.44129 17.6839 3.87868 17.1213C3.31607 16.5587 3 15.7956 3 15V7C3 6.20435 3.31607 5.44129 3.87868 4.87868C4.44129 4.31607 5.20435 4 6 4H18Z" stroke="#827FAE" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
-            <path d="M9.5 13C9.82588 13.3326 10.2148 13.5968 10.6441 13.7772C11.0734 13.9576 11.5344 14.0505 12 14.0505C12.4656 14.0505 12.9266 13.9576 13.3559 13.7772C13.7852 13.5968 14.1741 13.3326 14.5 13" stroke="#827FAE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-          </svg>
-          )
-        },
-        {
           path: "/student/search", label: "Пошук", key: "search", icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M21 21L15 15M3 10C3 10.9193 3.18106 11.8295 3.53284 12.6788C3.88463 13.5281 4.40024 14.2997 5.05025 14.9497C5.70026 15.5998 6.47194 16.1154 7.32122 16.4672C8.1705 16.8189 9.08075 17 10 17C10.9193 17 11.8295 16.8189 12.6788 16.4672C13.5281 16.1154 14.2997 15.5998 14.9497 14.9497C15.5998 14.2997 16.1154 13.5281 16.4672 12.6788C16.8189 11.8295 17 10.9193 17 10C17 9.08075 16.8189 8.1705 16.4672 7.32122C16.1154 6.47194 15.5998 5.70026 14.9497 5.05025C14.2997 4.40024 13.5281 3.88463 12.6788 3.53284C11.8295 3.18106 10.9193 3 10 3C9.08075 3 8.1705 3.18106 7.32122 3.53284C6.47194 3.88463 5.70026 4.40024 5.05025 5.05025C4.40024 5.70026 3.88463 6.47194 3.53284 7.32122C3.18106 8.1705 3 9.08075 3 10Z" stroke="#827FAE" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
           </svg>
@@ -367,13 +360,6 @@ const Navbar = () => {
         {
           path: "/teacher/materials", label: "Матеріали", key: "library", icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M12 18.9997C10.6318 18.2098 9.07983 17.7939 7.5 17.7939C5.92017 17.7939 4.36817 18.2098 3 18.9997V5.99972C4.36817 5.2098 5.92017 4.79395 7.5 4.79395C9.07983 4.79395 10.6318 5.2098 12 5.99972M12 18.9997C13.3682 18.2098 14.9202 17.7939 16.5 17.7939C18.0798 17.7939 19.6318 18.2098 21 18.9997V5.99972C19.6318 5.2098 18.0798 4.79395 16.5 4.79395C14.9202 4.79395 13.3682 5.2098 12 5.99972M12 18.9997V5.99972" stroke="#827FAE" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
-          </svg>
-          )
-        },
-        {
-          path: "/teacher/reviews", label: "Відгуки", key: "review", icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M9.5 9H9.51M14.5 9H14.51M18 4C18.7956 4 19.5587 4.31607 20.1213 4.87868C20.6839 5.44129 21 6.20435 21 7V15C21 15.7956 20.6839 16.5587 20.1213 17.1213C19.5587 17.6839 18.7956 18 18 18H13L8 21V18H6C5.20435 18 4.44129 17.6839 3.87868 17.1213C3.31607 16.5587 3 15.7956 3 15V7C3 6.20435 3.31607 5.44129 3.87868 4.87868C4.44129 4.31607 5.20435 4 6 4H18Z" stroke="#827FAE" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
-            <path d="M9.5 13C9.82588 13.3326 10.2148 13.5968 10.6441 13.7772C11.0734 13.9576 11.5344 14.0505 12 14.0505C12.4656 14.0505 12.9266 13.9576 13.3559 13.7772C13.7852 13.5968 14.1741 13.3326 14.5 13" stroke="#827FAE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
           </svg>
           )
         },
@@ -488,7 +474,7 @@ const Navbar = () => {
             onClick={() => handleNavItemClick("profile", "Профіль")}
           >
             <img
-              src={imageUrl}
+              src={imageUrl ? imageUrl : `https://ui-avatars.com/api/?name=${userName}&background=random&size=86`}
               alt="Profile"
               style={{
                 width: "100%",
@@ -626,7 +612,7 @@ const Navbar = () => {
           <div className="flex space-x-8">
             <Link to="/">
               <button
-                className="p-2 rounded-full border border-gray-300 hover:bg-[#A768FF] transition-all duration-300"
+                className="top-buttons p-2 rounded-full border border-gray-300 hover:bg-[#A768FF] transition-all duration-300"
                 onMouseEnter={(e) => {
                   const svgPaths = e.currentTarget.querySelectorAll("path");
                   if (svgPaths) {
@@ -673,7 +659,7 @@ const Navbar = () => {
             </Link>
             <Link to="/">
               <button
-                className="p-2 rounded-full border border-gray-300 hover:bg-[#A768FF] transition-all duration-300"
+                className="top-buttons p-2 rounded-full border border-gray-300 hover:bg-[#A768FF] transition-all duration-300"
                 onMouseEnter={(e) => {
                   const svgPaths = e.currentTarget.querySelectorAll("path");
                   if (svgPaths) {
@@ -709,7 +695,7 @@ const Navbar = () => {
             </Link>
             <Link to="/">
               <button
-                className="p-2 rounded-full border border-gray-300 hover:bg-[#A768FF] transition-all duration-300"
+                className="top-buttons p-2 rounded-full border border-gray-300 hover:bg-[#A768FF] transition-all duration-300"
                 onMouseEnter={(e) => {
                   const svgPaths = e.currentTarget.querySelectorAll("path");
                   if (svgPaths) {
@@ -739,7 +725,7 @@ const Navbar = () => {
             </Link>
             <Link to="/">
               <button
-                className="p-2 rounded-full border border-gray-300 hover:bg-[#A768FF] transition-all duration-300"
+                className="top-buttons p-2 rounded-full border border-gray-300 hover:bg-[#A768FF] transition-all duration-300"
               >
                 <div style={{ width: "24px", height: "24px", display: "flex", alignItems: "center", justifyContent: "center" }}>
                   {<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

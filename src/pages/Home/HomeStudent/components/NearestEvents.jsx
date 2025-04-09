@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 const NearestEvents = ({ events }) => {
   return (
-    <div className="bg-white rounded-lg shadow-md h-[25vh] overflow-y-auto events relative">
+    <div className="bg-white rounded-[20px] shadow-md h-[25vh] overflow-y-auto events relative">
       {/* Header */}
       <h2
         className="text-[#120c38] font-semibold sticky top-0 bg-white z-10 w-full py-4 px-4"
@@ -21,7 +21,9 @@ const NearestEvents = ({ events }) => {
       {/* List Container */}
       <div className="px-4 pb-4">
         <ul>
-          {events.map((event, index) => (
+          {
+          events.length > 0 ?
+          events.map((event, index) => (
             <li key={index} className="mb-2">
               <div className="w-full mx-auto h-[60px] relative">
                 {/* Background */}
@@ -65,7 +67,19 @@ const NearestEvents = ({ events }) => {
                 </Link>
               </div>
             </li>
-          ))}
+          ))
+          :
+          <div
+          style={{
+              fontFamily: "Mulish",
+              fontSize: "15pt",
+              lineHeight: "18.83pt",
+              letterSpacing: "-0.5%",
+              color: "#120C38",
+          }}
+      >
+          Немає інформації
+      </div>}
         </ul>
       </div>
     </div>
