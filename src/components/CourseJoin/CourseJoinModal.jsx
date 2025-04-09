@@ -63,8 +63,8 @@ const CourseJoinModal = ({ isOpen, onClose, courses, userFrom, teacher, user }) 
                 courseName: formData.course,
                 groupName: formData.group,
                 price: selectedGroup?.GroupPrice,
-                type: selectedGroup?.Type || 'Групове',
-                format: selectedGroup?.Format || 'Онлайн',
+                type: selectedGroup?.Type,
+                format: selectedGroup?.Format,
                 date: currentDate,
             };
             //console.log('Sending enrollment request:', JSON.stringify(requestData, null, 2));
@@ -167,15 +167,15 @@ const CourseJoinModal = ({ isOpen, onClose, courses, userFrom, teacher, user }) 
                         </div>
                         <div className="absolute left-[19.55px] top-[152px]">
                             <span className="text-[#120C38] text-base font-bold font-['Nunito']">Вид: </span>
-                            <span className="text-[#827EAD] text-base font-bold font-['Nunito']">{selectedGroup?.Type || 'Групове (до 10 учнів)'}</span>
+                            <span className="text-[#827EAD] text-base font-bold font-['Nunito']">{selectedGroup?.Type || 'Не вказано'}</span>
                         </div>
                         <div className="absolute left-[241.01px] top-[152px] text-right">
                             <span className="text-[#120C38] text-base font-bold font-['Nunito']">Формат: </span>
-                            <span className="text-[#827EAD] text-base font-bold font-['Nunito']">{selectedGroup?.Format || 'Онлайн'}</span>
+                            <span className="text-[#827EAD] text-base font-bold font-['Nunito']">{selectedGroup?.Format || 'Не вказано'}</span>
                         </div>
                         <div className="absolute left-1/2 transform -translate-x-1/2 top-[192px] text-center">
                             <span className="text-[#120C38] text-base font-bold font-['Nunito']">Ціна за заняття: </span>
-                            <span className="text-[#8A48E6] text-base font-bold font-['Nunito']">{selectedGroup?.GroupPrice || '500'}грн</span>
+                            <span className="text-[#8A48E6] text-base font-bold font-['Nunito']">{selectedGroup?.GroupPrice || '0'}грн</span>
                         </div>
 
                         <button
