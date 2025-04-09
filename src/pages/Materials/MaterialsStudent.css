@@ -15,7 +15,7 @@ body {
 }
 
 .button {
-    @apply h-12 px-4 py-2 bg-white text-[#8a48e6] rounded-[32px] border border-[#8a48e6] justify-start items-center gap-2 flex;
+    @apply cursor-default h-12 px-4 py-2 bg-white text-[#8a48e6] rounded-[32px] border border-[#8a48e6] justify-start items-center gap-2 flex;
 }
 
 .button>div,
@@ -23,7 +23,7 @@ body {
     @apply text-[#8a48e6] stroke-[#8a48e6];
 }
 
-.button:hover {
+/* .button:hover {
     @apply bg-[#A768FF] border-[#A768FF];
 }
 
@@ -34,7 +34,7 @@ body {
 
 .button:hover>div:last-child>div:first-child {
     @apply bg-[#9E80C9];
-}
+} */
 
 .button-selected {
     @apply bg-[#8a48e6];

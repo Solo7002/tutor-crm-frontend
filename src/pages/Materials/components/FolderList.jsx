@@ -2,7 +2,7 @@ import React from 'react';
 
 export default function FolderList({ name, onClick }) {
     return (
-        <div className="h-[74px] p-[15px] bg-white rounded-3xl border border-[#d7d7d7] transition-shadow duration-200 hover:shadow-[0_0_0_3px_#8A48E6] justify-start items-center gap-5 inline-flex" onClick={onClick}>
+        <div className="w-full h-[74px] p-[15px] bg-white rounded-3xl border border-[#d7d7d7] transition-shadow duration-200 hover:shadow-[0_0_0_3px_#8A48E6] justify-start items-center gap-5 inline-flex" onClick={onClick}>
             <div data-svg-wrapper>
                 <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M8.33333 6.66666H15L20 11.6667H31.6667C32.5507 11.6667 33.3986 12.0178 34.0237 12.643C34.6488 13.2681 35 14.1159 35 15V28.3333C35 29.2174 34.6488 30.0652 34.0237 30.6903C33.3986 31.3155 32.5507 31.6667 31.6667 31.6667H8.33333C7.44928 31.6667 6.60143 31.3155 5.97631 30.6903C5.35119 30.0652 5 29.2174 5 28.3333V9.99999C5 9.11593 5.35119 8.26809 5.97631 7.64297C6.60143 7.01785 7.44928 6.66666 8.33333 6.66666Z" stroke="#827FAE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
