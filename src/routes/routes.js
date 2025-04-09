@@ -19,6 +19,7 @@ import TestResults from "../pages/TestsTeacher/TestResults";
 import CreateTest from "../pages/TestsTeacher/CreateTest";
 import CreateTestAi from "../pages/TestsTeacher/CreateTestAi";
 import CalendarStudent from "../pages/CalendarStudent/CalendarStudent";
+import Course from "../pages/Course/Course";
 const AppRoutes = () => {
   return (
     <Router>
@@ -64,6 +65,7 @@ const AppRoutes = () => {
           {/* <Route path="search" element={<SearchTeacher />} /> */}
           {/* <Route path="info" element={<InfoTeacher />} /> */}
           {/* <Route path="settings" element={<SettingsTeacher />} /> */}
+          <Route path="courses" element={<Course />} />
           <Route path="profile" element={<ProfileTeacher />} />
           <Route path="profile/edit" element={<EditProfileTeacher />} />
         </Route>

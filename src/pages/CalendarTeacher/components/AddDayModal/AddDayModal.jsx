@@ -1,13 +1,15 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import "./AddDayModal.css";
 import moment from "moment";
+import Dropdown from "../../../../components/Dropdown/Dropdown";
 
 const AddDayModal = ({ isOpen, onClose, token, teacherId }) => {
   const [eventType, setEventType] = useState("one-time");
   const [format, setFormat] = useState("online");
   const [subject, setSubject] = useState("");
-  const [group, setGroup] = useState("");
+  const [selectedGroupId, setSelectedGroupId] = useState(null);
+  const [groups, setGroups] = useState([]);
   const [startHour, setStartHour] = useState("");
   const [startMinute, setStartMinute] = useState("0");
   const [endHour, setEndHour] = useState("");
@@ -15,6 +17,43 @@ const AddDayModal = ({ isOpen, onClose, token, teacherId }) => {
   const [date, setDate] = useState("");
   const [linkOrAddress, setLinkOrAddress] = useState("");
   const [errors, setErrors] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
+
+  teacherId = 1;
+
+  useEffect(() => {
+    if (isOpen) {
+      fetchGroups();
+    }
+  }, [isOpen, teacherId, token]);
+
+  const fetchGroups = async () => {
+    try {
+      setIsLoading(true);
+      const response = await axios.get(
+        `http://localhost:4000/api/groups/groups-by-teacher/${teacherId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setGroups(response.data);
+    } catch (error) {
+      console.error("Error fetching groups:", error);
+      setErrors((prev) => ({
+        ...prev,
+        server: "Не вдалося завантажити список груп",
+      }));
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleGroupSelect = (groupName) => {
+    const selectedGroup = groups.find(group => group.GroupName === groupName);
+    setSelectedGroupId(selectedGroup?.GroupId || null);
+  };
 
   if (!isOpen) return null;
 
@@ -22,7 +61,7 @@ const AddDayModal = ({ isOpen, onClose, token, teacherId }) => {
     const newErrors = {};
 
     if (!subject.trim()) newErrors.subject = "Предмет не може бути порожнім";
-    if (!group.trim()) newErrors.group = "Група не може бути порожньою";
+    if (!selectedGroupId) newErrors.group = "Виберіть групу";
 
     if (!startHour || startHour === "" || isNaN(parseInt(startHour)) || parseInt(startHour) < 0 || parseInt(startHour) > 23) {
       newErrors.time = "Введіть коректний час початку (0-23)";
@@ -92,7 +131,7 @@ const AddDayModal = ({ isOpen, onClose, token, teacherId }) => {
             EndLessonTime: lessonDate.end.toISOString(),
             LessonDate: lessonDate.start.toISOString().split("T")[0],
             LessonType: format,
-            GroupId: parseInt(group),
+            GroupId: selectedGroupId,
             TeacherId: teacherId,
           };
 
@@ -114,7 +153,7 @@ const AddDayModal = ({ isOpen, onClose, token, teacherId }) => {
 
           console.log("Lesson created successfully:", response.data);
         }
-        onClose(); // Закрываем модалку после успешной отправки
+        onClose();
       } catch (error) {
         console.error("Error creating lesson:", error.response?.data || error.message);
         setErrors((prev) => ({
@@ -131,9 +170,15 @@ const AddDayModal = ({ isOpen, onClose, token, teacherId }) => {
         <div className="event-form-header">
           <h2 className="event-form-title">Додати подію</h2>
           <button className="close-button" onClick={onClose}>
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 20 20"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
               <path
-                d="M17 3.34C18.5083 4.21085 19.7629 5.46053 20.6398 6.9653C21.5167 8.47007 21.9854 10.1778 21.9994 11.9193C22.0135 13.6609 21.5725 15.376 20.72 16.8947C19.8676 18.4134 18.6332 19.6832 17.1392 20.5783C15.6452 21.4734 13.9434 21.9628 12.2021 21.9981C10.4608 22.0333 8.74055 21.6132 7.21155 20.7792C5.68256 19.9453 4.39787 18.7265 3.48467 17.2435C2.57146 15.7605 2.06141 14.0647 2.005 12.324L2 12L2.005 11.676C2.061 9.94899 2.56355 8.26596 3.46364 6.79099C4.36373 5.31602 5.63065 4.09945 7.14089 3.25988C8.65113 2.42031 10.3531 1.9864 12.081 2.00044C13.8089 2.01448 15.5036 2.476 17 3.34ZM10.511 9.14C10.3015 9.01528 10.0536 8.9714 9.81401 9.01663C9.57441 9.06186 9.35959 9.19306 9.20995 9.38558C9.06031 9.5781 8.98617 9.81865 9.00146 10.062C9.01675 10.3054 9.12043 10.5347 9.293 10.707L10.585 12L9.293 13.293L9.21 13.387C9.05459 13.588 8.98151 13.8406 9.0056 14.0935C9.02969 14.3464 9.14916 14.5807 9.33972 14.7488C9.53029 14.9168 9.77767 15.006 10.0316 14.9982C10.2856 14.9905 10.527 14.8863 10.707 14.707L12 13.415L13.293 14.707L13.387 14.79C13.588 14.9454 13.8406 15.0185 14.0935 14.9944C14.3464 14.9703 14.5807 14.8508 14.7488 14.6603C14.9168 14.4697 15.006 14.2223 14.9982 13.9684C14.9905 13.7144 14.8863 13.473 14.707 13.293L13.415 12L14.707 10.707L14.79 10.613C14.9454 10.412 15.0185 10.1594 14.9944 9.90647C14.9703 9.65355 14.8508 9.41928 14.6603 9.25125C14.4697 9.08321 14.2223 8.99402 13.9684 9.00177C13.7144 9.00953 13.473 9.11365 13.293 9.293L12 10.585L10.707 9.293L10.613 9.21L10.511 9.14Z"
+                d="M15 1.33989C16.5083 2.21075 17.7629 3.46042 18.6398 4.96519C19.5167 6.46997 19.9854 8.17766 19.9994 9.91923C20.0135 11.6608 19.5725 13.3758 18.72 14.8946C17.8676 16.4133 16.6332 17.6831 15.1392 18.5782C13.6452 19.4733 11.9434 19.9627 10.2021 19.998C8.46083 20.0332 6.74055 19.6131 5.21155 18.7791C3.68256 17.9452 2.39787 16.7264 1.48467 15.2434C0.571462 13.7604 0.0614093 12.0646 0.00500011 10.3239L0 9.99989L0.00500011 9.67589C0.0610032 7.94888 0.563548 6.26585 1.46364 4.79089C2.36373 3.31592 3.63065 2.09934 5.14089 1.25977C6.65113 0.420205 8.35315 -0.0137108 10.081 0.000330246C11.8089 0.0143713 13.5036 0.47589 15 1.33989ZM8.511 7.13989C8.30148 7.01517 8.05361 6.9713 7.81401 7.01652C7.57441 7.06175 7.35959 7.19296 7.20995 7.38547C7.06031 7.57799 6.98617 7.81854 7.00146 8.0619C7.01675 8.30525 7.12043 8.53463 7.293 8.70689L8.585 9.99989L7.293 11.2929L7.21 11.3869C7.05459 11.5879 6.98151 11.8405 7.0056 12.0934C7.02969 12.3463 7.14916 12.5806 7.33972 12.7486C7.53029 12.9167 7.77767 13.0059 8.03162 12.9981C8.28557 12.9904 8.52704 12.8862 8.707 12.7069L10 11.4149L11.293 12.7069L11.387 12.7899C11.588 12.9453 11.8406 13.0184 12.0935 12.9943C12.3464 12.9702 12.5807 12.8507 12.7488 12.6602C12.9168 12.4696 13.006 12.2222 12.9982 11.9683C12.9905 11.7143 12.8863 11.4728 12.707 11.2929L11.415 9.99989L12.707 8.70689L12.79 8.61289C12.9454 8.4119 13.0185 8.15929 12.9944 7.90637C12.9703 7.65344 12.8508 7.41917 12.6603 7.25114C12.4697 7.08311 12.2223 6.99391 11.9684 7.00166C11.7144 7.00942 11.473 7.11354 11.293 7.29289L10 8.58489L8.707 7.29289L8.613 7.20989L8.511 7.13989Z"
                 fill="#827FAE"
               />
             </svg>
@@ -164,7 +209,7 @@ const AddDayModal = ({ isOpen, onClose, token, teacherId }) => {
           <div className="time-block">
             <div className="time-input-wrapper">
               <div className="time-input-group">
-                <span className="time-label">З   </span>
+                <span className="time-label">З   </span>
                 <input
                   type="number"
                   className={`time-input ${errors.time ? "error-border" : ""}`}
@@ -216,13 +261,17 @@ const AddDayModal = ({ isOpen, onClose, token, teacherId }) => {
           {errors.time && <span className="error-text">{errors.time}</span>}
 
           <label className="label">Група:</label>
-          <input
-            type="text"
-            placeholder="Група"
-            className={`input-field ${errors.group ? "error-border" : ""}`}
-            value={group}
-            onChange={(e) => setGroup(e.target.value)}
-          />
+          <div className="dropdown-wrapper">
+            {isLoading ? (
+              <p>Завантаження груп...</p>
+            ) : (
+              <Dropdown
+                textAll="Виберіть групу"
+                options={groups.map((group) => ({ SubjectName: group.GroupName }))}
+                onSelectSubject={handleGroupSelect}
+              />
+            )}
+          </div>
           {errors.group && <span className="error-text">{errors.group}</span>}
 
           <label className="label">Формат проведення заняття:</label>

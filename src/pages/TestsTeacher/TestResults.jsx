@@ -1,5 +1,5 @@
 import "./TestResults.css";
-import { useParams } from "react-router-dom";
+import { useParams,useNavigate } from "react-router-dom";
 import TaskButton from "../../components/TaskButton/TaskButton";
 import StudentItem from "./components/StudentItem/StudentItem";
 import { PrimaryButton } from "../../components/Buttons/Buttons";
@@ -17,6 +17,7 @@ const TestResults = () => {
 
   const token = localStorage.getItem("token") || "";
   const { testId } = useParams();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -75,7 +76,21 @@ const TestResults = () => {
     }
   }, [testId, token]);
 
-
+  const handleDeleteTest=()=>{
+    try{
+        axios.delete(`http://localhost:4000/api/tests/${testId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+       navigate('/teacher/tests');
+       navigate(0);
+    }catch(error){
+      console.log(error.error);
+      
+    }
+  }
   const handleTabClick = (tabIndex) => {
     setSelectedTab(tabIndex);
   };
@@ -155,7 +170,7 @@ const TestResults = () => {
             )}
           </div>
           <div className="md:fixed bottom-0 left-0 right-0 bg-white z-10 p-2 flex justify-center items-center space-x-3">
-            <PrimaryButton className="w-96">Видалити тест</PrimaryButton>
+            <PrimaryButton className="w-96" onClick={handleDeleteTest}>Видалити тест</PrimaryButton>
           </div>
         </>
       ) : (

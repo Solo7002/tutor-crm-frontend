@@ -16,7 +16,7 @@
 }
 
 .hometask-card .back-card::after {
-    @apply content-[''] absolute inset-0 bg-[url('../../../public/assets/patterns/pattern4.png')] bg-[length:30%] bg-repeat bg-center opacity-10 -z-10;
+    @apply content-[''] absolute inset-0 bg-[url('../../../../../public/assets/patterns/pattern4.png')] bg-[length:30%] bg-repeat bg-center opacity-10 -z-10;
 }
 
 .homework-status-default {

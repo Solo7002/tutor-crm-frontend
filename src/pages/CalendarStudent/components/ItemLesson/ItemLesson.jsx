@@ -63,12 +63,12 @@ const ItemLesson = ({ token, lesson }) => {
         </div>
       </div>
 
-      {/* Скрываемая часть */}
+     
       <div className={`item-lesson-collapsible ${isCollapsed ? "collapsed" : "expanded"}`}>
         <div className="item-lesson-content">
           <div className="item-lesson-info">
-            <span>Група:</span>
-            <span className="item-lesson-info-value">{lesson.GroupName || "Невідома група"}</span>
+            <span>Вчитель:</span>
+            <span className="item-lesson-info-value">{`${lesson.TeacherFirstName} ${lesson.TeacherLastName}`}</span>
           </div>
           <div className="item-lesson-info mt-2">
             <span>Місце:</span>

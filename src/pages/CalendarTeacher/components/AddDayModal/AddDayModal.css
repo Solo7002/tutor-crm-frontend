@@ -19,18 +19,30 @@
 
 .AddDayModal .event-form-title {
   @apply text-xl font-bold;
+} 
+.event-form-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  border-bottom: 1px solid #e5e7eb;  
 }
 
 .AddDayModal .close-button {
   @apply text-gray-500 hover:text-gray-700 cursor-pointer;
+  background: none;
+  border: none;
+  padding: 0;
+  margin-left: auto; 
 }
 
-/* Form Content with Scroll */
+
+ 
 .AddDayModal .form-content {
-  @apply flex-1 overflow-y-auto px-2; /* Прокрутка внутри формы */
+  @apply flex-1 overflow-y-auto px-2;  
 }
 
-/* Input Fields */
+ 
 .AddDayModal .input-field {
   @apply w-full p-2 border rounded-lg mb-4;
 }
@@ -42,8 +54,7 @@
   @apply border-[#8a4ae6] !important;
   outline: none;
 }
-
-/* Time Block */
+ 
 .AddDayModal .time-block {
   @apply flex justify-end gap-2 mb-4;
 }
@@ -67,8 +78,7 @@
 .AddDayModal .time-label {
   @apply self-center m-1;
 }
-
-/* Radio Buttons */
+ 
 .AddDayModal input[type="radio"] {
   appearance: none;
   width: 14px;
@@ -89,15 +99,14 @@
 }
 
 .AddDayModal .radio-group {
-  @apply gap-4 mb-4 flex flex-col; /* Вертикальное расположение для лучшей читаемости */
+  @apply gap-4 mb-4 flex flex-col;  
 }
-
-/* Textarea */
+ 
 .AddDayModal .textarea-field {
   @apply w-full p-2 border rounded-lg mb-4;
 }
 
-/* Error Styles */
+ 
 .AddDayModal .error-border {
   @apply border-red-500 !important;
 }
@@ -106,30 +115,30 @@
   @apply text-red-500 text-sm mb-4 block;
 }
 
-/* Submit Button */
+ 
 .AddDayModal .submit-button {
-  @apply w-full py-2 bg-[#8a4ae6] text-white rounded-lg border border-[#8a4ae6] transition-all mt-4 sticky bottom-0; /* Фиксируем кнопку внизу */
+  @apply w-full py-2 bg-[#8a4ae6] text-white rounded-lg border border-[#8a4ae6] transition-all mt-4 sticky bottom-0;  
 }
 
 .AddDayModal .submit-button:hover {
   @apply bg-white text-[#8a4ae6];
 }
 
-/* Адаптивность для маленьких экранов */
+ 
 @media (max-width: 640px) {
   .AddDayModal .event-form-container {
-    @apply max-w-full mx-2; /* Уменьшаем отступы на маленьких экранах */
+    @apply max-w-full mx-2;  
   }
 
   .AddDayModal .time-input-group {
-    @apply flex-col items-start; /* Вертикальное расположение времени на мобильных */
+    @apply flex-col items-start;  
   }
 
   .AddDayModal .time-input {
-    @apply w-20; /* Увеличиваем ширину полей времени для удобства ввода */
+    @apply w-20; 
   }
 
   .AddDayModal .time-separator {
-    @apply my-2; /* Отступ для разделителя на мобильных */
+    @apply my-2; 
   }
 }
