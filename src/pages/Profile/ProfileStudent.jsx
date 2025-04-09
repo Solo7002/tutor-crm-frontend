@@ -17,7 +17,6 @@ export default function ProfileStudent() {
         if (token) {
             try {
                 const decoded = jwtDecode(token);
-                console.log(decoded);
                 
                 axios.get(`http://localhost:4000/api/students/${decoded.id}/info`).then(res => {
                     console.log('data', res.data);
