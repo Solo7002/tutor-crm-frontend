@@ -6,7 +6,7 @@
 
 .container {
   @apply bg-white p-2 rounded-2xl m-2;
-  min-height: 400px; 
+  min-height: 400px  !important;
   height: auto; 
 }
 .rbc-month-view,
@@ -19,17 +19,19 @@
 }
 .rbc-date-cell{
   text-align:left !important; 
-  padding:12px ;
+  padding:14px !important; 
 }
 .rbc-day-bg + .rbc-day-bg {
-  border-left: 1px solid #f5eeff;
+  border-left: 1px solid #f5eeff  !important;
 }
 .rbc-day-bg{
   background-color: #f6eeff!important; 
   border-radius: 24px!important; 
   margin: 4px!important;
 }
-
+.rbc-day-bg + .rbc-event{
+  width:100% !important;
+}
 .rbc-header{
   border:none !important; 
   text-align:left !important; 
@@ -41,33 +43,18 @@
   border:none !important;
 }
 
-.rbc-today {
-  background-color: #f5eeff;
-}
+ 
 
-
-
-
-/* Стили для ячеек с событиями */
 .rbc-event {
   background-color: #e1ccff!important; 
   border-radius: 24px!important; 
   margin: 4px!important;
 }
 
-/* Стили для ячеек без событий */
+ 
 
-
-.rbc-day-bg .rbc-date {
-    position: absolute;
-    top: 8px; 
-    left: 8px; 
-    font-size: 14px;
-    color: #827ead; 
-    font-weight: 500;
-  }
 .rbc-event-content {
-  white-space: normal;
+  white-space: normal !important;
 }
 
 .calendar-navigation {

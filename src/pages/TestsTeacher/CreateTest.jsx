@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom'; 
 import TestForm from './components/TestForm/TestForm';
 import AddQuestion from './components/AddQuestion/AddQuestion';
 import { PrimaryButton } from '../../components/Buttons/Buttons';
 import './CreateTest.css';
-
+import { useParams } from "react-router-dom";
 const CreateTest = () => {
-  const GroupId = 1;
+  const { GroupId } = useParams();
+  const navigate = useNavigate();
 
   const [questions, setQuestions] = useState([1]);
   const [formData, setFormData] = useState({});
@@ -21,7 +23,6 @@ const CreateTest = () => {
 
     const newErrors = {};
 
-   
     if (!formData.subject || formData.subject.trim() === '') {
       newErrors.subject = 'Тема тесту не може бути порожньою.';
     }
@@ -64,7 +65,6 @@ const CreateTest = () => {
       newErrors.deadline = 'Будь ласка, виберіть дедлайн.';
     }
 
-
     const validQuestions = Object.values(questionsData).filter((question) => {
       const hasQuestionText = question.questionText && question.questionText.trim() !== '';
       const hasValidOptions = question.options.filter((opt) => opt.trim() !== '').length >= 2;
@@ -72,7 +72,6 @@ const CreateTest = () => {
       return hasQuestionText || hasValidOptions || hasCorrectAnswer;
     });
 
-   
     if (validQuestions.length === 0) {
       newErrors.questions = 'Будь ласка, додайте хоча б одне заповнене питання.';
     } else {
@@ -117,22 +116,6 @@ const CreateTest = () => {
     setErrors({});
 
     try {
-
-      let subjectName = 'Без назви';
-      try {
-        const response = await axios.get(
-          `http://localhost:4000/api/subjects/groupSubjectName/${GroupId}`
-        );
-        subjectName = response.data.SubjectName || 'Без назви';
-      } catch (error) {
-        console.error('Error fetching SubjectName:', error);
-        setErrors({
-          general: 'Не вдалося отримати назву предмета: ' + (error.message || error),
-        });
-        
-      }
-
-  
       let timeLimitInMinutes = 0;
       if (formData.time) {
         const timeValue = formData.time.trim();
@@ -148,14 +131,14 @@ const CreateTest = () => {
       }
 
       const testPayload = {
-        TestName:subjectName || 'Без назви',
-        TestDescription: formData.subject,
+        TestName: formData.subject,
+        TestDescription: formData.description,
         TimeLimit: timeLimitInMinutes,
         CreatedDate: new Date().toISOString().split('T')[0],
         DeadlineDate: formData.deadline || null,
         MaxMark: parseInt(formData.maxScore) || 0,
         ImageFilePath: null,
-        GroupId: 1,
+        GroupId: GroupId,
         NumAttempts: parseInt(formData.numAttempts) || 1,
         ShowAnswersAfterTest: formData.showAnswersAfterTest || false,
         ShowCorrectAnswersDuringTest: formData.showCorrectAnswersDuringTest || false,
@@ -168,7 +151,6 @@ const CreateTest = () => {
         throw new Error('Не вдалося отримати TestId');
       }
 
-    
       const questionsPayload = await Promise.all(
         validQuestions.map(async (question) => {
           let fileUrl = null;
@@ -194,8 +176,8 @@ const CreateTest = () => {
 
           const questionData = {
             TestId: testId,
-            TestQuestionHeader: `${question.questionText.trim() }`, 
-            TestQuestionDescription:`    `,
+            TestQuestionHeader: `${question.questionText.trim()}`,
+            TestQuestionDescription: `    `,
             ImagePath: fileUrl,
             AudioPath: null,
           };
@@ -233,14 +215,14 @@ const CreateTest = () => {
         })
       );
 
-      alert('Тест успішно створено!');
-      setFormData({});
-      setQuestionsData({});
-      setQuestions([1]);
-      setErrors({});
+  
+    
+      navigate('/teacher/tests'); 
+      navigate(0);
     } catch (error) {
       console.error('Помилка:', error);
       setErrors({ general: 'Виникла помилка при створенні тесту: ' + (error.message || error) });
+      setIsSubmitting(false);
     } finally {
       setIsSubmitting(false);
     }

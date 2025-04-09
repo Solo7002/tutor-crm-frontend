@@ -1,0 +1,11 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.app-container {
+  @apply flex flex-col min-h-screen  p-1;
+}
+
+.app-content {
+  @apply flex flex-row justify-between   w-full mt-1;
+}

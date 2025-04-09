@@ -1,10 +1,10 @@
 import './HometaskModal.css'
-import HometaskDownloadFile from "../../components/HometaskDownloadFile/HometaskDownloadFile";
-import HometaskDoneItem from "../../components/HometaskDoneItem/HometaskDoneItem";
+import HometaskDownloadFile from "../HometaskDownloadFile/HometaskDownloadFile";
+import HometaskDoneItem from "../HometaskDoneItem/HometaskDoneItem";
 import { useState, useRef, useEffect } from 'react';
 import { StatusButton } from '../HomeCard/Hometask-card';
-import { BlackButton } from '../Buttons/Buttons';
-import { formatDate } from '../../functions/formatDate';
+import { BlackButton } from '../../../../components/Buttons/Buttons';
+import { formatDate } from '../../../../functions/formatDate';
 import HometaskDoneItemDownload from '../HometaskDoneItemDownload/HometaskDoneItemDownload';
 import axios from 'axios';
 
@@ -27,7 +27,7 @@ export const HometaskModal = ({ onClose, status, token, hometask, hometaskFiles,
           HomeTaskId: hometask.HomeTaskId,
           StudentId: studentId,
           DoneDate: new Date().toISOString(),
-          Mark: -1,
+          Mark: -1
         }, {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -44,7 +44,7 @@ export const HometaskModal = ({ onClose, status, token, hometask, hometaskFiles,
           console.log("FormData:", formData);
 
           const uploadResponse = await axios.post(
-            'http://localhost:4000/api/files/upload',
+            'http://localhost:4000/api/files/uploadAndReturnLink',
             formData, {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -167,7 +167,7 @@ export const HometaskModal = ({ onClose, status, token, hometask, hometaskFiles,
           urls[file.HomeTaskFileId] = url;
         } catch (error) {
           console.error(`Ошибка при загрузке файла ${file.FileName}:`, error);
-          urls[file.HomeTaskFileId] = null; // Сохраняем null в случае ошибки
+          urls[file.HomeTaskFileId] = null;  
         }
       }
       setFileUrls(urls);
@@ -186,9 +186,8 @@ export const HometaskModal = ({ onClose, status, token, hometask, hometaskFiles,
       for (const file of hometaskDoneFiles) {
         try {
        
-          
-          const url = await downloadFile(file.FileName);
-          urls[file.HometaskFileId] = url;
+
+          urls[file.HometaskFileId] = file.FilePath;
         } catch (error) {
           console.error(`Ошибка при загрузке файла ${file.FileName}:`, error);
           urls[file.HometaskFileId] = null;
@@ -207,7 +206,7 @@ export const HometaskModal = ({ onClose, status, token, hometask, hometaskFiles,
         onClick={onClose}
       ></div>
       <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-2xl p-4 w-[596px] h-[851px] overflow-y-auto z-50">
-        {/* Заголовок и иконки */}
+       
         <div className="flex justify-between items-center">
           <button onClick={onClose}>
             <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">

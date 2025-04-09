@@ -1,16 +1,44 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback, useEffect,useMemo } from 'react';
 import CustomInput from '../CustomInput/CustomInput';
 import './AddQuestion.css';
 
-const AddQuestion = ({ taskNumber, onQuestionChange, errors }) => {
-  const [options, setOptions] = useState([
-    { id: 1, value: '' },
-    { id: 2, value: '' },
-  ]);
-  const [selectedOption, setSelectedOption] = useState('');
+const AddQuestion = ({ taskNumber, onQuestionChange, errors, initialData }) => {
+  const [options, setOptions] = useState(() => (
+    initialData?.options?.length > 0
+      ? initialData.options.map((opt, index) => ({
+          id: index + 1,
+          value: opt.value || opt,
+        }))
+      : [
+          { id: 1, value: '' },
+          { id: 2, value: '' },
+        ]
+  ));
+  const [selectedOption, setSelectedOption] = useState(initialData?.correctAnswer || '');
   const [questionImage, setQuestionImage] = useState(null);
   const [previewImage, setPreviewImage] = useState(null);
-  const [questionText, setQuestionText] = useState('');
+  const [questionText, setQuestionText] = useState(initialData?.questionText || '');
+  const [isInitialized, setIsInitialized] = useState(false);
+
+  // Initialize state only once when initialData is first provided
+  useEffect(() => {
+    if (initialData && !isInitialized) {
+      setQuestionText(initialData.questionText || '');
+      setOptions(
+        initialData.options?.length > 0
+          ? initialData.options.map((opt, index) => ({
+              id: index + 1,
+              value: opt.value || opt,
+            }))
+          : [
+              { id: 1, value: '' },
+              { id: 2, value: '' },
+            ]
+      );
+      setSelectedOption(initialData.correctAnswer || '');
+      setIsInitialized(true); // Mark as initialized to prevent future resets
+    }
+  }, [initialData, isInitialized]);
 
   const handleOptionChange = useCallback((index, newValue) => {
     setOptions((prevOptions) => {
@@ -32,13 +60,10 @@ const AddQuestion = ({ taskNumber, onQuestionChange, errors }) => {
   const removeOption = useCallback((id) => {
     setOptions((prevOptions) => {
       if (prevOptions.length <= 2) return prevOptions;
-
       const updatedOptions = prevOptions.filter((option) => option.id !== id);
-
       if (selectedOption === id.toString()) {
         setSelectedOption('');
       }
-
       return updatedOptions;
     });
   }, [selectedOption]);
@@ -47,11 +72,8 @@ const AddQuestion = ({ taskNumber, onQuestionChange, errors }) => {
     const file = event.target.files[0];
     if (file && file.type.match('image.*')) {
       setQuestionImage(file);
-
       const reader = new FileReader();
-      reader.onload = (e) => {
-        setPreviewImage(e.target.result);
-      };
+      reader.onload = (e) => setPreviewImage(e.target.result);
       reader.readAsDataURL(file);
     } else {
       alert('Будь ласка, виберіть файл зображення (JPEG, PNG тощо).');
@@ -62,16 +84,17 @@ const AddQuestion = ({ taskNumber, onQuestionChange, errors }) => {
     setSelectedOption(id.toString());
   }, []);
 
+  const questionData = useMemo(() => ({
+    taskNumber,
+    questionText,
+    options: options.map((opt) => opt.value),
+    correctAnswer: selectedOption,
+    questionImage,
+  }), [taskNumber, questionText, options, selectedOption, questionImage]);
+
   useEffect(() => {
-    const questionData = {
-      taskNumber,
-      questionText,
-      options: options.map((opt) => opt.value),
-      correctAnswer: selectedOption,
-      questionImage,
-    };
     onQuestionChange(taskNumber, questionData);
-  }, [taskNumber, questionText, options, selectedOption, questionImage, onQuestionChange]);
+  }, [taskNumber, questionData, onQuestionChange]);
 
   useEffect(() => {
     return () => {
@@ -80,7 +103,6 @@ const AddQuestion = ({ taskNumber, onQuestionChange, errors }) => {
       }
     };
   }, [previewImage]);
-
   return (
     <div className="p-5 border rounded-lg bg-white shadow-md space-y-4">
       <div className="flex items-center gap-3">

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import "./ChangeDayModal.css";
-import moment from "moment"; // Добавляем moment для корректной обработки даты
+import moment from "moment";  
 
 const ChangeDayModal = ({ isOpen, onClose, token, initialData }) => {
   const [format, setFormat] = useState(initialData?.LessonType || "online");

@@ -20,7 +20,9 @@ import SearchTeachers from "../pages/SearchTeachers/SearchTeachers";
 import TestsTeacher from "../pages/TestsTeacher/TestsTeacher";
 import TestResults from "../pages/TestsTeacher/TestResults";
 import CreateTest from "../pages/TestsTeacher/CreateTest";
-
+import CreateTestAi from "../pages/TestsTeacher/CreateTestAi";
+import CalendarStudent from "../pages/CalendarStudent/CalendarStudent";
+import Course from "../pages/Course/Course";
 const AppRoutes = () => {
   return (
     <Router>
@@ -43,7 +45,7 @@ const AppRoutes = () => {
           <Route path="tests" element={<TestStudent />}/>
           <Route path="tests/complete/:encryptedTestId" element={<DoneTestStudent />}/>
           {/* <Route path="tests" element={<TestsStudent />} /> */}
-          {/* <Route path="calendar" element={<CalendarStudent />} /> */}
+          <Route path="calendar" element={<CalendarStudent />} />
           {/* <Route path="reviews" element={<ReviewsStudent />} /> */}
           {/* <Route path="payments" element={<PaymentsStudent />} /> */}
           <Route path="search" element={<SearchTeachers />} />
@@ -59,13 +61,15 @@ const AppRoutes = () => {
           {/* <Route path="materials" element={<MaterialsTeacher />} /> */}
           <Route path="tests" element={<TestsTeacher />} />
           <Route path="tests/results/:testId" element={<TestResults />} />
-          <Route path="tests/create" element={<CreateTest />} />
+          <Route path="tests/create/:GroupId" element={<CreateTest />} />
+          <Route path="tests/create-ai/:GroupId" element={<CreateTestAi />} />
           <Route path="calendar" element={<CalendarTeacher />} />
           {/* <Route path="reviews" element={<ReviewsTeacher />} /> */}
           {/* <Route path="payments" element={<PaymentsTeacher />} /> */}
           {/* <Route path="search" element={<SearchTeacher />} /> */}
           {/* <Route path="info" element={<InfoTeacher />} /> */}
           {/* <Route path="settings" element={<SettingsTeacher />} /> */}
+          <Route path="courses" element={<Course />} />
           <Route path="profile" element={<ProfileTeacher />} />
           <Route path="profile/edit" element={<EditProfileTeacher />} />
         </Route>

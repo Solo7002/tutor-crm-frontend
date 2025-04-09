@@ -28,7 +28,7 @@
 }
 
 .manual-test-button {
-  @apply w-full max-w-[24rem] h-12 bg-white rounded-2xl outline outline-1 outline-offset-[-1px] outline-[#8a48e6] flex items-center justify-center hover:bg-[#f4f4f5] transition-colors mb-4;
+  @apply w-full max-w-[420px] p-4 h-12 bg-white rounded-2xl outline outline-1 outline-offset-[-1px] outline-[#8a48e6] flex items-center justify-center hover:bg-[#f4f4f5] transition-colors mb-4;
 }
 
 .manual-test-button span {
@@ -36,7 +36,7 @@
 }
 
 .ai-test-button {
-  @apply w-full max-w-[24rem] h-12 bg-[#8a4ae6] rounded-2xl flex items-center justify-center hover:bg-[#7a3dd1] transition-colors;
+  @apply w-full max-w-[420px]  p-4  h-12 bg-[#8a4ae6] rounded-2xl flex items-center justify-center hover:bg-[#7a3dd1] transition-colors;
 }
 
 .ai-test-button span {

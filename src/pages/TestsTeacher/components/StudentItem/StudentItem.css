@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 .StudentItem {
-  @apply w-full max-w-[420px] min-w-[300px] mx-auto; 
+  @apply w-full max-w-[420px] min-w-[300px]  ; 
 }
 
 .StudentItem-container {
