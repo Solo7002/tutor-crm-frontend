@@ -220,7 +220,7 @@ export default function ProfileTeacher() {
                     </div>
 
                     {/* Course list component */}
-                    <CourseList courses={courses} userFrom={userFrom} />
+                    <CourseList courses={courses} userFrom={userFrom} teacher = {teacher} user = {user} />
 
                     {/* Reviews component */}
                     <Reviews userId={user.UserId} userFrom={userFrom} />
