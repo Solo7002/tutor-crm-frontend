@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useLayoutEffect } from "react";
 import { Link, useLocation, Outlet } from "react-router-dom";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
@@ -11,12 +11,12 @@ const Navbar = () => {
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
   const location = useLocation();
   const [userId, setUserId] = useState(null);
-  const [imageUrl, setImageUrl] = useState("../../../assets/images/avatar.jpg");
+  const [imageUrl, setImageUrl] = useState("");
   const [userRole, setUserRole] = useState("Student");
   const [userName, setUserName] = useState("");
   const [balance, setBalance] = useState(0);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const token = sessionStorage.getItem("token");
     if (token) {
       try {
@@ -28,7 +28,7 @@ const Navbar = () => {
     }
   }, []);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (userId) {
       axios
         .get(`http://localhost:4000/api/users/${userId}/balance`)
