@@ -7,6 +7,7 @@ import Navbar from "../layouts/Navbar/Navbar";
 import HomeStudent from "../pages/Home/HomeStudent/HomeStudent";
 import HometaskStudent from "../pages/Hometasks/HometaskStudent";
 import MaterialsStudent from "../pages/Materials/MaterialsStudent";
+import MaterialsTeacher from "../pages/Materials/Teacher/MaterialsTeacher";
 import TestStudent from "../pages/Tests/TestStudent"
 import ProfileTeacher from "../pages/Profile/ProfileTeacher";
 import ProfileTeacher_forStudent from "../pages/Profile/ProfileTeacher_forStudent";
@@ -26,7 +27,7 @@ const AppRoutes = () => {
     <Router>
       <Routes>
         <Route path="/" element={<Navigate to="/auth/login" replace />} />
-        <Route path="/test/:encryptedTestId" element={<RunTestStudent />} />
+        <Route path="test/:encryptedTestId" element={<RunTestStudent />} />
         
         <Route path="/auth" element={<AuthLayout />}>
           <Route path="login" element={<Login />} />
@@ -56,7 +57,7 @@ const AppRoutes = () => {
         <Route path="/teacher" element={<Navbar />}>
           <Route path="home" element={<HomeTeacher />} />
           <Route path="hometasks" element={<HometaskTeacher />} />
-          {/* <Route path="materials" element={<MaterialsTeacher />} /> */}
+          <Route path="materials" element={<MaterialsTeacher />} />
           <Route path="tests" element={<TestsTeacher />} />
           <Route path="tests/results/:testId" element={<TestResults />} />
           <Route path="tests/create" element={<CreateTest />} />
