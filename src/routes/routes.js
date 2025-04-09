@@ -23,6 +23,9 @@ import CreateTest from "../pages/TestsTeacher/CreateTest";
 import CreateTestAi from "../pages/TestsTeacher/CreateTestAi";
 import CalendarStudent from "../pages/CalendarStudent/CalendarStudent";
 import Course from "../pages/Course/Course";
+import ProfileStudent from "../pages/Profile/ProfileStudent";
+import EditProfileStudent from "../pages/EditProfile/EditProfileStudent";
+
 const AppRoutes = () => {
   return (
     <Router>
@@ -51,7 +54,8 @@ const AppRoutes = () => {
           <Route path="search" element={<SearchTeachers />} />
           {/* <Route path="info" element={<InfoStudent />} /> */}
           {/* <Route path="settings" element={<SettingsStudent />} /> */}
-          {/* <Route path="profile" element={<ProfileStudent />} /> */}
+          <Route path="profile" element={<ProfileStudent />} />
+          <Route path="profile/edit" element={<EditProfileStudent />} />
         </Route>
 
         {/* Teacher Routes */}

@@ -2,11 +2,13 @@ import React, { useState, useEffect } from "react";
 import { Link, useLocation, Outlet } from "react-router-dom";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
+import NotificationList from "../../components/Notifications/NotificationList";
 import "./Navbar.css";
 
 const Navbar = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [activeFooterItem, setActiveFooterItem] = useState(null);
+  const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
   const location = useLocation();
   const [userId, setUserId] = useState(null);
   const [imageUrl, setImageUrl] = useState("../../../assets/images/avatar.jpg");
@@ -67,8 +69,6 @@ const Navbar = () => {
           return "calendar";
         case "/student/materials":
           return "library";
-        case "/student/reviews":
-          return "review";
         case "/student/search":
           return "search";
         case "/student/info":
@@ -90,8 +90,6 @@ const Navbar = () => {
           return "calendar";
         case "/teacher/materials":
           return "library";
-        case "/teacher/reviews":
-          return "review";
         case "/teacher/info":
           return "info";
         case "/teacher/settings":
@@ -544,7 +542,8 @@ const Navbar = () => {
               blackText
             />
           ))}
-          <Link to="/">
+          {/* Notifications */}
+          <div className="mob-foot-ne relative notifications">
             <button
               className="rounded-full border border-gray-300 transition-all duration-300 hidden"
               onMouseEnter={(e) => {
@@ -565,22 +564,30 @@ const Navbar = () => {
                 }
               }
               }
-              onClick={handleFooterItemClick}
+              onClick={() => setIsNotificationsOpen(!isNotificationsOpen)}
             >
-              <div style={{ width: "24px", height: "24px", display: "flex", alignItems: "center", justifyContent: "center", alignContent: "center" }}>
+              <div style={{ width: "5vh", height: "5vh", display: "flex", alignItems: "center", justifyContent: "center", alignContent: "center" }}>
                 {<svg className="stroke-[#120C38] transition-colors duration-300 " width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M9 17V18C9 18.7956 9.31607 19.5587 9.87868 20.1213C10.4413 20.6839 11.2044 21 12 21C12.7956 21 13.5587 20.6839 14.1213 20.1213C14.6839 19.5587 15 18.7956 15 18V17M10 5C10 4.46957 10.2107 3.96086 10.5858 3.58579C10.9609 3.21071 11.4696 3 12 3C12.5304 3 13.0391 3.21071 13.4142 3.58579C13.7893 3.96086 14 4.46957 14 5C15.1484 5.54303 16.1274 6.38833 16.8321 7.4453C17.5367 8.50227 17.9404 9.73107 18 11V14C18.0753 14.6217 18.2954 15.2171 18.6428 15.7381C18.9902 16.2592 19.4551 16.6914 20 17H4C4.54494 16.6914 5.00981 16.2592 5.35719 15.7381C5.70457 15.2171 5.92474 14.6217 6 14V11C6.05956 9.73107 6.4633 8.50227 7.16795 7.4453C7.8726 6.38833 8.85159 5.54303 10 5Z" stroke="#120C38" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                 </svg>
                 }
               </div>
             </button>
-          </Link>
-          <Link to="/">
+            {isNotificationsOpen && (
+              <NotificationList
+                onClose={() => setIsNotificationsOpen(false)}
+                userId={userId}
+                Role={userRole}
+              />
+            )}
+          </div>
+          {/* Exit */}
+          <Link to="/" className="mob-foot-ne ">
             <button
               className="rounded-full border border-gray-300 transition-all duration-300 hidden"
               onClick={handleFooterItemClick}
             >
-              <div style={{ width: "24px", height: "24px", display: "flex", alignItems: "center", justifyContent: "center" }}>
+              <div style={{ width: "5vh", height: "5vh", display: "flex", alignItems: "center", justifyContent: "center" }}>
                 {<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M13 12V12.01M3 21H21M5 21V5C5 4.46957 5.21071 3.96086 5.58579 3.58579C5.96086 3.21071 6.46957 3 7 3H14.5M17 13.5V21M14 7H21M21 7L18 4M21 7L18 10" stroke="#E64851" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                 </svg>
@@ -610,6 +617,7 @@ const Navbar = () => {
             {currentPageTitle}
           </span>
           <div className="flex space-x-8">
+            {/* Language */}
             <Link to="/">
               <button
                 className="top-buttons p-2 rounded-full border border-gray-300 hover:bg-[#A768FF] transition-all duration-300"
@@ -657,6 +665,7 @@ const Navbar = () => {
                 </div>
               </button>
             </Link>
+            {/* Theme */}
             <Link to="/">
               <button
                 className="top-buttons p-2 rounded-full border border-gray-300 hover:bg-[#A768FF] transition-all duration-300"
@@ -693,7 +702,8 @@ const Navbar = () => {
                 </div>
               </button>
             </Link>
-            <Link to="/">
+            {/* Notifications */}
+            <div className="relative notifications">
               <button
                 className="top-buttons p-2 rounded-full border border-gray-300 hover:bg-[#A768FF] transition-all duration-300"
                 onMouseEnter={(e) => {
@@ -714,6 +724,7 @@ const Navbar = () => {
                   }
                 }
                 }
+                onClick={() => setIsNotificationsOpen(!isNotificationsOpen)}
               >
                 <div style={{ width: "24px", height: "24px", display: "flex", alignItems: "center", justifyContent: "center" }}>
                   {<svg className="stroke-[#120C38] hover:stroke-white transition-colors duration-300" width="50" height="50" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -722,7 +733,15 @@ const Navbar = () => {
                   }
                 </div>
               </button>
-            </Link>
+              {isNotificationsOpen && (
+                <NotificationList
+                  onClose={() => setIsNotificationsOpen(false)}
+                  userId={userId}
+                  Role={userRole}
+                />
+              )}
+            </div>
+            {/* Exit */}
             <Link to="/">
               <button
                 className="top-buttons p-2 rounded-full border border-gray-300 hover:bg-[#A768FF] transition-all duration-300"

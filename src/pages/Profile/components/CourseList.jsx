@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
+import CourseJoinModal from '../../../components/CourseJoin/CourseJoinModal';
 import '../ProfileTeacher.css';
 
-const CourseList = ({ courses: initialCourses, userFrom=null }) => {
+const CourseList = ({ courses: initialCourses, userFrom = null, teacher = {}, user = {} }) => {
     const [expandedCourses, setExpandedCourses] = useState({});
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     // Используем переданные курсы или дефолтные с правильной структурой
     const courses = initialCourses?.length ? initialCourses : [
@@ -112,11 +114,19 @@ const CourseList = ({ courses: initialCourses, userFrom=null }) => {
                     :
                     (<button
                         className="w-full max-w-[418px] h-10 sm:h-12 mt-3 mb-3 sm:my-5 bg-[#8a4ae6] hover:bg-purple-700 rounded-xl sm:rounded-2xl text-white text-base sm:text-xl font-medium font-['Nunito'] flex items-center justify-center"
-                        onClick={() => alert('Записатися на курс!')}
+                        onClick={() => setIsModalOpen(true)}
                     >
                         Записатися на курс
                     </button>)
             }
+            <CourseJoinModal
+                isOpen={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
+                courses={courses}
+                userFrom={userFrom}
+                teacher={teacher}
+                user={user}
+            />
         </div>
     );
 };
