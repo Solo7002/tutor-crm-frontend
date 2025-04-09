@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import CourseJoinModal from '../../../components/CourseJoin/CourseJoinModal';
 import '../ProfileTeacher.css';
 
-const CourseList = ({ courses: initialCourses, userFrom = null, teacher = {}, user = {} }) => {
+const CourseList = ({ courses: initialCourses, userFrom = null, teacher = {}, user = {}, navigateToCourses=null }) => {
     const [expandedCourses, setExpandedCourses] = useState({});
     const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -107,7 +107,7 @@ const CourseList = ({ courses: initialCourses, userFrom = null, teacher = {}, us
                 !userFrom ?
                     (<button
                         className="w-full max-w-[418px] h-10 sm:h-12 mt-3 mb-3 sm:my-5 bg-[#8a4ae6] hover:bg-purple-700 rounded-xl sm:rounded-2xl text-white text-base sm:text-xl font-medium font-['Nunito'] flex items-center justify-center"
-                        onClick={() => alert('Редагування курсів!')}
+                        onClick={() => navigateToCourses()}
                     >
                         Редагувати курси
                     </button>)

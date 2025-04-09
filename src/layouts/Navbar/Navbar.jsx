@@ -14,6 +14,8 @@ const Navbar = () => {
   const [imageUrl, setImageUrl] = useState("");
   const [userRole, setUserRole] = useState("Student");
   const [userName, setUserName] = useState("");
+  const [lastname, setLastname] = useState("");
+  const [firstname, setFirstname] = useState("");
   const [balance, setBalance] = useState(0);
 
   useLayoutEffect(() => {
@@ -33,9 +35,11 @@ const Navbar = () => {
       axios
         .get(`http://localhost:4000/api/users/${userId}/balance`)
         .then((response) => {
-          const { Role, Username, Balance } = response.data;
+          const { Role, LastName, FirstName, Username, Balance } = response.data;
           setUserRole(Role);
           setUserName(Username);
+          setLastname(LastName);
+          setFirstname(FirstName);
 
           if (Role === "Student") {
             setBalance(Balance.Trophies);
@@ -472,7 +476,7 @@ const Navbar = () => {
             onClick={() => handleNavItemClick("profile", "Профіль")}
           >
             <img
-              src={imageUrl ? imageUrl : `https://ui-avatars.com/api/?name=${userName}&background=random&size=86`}
+              src={imageUrl ? imageUrl : `https://ui-avatars.com/api/?name=${lastname + " " + firstname}&background=random&size=86`}
               alt="Profile"
               style={{
                 width: "100%",

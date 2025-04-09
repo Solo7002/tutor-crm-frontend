@@ -207,7 +207,7 @@ export default function ProfileTeacher() {
                     </div>
 
                     {/* Course list component */}
-                    <CourseList courses={courses}/>
+                    <CourseList courses={courses} navigateToCourses={() => {navigate("/teacher/courses")}}/>
 
                     {/* Reviews component */}
                     <Reviews userId={user.UserId} />

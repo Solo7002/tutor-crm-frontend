@@ -16,6 +16,7 @@ const Reviews = ({ userId, userFrom = null }) => {
       try {
         axios.get(`http://localhost:4000/api/userReviews/getInfoByUserId/${userId}`)
         .then((res) => {
+          if (!res.data) return;
           setReviews(res.data);
         });
       } catch (error) {
