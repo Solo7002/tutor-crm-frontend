@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Dropdown from "./Dropdown";
 
 const Productivity = ({ productivityData }) => {
   const [period, setPeriod] = useState("За весь час");
@@ -96,17 +97,13 @@ const Productivity = ({ productivityData }) => {
           <h2 className="text-[#120c38] font-bold font-['Nunito'] text-xl md:text-2xl">
             Продуктивність
           </h2>
-          <select
-            value={period}
-            onChange={(e) => setPeriod(e.target.value)}
-            className="h-10 px-2 bg-white rounded-2xl border border-[#d7d7d7] text-[#827ead] text-lg font-bold font-['Nunito'] focus:outline-none"
-          >
-            {periods.map((p) => (
-              <option key={p} value={p}>
-                {p}
-              </option>
-            ))}
-          </select>
+          <div className="w-[10vw] mobile-dropdown-teacher">
+            <Dropdown
+              textAll="За весь час"
+              options={periods.filter((p) => p !== "За весь час")}
+              onSelect={(selectedPeriod) => setPeriod(selectedPeriod)}
+            />
+          </div>
         </div>
 
         {/* Рейтинг */}

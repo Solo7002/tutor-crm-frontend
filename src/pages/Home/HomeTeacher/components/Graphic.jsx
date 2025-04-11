@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Chart from "react-apexcharts";
+import Dropdown from "./Dropdown";
 
 const Graphic = ({ chartData }) => {
   const [selectedGroup, setSelectedGroup] = useState("Усі групи");
@@ -155,7 +156,8 @@ const Graphic = ({ chartData }) => {
   ];
 
   return (
-    <div className="relative bg-white w-[100%] h-[33vh] flex flex-col rounded-[20px] shadow-md justify-between border border-[#8a48e6] students-success">
+    <div className="relative bg-white w-[100%] h-[33vh] flex flex-col rounded-[20px] shadow-md justify-between students-success">
+      {/* border border-[#8a48e6] */}
       <div className="flex justify-between items-center px-4 pt-4">
         <div
           className="text-[#120c38] font-bold font-['Nunito']"
@@ -166,17 +168,13 @@ const Graphic = ({ chartData }) => {
         >
           Успішність учнів
         </div>
-        <select
-          value={selectedGroup}
-          onChange={(e) => setSelectedGroup(e.target.value)}
-          className="h-10 px-2 bg-white rounded-2xl border border-[#d7d7d7] text-[#827ead] text-lg font-bold font-['Nunito'] focus:outline-none"
-        >
-          {groups.map((group, index) => (
-            <option key={index} value={group}>
-              {group}
-            </option>
-          ))}
-        </select>
+        <div className="w-[15vw] mobile-dropdown-teacher">
+          <Dropdown
+            textAll="Усі групи"
+            options={groups.filter((group) => group !== "Усі групи")}
+            onSelect={(group) => setSelectedGroup(group)}
+          />
+        </div>
       </div>
 
       <div className="w-[90%] h-[80%] relative mx-auto">

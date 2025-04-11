@@ -34,4 +34,8 @@
         left: 0 !important;
         margin-left: 0 !important;
     }
+
+    .mobile-dropdown-teacher{
+        width: 35vw !important;
+    }
 }

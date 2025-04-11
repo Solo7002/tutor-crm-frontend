@@ -35,7 +35,7 @@ const NearestEvents = ({ events }) => {
                 {/* Event Image */}
                 <img
                   className="w-[35px] h-[35px] left-[10px] top-[12px] absolute rounded-full"
-                  src={event.image || "/assets/images/avatar.jpg"}
+                  src={event.image || `https://ui-avatars.com/api/?name=${event.title}&background=random&size=86`}
                   alt={`${event.title} avatar`}
                 />
 

@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import "./SearchTeachers.css";
 import { encryptData } from '../../utils/crypto';
+import Dropdown from "./components/Dropdown";
 
 const SearchTeachers = () => {
     const [teachers, setTeachers] = useState([]);
@@ -178,7 +179,7 @@ const SearchTeachers = () => {
                                 </div>
                             </div>
 
-                            <div className="flex flex-wrap gap-2 sm:gap-6 justify-between search-teachers-page-sorts">
+                            <div className="flex flex-nowrap gap-2 sm:gap-4 justify-between search-teachers-page-sorts">
                                 {/* Filter Button */}
                                 <div className="relative">
                                     <button
@@ -300,54 +301,28 @@ const SearchTeachers = () => {
                                 </div>
 
                                 {/* Price Sort Dropdown */}
-                                <select
-                                    className="h-12 w-[calc(50%-1rem)] sm:w-[180px] mx-1 mt-[2px] px-3 bg-white rounded-2xl border border-[#d7d7d7] text-[#827ead] text-[12pt] font-bold font-['Nunito'] focus:outline-none"
-                                    name="priceSort"
-                                    value={filters.priceSort}
-                                    onChange={handleFilterChange}
-                                    style={{
-                                        fontFamily: "Nunito",
-                                        fontWeight: "700",
-                                        fontSize: "12pt",
-                                        lineHeight: "20.46pt",
-                                        letterSpacing: "-0.5%",
-                                        color: "#827FAE",
-                                        border: "1px solid #D7D7D7",
-                                        borderRadius: "9999px",
-                                    }}
-                                >
-                                    <option value="">За ціною</option>
-                                    {priceSortOptions.map((option) => (
-                                        <option key={option.key} value={option.key}>
-                                            {option.value}
-                                        </option>
-                                    ))}
-                                </select>
+                                <div className="h-12 w-[12vw] mx-1 mt-[2px] mobile-dropdown-searchteacher">
+                                    <Dropdown
+                                        textAll="За ціною"
+                                        options={priceSortOptions.map(option => option.value)}
+                                        onSelect={(value) => {
+                                            const selectedOption = priceSortOptions.find(opt => opt.value === value) || { key: "" };
+                                            handleFilterChange({ target: { name: "priceSort", value: selectedOption.key } });
+                                        }}
+                                    />
+                                </div>
 
                                 {/* Lesson Type Dropdown */}
-                                <select
-                                    className="h-12 w-[calc(50%-1rem)] sm:w-[180px] mx-1 mt-[2px] px-3 bg-white rounded-2xl border border-[#d7d7d7] text-[#827ead] text-[12pt] font-bold font-['Nunito'] focus:outline-none"
-                                    name="lessonType"
-                                    value={filters.lessonType}
-                                    onChange={handleFilterChange}
-                                    style={{
-                                        fontFamily: "Nunito",
-                                        fontWeight: "700",
-                                        fontSize: "12pt",
-                                        lineHeight: "20.46pt",
-                                        letterSpacing: "-0.5%",
-                                        color: "#827FAE",
-                                        border: "1px solid #D7D7D7",
-                                        borderRadius: "9999px",
-                                    }}
-                                >
-                                    <option value="">Вид занять</option>
-                                    {lessonTypeOptions.map((option) => (
-                                        <option key={option.key} value={option.key}>
-                                            {option.value}
-                                        </option>
-                                    ))}
-                                </select>
+                                <div className="h-12 w-[12vw] mx-1 mt-[2px] mobile-dropdown-searchteacher">
+                                    <Dropdown
+                                        textAll="Вид занять"
+                                        options={lessonTypeOptions.map(option => option.value)}
+                                        onSelect={(value) => {
+                                            const selectedOption = lessonTypeOptions.find(opt => opt.value === value) || { key: "" };
+                                            handleFilterChange({ target: { name: "lessonType", value: selectedOption.key } });
+                                        }}
+                                    />
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -414,7 +389,7 @@ const SearchTeachers = () => {
                             <div className="flex items-start space-x-3 mb-4">
                                 <img
                                     className="w-16 h-16 rounded-full object-cover"
-                                    src={teacher.ImagePathUrl || "/assets/images/avatar.jpg"}
+                                    src={teacher.ImagePathUrl || `https://ui-avatars.com/api/?name=${teacher.FullName}&background=random&size=86`}
                                     alt="profile"
                                 />
                                 <div className="flex-grow">

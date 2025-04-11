@@ -353,6 +353,10 @@
   .search-teachers-page .more-btn{
     margin-top: -20px !important;
   }
+
+  .mobile-dropdown-searchteacher{
+    width: 40vw !important;
+  }
 }
 
 /* Ensure proper scrolling behavior */

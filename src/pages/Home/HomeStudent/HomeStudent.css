@@ -136,7 +136,7 @@
     }
 
     .graphic .apexcharts-legend-text{
-        font-size: 8pt !important;
+      font-size: 8pt !important;
     }
     .graphic .apexcharts-legend{
       display: flex;
@@ -247,5 +247,13 @@
       font-size: 4vw;
       line-height: 15px;
       margin-top: 5px;
+    }
+
+    .mobile-dropdown-student{
+      width: 35vw !important;
+    }
+
+    .search-teachers-last .mobile-dropdown-student{
+      width: 40vw !important;
     }
   }
