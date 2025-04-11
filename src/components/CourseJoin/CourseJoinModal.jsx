@@ -9,21 +9,66 @@ const CourseJoinModal = ({ isOpen, onClose, courses, userFrom, teacher, user }) 
         course: '',
         group: '',
     });
+    const [availableCourses, setAvailableCourses] = useState([]);
     const [availableGroups, setAvailableGroups] = useState([]);
     const [error, setError] = useState(null);
+    const [enrolledCourses, setEnrolledCourses] = useState(new Set());
+    const [enrolledGroups, setEnrolledGroups] = useState(new Set());
 
+    // Fetch the student's enrolled groups when the modal opens
+    useEffect(() => {
+        const fetchEnrolledGroups = async () => {
+            try {
+                if (userFrom?.UserId) {
+                    const studentResponse = await axios.get(`http://localhost:4000/api/students/${userFrom.UserId}/info`);
+                    const studentId = studentResponse.data.student.StudentId;
+
+                    const enrolledGroupsResponse = await axios.get(`http://localhost:4000/api/students/${studentId}/groups`);
+                    const enrolledGroups = enrolledGroupsResponse.data.groups;
+
+                    const enrolledCourseIds = new Set();
+                    const enrolledGroupIds = new Set();
+                    enrolledGroups.forEach(group => {
+                        enrolledGroupIds.add(group.GroupId);
+                        enrolledCourseIds.add(group.CourseId);
+                    });
+
+                    setEnrolledCourses(enrolledCourseIds);
+                    setEnrolledGroups(enrolledGroupIds);
+                }
+            } catch (err) {
+                console.error('Error fetching enrolled groups:', err);
+                setError('Не вдалося завантажити інформацію про ваші групи. Спробуйте ще раз.');
+            }
+        };
+
+        if (isOpen) {
+            fetchEnrolledGroups();
+        }
+    }, [isOpen, userFrom]);
+
+    // Filter available courses
+    useEffect(() => {
+        const filteredCourses = courses.filter(course => !enrolledCourses.has(course.CourseId));
+        setAvailableCourses(filteredCourses);
+    }, [courses, enrolledCourses]);
+
+    // Filter available groups when a course is selected
     useEffect(() => {
         if (formData.course) {
             const selectedCourse = courses.find((course) => course.CourseName === formData.course);
             if (selectedCourse) {
-                setAvailableGroups(selectedCourse.Groups.map((group) => ({ SubjectName: group.GroupName })));
+                const filteredGroups = selectedCourse.Groups
+                    .filter(group => !enrolledGroups.has(group.GroupId))
+                    .map(group => ({ SubjectName: group.GroupName }));
+                setAvailableGroups(filteredGroups);
             } else {
                 setAvailableGroups([]);
             }
         } else {
             setAvailableGroups([]);
         }
-    }, [formData.course, courses]);
+    }, [formData.course, courses, enrolledGroups]);
 
     const handleCourseSelect = (course) => {
         setFormData((prev) => ({
@@ -67,14 +112,12 @@ const CourseJoinModal = ({ isOpen, onClose, courses, userFrom, teacher, user }) 
                 format: selectedGroup?.Format,
                 date: currentDate,
             };
-            //console.log('Sending enrollment request:', JSON.stringify(requestData, null, 2));
             try {
-                // Отправляем данные на сервер
                 const response = await axios.post('http://localhost:4000/api/notifications/join', requestData);
                 setStage(3);
             } catch (err) {
                 console.error('Server error:', err);
-                setError('Couldn`t send the request. Try again later.');
+                setError('Не вдалося надіслати запит. Спробуйте ще раз.');
             }
         }
     };
@@ -121,9 +164,15 @@ const CourseJoinModal = ({ isOpen, onClose, courses, userFrom, teacher, user }) 
                         <div className="absolute left-[19.86px] top-[102px] w-96">
                             <Dropdown
                                 textAll="Усі курси"
-                                options={courses.map((course) => ({ SubjectName: course.CourseName }))}
+                                options={availableCourses.map((course) => ({ SubjectName: course.CourseName }))}
                                 onSelectSubject={handleCourseSelect}
+                                disabled={availableCourses.length === 0} // Disable if no courses
                             />
+                            {availableCourses.length === 0 && (
+                                <div className="mt-2 ml-2 text-nowrap text-[#a6a6a8] text-[10px] font-small font-['Nunito']">
+                                    На жаль, немає доступних курсів для запису. Ви вже записані на всі доступні курси.
+                                </div>
+                            )}
                         </div>
 
                         <div className="absolute left-[21px] top-[162px] text-[#120C38] text-base font-bold font-['Nunito']">
@@ -134,8 +183,20 @@ const CourseJoinModal = ({ isOpen, onClose, courses, userFrom, teacher, user }) 
                                 textAll="Усі групи"
                                 options={availableGroups}
                                 onSelectSubject={handleGroupSelect}
+                                disabled={!formData.course || availableGroups.length === 0} // Disable if no course selected or no groups
                             />
+                            {formData.course && availableGroups.length === 0 && (
+                                <div className="mt-2 ml-2 text-nowrap text-[#a6a6a8] text-[10px] font-small font-['Nunito']">
+                                    На жаль, немає доступних груп для цього курсу. Ви вже записані на всі доступні групи.
+                                </div>
+                            )}
                         </div>
+
+                        {error && (
+                            <div className="absolute left-[21px] top-[232px] text-red-500 text-sm">
+                                {error}
+                            </div>
+                        )}
 
                         <button
                             onClick={handleNext}
@@ -177,6 +238,12 @@ const CourseJoinModal = ({ isOpen, onClose, courses, userFrom, teacher, user }) 
                             <span className="text-[#120C38] text-base font-bold font-['Nunito']">Ціна за заняття: </span>
                             <span className="text-[#8A48E6] text-base font-bold font-['Nunito']">{selectedGroup?.GroupPrice || '0'}грн</span>
                         </div>
+
+                        {error && (
+                            <div className="absolute left-[21px] top-[212px] text-red-500 text-sm">
+                                {error}
+                            </div>
+                        )}
 
                         <button
                             onClick={handleNext}
