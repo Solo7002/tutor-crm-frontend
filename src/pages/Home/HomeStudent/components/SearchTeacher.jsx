@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { encryptData } from '../../../../utils/crypto';
+import Dropdown from "./Dropdown";
 
 const SearchTeacher = () => {
   const [teachers, setTeachers] = useState([]);
@@ -104,54 +105,38 @@ const SearchTeacher = () => {
       <div className="flex h-20 w-[100%] selects">
         <div className="flex p-4-lg p-3">
           {/* Вид навчання */}
-          <select
-            className="h-[50px] w-[160px] mx-1 mt-[8px] px-3 bg-white rounded-2xl border border-[#d7d7d7] text-[#827ead] text-[12pt] font-bold font-['Nunito'] focus:outline-none"
-            name="lessonType"
-            value={filters.lessonType}
-            onChange={handleFilterChange}
-            style={{
-              fontFamily: "Nunito",
-              fontWeight: "700",
-              fontSize: "12pt",
-              lineHeight: "20.46pt",
-              letterSpacing: "-0.5%",
-              color: "#827FAE",
-              border: "1px solid #D7D7D7",
-              borderRadius: "9999px",
-            }}
-          >
-            <option value="">Вид навчання</option>
-            {lessonTypeOptions.map((option) => (
-              <option key={option.key} value={option.key}>
-                {option.value}
-              </option>
-            ))}
-          </select>
+          <div className="w-[10vw] mx-1 mt-[8px] mobile-dropdown-student">
+            <Dropdown
+              textAll="Вид навчання"
+              options={lessonTypeOptions.map((option) => option.value)}
+              onSelect={(value) => {
+                const selectedOption = lessonTypeOptions.find(
+                  (option) => option.value === value
+                );
+                setFilters((prevFilters) => ({
+                  ...prevFilters,
+                  lessonType: selectedOption ? selectedOption.key : "",
+                }));
+              }}
+            />
+          </div>
 
           {/* Формат */}
-          <select
-            className="h-[50px] w-[160px] mx-1 mt-[8px] px-3 bg-white rounded-2xl border border-[#d7d7d7] text-[#827ead] text-[12pt] font-bold font-['Nunito'] focus:outline-none"
-            name="meetingType"
-            value={filters.meetingType}
-            onChange={handleFilterChange}
-            style={{
-              fontFamily: "Nunito",
-              fontWeight: "700",
-              fontSize: "12pt",
-              lineHeight: "20.46pt",
-              letterSpacing: "-0.5%",
-              color: "#827FAE",
-              border: "1px solid #D7D7D7",
-              borderRadius: "9999px",
-            }}
-          >
-            <option value="">Формат</option>
-            {meetingTypeOptions.map((option) => (
-              <option key={option.key} value={option.key}>
-                {option.value}
-              </option>
-            ))}
-          </select>
+          <div className="w-[10vw] mx-1 mt-[8px] mobile-dropdown-student">
+            <Dropdown
+              textAll="Формат"
+              options={meetingTypeOptions.map((option) => option.value)}
+              onSelect={(value) => {
+                const selectedOption = meetingTypeOptions.find(
+                  (option) => option.value === value
+                );
+                setFilters((prevFilters) => ({
+                  ...prevFilters,
+                  meetingType: selectedOption ? selectedOption.key : "",
+                }));
+              }}
+            />
+          </div>
         </div>
 
         {/* Шукати */}

@@ -142,6 +142,7 @@ export default function ProfileStudent() {
                                 <div className="text-center text-[#120c38] text-lg md:text-2xl font-bold font-['Nunito'] mb-2">Рейтинг</div>
 
                                 <div className="text-center text-[#8a48e6] text-lg md:text-2xl font-bold font-['Nunito'] mt-2">{student && student.Rating ? student.Rating : "0"}</div>
+                                <div className="text-center text-[#120c38] text-lg md:text-2xl font-bold font-['Nunito'] mb-2">по трофеях</div>
                             </div>
                         </div>
 
