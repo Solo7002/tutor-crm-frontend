@@ -7,25 +7,46 @@ import { PrimaryButton } from "../../components/Buttons/Buttons";
 import CreateModal from "./components/CreateModal/CreateModal";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { jwtDecode } from "jwt-decode";
 
 const TestsTeacher = () => {
-  const token = localStorage.getItem("token") || "";
-  const teacher_id = 1;
-
+  const token = sessionStorage.getItem("token") || "";
+  const [teacher_id, setTeacher_id] = useState();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [tests, setTests] = useState([]);
   const [filteredTests, setFilteredTests] = useState([]);
-  const [originalTests, setOriginalTests] = useState([]); 
+  const [originalTests, setOriginalTests] = useState([]);
   const [groups, setGroups] = useState([]);
   const [courses, setCourses] = useState([]);
   const [selectedGroup, setSelectedGroup] = useState("Усі групи");
   const [selectedCourse, setSelectedCourse] = useState("Усі курси");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [searchQuery, setSearchQuery] = useState(""); 
+  const [searchQuery, setSearchQuery] = useState("");
+
+  useEffect(() => {
+    const token = sessionStorage.getItem("token");
+    if (!token) return;
+
+    const fetchData = async () => {
+      const decoded = jwtDecode(token);
+      const teacherResponse = await axios.get(
+        `http://localhost:4000/api/teachers/search?UserId=${decoded.id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setTeacher_id(teacherResponse.data.data[0].TeacherId);
+    };
+    fetchData();
+  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
+      if (!teacher_id || !token) return;
+
       try {
         setLoading(true);
 
@@ -69,6 +90,7 @@ const TestsTeacher = () => {
 
         setLoading(false);
       } catch (err) {
+        console.error("Ошибка при загрузке данных:", err);
         setError(err.message);
         setLoading(false);
       }
@@ -83,7 +105,7 @@ const TestsTeacher = () => {
       setTests(originalTests);
       setFilteredTests(originalTests);
     } else {
-   
+
       const filtered = originalTests.filter((test) =>
         test.TestName.toLowerCase().includes(query.toLowerCase())
       );
@@ -125,13 +147,18 @@ const TestsTeacher = () => {
   };
 
   return (
-    <div className="TestsTeacher">
+    <div className="TestsTeacher mt-6 mr-10">
       <div className="flex items-center m-2 gap-2">
-        <TaskButton
-          text="Назначені"
-          isSelected={true}
-          icon="M5 1H16M5 7H16M5 13H16M1 1V1.01M1 7V7.01M1 13V13.01"
-        />
+        <div className="w-[139px] h-12 relative">
+          <div className="left-0 top-0 absolute inline-flex justify-start items-center gap-2 overflow-hidden">
+            <div data-number-visible="false" data-property-1="Active" data-size="Big" className="h-12 px-4 py-2 bg-[#8a48e6] rounded-[32px] flex justify-start items-center gap-2">
+              <svg width="17" height="14" viewBox="0 0 17 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M5 1H16M5 7H16M5 13H16M1 1V1.01M1 7V7.01M1 13V13.01" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+              <div className="justify-center text-white text-[15px] font-bold font-['Nunito']">Назначені</div>
+            </div>
+          </div>
+        </div>
         <div className="ml-auto">
           <SearchButton
             onSearchClick={() => handleSearch(searchQuery)}
@@ -141,7 +168,7 @@ const TestsTeacher = () => {
         </div>
       </div>
 
-      <div className="flex items-baseline space-x-4 m-2 mb-6">
+      <div className="flex items-baseline space-x-4 m-2 mb-6 mt-4">
         <Dropdown
           options={courses}
           textAll="Усі курси"
@@ -163,12 +190,12 @@ const TestsTeacher = () => {
           <div>No tests found for this teacher.</div>
         ) : (
           <>
-          <div className="flex flex-wrap justify-start gap-4 mb-[200px] ">
-            {filteredTests.map((test) => (
-              <TestItem key={test.TestId} test={test} />
-            ))}
-          </div>
-         
+            <div className="flex flex-wrap justify-start gap-4 mb-[200px] ">
+              {filteredTests.map((test) => (
+                <TestItem key={test.TestId} test={test} />
+              ))}
+            </div>
+
           </>
         )}
       </div>

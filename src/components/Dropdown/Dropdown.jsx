@@ -1,15 +1,14 @@
 import { useState } from "react";
 
-export default function Dropdown({textAll="Усі предмети", options, onSelectSubject }) {
+export default function Dropdown({textAll="Усі предмети", options, onSelectSubject, wFull=false }) {
   const [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState(textAll);
-
+  
   return (
-    <div className="relative w-[245px]">
-      {/* Заголовок dropdown */}
+    <div className={`relative ${wFull ? "w-full": "w-[245px]"}`}>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="w-full h-10 p-2 bg-white rounded-2xl border border-[#d7d7d7] flex justify-between items-center"
+        className="w-full h-10 p-2 bg-white rounded-2xl outline outline-1 outline-[#d7d7d7] flex justify-between items-center"
       >
         <span className="text-[#827ead] text-[15px] font-bold font-['Nunito']">{selected}</span>
         <svg
@@ -29,10 +28,9 @@ export default function Dropdown({textAll="Усі предмети", options, on
           />
         </svg>
       </button>
-
-      {/* Выпадающий список */}
+      
       {isOpen && (
-        <ul className="absolute w-full mt-1 bg-white border border-[#d7d7d7] rounded-2xl shadow-lg z-10">
+        <ul className="absolute w-full mt-1 bg-white outline outline-1 outline-[#d7d7d7] rounded-2xl shadow-lg z-10 max-h-[200px] overflow-y-auto">
           {[textAll, ...options.map(subject => subject.SubjectName)].map((option) => (
             option === selected
               ? null

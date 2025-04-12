@@ -11,7 +11,10 @@ const TestItem = ({ test,token }) => {
  
 
   return (
-    <div data-property-1="Valid" data-size="Small" className="test-item-card">
+    <div data-property-1="Valid" data-size="Small" className="relative rounded-3xl pb-4 test-pattern-bg" 
+    style={{
+      backgroundImage: 'linear-gradient(to top right, white, transparent)',
+  }}>
       <div className="test-item-content">
         
         <div className="test-item-description">{test.TestName}</div>

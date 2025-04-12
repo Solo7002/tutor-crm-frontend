@@ -8,11 +8,11 @@
 }
 
 .modal-container {
-  @apply w-full max-w-[460px] min-h-[16rem] bg-white rounded-[20px] relative shadow-xl p-4 mx-4 flex flex-col items-center justify-center; /* Flexbox для центрирования */
+  @apply w-full max-w-[460px] bg-white rounded-[20px] relative shadow-xl p-6 pt-4 mx-4 flex flex-col;
 }
 
 .close-button {
-  @apply w-6 h-6 absolute left-4 top-4 outline-2 outline-offset-[-1px] outline-[#827ead] rounded-full flex items-center justify-center;
+  @apply absolute left-5 top-7 w-6 h-6 outline-2 outline-offset-[-1px] outline-[#827ead] rounded-full flex items-center justify-center;
 }
 
 .close-icon {
@@ -20,15 +20,23 @@
 }
 
 .modal-title {
-  @apply text-[#8a48e6] text-2xl font-bold font-['Nunito'] text-center mt-2 mb-4;
+  @apply text-[#8a48e6] text-2xl font-bold font-['Nunito'] text-center mt-2 mb-6;
+}
+
+.dropdowns-container {
+  @apply w-full mt-4 mb-6 space-y-4;
 }
 
 .dropdown-wrapper {
-  @apply w-full max-w-[300px] mx-auto mb-4;
+  @apply w-full;
+}
+
+.buttons-container {
+  @apply w-full space-y-4;
 }
 
 .manual-test-button {
-  @apply w-full max-w-[420px] p-4 h-12 bg-white rounded-2xl outline outline-1 outline-offset-[-1px] outline-[#8a48e6] flex items-center justify-center hover:bg-[#f4f4f5] transition-colors mb-4;
+  @apply w-full p-4 h-12 bg-white rounded-2xl outline outline-1 outline-offset-[-1px] outline-[#8a48e6] flex items-center justify-center hover:bg-[#f4f4f5] transition-colors;
 }
 
 .manual-test-button span {
@@ -36,7 +44,7 @@
 }
 
 .ai-test-button {
-  @apply w-full max-w-[420px]  p-4  h-12 bg-[#8a4ae6] rounded-2xl flex items-center justify-center hover:bg-[#7a3dd1] transition-colors;
+  @apply w-full p-4 h-12 bg-[#8a4ae6] rounded-2xl flex items-center justify-center hover:bg-[#7a3dd1] transition-colors;
 }
 
 .ai-test-button span {
