@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import ItemLesson from "../ItemLesson/ItemLesson";
-
-import Dropdown from "../../../Materials/components/Dropdown";
+import AddDayModal from "../AddDayModal/AddDayModal";
+import Dropdown from "../../../../Materials/components/Dropdown";
 import "./PanelLessons.css";
 import moment from "moment";
 
-const PanelLessons = ({ token, lessons: initialLessons, selectedDate, onResetDate }) => {
+const PanelLessons = ({ token, teacherId, lessons: initialLessons, selectedDate, onResetDate }) => {
   const [lessons, setLessons] = useState(initialLessons);
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [sortType, setSortType] = useState("today"); 
   const [date, setDate] = useState(moment().format("DD.MM.YYYY"));
 
@@ -14,9 +15,13 @@ const PanelLessons = ({ token, lessons: initialLessons, selectedDate, onResetDat
     sortLessons(selectedDate ? "selected" : sortType); 
   }, [initialLessons, sortType, selectedDate]);
 
+  const onAddClose = () => {
+    setIsAddModalOpen(!isAddModalOpen);
+  };
 
-
-
+  const addLesson = () => {
+    onAddClose();
+  };
 
   const sortLessons = (type) => {
     let sortedLessons = [...initialLessons];
@@ -94,6 +99,7 @@ const PanelLessons = ({ token, lessons: initialLessons, selectedDate, onResetDat
 
   return (
     <div className="panel">
+      <AddDayModal token={token} teacherId={teacherId} onClose={onAddClose} isOpen={isAddModalOpen} />
       <div className="panel-header">
         <div className="panel-date-dropdown">
           <Dropdown onSelect={handleSortSelect} categories={sortOptions} />
@@ -107,6 +113,24 @@ const PanelLessons = ({ token, lessons: initialLessons, selectedDate, onResetDat
         ))}
       </div>
 
+      <button className="panel-add-button" onClick={addLesson}>
+        <svg
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <circle cx="12" cy="12" r="10" fill="#8A48E6" />
+          <path
+            d="M12 7V17M7 12H17"
+            stroke="white"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+      </button>
     </div>
   );
 };

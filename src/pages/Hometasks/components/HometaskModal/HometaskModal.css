@@ -2,7 +2,85 @@
 @tailwind components;
 @tailwind utilities;
 
-.HometaskModal .container{
-    @apply
-    w-[596px] h-[831px] rounded-lg
-} 
+.modal-overlay {
+  @apply fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-[1000];
+}
+
+.modal-container {
+    @apply relative m-auto;
+}
+
+
+.modal-header {
+  @apply flex justify-between items-center;
+}
+
+.modal-content {
+  @apply flex flex-col;
+}
+
+.modal-info-section {
+  @apply flex flex-col md:flex-row items-start gap-4 mt-4;
+}
+
+.modal-task-image {
+  @apply w-full md:w-[182px] h-[182px] rounded-[24px] object-cover;
+}
+
+.modal-info-cards {
+  @apply w-full md:w-[344px];
+}
+
+.modal-card {
+  @apply w-full h-14 p-2.5 rounded-2xl border border-[#d7d7d7] 
+         flex justify-between items-center m-1;
+}
+
+.modal-card-highlight {
+  @apply border-[#8a48e6];
+}
+
+.modal-grid {
+  @apply grid grid-cols-1 sm:grid-cols-2 gap-2;
+}
+
+.modal-task-description {
+  @apply p-4 flex flex-col gap-2;
+}
+
+.modal-files-section {
+  @apply flex-col justify-start items-start p-4 gap-4 inline-flex;
+}
+
+.modal-files-container {
+  @apply overflow-y-auto flex-col justify-start items-start p-4 gap-4 inline-flex;
+}
+
+.modal-selected-files {
+  @apply flex flex-wrap flex-row max-h-24 overflow-y-auto;
+}
+
+.modal-footer {
+  @apply sticky bottom-0 bg-white py-3 left-0 right-0 px-4;
+}
+
+.modal-footer-content {
+  @apply flex justify-between items-center;
+}
+
+/* Status-specific styles */
+.modal-card-pending {
+  @apply border-[#FFA869];
+}
+
+.modal-card-done {
+  @apply border-[#44B56A];
+}
+
+.modal-text-pending {
+  @apply text-[#FFA869];
+}
+
+.modal-text-done {
+  @apply text-[#44B56A];
+}

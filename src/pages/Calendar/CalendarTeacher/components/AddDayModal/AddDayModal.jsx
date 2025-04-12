@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import "./AddDayModal.css";
 import moment from "moment";
-import Dropdown from "../../../../components/Dropdown/Dropdown";
+import Dropdown from "../../../../../components/Dropdown/Dropdown";
 
 const AddDayModal = ({ isOpen, onClose, token, teacherId }) => {
   const [eventType, setEventType] = useState("one-time");
@@ -154,6 +154,7 @@ const AddDayModal = ({ isOpen, onClose, token, teacherId }) => {
           console.log("Lesson created successfully:", response.data);
         }
         onClose();
+        window.location.reload(); 
       } catch (error) {
         console.error("Error creating lesson:", error.response?.data || error.message);
         setErrors((prev) => ({

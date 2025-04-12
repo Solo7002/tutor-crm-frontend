@@ -36,7 +36,7 @@
 }
 
 .homework-status-done button {
-    @apply bg-[#44B56A] border-[#44B56A] text-white;
+    /* @apply bg-[#44B56A] border-[#44B56A] text-white; */
 }
 
 .homework-status-done-bg {
@@ -75,5 +75,5 @@
     stroke: white; 
 }
 .homework-status-done button:hover {
-    @apply bg-white text-[#44B56A] border-[#44B56A] transition-all duration-300;;
+    /* @apply bg-white text-[#44B56A] border-[#44B56A] transition-all duration-300;; */
 }

@@ -2,7 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 import "./ItemLesson.css";
 import ChangeDayModal from "../ChangeDayModal/ChangeDayModal";
-const ItemLesson = ({ token, lesson }) => {
+const ItemLesson = ({ token, lesson,teacherId }) => {
   const [isCollapsed, setIsCollapsed] = useState(true);
   const [isOpenModal, setIsOpenModel] = useState(false);
 
@@ -50,7 +50,7 @@ const ItemLesson = ({ token, lesson }) => {
 
   return (
     <div className="item-lesson-container">
-      <ChangeDayModal initialData={lesson} token={token} isOpen={isOpenModal} onClose={onClose} />
+      <ChangeDayModal initialData={lesson} teacherId={teacherId} token={token} isOpen={isOpenModal} onClose={onClose} />
       {/* Верхняя часть (всегда видимая) */}
       <div className="item-lesson-header">
         <div className="item-lesson-circle" />
