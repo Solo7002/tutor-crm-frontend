@@ -5,8 +5,8 @@ export default function Dropdown({textAll="Усі предмети", options, on
   const [selected, setSelected] = useState(textAll);
 
   return (
-    <div className="relative w-[245px]">
-      {/* Заголовок dropdown */}
+    <div className="relative w-[245px] outline outline-1 outline-gray-100 ">
+      
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="w-full h-10 p-2 bg-white rounded-2xl border border-[#d7d7d7] flex justify-between items-center"

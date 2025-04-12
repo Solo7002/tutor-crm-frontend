@@ -1,16 +1,24 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import "./ChangeDayModal.css";
-import moment from "moment";  
+import moment from "moment";
+import Dropdown from "../../../../../components/Dropdown/Dropdown";
 
-const ChangeDayModal = ({ isOpen, onClose, token, initialData }) => {
+const ChangeDayModal = ({ isOpen, onClose, token, initialData, teacherId }) => {
   const [format, setFormat] = useState(initialData?.LessonType || "online");
   const [subject, setSubject] = useState(initialData?.LessonHeader || "");
-  const [group, setGroup] = useState(initialData?.GroupId?.toString() || "");
-  const [startHour, setStartHour] = useState(initialData?.StartLessonTime?.split(":")[0] || "");
-  const [startMinute, setStartMinute] = useState(initialData?.StartLessonTime?.split(":")[1] || "0");
-  const [endHour, setEndHour] = useState(initialData?.EndLessonTime?.split(":")[0] || "");
-  const [endMinute, setEndMinute] = useState(initialData?.EndLessonTime?.split(":")[1] || "0");
+  const [selectedGroupId, setSelectedGroupId] = useState(initialData?.GroupId?.toString() || null);
+  const [groups, setGroups] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const startMoment = initialData?.StartLessonTime ? moment(initialData.StartLessonTime) : null;
+  const endMoment = initialData?.EndLessonTime ? moment(initialData.EndLessonTime) : null;
+
+  const [startHour, setStartHour] = useState(startMoment ? startMoment.format("HH") : "");
+  const [startMinute, setStartMinute] = useState(startMoment ? startMoment.format("mm") : "0");
+  const [endHour, setEndHour] = useState(endMoment ? endMoment.format("HH") : "");
+  const [endMinute, setEndMinute] = useState(endMoment ? endMoment.format("mm") : "0");
+
   const [date, setDate] = useState(
     initialData?.LessonDate ? moment(initialData.LessonDate).format("YYYY-MM-DD") : ""
   );
@@ -18,6 +26,46 @@ const ChangeDayModal = ({ isOpen, onClose, token, initialData }) => {
     initialData?.LessonType === "online" ? initialData?.LessonLink || "" : initialData?.LessonAddress || ""
   );
   const [errors, setErrors] = useState({});
+  useEffect(() => {
+    if (groups.length > 0 && initialData?.GroupId) {
+      const initialGroup = groups.find(group => group.GroupId === initialData.GroupId);
+      if (initialGroup) {
+        setSelectedGroupId(initialGroup.GroupId.toString());
+      }
+    }
+  }, [groups, initialData]);
+  useEffect(() => {
+    if (isOpen) {
+      fetchGroups();
+    }
+  }, [isOpen, teacherId, token]);
+
+  const fetchGroups = async () => {
+    try {
+      setIsLoading(true);
+      const response = await axios.get(
+        `http://localhost:4000/api/groups/groups-by-teacher/${teacherId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setGroups(response.data);
+    } catch (error) {
+      setErrors((prev) => ({
+        ...prev,
+        server: "Не вдалося завантажити список груп",
+      }));
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleGroupSelect = (groupName) => {
+    const selectedGroup = groups.find(group => group.GroupName === groupName);
+    setSelectedGroupId(selectedGroup?.GroupId?.toString() || null);
+  };
 
   if (!isOpen) return null;
 
@@ -25,7 +73,7 @@ const ChangeDayModal = ({ isOpen, onClose, token, initialData }) => {
     const newErrors = {};
 
     if (!subject.trim()) newErrors.subject = "Предмет не може бути порожнім";
-    if (!group.trim()) newErrors.group = "Група не може бути порожньою";
+    if (!selectedGroupId) newErrors.group = "Виберіть групу";
 
     if (!startHour || startHour === "" || isNaN(parseInt(startHour)) || parseInt(startHour) < 0 || parseInt(startHour) > 23) {
       newErrors.time = "Введіть коректний час початку (0-23)";
@@ -67,32 +115,19 @@ const ChangeDayModal = ({ isOpen, onClose, token, initialData }) => {
         const lessonDate = moment(date).format("YYYY-MM-DD");
         const startTime = `${lessonDate} ${String(parseInt(startHour)).padStart(2, "0")}:${String(parseInt(startMinute)).padStart(2, "0")}:00`;
         const endTime = `${lessonDate} ${String(parseInt(endHour)).padStart(2, "0")}:${String(parseInt(endMinute)).padStart(2, "0")}:00`;
-
+  
         const lessonData = {
           LessonHeader: subject,
           StartLessonTime: startTime,
           EndLessonTime: endTime,
           LessonType: format,
           LessonDate: lessonDate,
-          GroupId: parseInt(group),
-          TeacherId: initialData?.TeacherId,
+          GroupId: parseInt(selectedGroupId),
+          LessonAddress: format === "offline" ? linkOrAddress : null,
+          LessonLink: format === "online" ? linkOrAddress : null,
         };
-
-        if (format === "offline" && linkOrAddress) {
-          lessonData.LessonAddress = linkOrAddress;
-        } else {
-          lessonData.LessonAddress = null;
-        }
-
-        if (format === "online" && linkOrAddress) {
-          lessonData.LessonLink = linkOrAddress;
-        } else {
-          lessonData.LessonLink = null;
-        }
-
-        console.log("Updating lessonData:", lessonData);
-
-        const response = await axios.put(
+  
+        await axios.put(
           `http://localhost:4000/api/plannedLessons/${id}`,
           lessonData,
           {
@@ -102,11 +137,10 @@ const ChangeDayModal = ({ isOpen, onClose, token, initialData }) => {
             },
           }
         );
-
-        console.log("Lesson updated successfully:", response.data);
+  
         onClose();
+        window.location.reload(); 
       } catch (error) {
-        console.error("Error updating lesson:", error.response?.data || error.message);
         setErrors((prev) => ({
           ...prev,
           server: "Не вдалося оновити подію. Спробуйте ще раз.",
@@ -114,6 +148,7 @@ const ChangeDayModal = ({ isOpen, onClose, token, initialData }) => {
       }
     }
   };
+  
 
   return (
     <div className="ChangeDayModal" onClick={onClose}>
@@ -154,7 +189,7 @@ const ChangeDayModal = ({ isOpen, onClose, token, initialData }) => {
           <div className="time-block">
             <div className="time-input-wrapper">
               <div className="time-input-group">
-                <span className="time-label">З   </span>
+                <span className="time-label">З   </span>
                 <input
                   type="number"
                   className={`time-input ${errors.time ? "error-border" : ""}`}
@@ -206,13 +241,18 @@ const ChangeDayModal = ({ isOpen, onClose, token, initialData }) => {
           {errors.time && <span className="error-text">{errors.time}</span>}
 
           <label className="label">Група:</label>
-          <input
-            type="text"
-            placeholder="Група"
-            className={`input-field ${errors.group ? "error-border" : ""}`}
-            value={group}
-            onChange={(e) => setGroup(e.target.value)}
-          />
+          <div className="dropdown-wrapper">
+            {isLoading ? (
+              <p>Завантаження груп...</p>
+            ) : (
+              <Dropdown
+                textAll="Виберіть групу"
+                options={groups.map((group) => ({ SubjectName: group.GroupName }))}
+                onSelectSubject={handleGroupSelect}
+                selectedSubject={groups.find(group => group.GroupId.toString() === selectedGroupId)?.GroupName || "Виберіть групу"}
+              />
+            )}
+          </div>
           {errors.group && <span className="error-text">{errors.group}</span>}
 
           <label className="label">Формат проведення заняття:</label>

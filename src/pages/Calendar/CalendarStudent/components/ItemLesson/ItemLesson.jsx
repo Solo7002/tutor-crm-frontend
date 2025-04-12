@@ -2,7 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 import "./ItemLesson.css";
 
-const ItemLesson = ({ token, lesson }) => {
+const ItemLesson = ({ lesson }) => {
   const [isCollapsed, setIsCollapsed] = useState(true);
 
 

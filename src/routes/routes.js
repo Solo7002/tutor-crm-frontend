@@ -12,7 +12,7 @@ import TestStudent from "../pages/Tests/TestStudent"
 import ProfileTeacher from "../pages/Profile/ProfileTeacher";
 import ProfileTeacher_forStudent from "../pages/Profile/ProfileTeacher_forStudent";
 import EditProfileTeacher from "../pages/EditProfile/EditProfileTeacher";
-import CalendarTeacher from "../pages/CalendarTeacher/CalendarTeacher";
+import CalendarStudent from "../pages/Calendar/CalendarStudent/CalendarStudent";
 import RunTestStudent from "../pages/Tests/RunTestStudent";
 import DoneTestStudent from "../pages/Tests/DoneTestStudent";
 import HomeTeacher from "../pages/Home/HomeTeacher/HomeTeacher";
@@ -22,7 +22,7 @@ import TestsTeacher from "../pages/TestsTeacher/TestsTeacher";
 import TestResults from "../pages/TestsTeacher/TestResults";
 import CreateTest from "../pages/TestsTeacher/CreateTest";
 import CreateTestAi from "../pages/TestsTeacher/CreateTestAi";
-import CalendarStudent from "../pages/CalendarStudent/CalendarStudent";
+import CalendarTeacher from "../pages/Calendar/CalendarTeacher/CalendarTeacher";
 import Course from "../pages/Course/Course";
 import ProfileStudent from "../pages/Profile/ProfileStudent";
 import EditProfileStudent from "../pages/EditProfile/EditProfileStudent";
