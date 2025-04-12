@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom'; 
 import TestForm from './components/TestForm/TestForm';
@@ -6,15 +6,27 @@ import AddQuestion from './components/AddQuestion/AddQuestion';
 import { PrimaryButton } from '../../components/Buttons/Buttons';
 import './CreateTest.css';
 import { useParams } from "react-router-dom";
+import { decryptData } from '../../utils/crypto';
+
 const CreateTest = () => {
-  const { GroupId } = useParams();
   const navigate = useNavigate();
 
+  const { encodedGroupId } = useParams();
   const [questions, setQuestions] = useState([1]);
   const [formData, setFormData] = useState({});
   const [questionsData, setQuestionsData] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState({});
+  const [GroupId, setGroupId] = useState();
+
+  useEffect(() => {
+    try {
+      const decryptedGroupId = decryptData(encodedGroupId);
+      setGroupId(decryptedGroupId);
+    } catch (err) {
+      console.log(err.message);
+    }
+  }, [encodedGroupId]);
 
   const handleSubmit = async () => {
     setIsSubmitting(true);

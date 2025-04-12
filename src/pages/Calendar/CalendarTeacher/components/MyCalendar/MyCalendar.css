@@ -77,3 +77,8 @@
 .rbc-toolbar-label {
   text-align:left!important;
 }
+
+.rbc-selected-day {
+  border-radius: 24px !important;
+  box-shadow: 0 0 0 2px #8a48e6 inset !important;
+}

@@ -7,6 +7,7 @@ import "./MyCalendar.css";
 const MyCalendar = ({ events, onDateSelect }) => {
   const localizer = momentLocalizer(moment);
   const [currentDate, setCurrentDate] = useState(new Date());
+  const [selectedDate, setSelectedDate] = useState(null);
 
   const formattedEvents = events.map((event) => {
     const startDate = moment(`${event.LessonDate}T${event.StartLessonTime}`).toDate();
@@ -32,14 +33,24 @@ const MyCalendar = ({ events, onDateSelect }) => {
     const hasEvent = formattedEvents.some((event) =>
       moment(date).isSame(moment(event.date), "day")
     );
+    const isSame = selectedDate
+      ? moment(date).isSame(moment(selectedDate), "day")
+      : false;
+
+    console.log("selectedDate: ", selectedDate);
+
+    let classname = "rbc-day-bg ";
+    if (hasEvent) classname += "rbc-event ";
+    if (isSame) classname += "rbc-selected-day ";
     return {
-      className: hasEvent ? "rbc-day-bg rbc-event" : "rbc-day-bg",
+      className: classname,
     };
   };
 
-  // Обработка клика на день
   const handleSelectSlot = ({ start }) => {
-    onDateSelect(moment(start).format("YYYY-MM-DD")); // Передаем дату в формате YYYY-MM-DD
+    const iso = moment(start).format("YYYY-MM-DD");
+    setSelectedDate(iso);
+    onDateSelect(iso);
   };
 
   return (

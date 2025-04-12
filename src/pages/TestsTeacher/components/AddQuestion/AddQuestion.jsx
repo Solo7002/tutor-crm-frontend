@@ -104,7 +104,7 @@ const AddQuestion = ({ taskNumber, onQuestionChange, errors, initialData }) => {
     };
   }, [previewImage]);
   return (
-    <div className="p-5 border rounded-lg bg-white shadow-md space-y-4">
+    <div className="p-5 rounded-lg bg-white space-y-4">
       <div className="flex items-center gap-3">
         <span className="text-lg font-bold text-gray-700">{taskNumber}.</span>
         <div className="flex-1">

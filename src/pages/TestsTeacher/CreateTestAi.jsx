@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import axios from "axios";
 import { PrimaryButton } from "../../components/Buttons/Buttons";
 import WaitModal from "./components/WaitModal/WaitModal";
@@ -6,18 +6,30 @@ import TestForm from "./components/TestForm/TestForm";
 import AddQuestion from "./components/AddQuestion/AddQuestion";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
+import { decryptData } from '../../utils/crypto';
+
 const CreateTestAi = () => {
   const navigate = useNavigate();
-  const { GroupId } = useParams();
 
+  const { encodedGroupId } = useParams();
   const [formData, setFormData] = useState({});
   const [questionsData, setQuestionsData] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isGenerating, setIsGenerating] = useState(false);
   const [errors, setErrors] = useState({});
   const [generated, setGenerated] = useState(false);
+  const [GroupId, setGroupId] = useState();
 
   const abortControllerRef = useRef(null);
+
+  useEffect(() => {
+    try {
+      const decryptedGroupId = decryptData(encodedGroupId);
+      setGroupId(decryptedGroupId);
+    } catch (err) {
+      console.log(err.message);
+    }
+  }, [encodedGroupId]);
 
   const handleGenerate = async () => {
     setIsGenerating(true);
@@ -90,12 +102,15 @@ const CreateTestAi = () => {
   };
 
   const handleSubmit = async () => {
+    console.log("1");
     setIsSubmitting(true);
     const newErrors = {};
+    console.log("2");
 
     if (!formData.subject || formData.subject.trim() === '') {
       newErrors.subject = 'Тема тесту не може бути порожньою.';
     }
+    console.log("3");
 
     let timeInMinutes = 0;
     if (formData.time) {
@@ -134,6 +149,8 @@ const CreateTestAi = () => {
         newErrors.deadline = 'Дедлайн не може бути меншим за сьогоднішню дату.';
       }
     }
+    
+    console.log("4");
 
     if (Object.keys(questionsData).length === 0) {
       newErrors.questions = 'Будь ласка, згенеруйте тест перед створенням.';
@@ -203,6 +220,7 @@ const CreateTestAi = () => {
           return { ...questionData, TestQuestionId: testQuestionId, answers };
         })
       );
+
 
       navigate('/teacher/tests');
     } catch (error) {

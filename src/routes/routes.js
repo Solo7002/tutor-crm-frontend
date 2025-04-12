@@ -66,8 +66,8 @@ const AppRoutes = () => {
           <Route path="materials" element={<MaterialsTeacher />} />
           <Route path="tests" element={<TestsTeacher />} />
           <Route path="tests/results/:testId" element={<TestResults />} />
-          <Route path="tests/create/:GroupId" element={<CreateTest />} />
-          <Route path="tests/create-ai/:GroupId" element={<CreateTestAi />} />
+          <Route path="tests/create/:encodedGroupId" element={<CreateTest />} />
+          <Route path="tests/create-ai/:encodedGroupId" element={<CreateTestAi />} />
           <Route path="calendar" element={<CalendarTeacher />} />
           {/* <Route path="reviews" element={<ReviewsTeacher />} /> */}
           {/* <Route path="payments" element={<PaymentsTeacher />} /> */}

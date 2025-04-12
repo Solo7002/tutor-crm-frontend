@@ -2,56 +2,106 @@ import { useState, useEffect } from "react";
 import "./CreateModal.css";
 import Dropdown from "../../../../components/Dropdown/Dropdown";
 import axios from "axios";
-import { useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom";
+import { encryptData } from "../../../../utils/crypto";
+
 const CreateModal = ({ onClose, teacher_id, token }) => {
+  const [courses, setCourses] = useState([]);
   const [groups, setGroups] = useState([]);
+  const [selectedCourseId, setSelectedCourseId] = useState(null);
   const [selectedGroupId, setSelectedGroupId] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoadingCourses, setIsLoadingCourses] = useState(false);
+  const [isLoadingGroups, setIsLoadingGroups] = useState(false);
   const navigate = useNavigate();
+
+  // Завантаження курсів при монтуванні компонента
   useEffect(() => {
-    const fetchGroups = async () => {
+    const fetchCourses = async () => {
+      setIsLoadingCourses(true);
       try {
-        setIsLoading(true);
-        const groupsResponse = await axios.get(
-          `http://localhost:4000/api/groups/groups-by-teacher/${teacher_id}`,
+        const response = await axios.get(
+          `http://localhost:4000/api/courses/courses-by-teacher/${teacher_id}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
             },
           }
         );
-       
-        setGroups(groupsResponse.data);
-  
+        setCourses(response.data);
       } catch (error) {
-        console.error("Error fetching groups:", error);
+        console.error("Помилка при завантаженні курсів:", error);
       } finally {
-        setIsLoading(false);
+        setIsLoadingCourses(false);
       }
     };
-
-    fetchGroups();
+    fetchCourses();
   }, [teacher_id, token]);
 
+  // Завантаження груп при зміні обраного курсу
+  useEffect(() => {
+    if (selectedCourseId) {
+      const fetchGroups = async () => {
+        setIsLoadingGroups(true);
+        try {
+          const response = await axios.get(
+            `http://localhost:4000/api/groups/groups-by-course/${selectedCourseId}`,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+          setGroups(response.data);
+        } catch (error) {
+          console.error("Помилка при завантаженні груп:", error);
+        } finally {
+          setIsLoadingGroups(false);
+        }
+      };
+      fetchGroups();
+    } else {
+      setGroups([]); // Очищаємо групи, якщо курс не обраний
+    }
+  }, [selectedCourseId, token]);
+
+  // Скидання обраної групи при зміні курсу
+  useEffect(() => {
+    setSelectedGroupId(null);
+  }, [selectedCourseId]);
+
+  // Закриття модального вікна при кліку на оверлей
   const handleOverlayClick = (e) => {
     if (e.target.classList.contains("CreateModal")) {
       onClose();
     }
   };
 
-  const handleGroupSelect = (groupName) => {
-    const selectedGroup = groups.find(group => group.GroupName === groupName);
-    setSelectedGroupId(selectedGroup?.GroupId || null);
-  };
-  const handleManualTestClick = () => {
-    navigate(`create/${selectedGroupId}`);
-    navigate(0); 
+  // Обробка вибору курсу
+  const handleCourseSelect = (courseName) => {
+    const selectedCourse = courses.find(
+      (course) => course.CourseName === courseName
+    );
+    setSelectedCourseId(selectedCourse?.CourseId || null);
   };
 
-  const handleAITestClick = () => {
-    navigate(`create-ai/${selectedGroupId}`);
-    navigate(0);
+  // Обробка вибору групи
+  const handleGroupSelect = (groupName) => {
+    const selectedGroup = groups.find((group) => group.GroupName === groupName);
+    setSelectedGroupId(selectedGroup?.GroupId || null);
   };
+
+  // Навігація для створення тесту вручну
+  const handleManualTestClick = () => {
+    const encryptedGroupId = encryptData(selectedGroupId);
+    navigate(`create/${encryptedGroupId}`);
+  };
+
+  // Навігація для створення тесту за допомогою ШІ
+  const handleAITestClick = () => {
+    const encryptedGroupId = encryptData(selectedGroupId);
+    navigate(`create-ai/${encryptedGroupId}`);
+  };
+
   return (
     <div className="CreateModal" onClick={handleOverlayClick}>
       <div className="modal-container">
@@ -74,32 +124,51 @@ const CreateModal = ({ onClose, teacher_id, token }) => {
             </svg>
           </div>
         </button>
+
         <h2 className="modal-title">Створення тесту</h2>
-        <div className="dropdown-wrapper">
-          {isLoading ? (
-            <p>Завантаження груп...</p>
+
+        <div className="dropdowns-container">
+          {isLoadingCourses ? (
+            <p>Завантаження курсів...</p>
           ) : (
-            <Dropdown 
-              textAll="Виберіть групу"
-              options={groups.map(group => ({ SubjectName:  group.GroupName }))}
-              onSelectSubject={handleGroupSelect}
-            />
+            <div className="dropdown-wrapper">
+              <Dropdown
+                textAll="Виберіть курс"
+                options={courses.map((course) => ({
+                  SubjectName: course.CourseName,
+                }))}
+                onSelectSubject={handleCourseSelect}
+                wFull={true}
+              />
+            </div>
           )}
+
+          {selectedCourseId &&
+            (isLoadingGroups ? (
+              <p>Завантаження груп...</p>
+            ) : (
+              <div className="dropdown-wrapper">
+                <Dropdown
+                  textAll="Виберіть групу"
+                  options={groups.map((group) => ({
+                    SubjectName: group.GroupName,
+                  }))}
+                  onSelectSubject={handleGroupSelect}
+                  wFull={true}
+                />
+              </div>
+            ))}
         </div>
-        
-    
+
         {selectedGroupId && (
           <div className="buttons-container">
-            <button 
+            <button
               className="manual-test-button"
               onClick={handleManualTestClick}
             >
               <span>Створити тест самостійно</span>
             </button>
-            <button 
-              className="ai-test-button"
-              onClick={handleAITestClick}
-            >
+            <button className="ai-test-button" onClick={handleAITestClick}>
               <span>Тест від штучного інтелекту</span>
             </button>
           </div>
