@@ -7,110 +7,82 @@
     margin: 0;
 }
 
-/* .test-item-card {
+.TestItem {
+    @apply w-[420px]; 
+}
+
+.TestItem .test-item-card {
     @apply 
-    relative w-[420px] bg-white rounded-3xl border border-[#dfdfdf]  
+    relative w-full h-full rounded-3xl border border-[#dfdfdf]  
     flex flex-col justify-start items-start gap-4 p-1;
-    background: linear-gradient(to top right, white 0%, rgba(255, 255, 255, 0) 100%);
     isolation: isolate;
 }
 
+.TestItem .test-pattern-bg {
+    background: linear-gradient(to top right, white, transparent), 
+                url('../../../../../public/assets/patterns/pattern4.png');
+    background-size: auto, 160px 100px;
+    background-repeat: no-repeat, repeat;
 
-.test-item-card::before {
-    content: '';
-    @apply absolute inset-0 mb-3;
-    z-index: -1;
-    background: url('../../../../../public/assets/patterns/pattern4.png');
-    background-size: 40%;
-    background-repeat: repeat;
-    background-position: center;
-    opacity: 0.1; 
-    mix-blend-mode: overlay; 
-} */
+}
 
-.test-pattern-bg::before {
+.TestItem .test-pattern-bg::after {
     content: '';
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-image: url('../../../../../public/assets/patterns/pattern4.png');
-    background-size: 160px 100px;
-    background-repeat: repeat;
-    opacity: 0.1;
-    z-index: -1;
-  
-    @apply
-    rounded-3xl;
-  }
-  
-  .test-pattern-bg::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: white;
-      z-index: -2;
-      
-      @apply
-      rounded-3xl;
-    }
+    background-color: white;
+    z-index: -2;
+    @apply rounded-3xl;
+    opacity: 0.85;
+}
 
-.test-item-content {
+.TestItem .test-item-content {
     @apply w-full flex flex-col justify-start items-start gap-2 px-4 pt-4;
 }
 
-.test-item-header {
-    @apply w-full flex justify-between items-center gap-2;
-}
-
-.test-item-title {
-    @apply flex-1 text-[#827ead] text-base font-bold font-['Nunito'];
-}
-
-.test-item-tax-item-carduthor {
-    @apply text-[#827ead] text-base font-bold font-['Nunito'];
-}
-
-.test-item-description {
+.TestItem .test-item-description {
     @apply w-full text-[#120c38] text-xl font-normal font-['Mulish'];
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
 }
 
-.test-item-footer {
-    @apply w-full flex justify-between items-center ;
+.TestItem .test-item-footer {
+    @apply w-full flex justify-between items-center;
 }
 
-.test-item-dates {
+.TestItem .test-item-dates {
     @apply flex flex-col justify-start items-start gap-2;
 }
 
-.test-item-date-wrapper {
+.TestItem .test-item-date-wrapper {
     @apply w-full flex justify-start items-center gap-2;
 }
 
-.test-item-date-text {
+.TestItem .test-item-date-text {
     @apply flex items-center;
 }
 
-.test-item-date-label {
+.TestItem .test-item-date-label {
     @apply text-[#827ead] text-base font-bold font-['Nunito'] mr-1;
 }
 
-.test-item-date-value {
+.TestItem .test-item-date-value {
     @apply text-[#120c38] text-base font-extrabold font-['Lato'];
 }
 
-.test-item-date-due {
+.TestItem .test-item-date-due {
     @apply text-[#8a48e6] text-base font-extrabold font-['Lato'];
 }
 
-.test-item-button-wrapper {
+.TestItem .test-item-button-wrapper {
     @apply flex items-center;
 }
 
-.test-item-button {
+.TestItem .test-item-button {
     @apply rounded-[40px] bg-[#8a48e6] text-white font-bold font-['Nunito'] px-6 py-2;
 }

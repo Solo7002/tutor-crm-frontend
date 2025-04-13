@@ -22,7 +22,7 @@ const CreateTestAi = () => {
   const [GroupId, setGroupId] = useState();
 
   const abortControllerRef = useRef(null);
-
+  const token=sessionStorage.getItem('token');
   useEffect(() => {
     try {
       const decryptedGroupId = decryptData(encodedGroupId);
@@ -147,8 +147,7 @@ const CreateTestAi = () => {
         newErrors.deadline = 'Дедлайн не може бути меншим за сьогоднішню дату.';
       }
     }
-    
-    console.log("4");
+ 
 
     if (Object.keys(questionsData).length === 0) {
       newErrors.questions = 'Будь ласка, згенеруйте тест перед створенням.';
@@ -163,6 +162,8 @@ const CreateTestAi = () => {
     setErrors({});
 
     try {
+     
+      
       const testPayload = {
         TestName: formData.subject,
         TestDescription: formData.description,
@@ -172,67 +173,105 @@ const CreateTestAi = () => {
         MaxMark: parseInt(formData.maxScore) || 0,
         ImageFilePath: null,
         GroupId: GroupId,
-        NumAttempts: parseInt(formData.numAttempts) || 1,
+        AttemptsTotal: parseInt(formData.numAttempts) || 1,
         ShowAnswersAfterTest: formData.showAnswersAfterTest || false,
         ShowCorrectAnswersDuringTest: formData.showCorrectAnswersDuringTest || false,
       };
 
-      const testResponse = await axios.post('http://localhost:4000/api/tests', testPayload);
+      const testResponse = await axios.post('http://localhost:4000/api/tests', testPayload,{
+        headers: {
+           Authorization: `Bearer ${token}`,
+        },
+      });
       const testId = testResponse.data.TestId;
 
       if (!testId) {
         throw new Error('Не вдалося отримати TestId');
       }
 
+      console.log(questionsData);
+      
       const questionsPayload = await Promise.all(
         Object.values(questionsData).map(async (question) => {
-          console.log(question);
-       
+          let fileUrl = null;
+      
+          if (question.questionImage) {
+            const formDataForImage = new FormData();
+            formDataForImage.append('file', question.questionImage);
+      
+            try {
+              const imageResponse = await axios.post(
+                'http://localhost:4000/api/files/upload',
+                formDataForImage,
+                {
+                  headers: {
+                    'Content-Type': 'multipart/form-data',
+                    Authorization: `Bearer ${token}`,
+                  },
+                }
+              );
+              fileUrl = imageResponse.data.fileUrl;
+            } catch (error) {
+              throw new Error('Не вдалося завантажити зображення: ' + (error.message || error));
+            }
+          }
+      
           const questionData = {
             TestId: testId,
-            TestQuestionHeader: question.questionText.trim().slice(0, 1000),  
-            TestQuestionDescription: ' ',
-            ImagePath: question.questionImage || null,
+            TestQuestionHeader: question.questionText.trim(),
+            TestQuestionDescription: '  ',
+            ImagePath: fileUrl,
             AudioPath: null,
           };
-          
+      
           const questionResponse = await axios.post(
             'http://localhost:4000/api/testQuestions',
-            questionData
+            questionData,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
           );
           const testQuestionId = questionResponse.data.TestQuestionId;
-
+      
           if (!testQuestionId) {
             throw new Error('Не вдалося отримати TestQuestionId');
           }
-
-        const answers =  question.options.map((option, index) => {
-            console.log('option:', option);
-            return {
+      
+          const answers = question.options
+            .filter((option) => option.trim() !== '')
+            .map((option, index) => ({
               TestQuestionId: testQuestionId,
-              AnswerText: typeof option === 'string'
-                ? option.slice(0, 255)
-                : option.value?.trim().slice(0, 255) || 'Немає відповіді',
+              AnswerText: option,
               IsRightAnswer: question.correctAnswer === (index + 1).toString(),
+             
               ImagePath: null,
-            };
-          });
-          
-        
-          
-
+            }));
+      
           for (const answer of answers) {
-            console.log(answer);
-            
-            await axios.post('http://localhost:4000/api/testAnswers/', answer);
+            await axios.post(
+              'http://localhost:4000/api/testAnswers',
+              answer,
+              {
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                },
+              }
+            );
           }
-
-          return { ...questionData, TestQuestionId: testQuestionId, answers };
+      
+          return {
+            ...questionData,
+            TestQuestionId: testQuestionId,
+            answers,
+          };
         })
       );
-
+      
 
       navigate('/teacher/tests');
+      navigate(0);
     } catch (error) {
       console.error('Помилка:', error);
       setErrors({ general: 'Виникла помилка при створенні тесту: ' + (error.message || error) });

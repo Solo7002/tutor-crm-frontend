@@ -18,7 +18,7 @@ const CreateTest = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState({});
   const [GroupId, setGroupId] = useState();
-
+  const token=sessionStorage.getItem('token');
   useEffect(() => {
     try {
       const decryptedGroupId = decryptData(encodedGroupId);
@@ -141,7 +141,7 @@ const CreateTest = () => {
           timeLimitInMinutes = hours * 60 + minutes + Math.floor(seconds / 60);
         }
       }
-
+     
       const testPayload = {
         TestName: formData.subject,
         TestDescription: formData.description,
@@ -151,7 +151,7 @@ const CreateTest = () => {
         MaxMark: parseInt(formData.maxScore) || 0,
         ImageFilePath: null,
         GroupId: GroupId,
-        NumAttempts: parseInt(formData.numAttempts) || 1,
+        AttemptsTotal: parseInt(formData.numAttempts) || 1,
         ShowAnswersAfterTest: formData.showAnswersAfterTest || false,
         ShowCorrectAnswersDuringTest: formData.showCorrectAnswersDuringTest || false,
       };
@@ -176,8 +176,8 @@ const CreateTest = () => {
                 formDataForImage,
                 {
                   headers: {
-                    'Content-Type': 'multipart/form-data',
-                  },
+                    Authorization: `Bearer ${token}`
+                },
                 }
               );
               fileUrl = imageResponse.data.fileUrl;
@@ -198,7 +198,11 @@ const CreateTest = () => {
 
           const questionResponse = await axios.post(
             'http://localhost:4000/api/testQuestions',
-            questionData
+            questionData,{
+              headers: {
+                Authorization: `Bearer ${token}`
+            }
+            }
           );
           const testQuestionId = questionResponse.data.TestQuestionId;
 
@@ -216,7 +220,11 @@ const CreateTest = () => {
             }));
 
           for (const answer of answers) {
-            await axios.post('http://localhost:4000/api/testAnswers/', answer);
+            await axios.post('http://localhost:4000/api/testAnswers/', answer,{
+              headers: {
+                Authorization: `Bearer ${token}`
+            }
+            });
           }
 
           return {
