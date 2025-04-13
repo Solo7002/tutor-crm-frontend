@@ -11,20 +11,18 @@ const ItemLesson = ({ lesson }) => {
   };
 
 
-
   const formatTimeRange = (start, end) => {
-    const startTime = new Date(start).toLocaleTimeString("uk-UA", {
-      hour: "2-digit",
-      minute: "2-digit",
-    });
-    const endTime = new Date(end).toLocaleTimeString("uk-UA", {
-      hour: "2-digit",
-      minute: "2-digit",
-    });
-    return `${startTime}-${endTime}`;
+    const format = (time) => {
+      const date = new Date(time);
+      const hours = String(date.getUTCHours()).padStart(2, "0");
+      const minutes = String(date.getUTCMinutes()).padStart(2, "0");
+      return `${hours}:${minutes}`;
+    };
+  
+    return `${format(start)}-${format(end)}`;
   };
 
-
+   
   const formatDate = (date) => {
     return new Date(date).toLocaleDateString("uk-UA", {
       day: "numeric",
