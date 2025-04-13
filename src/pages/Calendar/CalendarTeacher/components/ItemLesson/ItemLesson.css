@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 .item-lesson-container {
-  @apply relative w-72 bg-white rounded shadow-[0px_1px_4px_0px_rgba(138,74,230,0.20)] p-3;
+  @apply relative w-full  bg-white rounded shadow-[0px_1px_4px_0px_rgba(138,74,230,0.20)] p-4;
 }
 
 .item-lesson-header {

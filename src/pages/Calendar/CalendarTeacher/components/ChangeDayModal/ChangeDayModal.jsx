@@ -13,11 +13,12 @@ const ChangeDayModal = ({ isOpen, onClose, token, initialData, teacherId }) => {
 
   const startMoment = initialData?.StartLessonTime ? moment(initialData.StartLessonTime) : null;
   const endMoment = initialData?.EndLessonTime ? moment(initialData.EndLessonTime) : null;
-
-  const [startHour, setStartHour] = useState(startMoment ? startMoment.format("HH") : "");
-  const [startMinute, setStartMinute] = useState(startMoment ? startMoment.format("mm") : "0");
-  const [endHour, setEndHour] = useState(endMoment ? endMoment.format("HH") : "");
-  const [endMinute, setEndMinute] = useState(endMoment ? endMoment.format("mm") : "0");
+  
+  const [startHour, setStartHour] = useState(startMoment ? moment.utc(startMoment).format("HH") : "");
+  const [startMinute, setStartMinute] = useState(startMoment ? moment.utc(startMoment).format("mm") : "0");
+  const [endHour, setEndHour] = useState(endMoment ? moment.utc(endMoment).format("HH") : "");
+  const [endMinute, setEndMinute] = useState(endMoment ? moment.utc(endMoment).format("mm") : "0");
+  
 
   const [date, setDate] = useState(
     initialData?.LessonDate ? moment(initialData.LessonDate).format("YYYY-MM-DD") : ""
@@ -115,6 +116,9 @@ const ChangeDayModal = ({ isOpen, onClose, token, initialData, teacherId }) => {
         const lessonDate = moment(date).format("YYYY-MM-DD");
         const startTime = `${lessonDate} ${String(parseInt(startHour)).padStart(2, "0")}:${String(parseInt(startMinute)).padStart(2, "0")}:00`;
         const endTime = `${lessonDate} ${String(parseInt(endHour)).padStart(2, "0")}:${String(parseInt(endMinute)).padStart(2, "0")}:00`;
+        console.log(startTime);
+        console.log(endTime);
+        
         
         const lessonData = {
           LessonHeader: subject,
@@ -155,6 +159,7 @@ const ChangeDayModal = ({ isOpen, onClose, token, initialData, teacherId }) => {
     <div className="ChangeDayModal" onClick={onClose}>
       <div className="event-form-container" onClick={(e) => e.stopPropagation()}>
         <div className="event-form-header">
+       
           <h2 className="event-form-title">Редагувати подію</h2>
           <button className="close-button" onClick={onClose}>
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

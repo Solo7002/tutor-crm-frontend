@@ -29,18 +29,17 @@ const ItemLesson = ({ token, lesson,teacherId }) => {
   };
 
   const formatTimeRange = (start, end) => {
-    const startTime = new Date(start).toLocaleTimeString("uk-UA", {
-      hour: "2-digit",
-      minute: "2-digit",
-    });
-    const endTime = new Date(end).toLocaleTimeString("uk-UA", {
-      hour: "2-digit",
-      minute: "2-digit",
-    });
-    return `${startTime}-${endTime}`;
+    const format = (time) => {
+      const date = new Date(time);
+      const hours = String(date.getUTCHours()).padStart(2, "0");
+      const minutes = String(date.getUTCMinutes()).padStart(2, "0");
+      return `${hours}:${minutes}`;
+    };
+  
+    return `${format(start)}-${format(end)}`;
   };
 
-  // Форматирование даты для отображения
+   
   const formatDate = (date) => {
     return new Date(date).toLocaleDateString("uk-UA", {
       day: "numeric",
@@ -51,7 +50,7 @@ const ItemLesson = ({ token, lesson,teacherId }) => {
   return (
     <div className="item-lesson-container">
       <ChangeDayModal initialData={lesson} teacherId={teacherId} token={token} isOpen={isOpenModal} onClose={onClose} />
-      {/* Верхняя часть (всегда видимая) */}
+     
       <div className="item-lesson-header">
         <div className="item-lesson-circle" />
         <div>
