@@ -7,6 +7,7 @@ import AddQuestion from "./components/AddQuestion/AddQuestion";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { decryptData } from '../../utils/crypto';
+import { option } from "motion/react-client";
 
 const CreateTestAi = () => {
   const navigate = useNavigate();
@@ -47,18 +48,15 @@ const CreateTestAi = () => {
     }
 
     try {
-      abortControllerRef.current = new AbortController();
-
+      
       const response = await axios.post(
         'http://localhost:4000/api/tests/generate-test-by-AI',
         {
-          text: `${formData.subject} ${formData.description}`,
+          text: `${formData.subject} ${formData.description} Питання повинні бути до 70 символів`,
           language: 'ua',
           count: parseInt(formData.numQuestions) || 5,
         },
-        {
-          signal: abortControllerRef.current.signal,
-        }
+        
       );
 
       const generatedQuestions = response.data.questions;
@@ -188,14 +186,16 @@ const CreateTestAi = () => {
 
       const questionsPayload = await Promise.all(
         Object.values(questionsData).map(async (question) => {
+          console.log(question);
+       
           const questionData = {
             TestId: testId,
-            TestQuestionHeader: 'Згенеровано ШІ',
-            TestQuestionDescription: question.questionText.trim(),
-            ImagePath: question.questionImage ? question.questionImage : null,
+            TestQuestionHeader: question.questionText.trim().slice(0, 1000),  
+            TestQuestionDescription: ' ',
+            ImagePath: question.questionImage || null,
             AudioPath: null,
           };
-
+          
           const questionResponse = await axios.post(
             'http://localhost:4000/api/testQuestions',
             questionData
@@ -206,14 +206,24 @@ const CreateTestAi = () => {
             throw new Error('Не вдалося отримати TestQuestionId');
           }
 
-          const answers = question.options.map((option, index) => ({
-            TestQuestionId: testQuestionId,
-            AnswerText: option.value && option.value.trim() !== '' ? option.value : 'Немає відповіді',
-            IsRightAnswer: question.correctAnswer === (index + 1).toString(),
-            ImagePath: null,
-          }));
+        const answers =  question.options.map((option, index) => {
+            console.log('option:', option);
+            return {
+              TestQuestionId: testQuestionId,
+              AnswerText: typeof option === 'string'
+                ? option.slice(0, 255)
+                : option.value?.trim().slice(0, 255) || 'Немає відповіді',
+              IsRightAnswer: question.correctAnswer === (index + 1).toString(),
+              ImagePath: null,
+            };
+          });
+          
+        
+          
 
           for (const answer of answers) {
+            console.log(answer);
+            
             await axios.post('http://localhost:4000/api/testAnswers/', answer);
           }
 

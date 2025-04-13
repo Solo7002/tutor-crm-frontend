@@ -50,9 +50,12 @@ const TestForm = ({ defaultNumQuestions = '2', onFormChange, errors }) => {
     
     if (isNaN(value)) {
       setNumQuestions('');
-    } else if (value < 2) {
+
+    } 
+    else if (value <1) {
       setNumQuestions('2');
-    } else if (value > 20) {
+    } 
+    else if (value > 20) {
       setNumQuestions('20');
     } else {
       setNumQuestions(value.toString());

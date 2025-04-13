@@ -9,7 +9,7 @@ import Schedule from './components/Schedule';
 import Graphic from './components/Graphic';
 import Productivity from './components/Productivity';
 import { jwtDecode } from 'jwt-decode';
-
+import { useLocation } from 'react-router-dom';
 export default function HomeTeacher() {
     const [leaders, setLeaders] = useState([]);
     const [events, setEvents] = useState([]);
@@ -19,6 +19,13 @@ export default function HomeTeacher() {
     const [productivityData, setProductivityData] = useState(null);
     const [user, setUser] = useState(null);
     const [teacherId, setTeacherId] = useState(null);
+
+    const location=useLocation();
+    const searchParams = new URLSearchParams(location.search);
+    const tokenServer = searchParams.get('token');
+    if(tokenServer){
+      sessionStorage.setItem('token',tokenServer);
+    }
 
     useEffect(() => {
         const fetchTeacherData = async () => {

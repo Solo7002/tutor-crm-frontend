@@ -104,7 +104,8 @@ const Login = () => {
   };
 
   const oAuthFacebookHandler = () => {
-    window.location.href = "http://localhost:4000/api/auth/facebook";
+   
+     window.location.href = "http://localhost:4000/api/auth/facebook";
   };
 
   return (
@@ -142,8 +143,8 @@ const Login = () => {
         <div className="line"></div>
       </div>
 
-      <div className="login-socials" onClick={oAuthGoogleHandler}>
-        <button className="social-button">
+      <div className="login-socials" >
+        <button className="social-button" onClick={oAuthGoogleHandler}>
           <img src="/assets/socialNetworkIcons/google.png" alt="Google" />
         </button>
         <button className="social-button">

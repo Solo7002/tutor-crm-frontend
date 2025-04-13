@@ -10,6 +10,7 @@ import Graphic from './components/Graphic';
 import SearchTeachers from './components/SearchTeacher';
 //import Map from './components/Map';
 import { jwtDecode } from 'jwt-decode';
+import { useLocation } from 'react-router-dom';
 
 export default function HomeStudent() {
   const [leaders, setLeaders] = useState([]);
@@ -18,6 +19,13 @@ export default function HomeStudent() {
   const [days, setDays] = useState([]);
   const [user, setUser] = useState(null);
   const [studentId, setStudentId] = useState(null);
+
+  const location=useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const tokenServer = searchParams.get('token');
+  if(tokenServer){
+    sessionStorage.setItem('token',tokenServer);
+  }
 
   useEffect(() => {
     const fetchStudentData = async () => {

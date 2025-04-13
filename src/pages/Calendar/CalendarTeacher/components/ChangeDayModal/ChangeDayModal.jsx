@@ -115,7 +115,7 @@ const ChangeDayModal = ({ isOpen, onClose, token, initialData, teacherId }) => {
         const lessonDate = moment(date).format("YYYY-MM-DD");
         const startTime = `${lessonDate} ${String(parseInt(startHour)).padStart(2, "0")}:${String(parseInt(startMinute)).padStart(2, "0")}:00`;
         const endTime = `${lessonDate} ${String(parseInt(endHour)).padStart(2, "0")}:${String(parseInt(endMinute)).padStart(2, "0")}:00`;
-  
+        
         const lessonData = {
           LessonHeader: subject,
           StartLessonTime: startTime,
@@ -126,7 +126,8 @@ const ChangeDayModal = ({ isOpen, onClose, token, initialData, teacherId }) => {
           LessonAddress: format === "offline" ? linkOrAddress : null,
           LessonLink: format === "online" ? linkOrAddress : null,
         };
-  
+        console.log(lessonData);
+        
         await axios.put(
           `http://localhost:4000/api/plannedLessons/${id}`,
           lessonData,

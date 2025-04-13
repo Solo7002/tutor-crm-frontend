@@ -184,11 +184,7 @@ const TestsTeacher = () => {
       <div className="w-full min-w-0 overflow-x-auto">
         {loading ? (
           <div>Loading tests...</div>
-        ) : error ? (
-          <div>Error: {error}</div>
-        ) : filteredTests.length === 0 ? (
-          <div>No tests found for this teacher.</div>
-        ) : (
+        ): (
           <>
             <div className="flex flex-wrap justify-start gap-4 mb-[200px] ">
               {filteredTests.map((test) => (
