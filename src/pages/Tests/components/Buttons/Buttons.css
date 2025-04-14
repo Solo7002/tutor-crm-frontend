@@ -61,5 +61,5 @@
 }
 
 .secondary-button2:disabled {
-  @apply text-purple-300 border-purple-300 cursor-not-allowed;
+  @apply text-purple-300 border-purple-300 hover:text-purple-300 hover:bg-white;
 }

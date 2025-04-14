@@ -67,7 +67,7 @@ export default function ProfileStudent() {
                                 </div>
                                 <div className="w-full flex flex-col items-center mt-2">
                                     <div className="text-[#827ead] text-[10px] font-normal font-['Mulish'] mt-1">
-                                        Зареєстрований користувач: 12.10.2023
+                                        Зареєстрований користувач: {new Date(user.CreateDate).toLocaleDateString('ua-UA')}
                                     </div>
                                 </div>
                             </div>
@@ -141,7 +141,7 @@ export default function ProfileStudent() {
                             <div className="w-full h-full bg-white rounded-[20px] flex justify-center items-center flex-col">
                                 <div className="text-center text-[#120c38] text-lg md:text-2xl font-bold font-['Nunito'] mb-2">Рейтинг</div>
 
-                                <div className="text-center text-[#8a48e6] text-lg md:text-2xl font-bold font-['Nunito'] mt-2">{student && student.Rating ? student.Rating : "0"}</div>
+                                <div className="text-center text-[#8a48e6] text-lg md:text-2xl font-bold font-['Nunito']">{student && student.Rating ? student.Rating : "0"}</div>
                                 <div className="text-center text-[#120c38] text-lg md:text-2xl font-bold font-['Nunito'] mb-2">по трофеях</div>
                             </div>
                         </div>
@@ -158,7 +158,7 @@ export default function ProfileStudent() {
                     {/* Course list component */}
                     <GroupList groups={groups}/>
                     {/* Reviews component */}
-                    <Reviews userId={user.UserId} />
+                    <Reviews userId={user.UserId}/>
                 </div>
             </div>
         </div>

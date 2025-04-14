@@ -12,21 +12,19 @@ const GroupList = ({ groups: initialGroups, userFrom = null }) => {
     // Компонент для десктопного вида таблицы
     const DesktopTableView = ({ groups }) => (
         <div className="hidden md:block w-full mt-4">
-            <div className="grid grid-cols-6 gap-2 text-[#8a48e6] text-sm lg:text-[15px] font-bold font-['Nunito']">
+            <div className="grid grid-cols-5 gap-2 text-[#8a48e6] text-sm lg:text-[15px] font-bold font-['Nunito']">
                 <div className="text-[#8a48e6] text-base font-bold font-['Nunito']">№</div>
                 <div className="text-[#8a48e6] text-base font-bold font-['Nunito']">Назва групи</div>
-                <div className="text-[#8a48e6] text-base font-bold font-['Nunito']">Формат</div>
-                <div className="text-[#8a48e6] text-base font-bold font-['Nunito']">Вид</div>
+                <div className="text-[#8a48e6] text-base font-bold font-['Nunito']">Назва курсу</div>
                 <div className="text-[#8a48e6] text-base font-bold font-['Nunito']">Вчитель</div>
                 <div className="text-[#8a48e6] text-base font-bold font-['Nunito'] ">Ціна</div>
             </div>
             <div className="mt-2 space-y-3">
                 {groups.map((group) => (
-                    <div key={group.GroupId} className="grid grid-cols-6 gap-2 text-[#827ead] text-sm lg:text-[15px] font-normal font-['Mulish'] border-t border-[#f5eeff] pt-3">
+                    <div key={group.GroupId} className="grid grid-cols-5 gap-2 text-[#827ead] text-sm lg:text-[15px] font-normal font-['Mulish'] border-t border-[#f5eeff] pt-3">
                         <div className="text-[#827ead] text-base font-normal font-['Mulish']">{group.GroupId}</div>
                         <div className="text-[#827ead] text-base font-normal font-['Mulish']">{group.GroupName}</div>
-                        <div className="text-[#827ead] text-base font-normal font-['Mulish']">{group.GroupFormat}</div>
-                        <div className="text-[#827ead] text-base font-normal font-['Mulish']">{group.GroupType}</div>
+                        <div className="text-[#827ead] text-base font-normal font-['Mulish']">{group.CourseName}</div>
                         <div className="text-[#827ead] text-base font-normal font-['Mulish']">{group.GroupTeacherName}</div>
                         <div className="text-[#827ead] text-base font-normal font-['Mulish']">{group.GroupPrice}грн</div>
                     </div>

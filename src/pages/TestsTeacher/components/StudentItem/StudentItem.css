@@ -3,48 +3,53 @@
 @tailwind utilities;
 
 .StudentItem {
-  @apply w-full max-w-[420px] min-w-[300px]  ; 
+  @apply w-full max-w-[420px];
 }
 
 .StudentItem-container {
-  @apply w-full aspect-[420/86] relative rounded-3xl overflow-hidden; 
-  @apply min-h-[60px] max-h-[86px]; 
+  @apply w-[420px] h-[86px] relative rounded-3xl overflow-hidden;
+  @apply border border-solid;
+  @apply flex items-center;
 }
 
 .StudentItem-container[data-style-status="Default"] {
-  @apply outline outline-1 outline-offset-[-1px] outline-[#8A48E6];
+  @apply border-[#8A48E6];
 }
 
 .StudentItem-container[data-style-status="Low"] {
-  @apply outline outline-1 outline-offset-[-1px] outline-[#ff0000];
+  @apply border-[#ff0000];
 }
 
 .StudentItem-container[data-style-status="Medium"] {
-  @apply outline outline-1 outline-offset-[-1px] outline-[#ffa869];
+  @apply border-[#ffa869];
 }
 
 .StudentItem-container[data-style-status="High"] {
-  @apply outline outline-1 outline-offset-[-1px] outline-[#47c974];
+  @apply border-[#47c974];
 }
 
 .StudentItem-avatar {
-  @apply w-[20%] aspect-square absolute left-[0.30%] top-[1%] rounded-3xl; 
-  @apply min-w-[48px] min-h-[48px]; 
+  @apply h-full w-auto aspect-square rounded-3xl object-cover;
+  @apply absolute left-0 top-0 bottom-0;
+}
+
+.StudentItem-info {
+  @apply ml-[24%] flex flex-col justify-center max-w-[40%];
 }
 
 .StudentItem-name {
-  @apply w-[40%] absolute left-[25%] top-[15%] text-[#120c38] font-normal font-['Mulish'] text-left; 
-  @apply text-[clamp(0.875rem,4vw,1.25rem)]; 
+  @apply text-[#120c38] font-normal font-['Mulish'] text-left;
+  @apply text-lg truncate;
 }
 
 .StudentItem-date {
-  @apply w-[40%] absolute left-[25%] top-[60%] text-[#827ead] font-bold font-['Nunito'] text-left; 
-  @apply text-[clamp(0.75rem,3.5vw,1rem)]; 
+  @apply text-[#827ead] font-bold font-['Nunito'] text-left;
+  @apply text-base mt-1;
 }
 
 .StudentItem-score {
-  @apply w-[30%] h-[45%] min-w-[80px] min-h-[28px] absolute left-[65%] top-[25%] rounded-[40px] inline-flex justify-center items-center gap-2.5 transition-colors duration-200; /* Размер и позиция в процентах */
-  @apply px-[1rem] py-[0.25rem]; 
+  @apply w-[125px] absolute right-4 rounded-full inline-flex justify-center items-center;
+  @apply px-0 py-2 bg-[#f5934e];
 }
 
 .StudentItem-score[data-style-status="Low"] {
@@ -52,7 +57,7 @@
 }
 
 .StudentItem-score[data-style-status="Low"]:hover {
-  background-color: #e60000; 
+  @apply bg-[#e60000];
 }
 
 .StudentItem-score[data-style-status="Medium"] {
@@ -60,7 +65,7 @@
 }
 
 .StudentItem-score[data-style-status="Medium"]:hover {
-  background-color: #f5934e;
+  @apply bg-[#f5934e];
 }
 
 .StudentItem-score[data-style-status="High"] {
@@ -68,10 +73,10 @@
 }
 
 .StudentItem-score[data-style-status="High"]:hover {
-  background-color: #3db563;
+  @apply bg-[#3db563];
 }
 
 .StudentItem-score-text {
   @apply text-white font-bold font-['Nunito'] text-center;
-  @apply text-[clamp(0.75rem,3vw,1rem)];
+  @apply text-base;
 }

@@ -101,11 +101,11 @@ const SearchTeacher = () => {
   };
 
   return (
-    <div className="bg-[#E0C8FF] w-[100%] h-[33vh] flex flex-col rounded-[20px] shadow-md justify-between search-teachers-last relative">
-      <div className="flex h-20 w-[100%] selects">
-        <div className="flex p-4-lg p-3">
+    <div className="bg-[#E0C8FF] w-full min-h-[33vh] flex flex-col rounded-[20px] shadow-md justify-between relative">
+      <div className="flex flex-col sm:flex-row w-full">
+        <div className="flex flex-wrap p-2 sm:p-4 gap-2">
           {/* Вид навчання */}
-          <div className="w-[10vw] mx-1 mt-[8px] mobile-dropdown-student">
+          <div className="w-full sm:w-auto min-w-[150px]">
             <Dropdown
               textAll="Вид навчання"
               options={lessonTypeOptions.map((option) => option.value)}
@@ -122,7 +122,7 @@ const SearchTeacher = () => {
           </div>
 
           {/* Формат */}
-          <div className="w-[10vw] mx-1 mt-[8px] mobile-dropdown-student">
+          <div className="w-full sm:w-auto min-w-[150px]">
             <Dropdown
               textAll="Формат"
               options={meetingTypeOptions.map((option) => option.value)}
@@ -140,13 +140,13 @@ const SearchTeacher = () => {
         </div>
 
         {/* Шукати */}
-        <div className="m-4 h-12 justify-end items-center inline-flex find">
+        <div className="p-2 sm:p-4 self-center sm:ml-auto">
           <Link to="/student/search">
-            <div className="absolute top-[20px] right-[20px] w-[420px] h-12 px-4 py-2 bg-white rounded-[40px] justify-end items-center gap-2.5 flex border hover:border-[#8a48e6]">
-              <div className="grow shrink basis-0 text-[#827ead] text-[15px] font-normal font-['Nunito'] find-text">
+            <div className="w-full sm:w-[300px] md:w-[420px] h-12 px-4 py-2 bg-white rounded-[40px] flex items-center justify-between border hover:border-[#8a48e6]">
+              <div className="text-[#827ead] text-[15px] font-normal font-['Nunito']">
                 Шукати
               </div>
-              <div data-svg-wrapper>
+              <div>
                 <svg
                   width="32"
                   height="32"
@@ -169,65 +169,69 @@ const SearchTeacher = () => {
       </div>
 
       {/* Блок вчителів */}
-      <div className="flex flex-col h-[calc(33vh-80px)] mb-2 pb-2 overflow-y-auto cards">
+      <div className="flex flex-col overflow-y-auto p-2">
         {/* стан загрузки */}
-        {loading && <p>Загрузка...</p>}
+        {loading && (
+          <div className="text-center py-4">Загрузка...</div>
+        )}
 
         {/* Помилка */}
-        {error && <p className="text-center text-red-500">{error}</p>}
+        {error && (
+          <p className="text-center text-red-500 py-4">{error}</p>
+        )}
 
         {/* Вчителі і наявність */}
         {teachers.length === 0 && !loading && error && (
-          <p className="text-center text-gray-500">Немає доступних викладачів</p>
+          <p className="text-center text-gray-500 py-4">Немає доступних викладачів</p>
         )}
 
         {/* Картки вчителів */}
         {teachers.length > 0 && (
-          <div className="space-y-4 card-teacher">
+          <div className="h-[220px] px-3 scroll-auto space-y-4">
             {teachers.map((teacher) => (
-              <div key={teacher.TeacherId} className="relative my-1 mx-5">
-                {/* Основний блок картки */}
-                <div className="w-[100%] h-[138px] bg-white rounded-2xl border border-[#8a48e6] main-card-teacher" />
-
-                {/* Переглянути */}
-                <div className="w-[200px] h-10 px-4 py-2 right-[20px] top-[83px] absolute bg-[#8a48e6] rounded-[40px] justify-center items-center gap-2.5 inline-flex card-btn">
-                  <Link
-                    to={`/student/teacher_profile/${encryptData(teacher.TeacherId)}`}
-                    className="text-white text-[15px] font-bold font-['Nunito']"
-                  >
-                    Переглянути
-                  </Link>
-                </div>
-
-                {/* Аватар і інформація про вчителя */}
-                <div className="w-[290px] h-[60px] left-[21px] top-[15px] absolute">
-                  <img
-                    className="w-[60px] h-[60px] left-0 top-0 absolute rounded-full"
-                    src={teacher.ImagePathUrl || `https://ui-avatars.com/api/?name=${teacher.FullName}&background=random&size=86`}
-                    alt="profile"
-                  />
-                  <div className="w-auto left-[70px] top-[15px] absolute text-[#120c38] text-[15pt] font-bold font-['Nunito']">
-                    {teacher.FullName || "Волкова Надія Миколаївна"}
+              <div key={teacher.TeacherId} className="bg-white rounded-2xl border border-[#8a48e6] p-4 relative">
+                <div className="flex flex-col md:flex-row justify-between">
+                  {/* Аватар і інформація про вчителя */}
+                  <div className="flex mb-4 md:mb-0">
+                    <img
+                      className="w-16 h-16 rounded-full"
+                      src={teacher.ImagePathUrl || `https://ui-avatars.com/api/?name=${teacher.FullName}&background=random&size=86`}
+                      alt="profile"
+                    />
+                    <div className="ml-4">
+                      <div className="text-[#120c38] text-lg font-bold font-['Nunito']">
+                        {teacher.FullName || "Волкова Надія Миколаївна"}
+                      </div>
+                      <div className="text-[#827fae] text-sm font-normal font-['Mulish']">
+                        {teacher.SubjectName || "Математика"}
+                      </div>
+                      <div className="mt-1">
+                        {renderStars(teacher.Rating)}
+                      </div>
+                    </div>
                   </div>
-                  <div className="w-auto left-[70px] top-[35px] absolute text-[#827fae] text-[12pt] font-normal font-['Mulish'] subjects-teacher">
-                    {teacher.SubjectName || "Математика"}
-                  </div>
-                </div>
 
-                {/* Рейтинг вчителя в абсолютной позиции */}
-                <div className="absolute left-[85px] top-[10px]">
-                  {renderStars(teacher.Rating)}
+                  {/* Ціна */}
+                  <div className="text-black text-xl font-bold font-['Nunito'] mb-4 md:mb-0">
+                    Від {teacher.LessonPrice} грн
+                  </div>
                 </div>
 
                 {/* Описание вчителя */}
-                <div className="w-[624px] h-[35px] left-[21px] top-[85px] absolute text-[#6f6f6f] text-[12pt] font-normal font-['Mulish'] about-teacher">
+
+
+                {/* Переглянути */}
+                <div className="flex justify-between">
+                <div className="text-[#6f6f6f] text-sm font-normal font-['Mulish'] mt-4 mb-4 line-clamp-2">
                   {teacher.AboutTeacher ||
                     "Привіт! Я, Надія Волкова, вчитель математики та фізики. Я маю власну методику навчання, а також розробила авторські матеріали що гарантує якісне засвоєння нових знань."}
                 </div>
-
-                {/* Ціна */}
-                <div className="right-[60px] top-[29px] absolute text-center text-black text-2xl font-bold font-['Nunito'] price-teacher">
-                  Від {teacher.LessonPrice} грн
+                  <Link
+                    to={`/student/teacher_profile/${encryptData(teacher.TeacherId)}`}
+                    className="inline-block h-[40px] px-4 py-2 bg-[#8a48e6] cursor-pointer rounded-[40px] text-white text-[15px] font-bold font-['Nunito'] hover:bg-[#7a3bd0] transition-colors"
+                  >
+                    Переглянути
+                  </Link>
                 </div>
               </div>
             ))}

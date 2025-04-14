@@ -1,11 +1,12 @@
-import { useParams } from 'react-router-dom';
-import { decryptData } from '../../utils/crypto';
+import { useParams, useNavigate } from 'react-router-dom';
+import { encryptData, decryptData } from '../../utils/crypto';
 import { useEffect, useState } from 'react';
 import './DoneTestStudent.css';
 import { PrimaryButton, SecondaryButton } from './components/Buttons/Buttons2';
 import axios from 'axios';
 
 const DoneTestStudent = () => {
+    const navigate = useNavigate();
     const { encryptedTestId } = useParams();
     const [testData, setTestData] = useState(null);
     const [error, setError] = useState(null);
@@ -37,6 +38,29 @@ const DoneTestStudent = () => {
         if (percentage > 80) return '#0EBE6A';
         if (percentage > 60) return '#F6C23E';
         return '#E74A3B';
+    };
+
+
+    const runTestHandler = async () => {
+        try {
+            const data = {
+                Mark: 0,
+                DoneDate: new Date().toISOString(),
+                SpentTime: "00:00:00",
+                StudentId: testData.StudentId,
+                TestId: testData.TestId
+            };
+
+            const response = await axios.post('http://localhost:4000/api/doneTests', data);
+
+            const doneTestId = response.data.DoneTestId;
+
+            const encryptedTestId = encryptData(doneTestId);
+
+            navigate(`/test/${encryptedTestId}`);
+        } catch (error) {
+            console.error('Помилка при створенні тесту:', error);
+        }
     };
 
     return (
@@ -137,8 +161,8 @@ const DoneTestStudent = () => {
                     Витрачено спроб: {testData.AttemptsUsed}/{testData.AttemptsTotal}
                 </p>
                 <div className="flex space-x-4 mb-3">
-                    <SecondaryButton>Наступна спроба</SecondaryButton>
-                    <PrimaryButton>Повернуться на тести</PrimaryButton>
+                    <SecondaryButton disabled={testData.AttemptsUsed >= testData.AttemptsTotal} onClick={() => {testData.AttemptsUsed < testData.AttemptsTotal && runTestHandler()}}>Наступна спроба</SecondaryButton>
+                    <PrimaryButton onClick={() => { navigate("/student/tests") }}>Повернуться на тести</PrimaryButton>
                 </div>
             </div>
 
@@ -155,17 +179,17 @@ const DoneTestStudent = () => {
                             let labelColor = 'text-gray-500';
 
                             if (ans.isSelectedAnswer && ans.isRightAnswer) {
-                                borderColor = 'border-green-500';
+                                borderColor = 'border-green-600';
                                 labelText = 'Ваша відповідь';
-                                labelColor = 'text-green-500';
+                                labelColor = 'text-green-600';
                             } else if (ans.isSelectedAnswer && !ans.isRightAnswer) {
                                 borderColor = 'border-red-600';
                                 labelText = 'Ваша відповідь';
                                 labelColor = 'text-red-600';
                             } else if (!ans.isSelectedAnswer && ans.isRightAnswer) {
-                                borderColor = 'border-green-500';
+                                borderColor = 'border-green-600';
                                 labelText = 'Правильна відповідь';
-                                labelColor = 'text-green-500';
+                                labelColor = 'text-green-600';
                             }
 
                             return (
