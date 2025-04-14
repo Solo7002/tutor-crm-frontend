@@ -112,16 +112,18 @@ const Navbar = () => {
   //   if (isSidebarOpen) setIsSidebarOpen(false);
   // };
 
-  const NavItem = ({ icon, text, to, isActive, onClick, noBorder, blackText, group, fontSize }) => {
+  const NavItem = ({ icon, text, to, isActive, onClick, noBorder, hamburger, blackText, group, fontSize }) => {
     const baseButtonStyle = {
       backgroundColor: isActive ? "#8A48E6" : "white",
       height: "40px",
       display: "flex",
       alignItems: "center",
-      width: isSidebarOpen ? "228px" : "40px",
-      justifyContent: isSidebarOpen ? "flex-start" : "center",
-      border: (noBorder ? "none" : (isActive ? "1px solid #8A48E6" : "1px solid #D7D7D7")),
-      transition: "background-color 0.3s, color 0.3s, border 0.3s",
+      minWidth: "40px",
+      width: isSidebarOpen ? "auto" : "40px",
+      justifyContent: "flex-start",
+      border: ((noBorder || hamburger) ? "none" : (isActive ? "1px solid #8A48E6" : "1px solid #D7D7D7")),
+      borderRight: (isSidebarOpen ? ((noBorder || hamburger) ? "none" : (isActive ? "1px solid #8A48E6" : "1px solid #D7D7D7")) : "none"),
+      transition: "background-color 0.3s, color 0.3s",
       borderRadius: "9999px",
       cursor: "pointer",
       position: "relative",
@@ -146,7 +148,7 @@ const Navbar = () => {
 
     const hoverBackground = {
       menu: "#8A48E6",
-      main: isActive ? "#8A48E6" : "#E5E7EB",
+      main: isActive ? "#632DAE" : "#E5E7EB",
       footer: "#A768FF",
     };
 
@@ -159,6 +161,7 @@ const Navbar = () => {
 
     const updatedIcon = React.cloneElement(icon, {
       children: React.Children.map(icon.props.children, (child) => {
+        if (hamburger) return child;
         if (child.type === "path") {
           return React.cloneElement(child, {
             stroke: getStrokeColor(),
@@ -176,12 +179,13 @@ const Navbar = () => {
         onMouseEnter={(e) => {
           if (group === "main") {
             e.currentTarget.style.backgroundColor = hoverBackground[group];
-            e.currentTarget.style.border = noBorder ? "none" : "1px solid white";
+            // e.currentTarget.style.border = noBorder ? "none" : "1px solid white";
 
             const svgDiv = e.currentTarget.querySelector("div");
             const svgPaths = e.currentTarget.querySelectorAll("path");
             if (svgPaths) {
-              svgDiv.style.border = noBorder ? "none" : '1px solid white';
+                // svgDiv.style.border = isActive || noBorder ? "none" : "1px solid #ccc";
+                if(isActive && isSidebarOpen) svgDiv.style.borderRight = "1px solid #FFFFFF"
               svgPaths.forEach((path) => {
                 path.setAttribute("stroke", isActive ? "white" : "#120C38");
               });
@@ -210,12 +214,13 @@ const Navbar = () => {
         onMouseLeave={(e) => {
           if (group === "main") {
             e.currentTarget.style.backgroundColor = isActive ? "#8A48E6" : "white";
-            e.currentTarget.style.border = noBorder ? "none" : "1px solid #D7D7D7";
+            // e.currentTarget.style.border = noBorder ? "none" : "1px solid #D7D7D7";
 
             const svgDiv = e.currentTarget.querySelector("div");
             const svgPaths = e.currentTarget.querySelectorAll("path");
             if (svgPaths) {
-              svgDiv.style.border = noBorder ? "none" : '1px solid #D7D7D7';
+                // svgDiv.style.border = isActive || noBorder ? "none" : "1px solid #ccc";
+                if(isActive && isSidebarOpen) svgDiv.style.borderRight = "1px solid #FFFFFF"
               svgPaths.forEach((path) => {
                 path.setAttribute("stroke", isActive ? "white" : "#827FAE");
               });
@@ -249,12 +254,15 @@ const Navbar = () => {
         <div
           className="nav-icon"
           style={{
+            minWidth: "40px",
+            maxWidth: "40px",
             width: "40px",
             height: "40px",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            border: noBorder ? "none" : "1px solid #ccc",
+            border: "none",
+            borderRight: (!hamburger) ? (isActive ? "1px solid #FFFFFF" : "1px solid #ccc") : null, //isSidebarOpen && 
             borderRadius: "50%"
           }}
         >
@@ -452,8 +460,9 @@ const Navbar = () => {
             isOpen={isSidebarOpen}
             onClick={() => setIsSidebarOpen(!isSidebarOpen)}
             noBorder
+            hamburger
             blackText
-            group="menu"
+            // group="menu"
             fontSize="24px"
           />
         </div>
@@ -469,7 +478,6 @@ const Navbar = () => {
               left: "20px",
               top: "80px",
               borderRadius: "50%",
-              border: "1px solid #ccc",
               cursor: "pointer",
               overflow: "hidden",
             }}
@@ -486,31 +494,28 @@ const Navbar = () => {
             />
           </div>
 
-          {isSidebarOpen && (
-            <div
-              className="profile-name"
-              style={{
-                position: "absolute",
-                left: "100px",
-                top: "80px",
-                color: "#120C38",
-                fontFamily: "Nunito",
-                fontWeight: "700",
-              }}
-            >
-              {userName}
-              {/* {userRole === "Student" ? "Ім’я студента" : "Ім’я вчителя"} */}
-              <div
-                style={{
-                  fontSize: "12px",
-                  color: "#827FAE",
-                  marginTop: "5px",
-                }}
-              >
-                Баланс: {balance}
-              </div>
-            </div>
-          )}</Link>
+                  <div
+                      className="profile-name"
+                      style={{
+                          position: "absolute",
+                          left: "100px",
+                          top: "80px",
+                          color: "#120C38",
+                          fontFamily: "Nunito",
+                          fontWeight: "700",
+                      }}
+                  >
+                      {userName}
+                      <div
+                          style={{
+                              fontSize: "12px",
+                              color: "#827FAE",
+                              marginTop: "5px",
+                          }}
+                      >
+                          Баланс: {balance}
+                      </div>
+                  </div></Link>
 
         {/* Navigation Items */}
         <div className="navitems" style={{ marginTop: "80px", padding: "20px", flex: 1 }}>
@@ -531,7 +536,7 @@ const Navbar = () => {
 
         {/* Settings and Info Container */}
         <div className="footer p-5 flex flex-col-reverse justify-end space-y-4">
-          {settingsAndInfoLinks.map((link) => (
+          {/* {settingsAndInfoLinks.map((link) => (
             <NavItem
               key={link.key}
               icon={link.icon}
@@ -545,7 +550,7 @@ const Navbar = () => {
               noBorder
               blackText
             />
-          ))}
+          ))} */}
           {/* Notifications */}
           <div className="mob-foot-ne relative notifications">
             <button
@@ -670,7 +675,7 @@ const Navbar = () => {
               </button>
             </Link>
             {/* Theme */}
-            <Link to="/">
+            {/* <Link to="/">
               <button
                 className="top-buttons p-2 rounded-full border border-gray-300 hover:bg-[#A768FF] transition-all duration-300"
                 onMouseEnter={(e) => {
@@ -705,7 +710,7 @@ const Navbar = () => {
                   }
                 </div>
               </button>
-            </Link>
+            </Link> */}
             {/* Notifications */}
             <div className="relative notifications">
               <button
