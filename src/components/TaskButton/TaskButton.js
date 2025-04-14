@@ -3,7 +3,7 @@ import './TaskButton.css';
 const TaskButton = ({ text, icon, count, isSelected, onClick }) => {
     return (
     
-      <div className="taskButton">
+      <div className="taskButton relative">
      <button
       className={`nav-button px-4 py-2 rounded-3xl border flex items-center gap-2 transition-colors ${
         isSelected ? 'select-button' : ''
@@ -31,10 +31,11 @@ const TaskButton = ({ text, icon, count, isSelected, onClick }) => {
         {text}
       </div>
       {count > 0 && (
-        <div className={`w-4 h-4 relative ${isSelected ? '' : 'button-invisible'}`}>
-          <div className="w-5 h-5 absolute bg-['#8A48E6'] rounded-full top-[-14px] left-[6px] border-2 border-white" />
-          <div className="w-3.5 h-3.5 absolute text-center text-white text-xs top-[-13px] left-[10px] font-bold font-['Nunito']">
-            {count}
+        <div className={`${isSelected ? '' : 'button-invisible'}`}>
+          <div className="w-5 h-5 absolute -top-1 right-2 bg-purple-600 rounded-full border-2 border-white flex items-center justify-center">
+            <span className="text-white text-xs font-bold font-['Nunito']">
+              {count}
+            </span>
           </div>
         </div>
       )}
@@ -44,4 +45,3 @@ const TaskButton = ({ text, icon, count, isSelected, onClick }) => {
   };
   
   export default TaskButton;
-  

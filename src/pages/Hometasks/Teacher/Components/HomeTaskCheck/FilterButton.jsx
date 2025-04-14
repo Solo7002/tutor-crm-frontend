@@ -7,8 +7,8 @@ const FilterButton = ({ isSelected, onSelect, type, text = "", number = 0 }) => 
       onClick={onSelect}
       style={{
         backgroundColor: isSelected ? "#8a48e6" : "white",
-        borderWidth: 1,
-        borderColor: isSelected ? "white" : "#d7d7d7",
+        outlineWidth: 1,
+        outlineColor: isSelected ? "white" : "#d7d7d7",
         color: isSelected ? "white" : "#120c38",
         stroke: isSelected ? "white" : "#120c38",
       }}
@@ -42,11 +42,11 @@ const FilterButton = ({ isSelected, onSelect, type, text = "", number = 0 }) => 
       </div>
       {text}
       <div
-        className="w-5 h-5 bg-[#8a48e6] rounded-full border border-white relative"
+        className="w-5 h-5 bg-[#8a48e6] rounded-full outline outline-1 outline-white relative"
         style={{
           backgroundColor: isSelected ? "#8a48e6" : "white",
-          borderWidth: 1,
-          borderColor: isSelected ? "white" : "#120c38",
+          outlineWidth: 1,
+          outlineColor: isSelected ? "white" : "#120c38",
           color: isSelected ? "white" : "#120c38",
         }}
       >

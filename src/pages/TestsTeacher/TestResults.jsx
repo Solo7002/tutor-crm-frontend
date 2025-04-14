@@ -1,25 +1,41 @@
 import "./TestResults.css";
-import { useParams,useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import TaskButton from "../../components/TaskButton/TaskButton";
 import StudentItem from "./components/StudentItem/StudentItem";
 import { PrimaryButton } from "../../components/Buttons/Buttons";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { formatDate } from "../../functions/formatDate";
+import { decryptData } from '../../utils/crypto';
 
 const TestResults = () => {
+  const [testId, setTestId] = useState();
   const [test, setTest] = useState(null);
   const [studentsDone, setStudentsDone] = useState([]);
   const [studentsNotDone, setStudentsNotDone] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [selectedTab, setSelectedTab] = useState(0); 
+  const [selectedTab, setSelectedTab] = useState(0);
 
   const token = localStorage.getItem("token") || "";
-  const { testId } = useParams();
+  const { encodedTestId } = useParams();
   const navigate = useNavigate();
 
   useEffect(() => {
+    if (encodedTestId){
+      try {
+        const decryptedTestId = decryptData(encodedTestId);
+        setTestId(decryptedTestId);
+      }
+      catch (error) {
+        console.error("error: ", error);
+      }
+    }
+  }, [encodedTestId])
+
+  useEffect(() => {
+    if (!testId) return;
+
     const fetchData = async () => {
       try {
         setLoading(true);
@@ -55,11 +71,11 @@ const TestResults = () => {
           }
         );
         console.log("Students Not Done Response:", studentsNotDoneResponse.data);
-        
-        
+
+
         setStudentsNotDone(studentsNotDoneResponse.data);
         console.log(studentsNotDone);
-        
+
 
         setLoading(false);
       } catch (err) {
@@ -76,19 +92,19 @@ const TestResults = () => {
     }
   }, [testId, token]);
 
-  const handleDeleteTest=()=>{
-    try{
-        axios.delete(`http://localhost:4000/api/tests/${testId}`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          });
-       navigate('/teacher/tests');
-       navigate(0);
-    }catch(error){
+  const handleDeleteTest = () => {
+    try {
+      axios.delete(`http://localhost:4000/api/tests/${testId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+      navigate('/teacher/tests');
+      navigate(0);
+    } catch (error) {
       console.log(error.error);
-      
+
     }
   }
   const handleTabClick = (tabIndex) => {
@@ -99,18 +115,34 @@ const TestResults = () => {
   const displayedStudents = selectedTab === 0 ? studentsDone : studentsNotDone;
 
   return (
-    <div className="TestResults p-4 rounded-lg">
+    <div className="TestResults p-4 pr-10 mt-4 rounded-lg">
       {loading ? (
         <div>Loading...</div>
       ) : error ? (
         <div>Error: {error}</div>
       ) : test ? (
         <>
-          <div className="text-left text-[#120c38] text-2xl font-bold font-['Nunito'] mb-4">
-            Результати тесту: {test.TestName}
+          <div className="flex justify-between items-center mb-4">
+            <div className="text-left text-[#120c38] text-2xl font-bold font-['Nunito']">
+              Результати тесту: {test.TestName}
+            </div>
+            <div className="cursor-pointer" onClick={() => {navigate("/teacher/tests")}}>
+            <svg
+              className="w-6 h-6"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+            </div>
           </div>
           <div className="flex justify-between items-start">
-            <div className="w-52">
+            <div className="">
               <div className="text-[#827ead] text-xl font-normal font-['Mulish']">
                 Курс: {test.CourseName || "N/A"}
               </div>
@@ -127,10 +159,10 @@ const TestResults = () => {
               </div>
             </div>
           </div>
-          <div className="flex space-x-4 m-2  mb-8">
+          <div className="flex space-x-4 mb-8 mt-5">
             <TaskButton
               text={"Виконало учнів"}
-              icon={"M1 6L6 11L16 1"}
+              icon={"M5 12L10 17L20 7"}
               isSelected={selectedTab === 0}
               count={studentsDone.length}
               onClick={() => handleTabClick(0)}
@@ -149,24 +181,24 @@ const TestResults = () => {
           <div >
             {displayedStudents.length === 0 ? (
               <div>
-               
+
               </div>
             ) : (
               <div className="flex flex-wrap justify-start gap-4 mb-[100px] ">
-              {displayedStudents.map((student, index) => (
-                <StudentItem
-                  key={index}
-                  name={`${student.FirstName} ${student.LastName}`}
-                  date={formatDate(student.DoneDate) || formatDate(test.CreatedDate)}
-                  score={student.Score}
-                  maxScore={student.MaxScore}
-                  status={student.Status}
-                  img={student.ImageFilePath}
-                
-                />
-              ))}
-            </div>
-            
+                {displayedStudents.map((student, index) => (
+                  <StudentItem
+                    key={index}
+                    name={`${student.FirstName} ${student.LastName}`}
+                    date={formatDate(student.DoneDate) || formatDate(test.CreatedDate)}
+                    score={student.Score}
+                    maxScore={student.MaxScore}
+                    status={student.Status}
+                    img={student.ImageFilePath ? student.ImageFilePath : `https://ui-avatars.com/api/?name=${student.LastName + ' ' + student.FirstName}&background=random&size=86`}
+
+                  />
+                ))}
+              </div>
+
             )}
           </div>
           <div className="md:fixed bottom-0 left-0 right-0 bg-white z-10 p-2 flex justify-center items-center space-x-3">

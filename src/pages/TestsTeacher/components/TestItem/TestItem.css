@@ -2,31 +2,29 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Reset styles */
 * {
     padding: 0;
     margin: 0;
 }
 
-.TestItem {
-    @apply w-[420px]; 
+/* Background pattern styling */
+.pattern-bg::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('../../../../../public/assets/patterns/pattern4.png');
+    background-size: 160px 100px;
+    background-repeat: repeat;
+    opacity: 0.1;
+    z-index: -1;
+    border-radius: 1.5rem;
 }
 
-.TestItem .test-item-card {
-    @apply 
-    relative w-full h-full rounded-3xl border border-[#dfdfdf]  
-    flex flex-col justify-start items-start gap-4 p-1;
-    isolation: isolate;
-}
-
-.TestItem .test-pattern-bg {
-    background: linear-gradient(to top right, white, transparent), 
-                url('../../../../../public/assets/patterns/pattern4.png');
-    background-size: auto, 160px 100px;
-    background-repeat: no-repeat, repeat;
-
-}
-
-.TestItem .test-pattern-bg::after {
+.pattern-bg::after {
     content: '';
     position: absolute;
     top: 0;
@@ -35,54 +33,14 @@
     height: 100%;
     background-color: white;
     z-index: -2;
-    @apply rounded-3xl;
-    opacity: 0.85;
+    border-radius: 1.5rem;
 }
 
-.TestItem .test-item-content {
-    @apply w-full flex flex-col justify-start items-start gap-2 px-4 pt-4;
-}
+/* Original button styling */
+/* .test-item-button-wrapper {
+    @apply mb-0;
+} */
 
-.TestItem .test-item-description {
-    @apply w-full text-[#120c38] text-xl font-normal font-['Mulish'];
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-width: 100%;
-}
-
-.TestItem .test-item-footer {
-    @apply w-full flex justify-between items-center;
-}
-
-.TestItem .test-item-dates {
-    @apply flex flex-col justify-start items-start gap-2;
-}
-
-.TestItem .test-item-date-wrapper {
-    @apply w-full flex justify-start items-center gap-2;
-}
-
-.TestItem .test-item-date-text {
-    @apply flex items-center;
-}
-
-.TestItem .test-item-date-label {
-    @apply text-[#827ead] text-base font-bold font-['Nunito'] mr-1;
-}
-
-.TestItem .test-item-date-value {
-    @apply text-[#120c38] text-base font-extrabold font-['Lato'];
-}
-
-.TestItem .test-item-date-due {
-    @apply text-[#8a48e6] text-base font-extrabold font-['Lato'];
-}
-
-.TestItem .test-item-button-wrapper {
-    @apply flex items-center;
-}
-
-.TestItem .test-item-button {
-    @apply rounded-[40px] bg-[#8a48e6] text-white font-bold font-['Nunito'] px-6 py-2;
+.test-item-button {
+    @apply rounded-[40px] bg-[#8a48e6] text-white font-bold font-['Nunito'] px-6 mb-0;
 }

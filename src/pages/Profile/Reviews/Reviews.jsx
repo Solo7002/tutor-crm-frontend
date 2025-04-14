@@ -54,7 +54,7 @@ const Reviews = ({ userId, userFrom = null }) => {
       />
 
       <div className="text-center text-[#120c38] text-xl sm:text-2xl font-bold font-['Nunito'] mb-4 sm:mb-6">
-        Коментарі учнів
+        {reviews.length > 0? "Відгуки учнів" : "Відгуки відсутні"}
       </div>
       <div className="comments w-full grid grid-cols-1 gap-4 md:grid-cols-2">
         {reviews.slice(0, visibleReviews).map((review) => (

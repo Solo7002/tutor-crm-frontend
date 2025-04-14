@@ -380,7 +380,7 @@ const HometaskStudent = () => {
       <main>
         <div className="hometask p-6">
           <div className="nav flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-            <div className="h-12 flex items-center gap-2 overflow-x-auto w-full sm:w-auto px-2 sm:px-4 no-scrollbar">
+            <div className="h-12 flex items-center gap-2 overflow-x-auto w-full sm:w-auto px-2 no-scrollbar">
               {buttons.map((button, index) => (
                 <TaskButton
                   key={index}
@@ -424,7 +424,6 @@ const HometaskStudent = () => {
           </div>
           <div className="buttons-box flex flex-col sm:flex-row gap-2">
             <div className="gap-2 flex">
-              <ToggleSwitch isOn={isBlock} setIsOn={setIsBlock} />
               <Dropdown
                 options={subjects}
                 onSelectSubject={(subject) => setSelectedSubject(subject)}
@@ -437,7 +436,7 @@ const HometaskStudent = () => {
               />
             </div>
           </div>
-          <div className="card-container grid gap-3 justify-center items-center p-4 lg:grid-cols-[repeat(auto-fit,minmax(420px,1fr))] md:grid-cols-[repeat(auto-fit,minmax(340px,1fr))] sm:grid-cols-1 xs:grid-cols-1">
+          <div className="flex flex-wrap gap-4 items-center my-6">
             {isSwitching ? (
               <div className="col-span-full text-center">Завантаження...</div>
             ) : (

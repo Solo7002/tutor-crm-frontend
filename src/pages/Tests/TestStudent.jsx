@@ -70,7 +70,7 @@ const TestStudent = () => {
   };
 
   const handleSearch = (query) => {
-    // Можна залишити порожньою, оскільки фільтрація відбувається автоматично через searchQuery
+    
   };
 
   const handleDetailsClick = (test) => {

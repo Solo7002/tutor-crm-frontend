@@ -23,6 +23,7 @@ const TestsTeacher = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
+  const [groupedTests, setGroupedTests] = useState({});
 
   useEffect(() => {
     const token = sessionStorage.getItem("token");
@@ -99,13 +100,11 @@ const TestsTeacher = () => {
     fetchData();
   }, [teacher_id, token]);
 
-
   const handleSearch = (query) => {
     if (query === "") {
       setTests(originalTests);
       setFilteredTests(originalTests);
     } else {
-
       const filtered = originalTests.filter((test) =>
         test.TestName.toLowerCase().includes(query.toLowerCase())
       );
@@ -130,6 +129,18 @@ const TestsTeacher = () => {
     setFilteredTests(filtered);
   }, [selectedGroup, selectedCourse, tests]);
 
+  useEffect(() => {
+    const grouped = filteredTests.reduce((acc, test) => {
+      const courseName = test.CourseName || "Курс не указан";
+      if (!acc[courseName]) {
+        acc[courseName] = [];
+      }
+      acc[courseName].push(test);
+      return acc;
+    }, {});
+    setGroupedTests(grouped);
+  }, [filteredTests]);
+
   const handleOpenModal = () => {
     setIsModalOpen(true);
   };
@@ -153,7 +164,7 @@ const TestsTeacher = () => {
           <div className="left-0 top-0 absolute inline-flex justify-start items-center gap-2 overflow-hidden">
             <div data-number-visible="false" data-property-1="Active" data-size="Big" className="h-12 px-4 py-2 bg-[#8a48e6] rounded-[32px] flex justify-start items-center gap-2">
               <svg width="17" height="14" viewBox="0 0 17 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M5 1H16M5 7H16M5 13H16M1 1V1.01M1 7V7.01M1 13V13.01" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                <path d="M5 1H16M5 7H16M5 13H16M1 1V1.01M1 7V7.01M1 13V13.01" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
               <div className="justify-center text-white text-[15px] font-bold font-['Nunito']">Назначені</div>
             </div>
@@ -184,15 +195,25 @@ const TestsTeacher = () => {
       <div className="w-full min-w-0 overflow-x-auto">
         {loading ? (
           <div>Loading tests...</div>
-        ): (
-          <>
-            <div className="flex flex-wrap justify-start gap-4 mb-[200px] ">
-              {filteredTests.map((test) => (
-                <TestItem key={test.TestId} test={test} />
-              ))}
-            </div>
-
-          </>
+        ) : error ? (
+          <div>Error: {error}</div>
+        ) : Object.keys(groupedTests).length === 0 ? (
+          <div>No tests found for this teacher.</div>
+        ) : (
+          <div className="mb-[200px]">
+            {Object.entries(groupedTests).map(([courseName, courseTests]) => (
+              <div key={courseName} className="mb-8">
+                <div className="w-full text-left text-[#120C38] text-[24px] font-[Nunito] font-bold mb-4">
+                  Курс: {courseName}
+                </div>
+                <div className="flex flex-wrap justify-start gap-4">
+                  {courseTests.map((test) => (
+                    <TestItem key={test.TestId} test={test} />
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
         )}
       </div>
 
