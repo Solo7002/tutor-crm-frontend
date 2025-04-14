@@ -2,6 +2,62 @@
 @tailwind components;
 @tailwind utilities;
 
+.navbar .sidebar .navlink {
+    transition: width 3s ease, background-color 0.3s ease, border 0.3s ease;
+  }
+  
+  .navbar .sidebar .nav-item-text {
+    opacity: 0;
+    transform: translateX(-10px);
+    max-width: 0; /* Скрываем текст по ширине */
+    overflow: hidden; /* Предотвращаем отображение текста за пределами */
+    white-space: nowrap; /* Текст не переносится */
+    transition: 
+      opacity 0.2s ease 0.2s, /* Появление с задержкой 0.2с */
+      transform 0.2s ease 0.2s, /* Сдвиг с задержкой */
+      max-width 0.2s ease 0.2s; /* Раскрытие ширины */
+  }
+  
+  .navbar .sidebar.sidebar-visible .nav-item-text {
+    opacity: 1;
+    transform: translateX(0);
+    max-width: 200px; /* Достаточно для текста */
+  }
+
+  .navbar .sidebar .profile-name {
+    opacity: 0;
+    transform: translateX(-10px);
+    max-width: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    visibility: hidden; /* Полностью скрываем элемент */
+    transition: 
+      opacity 0.2s ease 0.1s, /* Появление после 0.3с */
+      transform 0.2s ease,
+      max-width 0.2s ease,
+      visibility 0s; /* visibility меняется мгновенно после задержки */
+  }
+
+  .navbar .sidebar.sidebar-visible .profile-name {
+    opacity: 1;
+    transform: translateX(0);
+    max-width: 200px;
+    visibility: visible;
+  }
+
+  .navbar .sidebar .profile-name > div {
+  opacity: 0;
+  transform: translateX(-5px);
+  transition: 
+    opacity 0.2s ease,
+    transform 0.2s ease;
+}
+
+.navbar .sidebar.sidebar-visible .profile-name > div {
+  opacity: 1;
+  transform: translateX(0);
+}
+
 .navbar .bg-nav-pattern{
     background-image: url('../../../public/assets/patterns/pattern4.png');
     background-repeat: repeat;
