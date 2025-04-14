@@ -42,8 +42,8 @@ const SearchTeachers = () => {
     ];
 
     const priceSortOptions = [
-        { key: "desc", value: "Від більшого до меншого" },
-        { key: "asc", value: "Від меншого до більшого" },
+        { key: "desc", value: "Від більшого" },
+        { key: "asc", value: "Від меншого" },
     ];
 
     const meetingTypeOptions = [
