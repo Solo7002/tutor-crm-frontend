@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import GroupItem from "../GroupItem/GroupItem";
 import axios from "axios";
 
-const CourseForm = ({ courseId, isSave,CourseName }) => {
+const CourseForm = ({ courseId, isSave, CourseName }) => {
   const [groups, setGroups] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setErrors] = useState(null);
@@ -11,7 +11,6 @@ const CourseForm = ({ courseId, isSave,CourseName }) => {
 
   const token = localStorage.getItem("token");
 
-  // Fetch groups when courseId changes
   useEffect(() => {
     const fetchGroups = async () => {
       try {
@@ -25,6 +24,7 @@ const CourseForm = ({ courseId, isSave,CourseName }) => {
           }
         );
         const data = response.data;
+        console.log("----- res.data: ", data)
         setGroups(data);
         setEditedGroups(data.map((group) => ({ ...group })));
         setLoading(false);
@@ -34,9 +34,8 @@ const CourseForm = ({ courseId, isSave,CourseName }) => {
       }
     };
     fetchGroups();
-  }, [courseId]);
+  }, [courseId, token]);
 
-  // Trigger saveChanges when isSave becomes true
   useEffect(() => {
     if (isSave && !isSaving) {
       saveChanges();
@@ -48,9 +47,10 @@ const CourseForm = ({ courseId, isSave,CourseName }) => {
       GroupId: null,
       GroupName: "",
       GroupPrice: "",
-      studentCount: "",
+      studentCount: 0,
       CourseId: courseId,
       changeType: "created",
+      Student: []
     };
     setGroups([...groups, newGroup]);
     setEditedGroups([...editedGroups, { ...newGroup }]);
@@ -162,59 +162,56 @@ const CourseForm = ({ courseId, isSave,CourseName }) => {
     }
   };
 
-  if (loading) return <div className="text-center p-4">Завантаження...</div>;
-  if (error) return <div className="text-center p-4 text-red-600">{error}</div>;
+  if (loading) return (
+    <div className="flex justify-center items-center h-64">
+      <div className="text-purple-600 flex items-center">
+        <svg className="animate-spin h-5 w-5 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+        </svg>
+        Завантаження груп...
+      </div>
+    </div>
+  );
+  
+  if (error) return (
+    <div className="bg-red-50 border border-red-200 text-red-600 rounded-lg p-4 my-4">
+      {error}
+    </div>
+  );
 
   return (
-    <div className="w-full max-w-4xl mb-20   p-4 sm:p-6 min-h-screen">
-      <div className="bg-white rounded-3xl shadow-lg p-6 sm:p-8 w-full">
-        <h1 className="text-center text-xl sm:text-2xl font-bold text-black mb-6 sm:mb-8 font-nunito">
-        Курс: {CourseName}
+    <div className="w-full pb-24">
+      <div className="bg-white rounded-2xl shadow-md p-6 mb-6">
+        <h1 className="text-2xl md:text-3xl font-bold font-[Nunito] text-[#120C38] mb-6">
+          {CourseName}
         </h1>
 
-        <div className="grid grid-cols-12 gap-4 sm:gap-6 mb-4">
-          <div className="col-span-2 sm:col-span-1">
-            <div className="block text-purple-600 font-bold font-nunito text-sm sm:text-base">№</div>
-          </div>
-          <div className="col-span-4 sm:col-span-4">
-            <div className="block text-purple-600 font-bold font-nunito text-sm sm:text-base">Назва групи</div>
-          </div>
-          <div className="col-span-3 sm:col-span-3">
-            <div className="block text-purple-600 font-bold font-nunito text-sm sm:text-base">Кількість учнів</div>
-          </div>
-          <div className="col-span-3 sm:col-span-3">
-            <div className="block text-purple-600 font-bold font-nunito text-sm sm:text-base">Ціна</div>
-          </div>
+        <div className="space-y-4">
+          {groups.map((group, groupIndex) =>
+            editedGroups[groupIndex]?.changeType === "deleted" ? null : (
+              <GroupItem
+                key={group.GroupId || groupIndex}
+                group={group}
+                groupIndex={groupIndex}
+                deleteGroup={deleteGroup}
+                onChange={handleGroupChange}
+                editedGroup={editedGroups[groupIndex]}
+              />
+            )
+          )}
         </div>
 
-        {groups.map((group, groupIndex) =>
-          editedGroups[groupIndex]?.changeType === "deleted" ? null : (
-            <GroupItem
-              key={group.GroupId || groupIndex}
-              group={group}
-              groupIndex={groupIndex}
-              deleteGroup={deleteGroup}
-              onChange={handleGroupChange}
-              editedGroup={editedGroups[groupIndex]}
-            />
-          )
-        )}
-
-        <div className="flex justify-center gap-4 mt-6">
+        <div className="flex justify-center mt-8">
           <button
-            className="w-12 h-12 bg-purple-600 rounded-full flex items-center justify-center border-2 border-purple-700 text-white shadow-md hover:bg-purple-700 hover:border-purple-800 transition-all duration-200 focus:outline-none focus:ring-4 focus:ring-purple-200"
+            className="px-6 py-3 bg-[#8A48E6] hover:bg-purple-700 text-white rounded-xl flex items-center gap-2 shadow-md transition-all"
             onClick={addNewGroup}
             disabled={isSaving}
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-6 w-6"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+              <path fillRule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clipRule="evenodd" />
             </svg>
+            Додати групу
           </button>
         </div>
       </div>

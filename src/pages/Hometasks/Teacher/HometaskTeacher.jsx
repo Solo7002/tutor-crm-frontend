@@ -102,7 +102,6 @@ const SaveToLocalStorage = (states) => {
 };
 
 const HometaskTeacher = () => {
-  // Инициализация состояний с учетом localStorage
   const [isBlockType, setIsBlockType] = useState(() => {
     const saved = localStorage.getItem('isBlockType');
     return saved !== null ? JSON.parse(saved) : true;
@@ -161,7 +160,6 @@ const HometaskTeacher = () => {
   });
 
   useEffect(() => {
-    console.log("--------After refresh");
     const token = sessionStorage.getItem("token");
     if (token) {
       try {
@@ -282,7 +280,6 @@ const HometaskTeacher = () => {
           if (actualHometask) {
             setSelectedHometask2(actualHometask);
           } else {
-            // Если hometask с selectedCard больше не существует, сбрасываем выбор
             setSelectedCard(null);
             setSelectedHometask2(null);
           }
@@ -290,6 +287,29 @@ const HometaskTeacher = () => {
       }
     }
   }, [teacherData, selectedCard, selectedCourseName, selectedGroupName]);
+
+  useEffect(() => {
+    if (selectedCourseName && selectedCourse) {
+      const firstGroup = selectedCourse.Groups[0];
+      if (firstGroup) {
+        setSelectedGroupName(firstGroup.GroupName);
+      } else {
+        setSelectedGroupName(null);
+      }
+    }
+  }, [selectedCourseName, selectedCourse]);
+
+  useEffect(() => {
+    if (sortedHometasks.length > 0) {
+      const firstHometask = sortedHometasks[0];
+      setSelectedCard(firstHometask.HometaskId);
+      setSelectedHometask2(firstHometask);
+      setSelectedFilter("done");
+    } else {
+      setSelectedCard(null);
+      setSelectedHometask2(null);
+    }
+  }, [sortedHometasks]);
 
   if (isLoading) {
     return <div></div>;

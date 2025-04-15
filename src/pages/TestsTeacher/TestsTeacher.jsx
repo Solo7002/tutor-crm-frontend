@@ -131,7 +131,7 @@ const TestsTeacher = () => {
 
   useEffect(() => {
     const grouped = filteredTests.reduce((acc, test) => {
-      const courseName = test.CourseName || "Курс не указан";
+      const courseName = test.CourseName || "Курс не вказано";
       if (!acc[courseName]) {
         acc[courseName] = [];
       }
