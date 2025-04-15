@@ -122,7 +122,7 @@ const Navbar = () => {
       width: isSidebarOpen ? "auto" : "40px",
       justifyContent: "flex-start",
       border: ((noBorder || hamburger) ? "none" : (isActive ? "1px solid #8A48E6" : "1px solid #D7D7D7")),
-      borderRight: (isSidebarOpen ? ((noBorder || hamburger) ? "none" : (isActive ? "1px solid #8A48E6" : "1px solid #D7D7D7")) : "none"),
+      borderRight: (group === 'footer' ? "none" : (isSidebarOpen ? ((noBorder || hamburger) ? "none" : (isActive ? "1px solid #8A48E6" : "1px solid #D7D7D7")) : "none")),
       transition: "background-color 0.3s, color 0.3s",
       borderRadius: "9999px",
       cursor: "pointer",
@@ -262,7 +262,7 @@ const Navbar = () => {
             alignItems: "center",
             justifyContent: "center",
             border: "none",
-            borderRight: (!hamburger) ? (isActive ? "1px solid #FFFFFF" : "1px solid #ccc") : null, //isSidebarOpen && 
+            borderRight: (!hamburger && !noBorder) ? (isActive ? "1px solid #FFFFFF" : "1px solid #ccc") : null, //isSidebarOpen && 
             borderRadius: "50%"
           }}
         >
@@ -536,7 +536,7 @@ const Navbar = () => {
 
         {/* Settings and Info Container */}
         <div className="footer p-5 flex flex-col-reverse justify-end space-y-4">
-          {/* {settingsAndInfoLinks.map((link) => (
+          {settingsAndInfoLinks.map((link) => (
             <NavItem
               key={link.key}
               icon={link.icon}
@@ -550,7 +550,7 @@ const Navbar = () => {
               noBorder
               blackText
             />
-          ))} */}
+          ))}
           {/* Notifications */}
           <div className="mob-foot-ne relative notifications">
             <button
