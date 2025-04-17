@@ -67,7 +67,7 @@ const UserCard = ({ type, doneHometask, student, MaxMark, openModalHandler }) =>
         src={student.ImageFilePath || `https://ui-avatars.com/api/?name=${encodeURIComponent(student.LastName + ' ' + student.FirstName)}&background=random&size=86`}
         alt="Student avatar"
       />
-      <div className="w-[143px] left-[101px] top-[18px] absolute justify-center text-[#120c38] text-[15px] font-normal font-['Mulish']">
+      <div className="left-[101px] top-[18px] absolute justify-center text-[#120c38] text-[15px] font-normal font-['Mulish']">
         {student.LastName + " " + student.FirstName}
       </div>
       <div className="w-[143px] left-[101px] top-[51px] absolute justify-center text-[#827ead] text-[15px] font-bold font-['Nunito']">

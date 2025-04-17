@@ -306,7 +306,7 @@ export default function EditProfileStudent() {
                                 />
                                 {errors.confirmPassword && <div className="text-red-500 text-sm mt-1">{errors.confirmPassword}</div>}
                             </div>
-
+{/* 
                             <div className="flex gap-4">
                                 <div className="flex-1">
                                     <input type="text" name="SchoolName" value={formData.SchoolName} onChange={handleInputChange}
@@ -320,7 +320,7 @@ export default function EditProfileStudent() {
                                         placeholder="Клас" />
                                     {errors.Grade && <div className="text-red-500 text-sm mt-1">{errors.Grade}</div>}
                                 </div>
-                            </div>
+                            </div> */}
                         </div>
 
                         <div className="w-full flex justify-center items-center absolute bottom-[-60px] left-0">
