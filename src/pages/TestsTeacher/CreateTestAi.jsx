@@ -36,19 +36,13 @@ const CreateTestAi = () => {
     setIsGenerating(true);
     setErrors({});
 
-    const newErrors = {};
-    if (!formData.subject || formData.subject.trim() === '') {
-      newErrors.subject = 'Тема тесту не може бути порожньою.';
-    }
-
-    if (Object.keys(newErrors).length > 0) {
-      setErrors(newErrors);
+    if (!formData.isValid) {
+      setErrors({ form: 'Будь ласка, виправте помилки у формі.' });
       setIsGenerating(false);
       return;
     }
 
     try {
-      
       const response = await axios.post(
         'http://localhost:4000/api/tests/generate-test-by-AI',
         {
@@ -56,7 +50,6 @@ const CreateTestAi = () => {
           language: 'ua',
           count: parseInt(formData.numQuestions) || 5,
         },
-        
       );
 
       const generatedQuestions = response.data.questions;
@@ -83,7 +76,10 @@ const CreateTestAi = () => {
         console.log('Генерація була скасована');
       } else {
         console.error('Помилка генерації:', error);
-        setErrors({ general: 'Не вдалося згенерувати тест: ' + (error.message || error) });
+        const errorMessage = error.response?.data?.error?.includes('Invalid OpenAI API key')
+          ? 'Помилка автентифікації API. Будь ласка, зв’яжіться з адміністратором.'
+          : 'Не вдалося згенерувати тест: ' + (error.message || error);
+        setErrors({ general: errorMessage });
       }
     } finally {
       setIsGenerating(false);
@@ -100,54 +96,12 @@ const CreateTestAi = () => {
   };
 
   const handleSubmit = async () => {
-    console.log("1");
     setIsSubmitting(true);
     const newErrors = {};
-    console.log("2");
 
-    if (!formData.subject || formData.subject.trim() === '') {
-      newErrors.subject = 'Тема тесту не може бути порожньою.';
+    if (!formData.isValid) {
+      newErrors.form = 'Будь ласка, виправте помилки у формі.';
     }
-    console.log("3");
-
-    let timeInMinutes = 0;
-    if (formData.time) {
-      const timeValue = formData.time.trim();
-      if (/^\d+$/.test(timeValue)) {
-        timeInMinutes = parseInt(timeValue);
-      } else if (/^\d{1,2}:\d{2}$/.test(timeValue)) {
-        const [minutes, seconds] = timeValue.split(':').map(Number);
-        timeInMinutes = minutes + Math.floor(seconds / 60);
-      } else if (/^\d{1,2}:\d{2}:\d{2}$/.test(timeValue)) {
-        const [hours, minutes, seconds] = timeValue.split(':').map(Number);
-        timeInMinutes = hours * 60 + minutes + Math.floor(seconds / 60);
-      } else {
-        newErrors.time = 'Некоректний формат часу. Використовуйте число (хвилини), MM:SS або HH:MM:SS.';
-      }
-    }
-    if (timeInMinutes < 0) {
-      newErrors.time = 'Час виконання не може бути від’ємним.';
-    }
-
-    if (!formData.numAttempts || parseInt(formData.numAttempts) < 1) {
-      newErrors.numAttempts = 'Кількість спроб має бути числом >= 1.';
-    }
-
-    if (!formData.maxScore || parseInt(formData.maxScore) < 0) {
-      newErrors.maxScore = 'Максимальний бал має бути числом >= 0.';
-    }
-
-    if (!formData.deadline) {
-      newErrors.deadline = 'Будь ласка, виберіть дедлайн.';
-    } else {
-      const deadlineDate = new Date(formData.deadline);
-      const today = new Date();
-      today.setHours(0, 0, 0, 0);
-      if (deadlineDate < today) {
-        newErrors.deadline = 'Дедлайн не може бути меншим за сьогоднішню дату.';
-      }
-    }
- 
 
     if (Object.keys(questionsData).length === 0) {
       newErrors.questions = 'Будь ласка, згенеруйте тест перед створенням.';
@@ -162,12 +116,22 @@ const CreateTestAi = () => {
     setErrors({});
 
     try {
-     
-      
       const testPayload = {
         TestName: formData.subject,
         TestDescription: formData.description,
-        TimeLimit: timeInMinutes,
+        TimeLimit: (() => {
+          const timeValue = formData.time.trim();
+          if (/^\d+$/.test(timeValue)) {
+            return parseInt(timeValue);
+          } else if (/^\d{1,2}:\d{2}$/.test(timeValue)) {
+            const [minutes, seconds] = timeValue.split(':').map(Number);
+            return minutes + Math.floor(seconds / 60);
+          } else if (/^\d{1,2}:\d{2}:\d{2}$/.test(timeValue)) {
+            const [hours, minutes, seconds] = timeValue.split(':').map(Number);
+            return hours * 60 + minutes + Math.floor(seconds / 60);
+          }
+          return 0;
+        })(),
         CreatedDate: new Date().toISOString().split('T')[0],
         DeadlineDate: formData.deadline || null,
         MaxMark: parseInt(formData.maxScore) || 0,
@@ -178,9 +142,9 @@ const CreateTestAi = () => {
         ShowCorrectAnswersDuringTest: formData.showCorrectAnswersDuringTest || false,
       };
 
-      const testResponse = await axios.post('http://localhost:4000/api/tests', testPayload,{
+      const testResponse = await axios.post('http://localhost:4000/api/tests', testPayload, {
         headers: {
-           Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
         },
       });
       const testId = testResponse.data.TestId;
@@ -189,16 +153,14 @@ const CreateTestAi = () => {
         throw new Error('Не вдалося отримати TestId');
       }
 
-      console.log(questionsData);
-      
       const questionsPayload = await Promise.all(
         Object.values(questionsData).map(async (question) => {
           let fileUrl = null;
-      
+
           if (question.questionImage) {
             const formDataForImage = new FormData();
             formDataForImage.append('file', question.questionImage);
-      
+
             try {
               const imageResponse = await axios.post(
                 'http://localhost:4000/api/files/upload',
@@ -215,7 +177,7 @@ const CreateTestAi = () => {
               throw new Error('Не вдалося завантажити зображення: ' + (error.message || error));
             }
           }
-      
+
           const questionData = {
             TestId: testId,
             TestQuestionHeader: question.questionText.trim(),
@@ -223,7 +185,7 @@ const CreateTestAi = () => {
             ImagePath: fileUrl,
             AudioPath: null,
           };
-      
+
           const questionResponse = await axios.post(
             'http://localhost:4000/api/testQuestions',
             questionData,
@@ -234,21 +196,20 @@ const CreateTestAi = () => {
             }
           );
           const testQuestionId = questionResponse.data.TestQuestionId;
-      
+
           if (!testQuestionId) {
             throw new Error('Не вдалося отримати TestQuestionId');
           }
-      
+
           const answers = question.options
-            .filter((option) => option.trim() !== '')
+            .filter((option) => option.value.trim() !== '')
             .map((option, index) => ({
               TestQuestionId: testQuestionId,
-              AnswerText: option,
+              AnswerText: option.value,
               IsRightAnswer: question.correctAnswer === (index + 1).toString(),
-             
               ImagePath: null,
             }));
-      
+
           for (const answer of answers) {
             await axios.post(
               'http://localhost:4000/api/testAnswers',
@@ -260,7 +221,7 @@ const CreateTestAi = () => {
               }
             );
           }
-      
+
           return {
             ...questionData,
             TestQuestionId: testQuestionId,
@@ -268,7 +229,6 @@ const CreateTestAi = () => {
           };
         })
       );
-      
 
       navigate('/teacher/tests');
       navigate(0);
