@@ -229,15 +229,9 @@ const TestForm = ({ defaultNumQuestions = '2', onFormChange, errors }) => {
           <Toggle
             checked={showAnswersAfterTest}
             onChange={() => setShowAnswersAfterTest(!showAnswersAfterTest)}
-            label="Показати учню всі запитання після тестування."
+            label="Показати учню усі відповіді після тесту."
           />
-          <Toggle
-            checked={showCorrectAnswersDuringTest}
-            onChange={() =>
-              setShowCorrectAnswersDuringTest(!showCorrectAnswersDuringTest)
-            }
-            label="Показати учню правильні відповіді після тестування."
-          />
+
         </div>
       </div>
     </div>
