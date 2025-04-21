@@ -6,6 +6,7 @@ import PasswordInput from "../../components/Inputs/PasswordInput/PasswordInput";
 import ConfirmCodeInput from "../../components/ConfirmCodeInput/ConfirmCodeInput";
 import { PrimaryButton, SecondaryButton } from '../../components/Buttons/Buttons';
 import "./Register.css";
+import { toast } from "react-toastify";
 
 const Register = () => {
     const navigate = useNavigate();
@@ -17,6 +18,7 @@ const Register = () => {
     const [emailAlreadySent, setEmailAlreadySent] = useState(false);
     const [confirmError, setConfirmError] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+    const [imageError, setImageError] = useState("");
 
     const [formData, setFormData] = useState({
         Username: "",
@@ -30,15 +32,15 @@ const Register = () => {
     });
 
     const [step1Validation, setStep1Validation] = useState({
-      LastName: false,
-      FirstName: false,
-      Email: false, 
-      Password: false,
-      confirmPassword: false,
+        LastName: false,
+        FirstName: false,
+        Email: false,
+        Password: false,
+        confirmPassword: false,
     });
 
     const handleValidationChange = (fieldName, isValid) => {
-      setStep1Validation(prev => ({ ...prev, [fieldName]: isValid }));
+        setStep1Validation(prev => ({ ...prev, [fieldName]: isValid }));
     };
 
     const handleChange = (e) => {
@@ -64,7 +66,7 @@ const Register = () => {
 
     const validateEmail = async (Email) => {
         const errors = [];
-        
+
         if (!Email) {
             errors.push("Це поле не може бути порожнім");
         } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(Email)) {
@@ -138,6 +140,48 @@ const Register = () => {
         const file = event.target.files[0];
 
         if (file && file.type.startsWith("image/")) {
+            const validImageTypes = [
+                'image/jpeg',
+                'image/png',
+                'image/gif',
+                'image/bmp',
+                'image/webp',
+                'image/svg+xml',
+                'image/x-icon',
+                'image/tiff',
+                'image/heic',
+                'image/heif',
+                'image/avif',
+                'image/jp2',
+                'image/jpx',
+                'image/jpm',
+                'image/mj2',
+                'image/x-ms-bmp',
+                'image/x-xbitmap',
+                'image/x-xpixmap',
+                'image/x-portable-anymap',
+                'image/x-portable-bitmap',
+                'image/x-portable-graymap',
+                'image/x-portable-pixmap',
+                'image/x-rgb',
+                'image/x-tga',
+                'image/x-pcx',
+                'image/x-cmu-raster',
+                'image/x-exr',
+                'image/x-hdr',
+                'image/x-sgi',
+                'image/vnd.wap.wbmp',
+                'image/vnd.microsoft.icon',
+                'image/vnd.radiance',
+                'image/vnd.zbrush.pcx',
+                'image/apng',
+                'image/flif'
+            ];
+            if (!validImageTypes.includes(file.type)) {
+                setImageError("Будь ласка, виберіть файл зображення (JPEG, PNG, GIF, BMP, WEBP, TIFF, SVG)");
+                return;
+            }
+            setImageError("");
             const ReqformData = new FormData();
             ReqformData.append("file", file);
 
@@ -162,6 +206,8 @@ const Register = () => {
             } catch (error) {
                 console.error("Error file upload:", error);
             }
+        } else {
+            setImageError("Будь ласка, виберіть файл зображення");
         }
     };
 
@@ -193,6 +239,7 @@ const Register = () => {
         else if (step === 5) {
             sessionStorage.setItem("email", formData.Email);
             sessionStorage.setItem("password", formData.Password);
+            toast.success("Реєстрація успішно завершена!", { autoClose: 5000 });
         }
     }, [step]);
 
@@ -204,6 +251,7 @@ const Register = () => {
     const handleConfirmCode = async (code) => {
         if (isLoading) return;
 
+        setIsLoading(true);
         try {
             const response = await axios.post("http://localhost:4000/api/auth/confirm-email-code", {
                 Username: `${formData.LastName} ${formData.FirstName}`,
@@ -218,13 +266,14 @@ const Register = () => {
             if (response.status === 201) {
                 setStep(5);
             }
-        }
-        catch (error) {
+        } catch (error) {
             if (error.response?.status === 400) {
                 setConfirmError(true);
+                toast.error("Невірний код підтвердження або термін його дії закінчився");
+            } else {
+                toast.error(error.response?.data?.message || "Помилка при підтвердженні email. Спробуйте ще раз.");
             }
-        }
-        finally {
+        } finally {
             setIsLoading(false);
         }
     };
@@ -282,8 +331,8 @@ const Register = () => {
                             onValidationChange={handleValidationChange}
                         />
 
-                        <PasswordInput placeholder={"Пароль"} name="Password" value={formData.Password} onChange={handlePasswordChange} validate={validatePassword} onValidationChange={handleValidationChange}/>
-                        <PasswordInput placeholder={"Підтвердження пароля"} name="confirmPassword" value={formData.confirmPassword} onChange={handlePasswordChange} validate={validateConfirmPassword} onValidationChange={handleValidationChange}/>
+                        <PasswordInput placeholder={"Пароль"} name="Password" value={formData.Password} onChange={handlePasswordChange} validate={validatePassword} onValidationChange={handleValidationChange} />
+                        <PasswordInput placeholder={"Підтвердження пароля"} name="confirmPassword" value={formData.confirmPassword} onChange={handlePasswordChange} validate={validateConfirmPassword} onValidationChange={handleValidationChange} />
                     </div>
                 )}
                 {step === 2 && (
@@ -322,6 +371,7 @@ const Register = () => {
                             accept="image/*"
                             onChange={handleFileChange}
                         />
+                        {imageError && <p className="error-text">{imageError}</p>}
                     </div>
                 )}
                 {step === 3 && (
@@ -362,7 +412,7 @@ const Register = () => {
                     </div>
                 )}
 
-                
+
             </form>
             <div className='form-buttons'>
                 {(step === 1) && (<PrimaryButton onClick={handleNext} disabled={!Object.values(step1Validation).every(val => val)}>Далі</PrimaryButton>)}

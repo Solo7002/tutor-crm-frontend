@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { X, BookOpen, Loader2 } from 'lucide-react';
+import { toast } from "react-toastify";
 
-const CourseModal = ({ isOpen, onClose, token, teacherId }) => {
+const CourseModal = ({ isOpen, onClose, token, teacherId, onCourseCreated }) => {
   const [courseName, setCourseName] = useState('');
   const [selectedSubjectId, setSelectedSubjectId] = useState(null);
   const [selectedSubjectName, setSelectedSubjectName] = useState('');
@@ -66,10 +67,22 @@ const CourseModal = ({ isOpen, onClose, token, teacherId }) => {
           },
         }
       );
+      onCourseCreated(response.data);
+      toast.success(
+        <div>
+          <p>Курс успішно створено!</p>
+          <p>Назва: {courseName}</p>
+        </div>,
+        { autoClose: 5000 }
+      );
       onClose();
       window.location.reload();
     } catch (error) {
       console.error('Error creating course:', error);
+      toast.error(
+        error.response?.data?.message || 'Не вдалося створити курс',
+        { autoClose: 5000 }
+      );
       setErrors({ submit: 'Не вдалося створити курс' });
     } finally {
       setIsSubmitting(false);
@@ -101,12 +114,12 @@ const CourseModal = ({ isOpen, onClose, token, teacherId }) => {
   if (!isOpen) return null;
 
   return (
-    <div 
+    <div
       className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4 transition-opacity"
       onClick={handleBackdropClick}
       style={{ animation: 'fadeIn 0.2s ease-out' }}
     >
-      <div 
+      <div
         className="w-full max-w-md bg-white rounded-2xl shadow-xl overflow-hidden"
         style={{ animation: 'scaleIn 0.3s ease-out' }}
       >
@@ -163,7 +176,7 @@ const CourseModal = ({ isOpen, onClose, token, teacherId }) => {
                   {errors.fetch}
                 </div>
               )}
-              
+
               {errors.submit && (
                 <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm">
                   {errors.submit}

@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import { jwtDecode } from "jwt-decode";
 import { PatternFormat } from 'react-number-format';
 import PasswordInput from '../../components/PasswordInput/PasswordInput';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function EditProfileStudent() {
     const navigate = useNavigate();
@@ -15,11 +17,14 @@ export default function EditProfileStudent() {
         SchoolName: '',
         Grade: '',
     });
+    const [initialFormData, setInitialFormData] = useState(null);
     const [passwordData, setPasswordData] = useState({
         newPassword: '',
         confirmPassword: ''
     });
+    const [initialPasswordData, setInitialPasswordData] = useState(null);
     const [imageFile, setImageFile] = useState(null);
+    const [initialImageFile, setInitialImageFile] = useState(null);
     const [previewImage, setPreviewImage] = useState('');
     const [errors, setErrors] = useState({});
     const [isLoading, setIsLoading] = useState(false);
@@ -32,15 +37,20 @@ export default function EditProfileStudent() {
                 axios.get(`http://localhost:4000/api/students/${decoded.id}/info`)
                     .then(res => {
                         const { user, student } = res.data;
-                        setFormData({
+                        const initialData = {
                             LastName: user.LastName || '',
                             FirstName: user.FirstName || '',
                             Email: user.Email || '',
                             PhoneNumber: user.PhoneNumber || '',
                             SchoolName: student.SchoolName || '',
                             Grade: student.Grade || '',
-                        });
+                        };
+                        setFormData(initialData);
+                        setInitialFormData(initialData);
+                        setPasswordData({ newPassword: '', confirmPassword: '' });
+                        setInitialPasswordData({ newPassword: '', confirmPassword: '' });
                         setPreviewImage(user.ImageFilePath || `https://ui-avatars.com/api/?name=${user.LastName + ' ' + user.FirstName}&background=random&size=86`);
+                        setInitialImageFile(null);
                     })
                     .catch(error => {
                         console.error('Error fetching user data:', error);
@@ -59,14 +69,14 @@ export default function EditProfileStudent() {
         const hasDigit = /\d/.test(password);
         const hasSpecial = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>/?]/.test(password);
         const allowedChars = /^[A-Za-z\d!@#$%^&*()_+\-=\[\]{};':"\\|,.<>/?]*$/.test(password);
-    
+
         if (password.length < minLength || password.length > maxLength) {
             return {
                 isValid: false,
                 error: `Пароль має містити від ${minLength} до ${maxLength} символів`
             };
         }
-    
+
         if (!hasLowercase) {
             return {
                 isValid: false,
@@ -97,16 +107,64 @@ export default function EditProfileStudent() {
                 error: "Пароль містить недопустимі символи. Дозволені лише букви, цифри та спеціальні символи: !@#$%^&*()_+-=[]{};:'\"\\|,.<>/?"
             };
         }
-    
+
         return {
             isValid: true,
             error: null
         };
     };
 
+    const validateImage = (file) => {
+        if (!file) return { isValid: true, error: null };
+        const validImageTypes = [
+            'image/jpeg',
+            'image/png',
+            'image/gif',
+            'image/bmp',
+            'image/webp',
+            'image/svg+xml',
+            'image/x-icon',
+            'image/tiff',
+            'image/heic',
+            'image/heif',
+            'image/avif',
+            'image/jp2',
+            'image/jpx',
+            'image/jpm',
+            'image/mj2',
+            'image/x-ms-bmp',
+            'image/x-xbitmap',
+            'image/x-xpixmap',
+            'image/x-portable-anymap',
+            'image/x-portable-bitmap',
+            'image/x-portable-graymap',
+            'image/x-portable-pixmap',
+            'image/x-rgb',
+            'image/x-tga',
+            'image/x-pcx',
+            'image/x-cmu-raster',
+            'image/x-exr',
+            'image/x-hdr',
+            'image/x-sgi',
+            'image/vnd.wap.wbmp',
+            'image/vnd.microsoft.icon',
+            'image/vnd.radiance',
+            'image/vnd.zbrush.pcx',
+            'image/apng',
+            'image/flif'
+        ];
+        if (!validImageTypes.includes(file.type)) {
+            return {
+                isValid: false,
+                error: 'Будь ласка, виберіть файл зображення (JPEG, PNG, GIF, BMP, WebP, SVG, ICO, TIFF)'
+            };
+        }
+        return { isValid: true, error: null };
+    };
+
     const validateForm = () => {
         const newErrors = {};
-    
+
         if (!formData.LastName) newErrors.LastName = "Прізвище обов'язкове";
         if (!formData.FirstName) newErrors.FirstName = "Ім'я обов'язкове";
         if (!formData.Email) {
@@ -114,20 +172,20 @@ export default function EditProfileStudent() {
         } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(formData.Email)) {
             newErrors.Email = 'Невірний формат email';
         }
-    
+
         const phoneDigits = formData.PhoneNumber.replace(/[^0-9]/g, '');
         if (phoneDigits.length > 0 && phoneDigits.length < 10) {
             newErrors.PhoneNumber = "Номер телефону має містити мінімум 10 цифр";
         }
-    
+
         if (formData.SchoolName && (formData.SchoolName.length < 1 || formData.SchoolName.length > 255)) {
             newErrors.SchoolName = "Назва школи має бути від 1 до 255 символів";
         }
-    
+
         if (formData.Grade && (formData.Grade.length < 1 || formData.Grade.length > 50)) {
             newErrors.Grade = "Клас має бути від 1 до 50 символів";
         }
-    
+
         if (passwordData.newPassword) {
             const passwordValidation = validatePassword(passwordData.newPassword);
             if (!passwordValidation.isValid) {
@@ -137,7 +195,14 @@ export default function EditProfileStudent() {
                 newErrors.confirmPassword = "Паролі не співпадають";
             }
         }
-    
+
+        if (imageFile) {
+            const imageValidation = validateImage(imageFile);
+            if (!imageValidation.isValid) {
+                newErrors.image = imageValidation.error;
+            }
+        }
+
         setErrors(newErrors);
         console.log("Validation errors:", newErrors);
         return Object.keys(newErrors).length === 0;
@@ -160,11 +225,21 @@ export default function EditProfileStudent() {
         }
     };
 
-    const handleImageChange = async (e) => {
+    const handleImageChange = (e) => {
         const file = e.target.files[0];
         if (file) {
-            setImageFile(file);
-            setPreviewImage(URL.createObjectURL(file));
+            const validation = validateImage(file);
+            if (validation.isValid) {
+                setImageFile(file);
+                setPreviewImage(URL.createObjectURL(file));
+                setErrors(prev => ({ ...prev, image: '' }));
+            } else {
+                setErrors(prev => ({ ...prev, image: validation.error }));
+                setImageFile(null);
+                setPreviewImage(formData.LastName && formData.FirstName
+                    ? `https://ui-avatars.com/api/?name=${formData.LastName + ' ' + formData.FirstName}&background=random&size=86`
+                    : previewImage);
+            }
         }
     };
 
@@ -181,6 +256,38 @@ export default function EditProfileStudent() {
             console.error('Error uploading image:', error);
             return null;
         }
+    };
+
+    const detectChanges = () => {
+        const changes = [];
+
+        for (const key in formData) {
+            if (formData[key] !== initialFormData[key]) {
+                changes.push({
+                    field: key,
+                    oldValue: initialFormData[key],
+                    newValue: formData[key]
+                });
+            }
+        }
+
+        if (passwordData.newPassword && passwordData.newPassword !== initialPasswordData.newPassword) {
+            changes.push({
+                field: 'Password',
+                oldValue: '******',
+                newValue: '****** (змінено)'
+            });
+        }
+
+        if (imageFile !== initialImageFile) {
+            changes.push({
+                field: 'Profile Image',
+                oldValue: initialImageFile ? 'Попереднє зображення' : 'Без зображення',
+                newValue: imageFile ? 'Нове зображення завантажено' : 'Без зображення'
+            });
+        }
+
+        return changes;
     };
 
     const handleSubmit = async () => {
@@ -212,10 +319,55 @@ export default function EditProfileStudent() {
             };
 
             await axios.put(`http://localhost:4000/api/students/profile/${decoded.id}`, updateData);
+
+            const changes = detectChanges();
+            if (changes.length > 0) {
+                const toastMessage = (
+                    <div>
+                        <h3 className="font-bold">Змінені поля:</h3>
+                        <ul className="list-disc pl-5">
+                            {changes.map((change, index) => (
+                                <li key={index}>
+                                    <strong>{change.field}:</strong> Змінено з "{change.oldValue}" на "{change.newValue}"
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                );
+                toast.success(toastMessage, {
+                    position: "bottom-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                });
+            } else {
+                toast.info("Жодних змін не внесено.", {
+                    position: "bottom-right",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                });
+            }
+
             window.location.href = '/student/profile';
         } catch (error) {
             console.error('Error updating profile:', error);
             setErrors({ submit: 'Помилка при оновленні профілю: ' + (error.response?.data?.error || error.message) });
+            toast.error('Помилка при оновленні профілю!', {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
         } finally {
             setIsLoading(false);
         }
@@ -239,6 +391,7 @@ export default function EditProfileStudent() {
 
     return (
         <div className='w-full flex justify-center px-4'>
+            <ToastContainer />
             <div className='w-full md:w-[970px] flex flex-col gap-6 py-4'>
                 <div className="w-full md:relative">
                     {/* Desktop version */}
@@ -250,9 +403,15 @@ export default function EditProfileStudent() {
                         <div className="left-[110px] top-[156px] absolute">
                             <img className="size-24 rounded-full object-cover" src={previewImage} alt="Profile" />
                             <label className="w-24 h-7 absolute top-[102px] cursor-pointer flex items-center justify-center rounded-[20px] outline outline-1 outline-[#8a48e6]">
-                                <input type="file" accept="image/*" className="hidden" onChange={handleImageChange} />
+                                <input
+                                    type="file"
+                                    accept="image/*"
+                                    className="hidden"
+                                    onChange={handleImageChange}
+                                />
                                 <span className="text-[#8a48e6] text-base font-bold font-['Nunito']">Змінити</span>
                             </label>
+                            {errors.image && <div className="text-red-500 text-sm mt-1 text-center">{errors.image}</div>}
                         </div>
 
                         <div className="absolute left-[330px] top-[66px] flex flex-col gap-[18px]">
@@ -347,9 +506,15 @@ export default function EditProfileStudent() {
                         <div className="flex flex-col items-center mb-8">
                             <img className="size-24 rounded-full object-cover" src={previewImage} alt="Profile" />
                             <label className="w-24 h-7 mt-4 cursor-pointer flex items-center justify-center rounded-[20px] outline outline-1 outline-[#8a48e6]">
-                                <input type="file" accept="image/*" className="hidden" onChange={handleImageChange} />
+                                <input
+                                    type="file"
+                                    accept="image/jpeg,image/png,image/gif,image/bmp,image/webp,image/svg+xml,image/x-icon,image/tiff"
+                                    className="hidden"
+                                    onChange={handleImageChange}
+                                />
                                 <span className="text-[#8a48e6] text-base font-bold font-['Nunito']">Змінити</span>
                             </label>
+                            {errors.image && <div className="text-red-500 text-sm mt-1 text-center">{errors.image}</div>}
                         </div>
 
                         <div className="flex flex-col gap-4">

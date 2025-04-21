@@ -3,6 +3,7 @@ import CourseForm from "./components/CourseForm/CourseForm";
 import axios from "axios";
 import CourseModal from "./components/CourseModal/CourseModal";
 import { jwtDecode } from "jwt-decode";
+import { toast } from "react-toastify";
 
 const Course = () => {
   const [courses, setCourses] = useState([]);
@@ -21,7 +22,7 @@ const Course = () => {
     if (_token) {
       setToken(_token);
       const decoded = jwtDecode(_token);
-      
+
       axios.get(`http://localhost:4000/api/teachers/search?UserId=${decoded.id}`)
         .then((res) => {
           setTeacherId(res.data.data[0].TeacherId);
@@ -47,7 +48,7 @@ const Course = () => {
             },
           }
         );
-        if (response.data.length > 0){
+        if (response.data.length > 0) {
           setSelectedCourseId(response.data[0].CourseId);
           setCourseName(response.data[0].CourseName);
         }
@@ -66,7 +67,7 @@ const Course = () => {
     setIsModalOpen(false);
     setIsAddingNew(false);
   };
-  
+
   const handleCourseClick = (courseId, courseName) => {
     setSelectedCourseId(courseId);
     setIsSaveTriggered(false);
@@ -85,6 +86,64 @@ const Course = () => {
     setIsSaveTriggered(true);
   };
 
+  const handleCourseCreated = (newCourse) => {
+    setCourses([...courses, newCourse]);
+    setSelectedCourseId(newCourse.CourseId);
+    setCourseName(newCourse.CourseName);
+    setIsModalOpen(false);
+    setIsAddingNew(false);
+    toast.success(
+      <div>
+        <p>Курс успішно створено!</p>
+        <p>Назва: {newCourse.CourseName}</p>
+      </div>,
+      { autoClose: 5000 }
+    );
+  };
+
+  const handleCourseUpdated = (updatedCourse) => {
+    setCourses(courses.map(course =>
+      course.CourseId === updatedCourse.CourseId ? updatedCourse : course
+    ));
+    setCourseName(updatedCourse.CourseName);
+    setIsSaveTriggered(false);
+    toast.success(
+      <div>
+        <p>Курс успішно оновлено!</p>
+        <p>Назва: {updatedCourse.CourseName}</p>
+      </div>,
+      { autoClose: 5000 }
+    );
+  };
+
+  const handleDeleteCourse = async (courseId, courseName) => {
+    try {
+      await axios.delete(`http://localhost:4000/api/courses/${courseId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setCourses(courses.filter(course => course.CourseId !== courseId));
+      if (selectedCourseId === courseId) {
+        setSelectedCourseId(courses[0]?.CourseId || null);
+        setCourseName(courses[0]?.CourseName || '');
+      }
+      toast.success(
+        <div>
+          <p>Курс успішно видалено!</p>
+          <p>Назва: {courseName}</p>
+        </div>,
+        { autoClose: 5000 }
+      );
+    } catch (error) {
+      console.error("Error deleting course:", error);
+      toast.error(
+        error.response?.data?.message || "Не вдалося видалити курс. Спробуйте ще раз.",
+        { autoClose: 5000 }
+      );
+    }
+  };
+
   if (loading) return (
     <div className="flex items-center justify-center min-h-screen">
       <div className="text-xl font-medium text-purple-600 flex items-center">
@@ -96,7 +155,7 @@ const Course = () => {
       </div>
     </div>
   );
-  
+
   if (error) return (
     <div className="flex items-center justify-center min-h-screen">
       <div className="p-4 bg-red-50 rounded-lg border border-red-200 text-red-600">
@@ -112,8 +171,9 @@ const Course = () => {
         onClose={handleCloseModal}
         teacherId={teacherId}
         token={token}
+        onCourseCreated={handleCourseCreated}
       />
-      
+
       {/* Sidebar */}
       <div className="w-full md:w-80 p-4 bg-white md:min-h-screen md:shadow-md">
         <h2 className="text-xl font-bold mb-6 text-center font-[Nunito] text-[#120C38]">Мої курси</h2>
@@ -130,6 +190,28 @@ const Course = () => {
             >
               <span className="text-base font-medium">{course.CourseName}</span>
             </button>
+
+          // Delete course button
+          //    <div key={course.CourseId} className="w-full flex items-center gap-2">
+          //     <button
+          //     className={`flex-1 py-3 px-4 rounded-xl flex justify-center items-center transition-all 
+          //       ${selectedCourseId === course.CourseId ?
+          //         'bg-purple-100 text-[#120C38] font-bold' :
+          //         'bg-white hover:bg-gray-100 text-gray-800'} 
+          //       shadow-sm border border-gray-200`}
+          //     onClick={() => handleCourseClick(course.CourseId, course.CourseName)}
+          //   >
+          //     <span className="text-base font-medium">{course.CourseName}</span>
+          //   </button>
+          //   <button
+          //     className="p-2 text-red-600 hover:text-red-800"
+          //     onClick={() => handleDeleteCourse(course.CourseId, course.CourseName)}
+          //   >
+          //     <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+          //       <path fillRule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clipRule="evenodd" />
+          //     </svg>
+          //   </button>
+          // </div>
           ))}
 
           <button
@@ -153,6 +235,7 @@ const Course = () => {
             isSave={isSaveTriggered}
             isNewCourse={isAddingNew}
             CourseName={courseName}
+            onCourseUpdated={handleCourseUpdated}
           />
         )}
       </div>

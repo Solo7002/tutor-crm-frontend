@@ -2,13 +2,16 @@ import { useState } from "react";
 import axios from "axios";
 import "./ItemLesson.css";
 import ChangeDayModal from "../ChangeDayModal/ChangeDayModal";
-const ItemLesson = ({ token, lesson,teacherId }) => {
+import { toast } from "react-toastify";
+
+const ItemLesson = ({ token, lesson, teacherId }) => {
   const [isCollapsed, setIsCollapsed] = useState(true);
   const [isOpenModal, setIsOpenModel] = useState(false);
 
   const onClose = () => {
     setIsOpenModel(!isOpenModal);
-  }
+  };
+
   const toggleCollapse = () => {
     setIsCollapsed(!isCollapsed);
   };
@@ -21,10 +24,23 @@ const ItemLesson = ({ token, lesson,teacherId }) => {
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log("Lesson deleted successfully");
+
+      toast.success(
+        <div>
+          <p>Заняття успішно видалено!</p>
+          <p>Предмет: {lesson.LessonHeader || "Без назви"}</p>
+          <p>Група: {lesson.GroupName || "Невідома група"}</p>
+          <p>Дата: {new Date(lesson.LessonDate).toLocaleDateString("uk-UA", { day: "numeric", month: "long", year: "numeric" })}</p>
+          <p>Час: {formatTimeRange(lesson.StartLessonTime, lesson.EndLessonTime)}</p>
+        </div>,
+        { autoClose: 5000 }
+      );
+
       window.location.reload();
     } catch (error) {
       console.error("Error deleting lesson:", error);
+      const errorMessage = error.response?.data?.message || error.message || "Не вдалося видалити заняття. Спробуйте ще раз.";
+      toast.error(errorMessage);
     }
   };
 
@@ -35,11 +51,10 @@ const ItemLesson = ({ token, lesson,teacherId }) => {
       const minutes = String(date.getUTCMinutes()).padStart(2, "0");
       return `${hours}:${minutes}`;
     };
-  
+
     return `${format(start)}-${format(end)}`;
   };
 
-   
   const formatDate = (date) => {
     return new Date(date).toLocaleDateString("uk-UA", {
       day: "numeric",
@@ -50,7 +65,7 @@ const ItemLesson = ({ token, lesson,teacherId }) => {
   return (
     <div className="item-lesson-container">
       <ChangeDayModal initialData={lesson} teacherId={teacherId} token={token} isOpen={isOpenModal} onClose={onClose} />
-     
+
       <div className="item-lesson-header">
         <div className="item-lesson-circle" />
         <div>

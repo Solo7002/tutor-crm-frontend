@@ -1,16 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom'; 
+import { useNavigate, useParams } from 'react-router-dom';
 import TestForm from './components/TestForm/TestForm';
 import AddQuestion from './components/AddQuestion/AddQuestion';
 import { PrimaryButton } from '../../components/Buttons/Buttons';
 import './CreateTest.css';
-import { useParams } from "react-router-dom";
 import { decryptData } from '../../utils/crypto';
+import { toast } from 'react-toastify';
 
 const CreateTest = () => {
   const navigate = useNavigate();
-
   const { encodedGroupId } = useParams();
   const [questions, setQuestions] = useState([1]);
   const [formData, setFormData] = useState({});
@@ -18,7 +17,8 @@ const CreateTest = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState({});
   const [GroupId, setGroupId] = useState();
-  const token=sessionStorage.getItem('token');
+  const token = sessionStorage.getItem('token');
+
   useEffect(() => {
     try {
       const decryptedGroupId = decryptData(encodedGroupId);
@@ -121,6 +121,7 @@ const CreateTest = () => {
 
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
+      toast.error('Будь ласка, виправте помилки у формі');
       setIsSubmitting(false);
       return;
     }
@@ -156,7 +157,9 @@ const CreateTest = () => {
         ShowCorrectAnswersDuringTest: formData.showCorrectAnswersDuringTest || false,
       };
 
-      const testResponse = await axios.post('http://localhost:4000/api/tests', testPayload);
+      const testResponse = await axios.post('http://localhost:4000/api/tests', testPayload, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
       const testId = testResponse.data.TestId;
 
       if (!testId) {
@@ -198,11 +201,8 @@ const CreateTest = () => {
 
           const questionResponse = await axios.post(
             'http://localhost:4000/api/testQuestions',
-            questionData,{
-              headers: {
-                Authorization: `Bearer ${token}`
-            }
-            }
+            questionData,
+            { headers: { Authorization: `Bearer ${token}` } }
           );
           const testQuestionId = questionResponse.data.TestQuestionId;
 
@@ -220,10 +220,8 @@ const CreateTest = () => {
             }));
 
           for (const answer of answers) {
-            await axios.post('http://localhost:4000/api/testAnswers/', answer,{
-              headers: {
-                Authorization: `Bearer ${token}`
-            }
+            await axios.post('http://localhost:4000/api/testAnswers', answer, {
+              headers: { Authorization: `Bearer ${token}` },
             });
           }
 
@@ -235,13 +233,25 @@ const CreateTest = () => {
         })
       );
 
-  
-    
-      navigate('/teacher/tests'); 
+      toast.success(
+        <div>
+          <p>Тест успішно створено!</p>
+          <p>Назва: {formData.subject}</p>
+          <p>Група: {questionsPayload[0]?.answers[0]?.TestQuestionId ? 'Невідома' : 'Невідома'}</p>
+          <p>Курс: {formData.description || 'Без опису'}</p>
+          <p>Дедлайн: {formData.deadline ? new Date(formData.deadline).toLocaleDateString('uk-UA') : 'Не вказано'}</p>
+          <p>Макс. бал: {formData.maxScore || 0}</p>
+        </div>,
+        { autoClose: 5000 }
+      );
+
+      navigate('/teacher/tests');
       navigate(0);
     } catch (error) {
       console.error('Помилка:', error);
-      setErrors({ general: 'Виникла помилка при створенні тесту: ' + (error.message || error) });
+      const errorMessage = error.response?.data?.message || error.message || 'Виникла помилка при створенні тесту';
+      toast.error(errorMessage);
+      setErrors({ general: errorMessage });
       setIsSubmitting(false);
     } finally {
       setIsSubmitting(false);

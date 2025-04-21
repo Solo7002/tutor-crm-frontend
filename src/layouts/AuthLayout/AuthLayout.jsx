@@ -3,6 +3,8 @@ import { Outlet } from "react-router-dom";
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import "./AuthLayout.css";
 
 const AuthLayout = () => {
@@ -94,6 +96,7 @@ const AuthLayout = () => {
         </div>
         <div className="login-right">
           <Outlet />
+          <ToastContainer position="bottom-right" autoClose={3000} hideProgressBar={false} newestOnTop closeOnClick pauseOnHover />
         </div>
       </div>
     </div>

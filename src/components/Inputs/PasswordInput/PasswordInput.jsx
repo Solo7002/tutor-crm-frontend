@@ -1,68 +1,114 @@
 import { useState, useEffect } from "react";
 import "./PasswordInput.css";
 
-const PasswordInput = ({ 
-  name = "password", 
-  value = "", 
-  placeholder = "Пароль", 
-  onChange, 
+const PasswordInput = ({
+  name = "password",
+  value = "",
+  placeholder = "Пароль",
+  onChange,
   validate,
   onValidationChange,
-  onBlurOff=false,
-  onTrigger=false
+  onBlurOff = false,
+  onTrigger = false
 }) => {
   const [isVisible, setIsVisible] = useState(false);
   const [isValid, setIsValid] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
+
+  const validatePassword = (password) => {
+    const errors = [];
+    const minLength = 8;
+    const maxLength = 128;
+    const hasLowercase = /[a-z]/.test(password);
+    const hasUppercase = /[A-Z]/.test(password);
+    const hasDigit = /\d/.test(password);
+    const hasSpecial = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>/?]/.test(password);
+    const allowedChars = /^[A-Za-z\d!@#$%^&*()_+\-=\[\]{};':"\\|,.<>/?]*$/.test(password);
+
+    if (!password) {
+      errors.push("Це поле не може бути порожнім");
+    } else {
+      if (password.length < minLength || password.length > maxLength) {
+        errors.push(`Пароль повинен містити від ${minLength} до ${maxLength} символів`);
+      }
+      if (!hasLowercase) {
+        errors.push("Пароль повинен містити принаймні одну малу літеру (a-z)");
+      }
+      if (!hasUppercase) {
+        errors.push("Пароль повинен містити принаймні одну велику літеру (A-Z)");
+      }
+      if (!hasDigit) {
+        errors.push("Пароль повинен містити принаймні одну цифру (0-9)");
+      }
+      if (!hasSpecial) {
+        errors.push("Пароль повинен містити принаймні один спеціальний символ (!@#$%^&*()_+-=[]{};:'\"\\|,.<>/?)");
+      }
+      if (!allowedChars) {
+        errors.push("Пароль містить недопустимі символи. Дозволені лише літери, цифри та спеціальні символи (!@#$%^&*()_+-=[]{};:'\"\\|,.<>/?)");
+      }
+    }
+    return errors;
+  };
 
   const toggleVisibility = () => {
     setIsVisible(!isVisible);
   };
 
   const handleBlur = () => {
-    if (onBlurOff){
+    if (onBlurOff) {
       return;
     }
 
+    let errors = [];
+    errors = validatePassword(value);
+
     if (validate) {
-      const errors = validate(value);
-      if (errors.length > 0) {
-        setIsValid(false);
-        setErrorMessage(errors[0]);
-        if (onValidationChange) onValidationChange(name, false);
-      } else {
-        setIsValid(true);
-        setErrorMessage("");
-        if (onValidationChange) onValidationChange(name, true);
-      }
+      const externalErrors = validate(value);
+      errors = [...errors, ...externalErrors];
+    }
+
+    if (errors.length > 0) {
+      setIsValid(false);
+      setErrorMessage(errors[0]);
+      if (onValidationChange) onValidationChange(name, false);
+    } else {
+      setIsValid(true);
+      setErrorMessage("");
+      if (onValidationChange) onValidationChange(name, true);
     }
   };
 
   useEffect(() => {
-    if (!onTrigger){
+    if (!onTrigger) {
       return;
     }
 
+    let errors = [];
+    errors = validatePassword(value);
+    
     if (validate) {
-      const errors = validate(value);
-      if (errors.length > 0) {
-        setIsValid(false);
-        setErrorMessage(errors[0]);
-        if (onValidationChange) onValidationChange(name, false);
-      } else {
-        setIsValid(true);
-        setErrorMessage("");
-        if (onValidationChange) onValidationChange(name, true);
-      }
+      const externalErrors = validate(value);
+      errors = [...errors, ...externalErrors];
     }
-  }, [onTrigger])
+
+    if (errors.length > 0) {
+      setIsValid(false);
+      setErrorMessage(errors[0]);
+      if (onValidationChange) onValidationChange(name, false);
+    } else {
+      setIsValid(true);
+      setErrorMessage("");
+      if (onValidationChange) onValidationChange(name, true);
+    }
+  }, [onTrigger, value, validate, name, onValidationChange]);
 
   const handleFocus = () => {
     setIsValid(true);
+    setErrorMessage("");
   }
 
   return (
-    <div className={`password-box ${isValid?"mb-3":"mb-1"}`}>
+    <div className={`password-box ${isValid ? "mb-3" : "mb-1"}`}>
       <input
         className={`password-input ${!isValid ? "input-error" : ""} w-full pr-10`}
         type={isVisible ? "text" : "password"}

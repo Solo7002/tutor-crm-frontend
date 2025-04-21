@@ -24,8 +24,8 @@ const Login = () => {
   /* Validation */
 
   const [loginValidation, setLoginValidation] = useState({
-    Email: false,
-    Password: false
+    Email: true,
+    Password: true
   });
 
   const handleValidationChange = (fieldName, isValid) => {
@@ -38,6 +38,16 @@ const Login = () => {
     if (errorLogin) {
       console.log("errorLogin - Неправильний email або пароль");
       errors.push("Неправильний email або пароль");
+    }
+    return errors;
+  };
+
+  const validateEmail = async (email) => {
+    const errors = [];
+    if (!email) {
+      errors.push("Це поле не може бути порожнім");
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      errors.push("Некоректний email");
     }
     return errors;
   };
@@ -65,6 +75,12 @@ const Login = () => {
 
   const handleLogIn = async (e) => {
     e.preventDefault();
+
+    if (!loginValidation.Email || !loginValidation.Password) {
+      setErrorLogin(true);
+      return;
+    }
+
     try {
       const response = await axios.post("http://localhost:4000/api/auth/login", {
         Email: Email,
@@ -78,15 +94,15 @@ const Login = () => {
 
         const decoded = jwtDecode(response.data.token);
         axios
-        .get(`http://localhost:4000/api/users/${decoded.id}/balance`)
-        .then((response) => {
-          const { Role } = response.data;
-          if (Role === "Student") {
-            navigate("/student/home");
-          } else if (Role === "Teacher") {
-            navigate("/teacher/home");
-          }
-        })
+          .get(`http://localhost:4000/api/users/${decoded.id}/balance`)
+          .then((response) => {
+            const { Role } = response.data;
+            if (Role === "Student") {
+              navigate("/student/home");
+            } else if (Role === "Teacher") {
+              navigate("/teacher/home");
+            }
+          })
         //navigate("/student/home");
       } else {
         setErrorLogin(true);
@@ -104,8 +120,8 @@ const Login = () => {
   };
 
   const oAuthFacebookHandler = () => {
-   
-     window.location.href = "http://localhost:4000/api/auth/facebook";
+
+    window.location.href = "http://localhost:4000/api/auth/facebook";
   };
 
   return (
@@ -118,7 +134,9 @@ const Login = () => {
           name="Email"
           placeholder="Email"
           value={Email}
+          validate={validateEmail}
           onChange={handleEmailChange}
+          onValidationChange={handleValidationChange}
         />
         <PasswordInput
           placeholder={"Пароль"}

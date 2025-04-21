@@ -6,6 +6,7 @@ import { BlackButton } from '../../../../components/Buttons/Buttons';
 import { formatDate } from '../../../../functions/formatDate';
 import HometaskDoneItemDownload from '../HometaskDoneItemDownload/HometaskDoneItemDownload';
 import axios from 'axios';
+import { toast } from 'react-toastify';
 
 export const HometaskModal = ({ onClose, status, token, hometask, hometaskFiles, hometaskDone = null, hometaskDoneFiles, studentId }) => {
   const [selectedFiles, setSelectedFiles] = useState([]);
@@ -18,7 +19,7 @@ export const HometaskModal = ({ onClose, status, token, hometask, hometaskFiles,
     setSelectedFiles(files);
     console.log('Selected files:', files);
   };
-  
+
   const sendHometask = async () => {
     try {
       // создаем и получаем id doneHometask,для подальшего создания файлов
@@ -77,10 +78,27 @@ export const HometaskModal = ({ onClose, status, token, hometask, hometaskFiles,
           )
         })
       )
-      alert('Домашнє завдання успішно відправлено!');
+      
+      toast.success(
+        <div>
+          <p>Домашнє завдання успішно відправлено!</p>
+          <p>Назва: {hometask.HomeTaskHeader}</p>
+        </div>,
+        {
+          position: "bottom-right",
+          autoClose: 5000
+        }
+      );
       onClose();
     } catch (error) {
       console.log("Send hometask error:", error)
+      toast.error(
+        "Не вдалося відправити домашнє завдання. Спробуйте ще раз.",
+        {
+          position: "bottom-right",
+          autoClose: 5000
+        }
+      );
     }
   }
 
@@ -106,10 +124,33 @@ export const HometaskModal = ({ onClose, status, token, hometask, hometaskFiles,
 
   const cancellationOfHomework = async () => {
     if (hometaskDone) {
-      await axios.delete(`http://localhost:4000/api/doneHometasks/${hometaskDone.DoneHomeTaskId}`, { headers: { Authorization: `Bearer ${token}` } });
-      onClose();
+      try {
+        await axios.delete(`http://localhost:4000/api/doneHometasks/${hometaskDone.DoneHomeTaskId}`, {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        toast.success(
+          <div>
+            <p>Відправлення домашнього завдання скасовано!</p>
+            <p>Назва: {hometask.HomeTaskHeader}</p>
+          </div>,
+          {
+            position: "bottom-right",
+            autoClose: 5000
+          }
+        );
+        onClose();
+      } catch (error) {
+        console.error("Cancel hometask error:", error);
+        toast.error(
+          "Не вдалося скасувати відправлення. Спробуйте ще раз.",
+          {
+            position: "bottom-right",
+            autoClose: 5000
+          }
+        );
+      }
     }
-  }
+  };
 
   const getStatusText = () => {
     switch (status) {
@@ -132,7 +173,7 @@ export const HometaskModal = ({ onClose, status, token, hometask, hometaskFiles,
         return "border-[#d7d7d7]";
     }
   };
-  
+
   const getColorTextStatusColor = () => {
     switch (status) {
       case "pending":
@@ -143,7 +184,7 @@ export const HometaskModal = ({ onClose, status, token, hometask, hometaskFiles,
         return "text-black";
     }
   };
-  
+
   const handleRemoveFile = (index) => {
     setSelectedFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
   };
@@ -157,7 +198,7 @@ export const HometaskModal = ({ onClose, status, token, hometask, hometaskFiles,
           urls[file.HomeTaskFileId] = url;
         } catch (error) {
           console.error(`Ошибка при загрузке файла ${file.FileName}:`, error);
-          urls[file.HomeTaskFileId] = null;  
+          urls[file.HomeTaskFileId] = null;
         }
       }
       setFileUrls(urls);
@@ -196,11 +237,11 @@ export const HometaskModal = ({ onClose, status, token, hometask, hometaskFiles,
   return (
     <>
       {/* Fixed overlay that covers the entire screen */}
-      <div 
+      <div
         className="fixed inset-0 bg-black bg-opacity-50 z-50 overflow-hidden"
         onClick={onClose}
       ></div>
-      
+
       {/* Modal container with fixed positioning */}
       <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-2xl p-4 w-[90%] max-w-[596px] max-h-[90vh] z-50 flex flex-col overflow-y-auto">
         {/* Header */}
@@ -223,12 +264,12 @@ export const HometaskModal = ({ onClose, status, token, hometask, hometaskFiles,
         <div className="flex flex-col flex-grow">
           {/* Image and info section */}
           <div className="flex flex-col md:flex-row items-start gap-4">
-            <img 
-              src={hometask.ImageFilePath} 
-              alt="Task" 
-              className="w-full md:w-[182px] h-[182px] rounded-[24px] object-cover" 
+            <img
+              src={hometask.ImageFilePath}
+              alt="Task"
+              className="w-full md:w-[182px] h-[182px] rounded-[24px] object-cover"
             />
-            
+
             <div className="w-full md:w-[344px]">
               {/* Date issued */}
               <div className="w-full h-14 p-2.5 rounded-2xl border border-[#d7d7d7] flex justify-between items-center mb-2">
@@ -240,7 +281,7 @@ export const HometaskModal = ({ onClose, status, token, hometask, hometaskFiles,
                   <path d="M16 3V7M8 3V7M4 11H20M7 14H7.013M10.01 14H10.015M13.01 14H13.015M16.015 14H16.02M13.015 17H13.02M7.01 17H7.015M10.01 17H10.015M4 7C4 6.46957 4.21071 5.96086 4.58579 5.58579C4.96086 5.21071 5.46957 5 6 5H18C18.5304 5 19.0391 5.21071 19.4142 5.58579C19.7893 5.96086 20 6.46957 20 7V19C20 19.5304 19.7893 20.0391 19.4142 20.4142C19.0391 20.7893 18.5304 21 18 21H6C5.46957 21 4.96086 20.7893 4.58579 20.4142C4.21071 20.0391 4 19.5304 4 19V7Z" stroke="#827FAE" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
               </div>
-              
+
               {/* Info cards grid */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                 {/* Deadline */}
@@ -253,7 +294,7 @@ export const HometaskModal = ({ onClose, status, token, hometask, hometaskFiles,
                     <path d="M15 14L12 12V7M3 12C3 13.1819 3.23279 14.3522 3.68508 15.4442C4.13738 16.5361 4.80031 17.5282 5.63604 18.364C6.47177 19.1997 7.46392 19.8626 8.55585 20.3149C9.64778 20.7672 10.8181 21 12 21C13.1819 21 14.3522 20.7672 15.4442 20.3149C16.5361 19.8626 17.5282 19.1997 18.364 18.364C19.1997 17.5282 19.8626 16.5361 20.3149 15.4442C20.7672 14.3522 21 13.1819 21 12C21 10.8181 20.7672 9.64778 20.3149 8.55585C19.8626 7.46392 19.1997 6.47177 18.364 5.63604C17.5282 4.80031 16.5361 4.13738 15.4442 3.68508C14.3522 3.23279 13.1819 3 12 3C10.8181 3 9.64778 3.23279 8.55585 3.68508C7.46392 4.13738 6.47177 4.80031 5.63604 5.63604C4.80031 6.47177 4.13738 7.46392 3.68508 8.55585C3.23279 9.64778 3 10.8181 3 12Z" stroke="#8A48E6" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
                 </div>
-                
+
                 {/* Completed */}
                 <div className="w-full h-14 p-2.5 rounded-2xl border border-[#d7d7d7] flex justify-between items-center">
                   <div className="w-28 h-8">
@@ -264,7 +305,7 @@ export const HometaskModal = ({ onClose, status, token, hometask, hometaskFiles,
                     <path d="M5 12L10 17L20 7" stroke="#827FAE" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
                 </div>
-                
+
                 {/* Max score */}
                 <div className="w-full h-14 p-2.5 rounded-2xl border border-[#d7d7d7] flex justify-between items-center">
                   <div className="w-28 h-8">
@@ -332,7 +373,7 @@ export const HometaskModal = ({ onClose, status, token, hometask, hometaskFiles,
             ))}
           </div>
         </div>
-        
+
         {/* Footer */}
         <div className="sticky bottom-0 bg-white pt-3 left-0 right-0 mt-2">
           <div className="flex justify-between items-center">

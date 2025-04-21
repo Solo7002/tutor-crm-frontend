@@ -3,6 +3,8 @@ import { Link, useLocation, Outlet } from "react-router-dom";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 import NotificationList from "../../components/Notifications/NotificationList";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import "./Navbar.css";
 
 const Navbar = () => {
@@ -779,6 +781,7 @@ const Navbar = () => {
             />
           )}
           <Outlet />
+          <ToastContainer position="bottom-right" autoClose={5000} hideProgressBar={false} />
         </div>
         <div className="absolute top-[80px] right-0 w-[60px] bg-nav-pattern bg-repeat pointer-events-none" style={{ height: 'calc(100% - 80px)' }} />
       </div>
