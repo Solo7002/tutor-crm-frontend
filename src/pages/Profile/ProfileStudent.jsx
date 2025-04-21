@@ -5,10 +5,11 @@ import { useNavigate } from 'react-router-dom';
 import { jwtDecode } from "jwt-decode";
 import Reviews from './Reviews/Reviews';
 import GroupList from './components/GroupList';
+import { PatternFormat } from 'react-number-format';
 
 export default function ProfileStudent() {
     const navigate = useNavigate();
-    const [user, setUser] = useState({});
+    const [user, setUser] = useState({UserPhones: []});
     const [student, setStudent] = useState({});
     const [groups, setGroups] = useState([]);
 
@@ -53,7 +54,8 @@ export default function ProfileStudent() {
                                         {user && user.Email ? user.Email : "example@gmail.com"}
                                     </div>
                                     <div className="text-center text-[#827ead] text-xs font-normal font-['Mulish'] mt-1">
-                                        {user && user.Phone ? user.Phone : "+99(099)9999999"}
+                                        {user && user.PhoneNumber ? <PatternFormat format="+ ## (###) ###-##-##" mask="_" name="PhoneNumber" value={user.PhoneNumber}
+                                        placeholder="+ __ (___) ___-__-__" /> : ""}
                                     </div>
                                 </div>
 

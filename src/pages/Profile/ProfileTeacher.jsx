@@ -5,6 +5,7 @@ import axios from 'axios';
 import CourseList from './components/CourseList';
 import { useNavigate } from 'react-router-dom';
 import { jwtDecode } from "jwt-decode";
+import { PatternFormat } from 'react-number-format';
 
 const FilledStar = () => (
     <svg width="34" height="33" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -38,7 +39,7 @@ const StarRating = ({ rating }) => {
 
 export default function ProfileTeacher() {
     const navigate = useNavigate();
-    const [user, setUser] = useState({});
+    const [user, setUser] = useState({UserPhones: []});
     const [teacher, setTeacher] = useState({});
     const [courses, setCourses] = useState([]);
 
@@ -83,7 +84,8 @@ export default function ProfileTeacher() {
                                         {user && user.Email ? user.Email : "example@gmail.com"}
                                     </div>
                                     <div className="text-center text-[#827ead] text-xs font-normal font-['Mulish'] mt-1">
-                                        {user && user.UserPhones ? `+${user.UserPhones[0].PhoneNumber}` : null}
+                                        {user && user.UserPhones.length ? <PatternFormat format="+ ## (###) ###-##-##" mask="_" name="PhoneNumber" value={user.UserPhones[0].PhoneNumber}
+                                        placeholder="+ __ (___) ___-__-__" /> : ""}
                                     </div>
                                 </div>
 

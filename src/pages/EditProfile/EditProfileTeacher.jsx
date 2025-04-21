@@ -37,7 +37,7 @@ export default function EditProfileTeacher() {
                             LastName: user.LastName || '',
                             FirstName: user.FirstName || '',
                             Email: user.Email || '',
-                            PhoneNumber: user.UserPhones[0].PhoneNumber || '',
+                            PhoneNumber: user.UserPhones.length ? user.UserPhones[0].PhoneNumber : '',
                             SchoolName: teacher.SchoolName || '',
                             Grade: teacher.Grade || '',
                         });

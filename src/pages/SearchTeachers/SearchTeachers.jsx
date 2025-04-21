@@ -397,7 +397,7 @@ const SearchTeachers = () => {
                                     <h3 className="text-[#120c38] text-lg font-bold font-['Nunito'] mb-1">
                                         {teacher.FullName || "Волкова Надія Миколаївна"}
                                     </h3>
-                                    <p className="text-[#827fae] text-sm font-normal font-['Lato']">
+                                    <p className="text-[#827fae] text-sm font-normal font-['Mulish']">
                                         {teacher.SubjectName || "Математика"}
                                     </p>
                                 </div>
