@@ -143,8 +143,7 @@ const CreateTestAi = () => {
         ImageFilePath: null,
         GroupId: GroupId,
         AttemptsTotal: parseInt(formData.numAttempts) || 1,
-        ShowAnswersAfterTest: formData.showAnswersAfterTest || false,
-        ShowCorrectAnswersDuringTest: formData.showCorrectAnswersDuringTest || false,
+        ShowAnswers: formData.showAnswersAfterTest || false,
       };
 
       const testResponse = await axios.post('http://localhost:4000/api/tests', testPayload, {

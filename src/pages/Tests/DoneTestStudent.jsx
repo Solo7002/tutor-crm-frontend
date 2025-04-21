@@ -32,6 +32,8 @@ const DoneTestStudent = () => {
         return <div>Завантаження...</div>;
     }
 
+    console.log(testData);
+    
     const percentage = (testData.Mark / testData.MaxMark) * 100;
 
     const getBorderColor = (percentage) => {
@@ -166,7 +168,9 @@ const DoneTestStudent = () => {
                 </div>
             </div>
 
-            {testData.Questions.map((question, qIndex) => (
+            {(testData.ShowAnswers)&&
+            
+            testData.Questions.map((question, qIndex) => (
                 <div key={qIndex} className="question-container">
                     <div className="flex items-center space-x-2 mb-3">
                         <span className="question-text">{qIndex + 1}.</span>
