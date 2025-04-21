@@ -52,7 +52,7 @@ const CreateTestAi = () => {
       const response = await axios.post(
         'http://localhost:4000/api/tests/generate-test-by-AI',
         {
-          text: `${formData.subject} ${formData.description} Питання повинні бути до 70 символів`,
+          text: `${formData.subject} ${formData.description} `,
           language: 'ua',
           count: parseInt(formData.numQuestions) || 5,
         },

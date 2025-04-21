@@ -17,7 +17,7 @@ const Reviews = ({ userId, userFrom = null }) => {
         axios.get(`http://localhost:4000/api/userReviews/getInfoByUserId/${userId}`)
         .then((res) => {
           if (!res.data) return;
-          setReviews(res.data);
+          setReviews(res.data.reverse());
         });
       } catch (error) {
         console.error("Помилка при отриманні відгуків:", error);
