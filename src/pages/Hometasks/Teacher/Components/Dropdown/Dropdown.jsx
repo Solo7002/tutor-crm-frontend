@@ -3,9 +3,13 @@ import { useEffect, useState } from "react";
 export default function Dropdown({ options, onSelectSubject, selectedValue}) {
   const [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState(selectedValue);
+
+  useEffect(() => {
+    setSelected(selectedValue);
+  }, [selectedValue]);
+
   return (
     <div className="relative w-[245px]">
-      {/* Заголовок dropdown */}
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="w-full h-10 p-2 bg-white rounded-2xl border border-[#d7d7d7] flex justify-between items-center"

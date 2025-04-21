@@ -13,7 +13,7 @@ const EvaluateModal = ({ isOpened, onClose, onNext, hometask = null, doneHometas
     }
 
     try {
-      await axios.put(`http://localhost:4000/api/doneHometasks/${doneHometask.DoneHometaskId}`, {
+      await axios.put(`http://localhost:4000/api/doneHometasks/${doneHometask.DoneHometaskId}/mark`, {
         Mark: parseInt(Mark)
       });
       onClose();
