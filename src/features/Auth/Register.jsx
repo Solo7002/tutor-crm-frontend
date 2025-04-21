@@ -6,6 +6,7 @@ import PasswordInput from "../../components/Inputs/PasswordInput/PasswordInput";
 import ConfirmCodeInput from "../../components/ConfirmCodeInput/ConfirmCodeInput";
 import { PrimaryButton, SecondaryButton } from '../../components/Buttons/Buttons';
 import "./Register.css";
+import { toast } from "react-toastify";
 
 const Register = () => {
     const navigate = useNavigate();
@@ -238,6 +239,7 @@ const Register = () => {
         else if (step === 5) {
             sessionStorage.setItem("email", formData.Email);
             sessionStorage.setItem("password", formData.Password);
+            toast.success("Реєстрація успішно завершена!", { autoClose: 5000 });
         }
     }, [step]);
 
@@ -249,6 +251,7 @@ const Register = () => {
     const handleConfirmCode = async (code) => {
         if (isLoading) return;
 
+        setIsLoading(true);
         try {
             const response = await axios.post("http://localhost:4000/api/auth/confirm-email-code", {
                 Username: `${formData.LastName} ${formData.FirstName}`,
@@ -263,13 +266,14 @@ const Register = () => {
             if (response.status === 201) {
                 setStep(5);
             }
-        }
-        catch (error) {
+        } catch (error) {
             if (error.response?.status === 400) {
                 setConfirmError(true);
+                toast.error("Невірний код підтвердження або термін його дії закінчився");
+            } else {
+                toast.error(error.response?.data?.message || "Помилка при підтвердженні email. Спробуйте ще раз.");
             }
-        }
-        finally {
+        } finally {
             setIsLoading(false);
         }
     };

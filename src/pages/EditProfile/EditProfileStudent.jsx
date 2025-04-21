@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import { jwtDecode } from "jwt-decode";
 import { PatternFormat } from 'react-number-format';
 import PasswordInput from '../../components/PasswordInput/PasswordInput';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function EditProfileStudent() {
     const navigate = useNavigate();
@@ -15,11 +17,14 @@ export default function EditProfileStudent() {
         SchoolName: '',
         Grade: '',
     });
+    const [initialFormData, setInitialFormData] = useState(null);
     const [passwordData, setPasswordData] = useState({
         newPassword: '',
         confirmPassword: ''
     });
+    const [initialPasswordData, setInitialPasswordData] = useState(null);
     const [imageFile, setImageFile] = useState(null);
+    const [initialImageFile, setInitialImageFile] = useState(null);
     const [previewImage, setPreviewImage] = useState('');
     const [errors, setErrors] = useState({});
     const [isLoading, setIsLoading] = useState(false);
@@ -32,15 +37,20 @@ export default function EditProfileStudent() {
                 axios.get(`http://localhost:4000/api/students/${decoded.id}/info`)
                     .then(res => {
                         const { user, student } = res.data;
-                        setFormData({
+                        const initialData = {
                             LastName: user.LastName || '',
                             FirstName: user.FirstName || '',
                             Email: user.Email || '',
                             PhoneNumber: user.PhoneNumber || '',
                             SchoolName: student.SchoolName || '',
                             Grade: student.Grade || '',
-                        });
+                        };
+                        setFormData(initialData);
+                        setInitialFormData(initialData);
+                        setPasswordData({ newPassword: '', confirmPassword: '' });
+                        setInitialPasswordData({ newPassword: '', confirmPassword: '' });
                         setPreviewImage(user.ImageFilePath || `https://ui-avatars.com/api/?name=${user.LastName + ' ' + user.FirstName}&background=random&size=86`);
+                        setInitialImageFile(null);
                     })
                     .catch(error => {
                         console.error('Error fetching user data:', error);
@@ -248,6 +258,38 @@ export default function EditProfileStudent() {
         }
     };
 
+    const detectChanges = () => {
+        const changes = [];
+
+        for (const key in formData) {
+            if (formData[key] !== initialFormData[key]) {
+                changes.push({
+                    field: key,
+                    oldValue: initialFormData[key],
+                    newValue: formData[key]
+                });
+            }
+        }
+
+        if (passwordData.newPassword && passwordData.newPassword !== initialPasswordData.newPassword) {
+            changes.push({
+                field: 'Password',
+                oldValue: '******',
+                newValue: '****** (змінено)'
+            });
+        }
+
+        if (imageFile !== initialImageFile) {
+            changes.push({
+                field: 'Profile Image',
+                oldValue: initialImageFile ? 'Попереднє зображення' : 'Без зображення',
+                newValue: imageFile ? 'Нове зображення завантажено' : 'Без зображення'
+            });
+        }
+
+        return changes;
+    };
+
     const handleSubmit = async () => {
         if (!validateForm()) return;
 
@@ -277,10 +319,55 @@ export default function EditProfileStudent() {
             };
 
             await axios.put(`http://localhost:4000/api/students/profile/${decoded.id}`, updateData);
+
+            const changes = detectChanges();
+            if (changes.length > 0) {
+                const toastMessage = (
+                    <div>
+                        <h3 className="font-bold">Змінені поля:</h3>
+                        <ul className="list-disc pl-5">
+                            {changes.map((change, index) => (
+                                <li key={index}>
+                                    <strong>{change.field}:</strong> Змінено з "{change.oldValue}" на "{change.newValue}"
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                );
+                toast.success(toastMessage, {
+                    position: "bottom-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                });
+            } else {
+                toast.info("Жодних змін не внесено.", {
+                    position: "bottom-right",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                });
+            }
+
             window.location.href = '/student/profile';
         } catch (error) {
             console.error('Error updating profile:', error);
             setErrors({ submit: 'Помилка при оновленні профілю: ' + (error.response?.data?.error || error.message) });
+            toast.error('Помилка при оновленні профілю!', {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
         } finally {
             setIsLoading(false);
         }
@@ -304,6 +391,7 @@ export default function EditProfileStudent() {
 
     return (
         <div className='w-full flex justify-center px-4'>
+            <ToastContainer />
             <div className='w-full md:w-[970px] flex flex-col gap-6 py-4'>
                 <div className="w-full md:relative">
                     {/* Desktop version */}

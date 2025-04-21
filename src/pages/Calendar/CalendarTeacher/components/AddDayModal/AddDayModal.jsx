@@ -3,6 +3,7 @@ import axios from "axios";
 import "./AddDayModal.css";
 import moment from "moment";
 import Dropdown from "../../../../../components/Dropdown/Dropdown";
+import { toast } from "react-toastify";
 
 const AddDayModal = ({ isOpen, onClose, token, teacherId }) => {
   const [eventType, setEventType] = useState("one-time");
@@ -42,6 +43,7 @@ const AddDayModal = ({ isOpen, onClose, token, teacherId }) => {
       setGroups(response.data);
     } catch (error) {
       console.error("Error fetching groups:", error);
+      toast.error("Не вдалося завантажити список груп");
       setErrors((prev) => ({
         ...prev,
         server: "Не вдалося завантажити список груп",
@@ -137,69 +139,85 @@ const AddDayModal = ({ isOpen, onClose, token, teacherId }) => {
   };
 
   const handleSubmit = async () => {
-    if (validateForm()) {
-      try {
-        const startTime = `${String(startHour).padStart(2, "0")}:${String(startMinute).padStart(2, "0")}:00`;
-        const endTime = `${String(endHour).padStart(2, "0")}:${String(endMinute).padStart(2, "0")}:00`;
+    if (!validateForm()) {
+      toast.error("Будь ласка, виправте помилки у формі");
+      return;
+    }
+    try {
+      const startTime = `${String(startHour).padStart(2, "0")}:${String(startMinute).padStart(2, "0")}:00`;
+      const endTime = `${String(endHour).padStart(2, "0")}:${String(endMinute).padStart(2, "0")}:00`;
 
-        const baseDate = new Date(date).toISOString().split("T")[0];
-        const startMoment = moment(`${baseDate}T${startTime}`);
-        const endMoment = moment(`${baseDate}T${endTime}`);
+      const baseDate = new Date(date).toISOString().split("T")[0];
+      const startMoment = moment(`${baseDate}T${startTime}`);
+      const endMoment = moment(`${baseDate}T${endTime}`);
 
-        const lessonDates = [];
-        const endOfMonth = moment(baseDate).endOf("month").startOf("day");
-        let currentDate = startMoment.clone();
+      const lessonDates = [];
+      const endOfMonth = moment(baseDate).endOf("month").startOf("day");
+      let currentDate = startMoment.clone();
 
-        if (eventType === "one-time") {
-          lessonDates.push({ start: startMoment.toDate(), end: endMoment.toDate() });
-        } else if (eventType === "weekly") {
-          while (currentDate.isSameOrBefore(endOfMonth)) {
-            lessonDates.push({ start: currentDate.toDate(), end: currentDate.clone().add(endMoment.diff(startMoment)).toDate() });
-            currentDate.add(7, "days");
-          }
-        } else if (eventType === "biweekly") {
-          while (currentDate.isSameOrBefore(endOfMonth)) {
-            lessonDates.push({ start: currentDate.toDate(), end: currentDate.clone().add(endMoment.diff(startMoment)).toDate() });
-            currentDate.add(14, "days");
-          }
+      if (eventType === "one-time") {
+        lessonDates.push({ start: startMoment.toDate(), end: endMoment.toDate() });
+      } else if (eventType === "weekly") {
+        while (currentDate.isSameOrBefore(endOfMonth)) {
+          lessonDates.push({ start: currentDate.toDate(), end: currentDate.clone().add(endMoment.diff(startMoment)).toDate() });
+          currentDate.add(7, "days");
         }
-
-        for (const lessonDate of lessonDates) {
-          const lessonData = {
-            LessonHeader: subject,
-            StartLessonTime: lessonDate.start.toISOString(),
-            EndLessonTime: lessonDate.end.toISOString(),
-            LessonDate: lessonDate.start.toISOString().split("T")[0],
-            LessonType: format,
-            GroupId: selectedGroupId,
-            TeacherId: teacherId,
-          };
-
-          if (format === "offline" && linkOrAddress) lessonData.LessonAddress = linkOrAddress;
-          if (format === "online" && linkOrAddress) lessonData.LessonLink = linkOrAddress;
-
-          const response = await axios.post(
-            "http://localhost:4000/api/plannedLessons",
-            lessonData,
-            {
-              headers: {
-                Authorization: `Bearer ${token}`,
-                "Content-Type": "application/json",
-              },
-            }
-          );
-
-          console.log("Lesson created successfully:", response.data);
+      } else if (eventType === "biweekly") {
+        while (currentDate.isSameOrBefore(endOfMonth)) {
+          lessonDates.push({ start: currentDate.toDate(), end: currentDate.clone().add(endMoment.diff(startMoment)).toDate() });
+          currentDate.add(14, "days");
         }
-        onClose();
-        window.location.reload();
-      } catch (error) {
-        console.error("Error creating lesson:", error.response?.data || error.message);
-        setErrors((prev) => ({
-          ...prev,
-          server: "Не вдалося зберегти подію. Спробуйте ще раз.",
-        }));
       }
+
+      for (const lessonDate of lessonDates) {
+        const lessonData = {
+          LessonHeader: subject,
+          StartLessonTime: lessonDate.start.toISOString(),
+          EndLessonTime: lessonDate.end.toISOString(),
+          LessonDate: lessonDate.start.toISOString().split("T")[0],
+          LessonType: format,
+          GroupId: selectedGroupId,
+          TeacherId: teacherId,
+        };
+
+        if (format === "offline" && linkOrAddress) lessonData.LessonAddress = linkOrAddress;
+        if (format === "online" && linkOrAddress) lessonData.LessonLink = linkOrAddress;
+
+        const response = await axios.post(
+          "http://localhost:4000/api/plannedLessons",
+          lessonData,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+          }
+        );
+
+        console.log("Lesson created successfully:", response.data);
+        const groupName = groups.find(group => group.GroupId === selectedGroupId)?.GroupName;
+        toast.success(
+          <div>
+            <p>Заняття успішно заплановано!</p>
+            <p>Предмет: {subject}</p>
+            <p>Група: {groupName}</p>
+            <p>Дата: {moment(lessonDate.start).format("DD.MM.YYYY")}</p>
+            <p>Час: {startTime} - {endTime}</p>
+            <p>Формат: {format === "online" ? "Онлайн" : "Офлайн"}</p>
+          </div>,
+          { autoClose: 5000 }
+        );
+      }
+      onClose();
+      window.location.reload();
+    } catch (error) {
+      console.error("Error creating lesson:", error.response?.data || error.message);
+      const errorMessage = error.response?.data?.message || error.message || "Не вдалося зберегти подію. Спробуйте ще раз.";
+      toast.error(errorMessage);
+      setErrors((prev) => ({
+        ...prev,
+        server: "Не вдалося зберегти подію. Спробуйте ще раз.",
+      }));
     }
   };
 

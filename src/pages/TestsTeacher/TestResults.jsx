@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { formatDate } from "../../functions/formatDate";
 import { decryptData } from '../../utils/crypto';
+import { toast } from "react-toastify";
 
 const TestResults = () => {
   const [testId, setTestId] = useState();
@@ -100,13 +101,27 @@ const TestResults = () => {
             Authorization: `Bearer ${token}`,
           },
         });
+
+        toast.success(
+          <div>
+            <p>Тест успішно видалено!</p>
+            <p>Назва: {test.TestName}</p>
+            <p>Група: {test.GroupName || 'Невідома'}</p>
+            <p>Курс: {test.CourseName || 'Невідомий'}</p>
+            <p>Дедлайн: {test.DeadlineDate ? formatDate(test.DeadlineDate) : 'Не вказано'}</p>
+          </div>,
+          { autoClose: 5000 }
+        );
+
       navigate('/teacher/tests');
       navigate(0);
     } catch (error) {
-      console.log(error.error);
-
+      console.error("Error deleting test:", error);
+      const errorMessage = error.response?.data?.message || error.message || "Не вдалося видалити тест. Спробуйте ще раз.";
+      toast.error(errorMessage);
     }
   }
+
   const handleTabClick = (tabIndex) => {
     setSelectedTab(tabIndex);
   };

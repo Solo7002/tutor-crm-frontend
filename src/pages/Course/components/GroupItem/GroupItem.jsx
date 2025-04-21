@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import axios from 'axios';
+import { toast } from "react-toastify";
 
 const GroupItem = ({ group, groupIndex, deleteGroup, onChange, editedGroup }) => {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -53,8 +55,31 @@ const GroupItem = ({ group, groupIndex, deleteGroup, onChange, editedGroup }) =>
     }
   };
 
-  const handleDeleteStudent = (studentId, groupId) => {
-    console.log("delete student " + studentId + " from group " + groupId);
+  const handleDeleteStudent = async (studentId, groupId) => {
+    try {
+      const token = localStorage.getItem("token");
+      await axios.delete(
+        `http://localhost:4000/api/groupsStudents/${groupId}/${studentId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      toast.success(
+        <div>
+          <p>Учня успішно видалено з групи!</p>
+        </div>,
+        { autoClose: 5000 }
+      );
+      onChange(groupIndex, 'Students', students.filter(s => s.UserId !== studentId));
+    } catch (error) {
+      console.error("Error deleting student from group:", error);
+      toast.error(
+        error.response?.data?.message || "Не вдалося видалити учня з групи",
+        { autoClose: 5000 }
+      );
+    }
   };
 
   return (
@@ -102,9 +127,36 @@ const GroupItem = ({ group, groupIndex, deleteGroup, onChange, editedGroup }) =>
           <button
             onClick={(e) => {
               e.stopPropagation();
-              if (window.confirm('Ви впевнені, що хочете видалити цю групу?')) {
-                deleteGroup(groupIndex);
-              }
+              toast.info(
+                <div>
+                  <p>Ви впевнені, що хочете видалити групу "{editedGroup.GroupName || 'Нова група'}"?</p>
+                  <div className="flex gap-2 mt-2">
+                    <button
+                      className="px-3 py-1 bg-red-600 text-white rounded-md hover:bg-red-700"
+                      onClick={() => {
+                        deleteGroup(groupIndex);
+                        toast.dismiss();
+                        toast.success(
+                          <div>
+                            <p>Групу успішно видалено!</p>
+                            <p>Назва: {editedGroup.GroupName || 'Нова група'}</p>
+                          </div>,
+                          { autoClose: 5000 }
+                        );
+                      }}
+                    >
+                      Видалити
+                    </button>
+                    <button
+                      className="px-3 py-1 bg-gray-300 text-gray-800 rounded-md hover:bg-gray-400"
+                      onClick={() => toast.dismiss()}
+                    >
+                      Скасувати
+                    </button>
+                  </div>
+                </div>,
+                { autoClose: false, closeOnClick: false }
+              );
             }}
             className="px-3 py-1 bg-red-100 text-red-700 rounded-md hover:bg-red-200 transition-colors"
           >

@@ -1,13 +1,15 @@
 import { useState, useEffect } from "react";
 import GroupItem from "../GroupItem/GroupItem";
 import axios from "axios";
+import { toast } from "react-toastify";
 
-const CourseForm = ({ courseId, isSave, CourseName }) => {
+const CourseForm = ({ courseId, isSave, CourseName, onCourseUpdated }) => {
   const [groups, setGroups] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setErrors] = useState(null);
   const [isSaving, setIsSaving] = useState(false);
   const [editedGroups, setEditedGroups] = useState([]);
+  const [courseName, setCourseName] = useState(CourseName || "");
 
   const token = localStorage.getItem("token");
 
@@ -24,7 +26,7 @@ const CourseForm = ({ courseId, isSave, CourseName }) => {
           }
         );
         const data = response.data;
-        console.log("----- res.data: ", data)
+        console.log("----- res.data: ", data);
         setGroups(data);
         setEditedGroups(data.map((group) => ({ ...group })));
         setLoading(false);
@@ -108,7 +110,16 @@ const CourseForm = ({ courseId, isSave, CourseName }) => {
                 Authorization: `Bearer ${token}`,
               },
             }
-          );
+          ).then((response) => {
+            toast.success(
+              <div>
+                <p>Групу успішно створено!</p>
+                <p>Назва: {group.GroupName}</p>
+              </div>,
+              { autoClose: 5000 }
+            );
+            return response;
+          });
         })
       );
 
@@ -129,7 +140,15 @@ const CourseForm = ({ courseId, isSave, CourseName }) => {
                 Authorization: `Bearer ${token}`,
               },
             }
-          );
+          ).then(() => {
+            toast.success(
+              <div>
+                <p>Групу успішно оновлено!</p>
+                <p>Назва: {group.GroupName}</p>
+              </div>,
+              { autoClose: 5000 }
+            );
+          });
         })
       );
 
@@ -142,7 +161,15 @@ const CourseForm = ({ courseId, isSave, CourseName }) => {
                 Authorization: `Bearer ${token}`,
               },
             }
-          );
+          ).then(() => {
+            toast.success(
+              <div>
+                <p>Групу успішно видалено!</p>
+                <p>Назва: {group.GroupName}</p>
+              </div>,
+              { autoClose: 5000 }
+            );
+          });
         })
       );
 
@@ -157,6 +184,11 @@ const CourseForm = ({ courseId, isSave, CourseName }) => {
       setEditedGroups(updatedGroups.map((g) => ({ ...g })));
       setIsSaving(false);
     } catch (err) {
+      console.error("Error saving changes:", err);
+      toast.error(
+        err.response?.data?.message || "Помилка при збереженні змін",
+        { autoClose: 5000 }
+      );
       setErrors("Помилка при збереженні змін");
       setIsSaving(false);
     }
@@ -173,7 +205,7 @@ const CourseForm = ({ courseId, isSave, CourseName }) => {
       </div>
     </div>
   );
-  
+
   if (error) return (
     <div className="bg-red-50 border border-red-200 text-red-600 rounded-lg p-4 my-4">
       {error}

@@ -3,6 +3,7 @@ import axios from "axios";
 import "./ChangeDayModal.css";
 import moment from "moment";
 import Dropdown from "../../../../../components/Dropdown/Dropdown";
+import { toast } from "react-toastify";
 
 const ChangeDayModal = ({ isOpen, onClose, token, initialData, teacherId }) => {
   const [format, setFormat] = useState(initialData?.LessonType || "online");
@@ -56,6 +57,8 @@ const ChangeDayModal = ({ isOpen, onClose, token, initialData, teacherId }) => {
       );
       setGroups(response.data);
     } catch (error) {
+      console.error("Error fetching groups:", error);
+      toast.error("Не вдалося завантажити список груп");
       setErrors((prev) => ({
         ...prev,
         server: "Не вдалося завантажити список груп",
@@ -151,43 +154,61 @@ const ChangeDayModal = ({ isOpen, onClose, token, initialData, teacherId }) => {
   };
 
   const handleSubmit = async () => {
-    if (validateForm()) {
-      try {
-        const id = initialData.PlannedLessonId;
-        const lessonDate = moment(date).format("YYYY-MM-DD");
-        const startTime = `${lessonDate} ${String(parseInt(startHour)).padStart(2, "0")}:${String(parseInt(startMinute)).padStart(2, "0")}:00`;
-        const endTime = `${lessonDate} ${String(parseInt(endHour)).padStart(2, "0")}:${String(parseInt(endMinute)).padStart(2, "0")}:00`;
+    if (!validateForm()) {
+      toast.error("Будь ласка, виправте помилки у формі");
+      return;
+    }
 
-        const lessonData = {
-          LessonHeader: subject,
-          StartLessonTime: startTime,
-          EndLessonTime: endTime,
-          LessonType: format,
-          LessonDate: lessonDate,
-          GroupId: parseInt(selectedGroupId),
-          LessonAddress: format === "offline" ? linkOrAddress : null,
-          LessonLink: format === "online" ? linkOrAddress : null,
-        };
+    try {
+      const id = initialData.PlannedLessonId;
+      const lessonDate = moment(date).format("YYYY-MM-DD");
+      const startTime = `${String(parseInt(startHour)).padStart(2, "0")}:${String(parseInt(startMinute)).padStart(2, "0")}:00`;
+      const endTime = `${String(parseInt(endHour)).padStart(2, "0")}:${String(parseInt(endMinute)).padStart(2, "0")}:00`;
 
-        await axios.put(
-          `http://localhost:4000/api/plannedLessons/${id}`,
-          lessonData,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-              "Content-Type": "application/json",
-            },
-          }
-        );
+      const lessonData = {
+        LessonHeader: subject,
+        StartLessonTime: `${lessonDate}T${startTime}`,
+        EndLessonTime: `${lessonDate}T${endTime}`,
+        LessonType: format,
+        LessonDate: lessonDate,
+        GroupId: parseInt(selectedGroupId),
+        LessonAddress: format === "offline" ? linkOrAddress : null,
+        LessonLink: format === "online" ? linkOrAddress : null,
+      };
 
-        onClose();
-        window.location.reload();
-      } catch (error) {
-        setErrors((prev) => ({
-          ...prev,
-          server: "Не вдалося оновити подію. Спробуйте ще раз.",
-        }));
-      }
+      await axios.put(
+        `http://localhost:4000/api/plannedLessons/${id}`,
+        lessonData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      const groupName = groups.find(group => group.GroupId.toString() === selectedGroupId)?.GroupName;
+      toast.success(
+        <div>
+          <p>Заняття успішно оновлено!</p>
+          <p>Предмет: {subject}</p>
+          <p>Група: {groupName}</p>
+          <p>Дата: {moment(lessonDate).format("DD.MM.YYYY")}</p>
+          <p>Час: {startTime} - {endTime}</p>
+          <p>Формат: {format === "online" ? "Онлайн" : "Офлайн"}</p>
+        </div>,
+        { autoClose: 5000 }
+      );
+
+      onClose();
+      window.location.reload();
+    } catch (error) {
+      const errorMessage = error.response?.data?.message || error.message || "Не вдалося оновити подію. Спробуйте ще раз.";
+      toast.error(errorMessage);
+      setErrors((prev) => ({
+        ...prev,
+        server: errorMessage,
+      }));
     }
   };
 

@@ -4,14 +4,12 @@ import { PrimaryButton } from "../../components/Buttons/Buttons";
 import WaitModal from "./components/WaitModal/WaitModal";
 import TestForm from "./components/TestForm/TestForm";
 import AddQuestion from "./components/AddQuestion/AddQuestion";
-import { useNavigate } from "react-router-dom";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { decryptData } from '../../utils/crypto';
-import { option } from "motion/react-client";
+import { toast } from "react-toastify";
 
 const CreateTestAi = () => {
   const navigate = useNavigate();
-
   const { encodedGroupId } = useParams();
   const [formData, setFormData] = useState({});
   const [questionsData, setQuestionsData] = useState({});
@@ -20,9 +18,9 @@ const CreateTestAi = () => {
   const [errors, setErrors] = useState({});
   const [generated, setGenerated] = useState(false);
   const [GroupId, setGroupId] = useState();
-
   const abortControllerRef = useRef(null);
-  const token=sessionStorage.getItem('token');
+  const token = sessionStorage.getItem('token');
+
   useEffect(() => {
     try {
       const decryptedGroupId = decryptData(encodedGroupId);
@@ -37,6 +35,7 @@ const CreateTestAi = () => {
     setErrors({});
 
     if (!formData.isValid) {
+      toast.error('Будь ласка, виправте помилки у формі');
       setErrors({ form: 'Будь ласка, виправте помилки у формі.' });
       setIsGenerating(false);
       return;
@@ -71,14 +70,19 @@ const CreateTestAi = () => {
 
       setQuestionsData(formattedQuestions);
       setGenerated(true);
+      toast.success(
+        `Тест успішно згенеровано! Кількість питань: ${Object.keys(formattedQuestions).length}`,
+        { autoClose: 5000 }
+      );
     } catch (error) {
       if (error.name === 'AbortError') {
-        console.log('Генерація була скасована');
+        toast.info('Генерація була скасована');
       } else {
         console.error('Помилка генерації:', error);
         const errorMessage = error.response?.data?.error?.includes('Invalid OpenAI API key')
           ? 'Помилка автентифікації API. Будь ласка, зв’яжіться з адміністратором.'
           : 'Не вдалося згенерувати тест: ' + (error.message || error);
+        toast.error(errorMessage);
         setErrors({ general: errorMessage });
       }
     } finally {
@@ -109,6 +113,7 @@ const CreateTestAi = () => {
 
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
+      toast.error('Будь ласка, виправте помилки у формі');
       setIsSubmitting(false);
       return;
     }
@@ -143,9 +148,7 @@ const CreateTestAi = () => {
       };
 
       const testResponse = await axios.post('http://localhost:4000/api/tests', testPayload, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        headers: { Authorization: `Bearer ${token}` },
       });
       const testId = testResponse.data.TestId;
 
@@ -189,11 +192,7 @@ const CreateTestAi = () => {
           const questionResponse = await axios.post(
             'http://localhost:4000/api/testQuestions',
             questionData,
-            {
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
-            }
+            { headers: { Authorization: `Bearer ${token}` } }
           );
           const testQuestionId = questionResponse.data.TestQuestionId;
 
@@ -211,15 +210,9 @@ const CreateTestAi = () => {
             }));
 
           for (const answer of answers) {
-            await axios.post(
-              'http://localhost:4000/api/testAnswers',
-              answer,
-              {
-                headers: {
-                  Authorization: `Bearer ${token}`,
-                },
-              }
-            );
+            await axios.post('http://localhost:4000/api/testAnswers', answer, {
+              headers: { Authorization: `Bearer ${token}` },
+            });
           }
 
           return {
@@ -230,11 +223,25 @@ const CreateTestAi = () => {
         })
       );
 
+      toast.success(
+        <div>
+          <p>Тест успішно створено!</p>
+          <p>Назва: {formData.subject}</p>
+          <p>Група: {questionsPayload[0]?.answers[0]?.TestQuestionId ? 'Невідома' : 'Невідома'}</p>
+          <p>Курс: {formData.description || 'Без опису'}</p>
+          <p>Дедлайн: {formData.deadline ? new Date(formData.deadline).toLocaleDateString('uk-UA') : 'Не вказано'}</p>
+          <p>Макс. бал: {formData.maxScore || 0}</p>
+        </div>,
+        { autoClose: 5000 }
+      );
+
       navigate('/teacher/tests');
       navigate(0);
     } catch (error) {
       console.error('Помилка:', error);
-      setErrors({ general: 'Виникла помилка при створенні тесту: ' + (error.message || error) });
+      const errorMessage = error.response?.data?.message || error.message || 'Виникла помилка при створенні тесту';
+      toast.error(errorMessage);
+      setErrors({ general: errorMessage });
     } finally {
       setIsSubmitting(false);
     }

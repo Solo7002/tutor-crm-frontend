@@ -6,6 +6,8 @@ import Panel from "./components/Panel/Panel";
 import PanelLessons from "./components/PanelLessons/PanelLessons";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const CalendarTeacher = () => {
   const [teacherId, setTeacherId] = useState();
@@ -70,6 +72,7 @@ const CalendarTeacher = () => {
           />
         </div>
       </div>
+      <ToastContainer position="bottom-right" autoClose={3000} hideProgressBar={false} newestOnTop closeOnClick pauseOnHover />
     </div>
   );
 };
