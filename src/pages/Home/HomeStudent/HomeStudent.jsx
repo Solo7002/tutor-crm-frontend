@@ -73,9 +73,11 @@ export default function HomeStudent() {
           axios.get(`http://localhost:4000/api/students/${student.StudentId}/user`)
         ]);
 
+        console.log("------- grades: ", gradesResponse.data);
+
         setLeaders(leadersResponse.data);
-        setGrades(gradesResponse.data);
-        setEvents(eventsResponse.data);
+        setGrades(gradesResponse.data.reverse());
+        setEvents(eventsResponse.data.reverse());
         setDays(daysResponse.data);
         setUser(userResponse.data);
 

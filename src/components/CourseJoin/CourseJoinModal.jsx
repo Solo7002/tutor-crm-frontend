@@ -135,11 +135,11 @@ const CourseJoinModal = ({ isOpen, onClose, courses, userFrom, teacher, user }) 
     const selectedGroup = getSelectedGroupDetails();
 
     return (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-            <div className={`relative bg-white rounded-[20px] p-6 ${stage === 3 ? 'w-[460px] h-56' : 'w-[460px] h-80'}`}>
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 p-4">
+            <div className={`relative bg-white rounded-[20px] p-6 w-full max-w-md ${stage === 3 ? 'min-h-[14rem]' : 'min-h-[20rem]'}`}>
                 <button
                     onClick={handleClose}
-                    className="absolute top-2 right-2 w-6 h-6 flex items-center justify-center"
+                    className="absolute top-4 right-4 w-6 h-6 flex items-center justify-center hover:bg-gray-100 rounded-full transition-colors"
                 >
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path
@@ -151,121 +151,150 @@ const CourseJoinModal = ({ isOpen, onClose, courses, userFrom, teacher, user }) 
                         />
                     </svg>
                 </button>
-
+    
                 {stage === 1 && (
-                    <>
-                        <div className="w-48 h-8 absolute left-1/2 transform -translate-x-1/2 top-[20px] text-[#8A48E6] text-2xl font-bold font-['Nunito'] text-center">
-                            Запис на курс
+                    <div className="flex flex-col h-full">
+                        <div className="text-center mb-8">
+                            <h2 className="text-[#8A48E6] text-2xl font-bold font-['Nunito']">
+                                Запис на курс
+                            </h2>
                         </div>
-
-                        <div className="absolute left-[21px] top-[72px] text-[#120C38] text-base font-bold font-['Nunito']">
-                            Оберіть курс
-                        </div>
-                        <div className="absolute left-[19.86px] top-[102px] w-96">
-                            <Dropdown
-                                textAll="Усі курси"
-                                options={availableCourses.map((course) => ({ SubjectName: course.CourseName }))}
-                                onSelectSubject={handleCourseSelect}
-                                disabled={availableCourses.length === 0} // Disable if no courses
-                            />
-                            {availableCourses.length === 0 && (
-                                <div className="mt-2 ml-2 text-nowrap text-[#a6a6a8] text-[10px] font-small font-['Nunito']">
-                                    На жаль, немає доступних курсів для запису. Ви вже записані на всі доступні курси.
+    
+                        <div className="space-y-6 flex-grow">
+                            <div className="space-y-2">
+                                <label className="text-[#120C38] text-base font-bold font-['Nunito'] block">
+                                    Оберіть курс
+                                </label>
+                                <div className="w-full">
+                                    <Dropdown
+                                        textAll="Усі курси"
+                                        options={availableCourses.map((course) => ({ SubjectName: course.CourseName }))}
+                                        onSelectSubject={handleCourseSelect}
+                                        disabled={availableCourses.length === 0}
+                                        
+                                    />
+                                    {availableCourses.length === 0 && (
+                                        <div className="mt-2 text-[#a6a6a8] text-xs font-['Nunito']">
+                                            На жаль, немає доступних курсів для запису. Ви вже записані на всі доступні курси.
+                                        </div>
+                                    )}
                                 </div>
-                            )}
-                        </div>
-
-                        <div className="absolute left-[21px] top-[162px] text-[#120C38] text-base font-bold font-['Nunito']">
-                            Оберіть групу
-                        </div>
-                        <div className="absolute left-[19.86px] top-[192px] w-96">
-                            <Dropdown
-                                textAll="Усі групи"
-                                options={availableGroups}
-                                onSelectSubject={handleGroupSelect}
-                                disabled={!formData.course || availableGroups.length === 0} // Disable if no course selected or no groups
-                            />
-                            {formData.course && availableGroups.length === 0 && (
-                                <div className="mt-2 ml-2 text-nowrap text-[#a6a6a8] text-[10px] font-small font-['Nunito']">
-                                    На жаль, немає доступних груп для цього курсу. Ви вже записані на всі доступні групи.
-                                </div>
-                            )}
-                        </div>
-
-                        {error && (
-                            <div className="absolute left-[21px] top-[232px] text-red-500 text-sm">
-                                {error}
                             </div>
-                        )}
-
-                        <button
-                            onClick={handleNext}
-                            className="w-[420px] h-12 px-10 py-2 absolute left-[21px] top-[256px] bg-[#8A4AE6] rounded-2xl flex justify-center items-center text-white text-xl font-medium font-['Nunito'] disabled:bg-gray-400"
-                            disabled={!formData.course || !formData.group}
-                        >
-                            Далі
-                        </button>
-                    </>
+    
+                            <div className="space-y-2">
+                                <label className="text-[#120C38] text-base font-bold font-['Nunito'] block">
+                                    Оберіть групу
+                                </label>
+                                <div className="w-full">
+                                    <Dropdown
+                                        textAll="Усі групи"
+                                        options={availableGroups}
+                                        onSelectSubject={handleGroupSelect}
+                                        disabled={!formData.course || availableGroups.length === 0}
+                                    />
+                                    {formData.course && availableGroups.length === 0 && (
+                                        <div className="mt-2 text-[#a6a6a8] text-xs font-['Nunito']">
+                                            На жаль, немає доступних груп для цього курсу. Ви вже записані на всі доступні групи.
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+    
+                            {error && (
+                                <div className="text-red-500 text-sm mt-2">
+                                    {error}
+                                </div>
+                            )}
+                        </div>
+    
+                        <div className="mt-6">
+                            <button
+                                onClick={handleNext}
+                                className="w-full h-12 px-10 py-2 bg-[#8A4AE6] rounded-2xl flex justify-center items-center text-white text-xl font-medium font-['Nunito'] disabled:bg-gray-400 transition-colors"
+                                disabled={!formData.course || !formData.group}
+                            >
+                                Далі
+                            </button>
+                        </div>
+                    </div>
                 )}
-
+    
                 {stage === 2 && (
-                    <>
-                        <div className="w-48 h-8 absolute left-1/2 transform -translate-x-1/2 top-[20px] text-[#8A48E6] text-2xl font-bold font-['Nunito'] text-center">
-                            Запис на курс
+                    <div className="flex flex-col h-full">
+                        <div className="text-center mb-8">
+                            <h2 className="text-[#8A48E6] text-2xl font-bold font-['Nunito']">
+                                Запис на курс
+                            </h2>
                         </div>
-
-                        <div className="absolute left-[139.55px] top-[72px] text-center">
-                            <span className="text-[#120C38] text-base font-bold font-['Nunito']">Вчитель: </span>
-                            <span className="text-[#827EAD] text-base font-bold font-['Nunito']">{user?.FirstName} {user?.LastName}</span>
-                        </div>
-                        <div className="absolute left-[19.55px] top-[112px]">
-                            <span className="text-[#120C38] text-base font-bold font-['Nunito']">Курс: </span>
-                            <span className="text-[#827EAD] text-base font-bold font-['Nunito']">{formData.course}</span>
-                        </div>
-                        <div className="absolute left-[238.55px] top-[112px] text-right">
-                            <span className="text-[#120C38] text-base font-bold font-['Nunito']">Група: </span>
-                            <span className="text-[#827EAD] text-base font-bold font-['Nunito']">{formData.group}</span>
-                        </div>
-                        <div className="absolute left-[19.55px] top-[152px]">
-                            <span className="text-[#120C38] text-base font-bold font-['Nunito']">Вид: </span>
-                            <span className="text-[#827EAD] text-base font-bold font-['Nunito']">{selectedGroup?.Type || 'Не вказано'}</span>
-                        </div>
-                        <div className="absolute left-[241.01px] top-[152px] text-right">
-                            <span className="text-[#120C38] text-base font-bold font-['Nunito']">Формат: </span>
-                            <span className="text-[#827EAD] text-base font-bold font-['Nunito']">{selectedGroup?.Format || 'Не вказано'}</span>
-                        </div>
-                        <div className="absolute left-1/2 transform -translate-x-1/2 top-[192px] text-center">
-                            <span className="text-[#120C38] text-base font-bold font-['Nunito']">Ціна за заняття: </span>
-                            <span className="text-[#8A48E6] text-base font-bold font-['Nunito']">{selectedGroup?.GroupPrice || '0'}грн</span>
-                        </div>
-
-                        {error && (
-                            <div className="absolute left-[21px] top-[212px] text-red-500 text-sm">
-                                {error}
+    
+                        <div className="flex flex-col space-y-6 flex-grow">
+                            <div className="text-center">
+                                <span className="text-[#120C38] text-base font-bold font-['Nunito']">Вчитель: </span>
+                                <span className="text-[#827EAD] text-base font-bold font-['Nunito']">{user?.FirstName} {user?.LastName}</span>
                             </div>
-                        )}
-
-                        <button
-                            onClick={handleNext}
-                            className="w-96 h-12 px-10 py-2 absolute left-[21px] top-[232px] bg-[#8A4AE6] rounded-2xl flex justify-center items-center text-white text-xl font-medium font-['Nunito']"
-                        >
-                            Надіслати запит
-                        </button>
-                    </>
+                            
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <span className="text-[#120C38] text-base font-bold font-['Nunito']">Курс: </span>
+                                    <span className="text-[#827EAD] text-base font-bold font-['Nunito']">{formData.course}</span>
+                                </div>
+                                <div className="md:text-right">
+                                    <span className="text-[#120C38] text-base font-bold font-['Nunito']">Група: </span>
+                                    <span className="text-[#827EAD] text-base font-bold font-['Nunito']">{formData.group}</span>
+                                </div>
+                                <div>
+                                    <span className="text-[#120C38] text-base font-bold font-['Nunito']">Вид: </span>
+                                    <span className="text-[#827EAD] text-base font-bold font-['Nunito']">{selectedGroup?.Type || 'Не вказано'}</span>
+                                </div>
+                                <div className="md:text-right">
+                                    <span className="text-[#120C38] text-base font-bold font-['Nunito']">Формат: </span>
+                                    <span className="text-[#827EAD] text-base font-bold font-['Nunito']">{selectedGroup?.Format || 'Не вказано'}</span>
+                                </div>
+                            </div>
+                            
+                            <div className="text-center mt-4">
+                                <span className="text-[#120C38] text-base font-bold font-['Nunito']">Ціна за заняття: </span>
+                                <span className="text-[#8A48E6] text-base font-bold font-['Nunito']">{selectedGroup?.GroupPrice || '0'}грн</span>
+                            </div>
+    
+                            {error && (
+                                <div className="text-red-500 text-sm mt-2">
+                                    {error}
+                                </div>
+                            )}
+                        </div>
+    
+                        <div className="mt-6">
+                            <button
+                                onClick={handleNext}
+                                className="w-full h-12 px-10 py-2 bg-[#8A4AE6] rounded-2xl flex justify-center items-center text-white text-xl font-medium font-['Nunito'] transition-colors hover:bg-[#7A3BD6]"
+                            >
+                                Надіслати запит
+                            </button>
+                        </div>
+                    </div>
                 )}
-
+    
                 {/* Stage 3: Success Message */}
                 {stage === 3 && (
-                    <>
-                        <div className="w-64 h-7 absolute left-[20px] top-[21px] text-black text-2xl font-bold font-['Nunito']">
-                            Запит надіслано!
+                    <div className="flex flex-col md:flex-row items-center h-full">
+                        <div className="md:w-1/2 space-y-4">
+                            <h2 className="text-black text-2xl font-bold font-['Nunito']">
+                                Запит надіслано!
+                            </h2>
+                            <p className="text-[#827EAD] text-base font-normal font-['Mulish']">
+                                Незабаром викладач додасть вас до курсу. Чекайте на сповіщення в повідомленнях
+                            </p>
+                            <Link
+                                to={"/student/home"}
+                                className="w-full h-12 px-10 py-2 bg-[#8A4AE6] rounded-2xl flex justify-center items-center text-white text-xl font-medium font-['Nunito'] transition-colors hover:bg-[#7A3BD6]"
+                            >
+                                На головну
+                            </Link>
                         </div>
-                        <div className="w-52 h-20 absolute left-[20px] top-[66px] text-[#827EAD] text-base font-normal font-['Mulish']">
-                            Незабаром викладач додасть вас до курсу. Чекайте на сповіщення в повідомленнях
-                        </div>
-                        <div className="absolute left-[274px] top-[50px]">
-                            <svg width="165" height="175" viewBox="0 0 165 175" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <g clip-path="url(#clip0_726_2190)">
+                        <div className="md:w-1/2 flex justify-center mt-4 md:mt-0">
+                            <svg className="w-32 h-auto md:w-40" viewBox="0 0 165 175" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <g clipPath="url(#clip0_726_2190)">
                                     <path d="M0.384988 211.087C0.477866 211.75 0.630746 212.404 0.841747 213.04C2.14922 217.014 4.97093 220.311 8.6947 222.218C9.79734 222.797 10.9372 223.302 12.1066 223.731C21.6655 227.39 33.3707 226.834 42.4893 221.816C44.5994 220.65 46.4971 219.136 48.1025 217.337C51.2998 208.451 50.2653 198.586 49.7865 189.315C49.3077 179.895 48.4822 170.47 48.042 161.028C47.5852 151.338 44.7401 111.629 44.2779 101.934C42.1225 102.474 39.9353 102.879 37.7291 103.144C37.8832 108.333 40.3817 143.558 40.4807 148.752C40.6733 156.736 41.1521 164.709 41.3612 172.67C41.5923 180.544 42.2032 188.896 39.7488 196.478C37.3935 203.681 32.2591 208.182 26.3212 209.046C24.2479 209.354 22.1329 209.223 20.1137 208.66C17.8739 208.05 14.9462 206.878 13.9117 204.259C13.8613 204.174 13.8224 204.084 13.7961 203.989C13.1027 201.843 13.9667 199.373 15.1333 197.458C17.3016 193.892 20.0201 192.401 23.1789 190.448C25.4407 189.05 26.8605 184.682 22.9313 184.874C19.6294 185.028 15.9808 185.122 12.8551 186.619C7.43448 189.199 3.14205 196.038 1.24898 202.283C0.401497 205.111 -0.077274 208.176 0.384988 211.087Z" fill="#5224AA" />
                                     <path d="M128.222 211.087C128.127 211.751 127.972 212.404 127.76 213.04C126.454 217.015 123.632 220.313 119.907 222.218C118.805 222.799 117.665 223.305 116.495 223.731C106.936 227.39 95.2361 226.834 86.1175 221.816C84.0061 220.65 82.1081 219.133 80.5043 217.332C77.3015 208.446 78.3361 198.58 78.8148 189.309C79.2936 179.889 80.1191 170.464 80.5593 161.022C81.0216 151.333 83.8612 111.623 84.3234 101.928C86.4807 102.469 88.6697 102.873 90.8777 103.139C90.7236 108.328 88.2252 143.553 88.1261 148.747C87.9335 156.73 87.4547 164.703 87.2456 172.665C87.0145 180.539 86.3981 188.891 88.8525 196.473C91.2079 203.675 96.3423 208.176 102.28 209.04C104.353 209.349 106.468 209.218 108.488 208.655C110.727 208.044 113.661 206.872 114.695 204.253C114.744 204.168 114.782 204.077 114.811 203.983C115.499 201.838 114.635 199.367 113.468 197.452C111.305 193.887 108.581 192.396 105.422 190.443C103.161 189.045 101.746 184.676 105.67 184.869C108.972 185.023 112.626 185.116 115.746 186.613C121.167 189.194 125.459 196.033 127.358 202.278C128.222 205.111 128.69 208.176 128.222 211.087Z" fill="#5224AA" />
                                     <path d="M119.33 1.73338C95.6662 -3.76883 61.7945 3.93426 50.238 23.3681C21.6933 26.1467 0 46.846 0 67.1272C0 89.3451 26.0793 109.104 58.5917 109.104C58.9604 109.104 59.3181 109.071 59.6923 109.065C80.2135 109.065 86.7732 115.8 105.368 117.599C128.421 119.838 149.217 118.969 161.445 84.4426C174.102 48.6727 151.374 9.18337 119.33 1.73338Z" fill="#8A48E6" />
@@ -287,13 +316,7 @@ const CourseJoinModal = ({ isOpen, onClose, courses, userFrom, teacher, user }) 
                                 </defs>
                             </svg>
                         </div>
-                        <Link
-                            to={"/student/home"}
-                            className="w-64 h-12 px-10 py-2 absolute left-[20px] top-[162px] bg-[#8A4AE6] rounded-2xl flex justify-center items-center text-white text-xl font-medium font-['Nunito']"
-                        >
-                            На головну
-                        </Link>
-                    </>
+                    </div>
                 )}
             </div>
         </div>

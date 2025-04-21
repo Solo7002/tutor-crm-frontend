@@ -2,8 +2,6 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 const NearestEvents = ({ events }) => {
-    console.log('events', events);
-    console.log('events.length', events.length);
     return (
         <div className="bg-white rounded-[20px] shadow-md h-[25vh] overflow-y-auto events relative">
             {/* Header */}

@@ -84,7 +84,7 @@ const Graphic = ({ chartData }) => {
       },
     },
     yaxis: {
-      min: 6,
+      min: 0,
       max: 12,
       tickAmount: 6,
       labels: {

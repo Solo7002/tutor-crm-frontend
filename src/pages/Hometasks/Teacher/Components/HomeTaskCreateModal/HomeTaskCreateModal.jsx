@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
 import StandartInput from "../StandartInput/StandartInput";
+import ImageSelectionModal from './ImageSelectionModal';
 
 const FileMarkup = ({ fileName, fileUrl }) => {
   return (
@@ -26,7 +27,6 @@ const FileMarkup = ({ fileName, fileUrl }) => {
 };
 
 const HomeTaskCreateModal = ({ isOpened, onClose, subject = "", group = "", selectedGroupId, hometask = null, setRefreshTrigger }) => {
-  // Ініціалізація станів
   const [deadline, setDeadline] = useState('');
   const [maxScore, setMaxScore] = useState('');
   const [existingFiles, setExistingFiles] = useState([]);
@@ -37,16 +37,16 @@ const HomeTaskCreateModal = ({ isOpened, onClose, subject = "", group = "", sele
   const fileInputRef = useRef(null);
   const coverInputRef = useRef(null);
 
-  // Визначення режиму: редагування або створення
+  const [isImageModalOpen, setIsImageModalOpen] = useState(false);
+
   const isEditing = !!hometask;
 
-  // Синхронізація станів при зміні hometask
   useEffect(() => {
     if (hometask) {
       setDeadline(hometask.HometaskDeadlineDate.split('T')[0]);
       setMaxScore(hometask.MaxMark.toString());
       setExistingFiles(hometask.HometaskFiles || []);
-      setNewFiles([]); // Скидаємо нові файли при редагуванні
+      setNewFiles([]);
       setCoverImage(hometask.HometaskCover || null);
       setHeader(hometask.HometaskHeader || '');
       setDescription(hometask.HomeTaskDescription || '');
@@ -150,6 +150,11 @@ const HomeTaskCreateModal = ({ isOpened, onClose, subject = "", group = "", sele
       await axios.post('http://localhost:4000/api/hometasks', homeTaskData);
       onClose();
       setRefreshTrigger();
+      setDeadline("");
+      setMaxScore("");
+      setCoverImage(null);
+      setHeader("");
+      setDescription("");
     } catch (error) {
       console.error('Помилка при створенні домашнього завдання:', error);
       alert('Не вдалося створити домашнє завдання');
@@ -179,7 +184,7 @@ const HomeTaskCreateModal = ({ isOpened, onClose, subject = "", group = "", sele
   if (!isOpened) return null;
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 p-4">
       <style>
         {`
         input[type="date"]::-webkit-calendar-picker-indicator {
@@ -192,6 +197,14 @@ const HomeTaskCreateModal = ({ isOpened, onClose, subject = "", group = "", sele
         }
       `}
       </style>
+
+      <ImageSelectionModal
+        isOpen={isImageModalOpen}
+        onClose={() => setIsImageModalOpen(false)}
+        onSelectImage={(imageUrl) => setCoverImage(imageUrl)}
+        groupId={selectedGroupId}
+      />
+
       <div
         className="
           w-full
@@ -200,22 +213,24 @@ const HomeTaskCreateModal = ({ isOpened, onClose, subject = "", group = "", sele
           rounded-3xl
           outline outline-1 outline-[#8a48e6]
           flex flex-col
+          max-h-[90vh]
+          overflow-y-auto
         "
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex items-center justify-between px-4 py-2">
+        <div className="flex items-center justify-between px-4 py-2 sticky top-0 bg-white z-10 border-b border-gray-100">
           <button className="w-10 h-10 bg-white rounded-full flex items-center justify-center" onClick={onClose}>
             <svg width="16" height="14" viewBox="0 0 16 14" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M1 7H15M1 7L7 13M1 7L7 1" stroke="#120C38" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
             </svg>
           </button>
-          <h2 className="flex-1 text-center text-[#120c38] text-[15px] font-bold font-['Nunito']">
+          <h2 className="flex-1 text-center text-[#120c38] text-[15px] font-bold font-['Nunito'] truncate px-2">
             {`${subject}, група ${group}`}
           </h2>
           <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center"></div>
         </div>
 
-        <div className="flex gap-4 p-4 flex-wrap md:flex-nowrap">
+        <div className="flex flex-col md:flex-row gap-4 p-4">
           <div
             className="
               relative
@@ -225,14 +240,13 @@ const HomeTaskCreateModal = ({ isOpened, onClose, subject = "", group = "", sele
               items-center
               justify-center
               w-full
-              max-w-[182px]
+              md:w-auto
+              md:max-w-[182px]
               aspect-square
-              mx-auto
-              md:mx-0
               cursor-pointer
               group
             "
-            onClick={() => coverInputRef.current.click()}
+            onClick={() => setIsImageModalOpen(true)}
           >
             {coverImage ? (
               <img
@@ -272,22 +286,22 @@ const HomeTaskCreateModal = ({ isOpened, onClose, subject = "", group = "", sele
             />
           </div>
 
-          <div className="flex-1 flex flex-col gap-4 min-w-[200px]">
+          <div className="flex-1 flex flex-col gap-4">
             <div className="flex justify-between items-center p-2.5 rounded-2xl outline outline-1 outline-[#d7d7d7]">
               <span className="text-[#827ead] text-xs font-normal font-['Mulish']">
                 Видано
               </span>
-              <span className="text-[#827ead] text-[15px] font-bold font-['Nunito']">
+              <span className="text-[#827ead] text-[15px] font-bold font-['Nunito'] truncate max-w-[150px]">
                 {new Date().toLocaleDateString('ru-RU', { day: '2-digit', month: '2-digit', year: 'numeric' })}
               </span>
-              <svg width="18" height="20" viewBox="0 0 18 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <svg width="18" height="20" viewBox="0 0 18 20" fill="none" xmlns="http://www.w3.org/2000/svg" className="flex-shrink-0">
                 <path d="M13 1V5M5 1V5M1 9H17M4 12H4.013M7.01 12H7.015M10.01 12H10.015M13.015 12H13.02M10.015 15H10.02M4.01 15H4.015M7.01 15H7.015M1 5C1 4.46957 1.21071 3.96086 1.58579 3.58579C1.96086 3.21071 2.46957 3 3 3H15C15.5304 3 16.0391 3.21071 16.4142 3.58579C16.7893 3.96086 17 4.46957 17 5V17C17 17.5304 16.7893 18.0391 16.4142 18.4142C16.0391 18.7893 15.5304 19 15 19H3C2.46957 19 1.96086 18.7893 1.58579 18.4142C1.21071 18.0391 1 17.5304 1 17V5Z" stroke="#827FAE" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
               </svg>
             </div>
 
-            <div className="flex flex-col md:flex-row gap-4">
-              <div className="flex-1 p-2.5 rounded-2xl outline outline-1 outline-[#827ead] flex justify-between items-center">
-                <div className="flex flex-col">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="p-2.5 rounded-2xl outline outline-1 outline-[#827ead] flex justify-between items-center">
+                <div className="flex flex-col flex-1 min-w-0">
                   <label
                     className="text-[#827ead] text-xs font-normal font-['Mulish']"
                     htmlFor="deadline"
@@ -308,33 +322,31 @@ const HomeTaskCreateModal = ({ isOpened, onClose, subject = "", group = "", sele
                       border-none
                       p-0
                       mt-1
+                      w-full
                     "
                     placeholder="-- -- ----"
                   />
                 </div>
-                <svg width="20" height="21" viewBox="0 0 20 21" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M13 12.5L10 10.5V5.5M1 10.5C1 11.6819 1.23279 12.8522 1.68508 13.9442C2.13738 15.0361 2.80031 16.0282 3.63604 16.864C4.47177 17.6997 5.46392 18.3626 6.55585 18.8149C7.64778 19.2672 8.8181 19.5 10 19.5C11.1819 19.5 12.3522 19.2672 13.4442 18.8149C14.5361 18.3626 15.5282 17.6997 16.364 16.864C17.1997 16.0282 17.8626 15.0361 18.3149 13.9442C18.7672 12.8522 19 11.6819 19 10.5C19 9.3181 18.7672 8.14778 18.3149 7.05585C17.8626 5.96392 17.1997 4.97177 16.364 4.13604C15.5282 3.30031 14.5361 2.63738 13.4442 2.18508C12.3522 1.73279 11.1819 1.5 10 1.5C8.8181 1.5 7.64778 1.73279 6.55585 2.18508C5.46392 2.63738 4.47177 3.30031 3.63604 4.13604C2.80031 4.97177 2.13738 5.96392 1.68508 7.05585C1.23279 8.14778 1 9.3181 1 10.5Z" stroke="#827FAE" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                </svg>
               </div>
 
-              <div className="flex-1 p-2.5 rounded-2xl outline outline-1 outline-[#d7d7d7] flex justify-between items-center">
-                <div className="flex flex-col">
+              <div className="p-2.5 rounded-2xl outline outline-1 outline-[#d7d7d7] flex justify-between items-center">
+                <div className="flex flex-col flex-1 min-w-0">
                   <span className="text-[#d7d7d7] text-xs font-normal font-['Mulish']">
                     Виконано
                   </span>
-                  <span className="text-[#d7d7d7] text-[15px] font-bold font-['Nunito']">
+                  <span className="text-[#d7d7d7] text-[15px] font-bold font-['Nunito'] truncate">
                     -- -- ----
                   </span>
                 </div>
-                <svg width="17" height="12" viewBox="0 0 17 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <svg width="17" height="12" viewBox="0 0 17 12" fill="none" xmlns="http://www.w3.org/2000/svg" className="flex-shrink-0">
                   <path d="M1 6L6 11L16 1" stroke="#D7D7D7" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                 </svg>
               </div>
             </div>
 
-            <div className="flex flex-col md:flex-row gap-4">
-              <div className="flex-1 w-[177px] p-2.5 rounded-2xl outline outline-1 outline-[#827ead] flex justify-between items-center">
-                <div className="flex flex-col">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="p-2.5 rounded-2xl outline outline-1 outline-[#827ead] flex justify-between items-center">
+                <div className="flex flex-col flex-1 min-w-0">
                   <label
                     className="text-[#827ead] text-xs font-normal font-['Mulish']"
                     htmlFor="maxScore"
@@ -350,7 +362,7 @@ const HomeTaskCreateModal = ({ isOpened, onClose, subject = "", group = "", sele
                     value={maxScore}
                     onChange={(e) => setMaxScore(e.target.value)}
                     className="
-                      w-12
+                      w-full
                       bg-transparent
                       text-[#827ead]
                       text-[15px]
@@ -363,21 +375,18 @@ const HomeTaskCreateModal = ({ isOpened, onClose, subject = "", group = "", sele
                     placeholder="--"
                   />
                 </div>
-                <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M11.9998 18.25L5.82784 21.495L7.00684 14.622L2.00684 9.75495L8.90684 8.75495L11.9928 2.50195L15.0788 8.75495L21.9788 9.75495L16.9788 14.622L18.1578 21.495L11.9998 18.25Z" stroke="#827FAE" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                </svg>
               </div>
 
-              <div className="flex-1 w-[177px] p-2.5 rounded-2xl outline outline-1 outline-[#d7d7d7] flex justify-between items-center">
-                <div className="flex flex-col">
+              <div className="p-2.5 rounded-2xl outline outline-1 outline-[#d7d7d7] flex justify-between items-center">
+                <div className="flex flex-col flex-1 min-w-0">
                   <span className="text-[#827ead] text-xs font-normal font-['Mulish']">
                     Статус
                   </span>
-                  <span className="text-[#827ead] text-[15px] font-bold font-['Nunito']">
+                  <span className="text-[#827ead] text-[15px] font-bold font-['Nunito'] truncate">
                     {isEditing ? 'Редагування' : 'Створення'}
                   </span>
                 </div>
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="flex-shrink-0">
                   <path d="M11.9949 19.9786V20M11.9949 13.559C12.8928 13.5619 13.7655 13.2403 14.4719 12.6462C15.1783 12.0521 15.6773 11.2201 15.8883 10.2846C16.0992 9.34912 16.0098 8.36475 15.6345 7.49044C15.2591 6.61612 14.6198 5.90292 13.8197 5.46599C13.0254 5.0299 12.1169 4.89469 11.2418 5.08235C10.3667 5.27001 9.57658 5.76949 9 6.49955" stroke="#827FAE" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                 </svg>
               </div>
@@ -385,7 +394,7 @@ const HomeTaskCreateModal = ({ isOpened, onClose, subject = "", group = "", sele
           </div>
         </div>
 
-        <div className="p-4 pb-0 flex-1">
+        <div className="px-4 pt-4 pb-2 flex-1">
           <h3 className="text-[#8a48e6] text-[15px] font-bold font-['Nunito'] mb-3 ml-3">
             Завдання
           </h3>
@@ -401,68 +410,83 @@ const HomeTaskCreateModal = ({ isOpened, onClose, subject = "", group = "", sele
           />
         </div>
 
-        <div className="p-4 pt-0">
-          <h3 className="text-[#8a48e6] text-[15px] font-bold font-['Nunito'] ml-3">
+        <div className="px-4 pt-2 pb-4">
+          <h3 className="text-[#8a48e6] text-[15px] font-bold font-['Nunito'] ml-3 mb-2">
             Прикріплені файли
           </h3>
-          <div className="w-full h-[160px] overflow-x-auto whitespace-nowrap">
-            {[...existingFiles, ...newFiles].map((file, index) => (
-              <FileMarkup
-                key={index}
-                fileName={file.FileName || file.name}
-                fileUrl={file.Filepath || file.url}
-              />
-            ))}
+          <div className="w-full h-[160px] overflow-x-auto overflow-y-auto whitespace-nowrap border border-gray-100 rounded-xl p-2">
+            {[...existingFiles, ...newFiles].length > 0 ? (
+              [...existingFiles, ...newFiles].map((file, index) => (
+                <FileMarkup
+                  key={index}
+                  fileName={file.FileName || file.name}
+                  fileUrl={file.Filepath || file.url}
+                />
+              ))
+            ) : (
+              <div className="h-full flex items-center justify-center text-gray-400">
+                Немає прикріплених файлів
+              </div>
+            )}
           </div>
         </div>
 
-        <div className="flex flex-wrap justify-between p-4 gap-2">
-          <div className="flex items-center">
-            <input
-              type="file"
-              ref={fileInputRef}
-              style={{ display: 'none' }}
-              onChange={handleFileChange}
-            />
-            <button
-              onClick={() => fileInputRef.current.click()}
-              className="
-                flex items-center justify-center gap-2.5
-                bg-white
-                rounded-[40px]
-                outline outline-1 outline-[#d7d7d7]
-                px-4 py-2
-                transition
-                hover:bg-gray-100
-              "
-            >
-              <div className="w-8 h-8 flex items-center justify-center">
-                <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M6.66699 16.0003H25.3337M16.0003 6.66699V25.3337" stroke="#120C38" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                </svg>
-              </div>
-              <span className="text-[#120c38] text-[15px] font-bold font-['Nunito']">
-                Додати файли
-              </span>
-            </button>
-          </div>
-          <div className="w-[138px] h-12 relative">
-            <div
-              onClick={isFormValid() ? (isEditing ? handleEdit : handleCreate) : null}
-              className={`w-[138px] h-12 p-2 left-0 top-0 absolute rounded-[40px] inline-flex justify-end items-center gap-2.5 cursor-pointer ${
-                isFormValid()
-                  ? 'bg-[#8a48e6] hover:bg-purple-700'
-                  : 'bg-gray-400 cursor-not-allowed'
-              }`}
-            >
-              <div className="justify-center text-white text-[15px] font-bold font-['Nunito']">
-                {isEditing ? 'Зберегти' : 'Надіслати'}
-              </div>
+        <div className="flex flex-col sm:flex-row justify-between p-4 gap-4 border-t border-gray-100">
+          <button
+            onClick={() => fileInputRef.current.click()}
+            className="
+              flex items-center justify-center gap-2.5
+              bg-white
+              rounded-[40px]
+              outline outline-1 outline-[#d7d7d7]
+              px-4 py-2
+              transition
+              hover:bg-gray-100
+              w-full
+              sm:w-auto
+            "
+          >
+            <div className="w-8 h-8 flex items-center justify-center">
               <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M27.9999 15.9997L6.26391 5.37835C6.13992 5.33013 6.00433 5.3201 5.8746 5.34956C5.74486 5.37903 5.62691 5.44663 5.53591 5.54369C5.44258 5.64325 5.37832 5.76648 5.35011 5.9C5.3219 6.03352 5.33082 6.17222 5.37591 6.30102L8.66658 15.9997M27.9999 15.9997L6.26391 26.621C6.13992 26.6692 6.00433 26.6793 5.8746 26.6498C5.74486 26.6203 5.62691 26.5527 5.53591 26.4557C5.44258 26.3561 5.37832 26.2329 5.35011 26.0994C5.3219 25.9659 5.33082 25.8272 5.37591 25.6984L8.66658 15.9997M27.9999 15.9997H8.66658" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                <path d="M6.66699 16.0003H25.3337M16.0003 6.66699V25.3337" stroke="#120C38" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
               </svg>
             </div>
-          </div>
+            <span className="text-[#120c38] text-[15px] font-bold font-['Nunito']">
+              Додати файли
+            </span>
+          </button>
+          <input
+            type="file"
+            ref={fileInputRef}
+            style={{ display: 'none' }}
+            onChange={handleFileChange}
+          />
+
+          <button
+            onClick={isFormValid() ? (isEditing ? handleEdit : handleCreate) : null}
+            className={`
+              h-12 
+              px-4
+              rounded-[40px] 
+              flex 
+              items-center 
+              justify-center
+              gap-2.5 
+              w-full
+              sm:w-auto
+              ${isFormValid()
+                ? 'bg-[#8a48e6] hover:bg-purple-700'
+                : 'bg-gray-400 cursor-not-allowed'
+              }
+            `}
+          >
+            <div className="text-white text-[15px] font-bold font-['Nunito']">
+              {isEditing ? 'Зберегти' : 'Надіслати'}
+            </div>
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M27.9999 15.9997L6.26391 5.37835C6.13992 5.33013 6.00433 5.3201 5.8746 5.34956C5.74486 5.37903 5.62691 5.44663 5.53591 5.54369C5.44258 5.64325 5.37832 5.76648 5.35011 5.9C5.3219 6.03352 5.33082 6.17222 5.37591 6.30102L8.66658 15.9997M27.9999 15.9997L6.26391 26.621C6.13992 26.6692 6.00433 26.6793 5.8746 26.6498C5.74486 26.6203 5.62691 26.5527 5.53591 26.4557C5.44258 26.3561 5.37832 26.2329 5.35011 26.0994C5.3219 25.9659 5.33082 25.8272 5.37591 25.6984L8.66658 15.9997M27.9999 15.9997H8.66658" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </button>
         </div>
       </div>
     </div>
