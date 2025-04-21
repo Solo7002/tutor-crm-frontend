@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useState } from 'react';
 import './ProfileTeacher.css';
 import Reviews from './Reviews/Reviews';
 import axios from 'axios';
@@ -42,7 +42,7 @@ export default function ProfileTeacher() {
     const [teacher, setTeacher] = useState({});
     const [courses, setCourses] = useState([]);
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         const token = sessionStorage.getItem("token");
         if (token) {
             try {
@@ -50,6 +50,7 @@ export default function ProfileTeacher() {
                 axios.get(`http://localhost:4000/api/teachers/${decoded.id}/info`).then(res => {
                     console.log('user', res.data.user);
                     setTeacher(res.data.teacher);
+                    console.log('user',res.data.user)
                     setUser(res.data.user);
                     setCourses(res.data.courses);
                 })
@@ -79,7 +80,10 @@ export default function ProfileTeacher() {
                                         </div>
                                     </div>
                                     <div className="text-center text-[#827ead] text-xs font-normal font-['Mulish'] mt-1">
-                                        {user && user.Email}
+                                        {user && user.Email ? user.Email : "example@gmail.com"}
+                                    </div>
+                                    <div className="text-center text-[#827ead] text-xs font-normal font-['Mulish'] mt-1">
+                                        {user && user.UserPhones ? `+${user.UserPhones[0].PhoneNumber}` : null}
                                     </div>
                                 </div>
 
