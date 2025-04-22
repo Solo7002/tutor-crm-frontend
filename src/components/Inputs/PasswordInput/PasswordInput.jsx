@@ -6,16 +6,20 @@ const PasswordInput = ({
   value = "",
   placeholder = "Пароль",
   onChange,
-  validate,
+  validate = false,
   onValidationChange,
   onBlurOff = false,
-  onTrigger = false
+  onTrigger = false,
+  validationNeeded = true,
 }) => {
   const [isVisible, setIsVisible] = useState(false);
   const [isValid, setIsValid] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
 
   const validatePassword = (password) => {
+    if(validationNeeded === false){
+      return [];
+    }
     const errors = [];
     const minLength = 8;
     const maxLength = 128;

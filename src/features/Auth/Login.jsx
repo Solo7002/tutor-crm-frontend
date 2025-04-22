@@ -145,6 +145,7 @@ const Login = () => {
           validate={validatePassword}
           onValidationChange={handleValidationChange}
           onTrigger={errorLogin}
+          validationNeeded={false}
         />
 
         <div className="login-forgot">
