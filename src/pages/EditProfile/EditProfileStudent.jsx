@@ -12,17 +12,9 @@ export default function EditProfileStudent() {
     const [formData, setFormData] = useState({
         LastName: '',
         FirstName: '',
-        Email: '',
         PhoneNumber: '',
-        SchoolName: '',
-        Grade: '',
     });
     const [initialFormData, setInitialFormData] = useState(null);
-    const [passwordData, setPasswordData] = useState({
-        newPassword: '',
-        confirmPassword: ''
-    });
-    const [initialPasswordData, setInitialPasswordData] = useState(null);
     const [imageFile, setImageFile] = useState(null);
     const [initialImageFile, setInitialImageFile] = useState(null);
     const [previewImage, setPreviewImage] = useState('');
@@ -34,21 +26,17 @@ export default function EditProfileStudent() {
         if (token) {
             try {
                 const decoded = jwtDecode(token);
-                axios.get(`http://localhost:4000/api/students/${decoded.id}/info`)
+                axios.get(`http://localhost:4000/api/users/${decoded.id}/profile`)
                     .then(res => {
-                        const { user, student } = res.data;
+                        console.log('res.data',res.data)
+                        const user = res.data;
                         const initialData = {
                             LastName: user.LastName || '',
                             FirstName: user.FirstName || '',
-                            Email: user.Email || '',
-                            PhoneNumber: user.PhoneNumber || '',
-                            SchoolName: student.SchoolName || '',
-                            Grade: student.Grade || '',
+                            PhoneNumber: user.PhoneNumber || ''
                         };
                         setFormData(initialData);
                         setInitialFormData(initialData);
-                        setPasswordData({ newPassword: '', confirmPassword: '' });
-                        setInitialPasswordData({ newPassword: '', confirmPassword: '' });
                         setPreviewImage(user.ImageFilePath || `https://ui-avatars.com/api/?name=${user.LastName + ' ' + user.FirstName}&background=random&size=86`);
                         setInitialImageFile(null);
                     })
@@ -60,59 +48,6 @@ export default function EditProfileStudent() {
             }
         }
     }, []);
-
-    const validatePassword = (password) => {
-        const minLength = 8;
-        const maxLength = 128;
-        const hasLowercase = /[a-z]/.test(password);
-        const hasUppercase = /[A-Z]/.test(password);
-        const hasDigit = /\d/.test(password);
-        const hasSpecial = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>/?]/.test(password);
-        const allowedChars = /^[A-Za-z\d!@#$%^&*()_+\-=\[\]{};':"\\|,.<>/?]*$/.test(password);
-
-        if (password.length < minLength || password.length > maxLength) {
-            return {
-                isValid: false,
-                error: `Пароль має містити від ${minLength} до ${maxLength} символів`
-            };
-        }
-
-        if (!hasLowercase) {
-            return {
-                isValid: false,
-                error: "Пароль має містити хоча б одну малу літеру (a-z)"
-            };
-        }
-        if (!hasUppercase) {
-            return {
-                isValid: false,
-                error: "Пароль має містити хоча б одну велику літеру (A-Z)"
-            };
-        }
-        if (!hasDigit) {
-            return {
-                isValid: false,
-                error: "Пароль має містити хоча б одну цифру (0-9)"
-            };
-        }
-        if (!hasSpecial) {
-            return {
-                isValid: false,
-                error: "Пароль має містити хоча б один спеціальний символ (!@#$%^&*()_+-=[]{};:'\"\\|,.<>/?)"
-            };
-        }
-        if (!allowedChars) {
-            return {
-                isValid: false,
-                error: "Пароль містить недопустимі символи. Дозволені лише букви, цифри та спеціальні символи: !@#$%^&*()_+-=[]{};:'\"\\|,.<>/?"
-            };
-        }
-
-        return {
-            isValid: true,
-            error: null
-        };
-    };
 
     const validateImage = (file) => {
         if (!file) return { isValid: true, error: null };
@@ -167,33 +102,10 @@ export default function EditProfileStudent() {
 
         if (!formData.LastName) newErrors.LastName = "Прізвище обов'язкове";
         if (!formData.FirstName) newErrors.FirstName = "Ім'я обов'язкове";
-        if (!formData.Email) {
-            newErrors.Email = "Email обов'язковий";
-        } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(formData.Email)) {
-            newErrors.Email = 'Невірний формат email';
-        }
 
         const phoneDigits = formData.PhoneNumber.replace(/[^0-9]/g, '');
         if (phoneDigits.length > 0 && phoneDigits.length < 10) {
             newErrors.PhoneNumber = "Номер телефону має містити мінімум 10 цифр";
-        }
-
-        if (formData.SchoolName && (formData.SchoolName.length < 1 || formData.SchoolName.length > 255)) {
-            newErrors.SchoolName = "Назва школи має бути від 1 до 255 символів";
-        }
-
-        if (formData.Grade && (formData.Grade.length < 1 || formData.Grade.length > 50)) {
-            newErrors.Grade = "Клас має бути від 1 до 50 символів";
-        }
-
-        if (passwordData.newPassword) {
-            const passwordValidation = validatePassword(passwordData.newPassword);
-            if (!passwordValidation.isValid) {
-                newErrors.newPassword = passwordValidation.error;
-            }
-            if (passwordData.confirmPassword !== passwordData.newPassword) {
-                newErrors.confirmPassword = "Паролі не співпадають";
-            }
         }
 
         if (imageFile) {
@@ -206,23 +118,6 @@ export default function EditProfileStudent() {
         setErrors(newErrors);
         console.log("Validation errors:", newErrors);
         return Object.keys(newErrors).length === 0;
-    };
-
-    const handlePasswordChange = async () => {
-        if (passwordData.newPassword) {
-            console.log("New Password:", passwordData.newPassword);
-            try {
-                const token = sessionStorage.getItem("token");
-                await axios.post('http://localhost:4000/api/auth/change-password', {
-                    newPassword: passwordData.newPassword
-                }, {
-                    headers: { Authorization: `Bearer ${token}` }
-                });
-            } catch (error) {
-                setErrors({ submit: 'Помилка при зміні пароля: ' + (error.response?.data?.message || error.message) });
-                throw error;
-            }
-        }
     };
 
     const handleImageChange = (e) => {
@@ -271,14 +166,6 @@ export default function EditProfileStudent() {
             }
         }
 
-        if (passwordData.newPassword && passwordData.newPassword !== initialPasswordData.newPassword) {
-            changes.push({
-                field: 'Password',
-                oldValue: '******',
-                newValue: '****** (змінено)'
-            });
-        }
-
         if (imageFile !== initialImageFile) {
             changes.push({
                 field: 'Profile Image',
@@ -295,8 +182,6 @@ export default function EditProfileStudent() {
 
         setIsLoading(true);
         try {
-            await handlePasswordChange();
-
             const token = sessionStorage.getItem("token");
             const decoded = jwtDecode(token);
             let imageUrl = null;
@@ -311,14 +196,10 @@ export default function EditProfileStudent() {
                     Email: formData.Email,
                     ...(imageUrl && { ImageFilePath: imageUrl })
                 },
-                student: {
-                    SchoolName: formData.SchoolName,
-                    Grade: formData.Grade
-                },
                 phone: formData.PhoneNumber ? { PhoneNumber: formData.PhoneNumber } : null
             };
 
-            await axios.put(`http://localhost:4000/api/students/profile/${decoded.id}`, updateData);
+            await axios.put(`http://localhost:4000/api/users/${decoded.id}/profile`, updateData);
 
             const changes = detectChanges();
             if (changes.length > 0) {
@@ -381,26 +262,18 @@ export default function EditProfileStudent() {
         }
     };
 
-    const handlePasswordInputChange = (e) => {
-        const { name, value } = e.target;
-        setPasswordData(prev => ({ ...prev, [name]: value }));
-        if (errors[name]) {
-            setErrors(prev => ({ ...prev, [name]: '' }));
-        }
-    };
-
     return (
         <div className='w-full flex justify-center px-4'>
             <ToastContainer />
             <div className='w-full md:w-[970px] flex flex-col gap-6 py-4'>
                 <div className="w-full md:relative">
                     {/* Desktop version */}
-                    <div className="hidden md:block w-[970px] h-[600px] bg-white rounded-[20px]">
+                    <div className="hidden md:block w-[970px] h-[350px] bg-white rounded-[20px]">
                         <div className="w-72 h-6 left-[20px] top-[20px] absolute justify-start text-black text-xl font-normal font-['Mulish']">
                             Особиста інформація
                         </div>
 
-                        <div className="left-[110px] top-[156px] absolute">
+                        <div className="left-[110px] top-[126px] absolute">
                             <img className="size-24 rounded-full object-cover" src={previewImage} alt="Profile" />
                             <label className="w-24 h-7 absolute top-[102px] cursor-pointer flex items-center justify-center rounded-[20px] outline outline-1 outline-[#8a48e6]">
                                 <input
@@ -437,34 +310,12 @@ export default function EditProfileStudent() {
                                 {errors.PhoneNumber && <div className="text-red-500 text-sm mt-1">{errors.PhoneNumber}</div>}
                             </div>
 
-                            <div className="relative">
+                            {/* <div className="relative">
                                 <input type="email" name="Email" value={formData.Email} onChange={handleInputChange}
                                     className={`w-[550px] h-14 p-4 bg-white rounded-2xl outline outline-1 ${errors.Email ? 'outline-red-500' : 'outline-[#8a48e6]'} text-[#120c38] text-base font-normal font-['Mulish']`}
                                     placeholder="Email" />
                                 {errors.Email && <div className="text-red-500 text-sm mt-1">{errors.Email}</div>}
-                            </div>
-
-                            <div className="relative">
-                                <PasswordInput
-                                    name="newPassword"
-                                    value={passwordData.newPassword}
-                                    onChange={handlePasswordInputChange}
-                                    placeholder="Новий пароль"
-                                    className={errors.newPassword ? 'outline-red-500' : 'outline-[#8a48e6]'}
-                                />
-                                {errors.newPassword && <div className="text-red-500 text-sm mt-1">{errors.newPassword}</div>}
-                            </div>
-
-                            <div className="relative">
-                                <PasswordInput
-                                    name="confirmPassword"
-                                    value={passwordData.confirmPassword}
-                                    onChange={handlePasswordInputChange}
-                                    placeholder="Підтвердження пароля"
-                                    className={errors.confirmPassword ? 'outline-red-500' : 'outline-[#8a48e6]'}
-                                />
-                                {errors.confirmPassword && <div className="text-red-500 text-sm mt-1">{errors.confirmPassword}</div>}
-                            </div>
+                            </div> */}
 {/* 
                             <div className="flex gap-4">
                                 <div className="flex-1">
@@ -484,10 +335,10 @@ export default function EditProfileStudent() {
                     </div>
 
                         <div className="w-full flex flex-col gap-5 mt-5 justify-center items-center">
-                            <button onClick={handleSubmit} disabled={isLoading}
+                            <button onClick={() => window.location.href = '/user/edit/credentials'} disabled={isLoading}
                                 className="w-96 h-12 px-10 py-2 bg-[#8a4ae6] rounded-2xl flex justify-center items-center gap-2.5 overflow-hidden hover:bg-[#632DAE] transition-colors">
                                 <span className="text-center text-white text-xl font-medium font-['Nunito']">
-                                    {isLoading ? 'Збереження...' : 'Змінити пароль та/або пошту'}
+                                    Змінити пароль та/або пошту
                                 </span>
                             </button>
                             <button onClick={handleSubmit} disabled={isLoading}
@@ -539,7 +390,7 @@ export default function EditProfileStudent() {
                                 placeholder="Email" />
                             {errors.Email && <div className="text-red-500 text-sm mt-1">{errors.Email}</div>}
 
-                            <PasswordInput
+                            {/* <PasswordInput
                                 name="newPassword"
                                 value={passwordData.newPassword}
                                 onChange={handlePasswordInputChange}
@@ -554,7 +405,7 @@ export default function EditProfileStudent() {
                                 onChange={handlePasswordInputChange}
                                 placeholder="Підтвердження пароля"
                                 className={errors.confirmPassword ? 'outline-red-500' : 'outline-[#8a48e6]'}
-                            />
+                            /> */}
                             {errors.confirmPassword && <div className="text-red-500 text-sm mt-1">{errors.confirmPassword}</div>}
 
                             <input type="text" name="SchoolName" value={formData.SchoolName} onChange={handleInputChange}

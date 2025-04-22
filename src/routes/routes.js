@@ -26,6 +26,7 @@ import CalendarTeacher from "../pages/Calendar/CalendarTeacher/CalendarTeacher";
 import Course from "../pages/Course/Course";
 import ProfileStudent from "../pages/Profile/ProfileStudent";
 import EditProfileStudent from "../pages/EditProfile/EditProfileStudent";
+import EditEmailAndPassword from "../pages/EditProfile/EditEmailAndPassword";
 
 const AppRoutes = () => {
   return (
@@ -77,6 +78,11 @@ const AppRoutes = () => {
           <Route path="courses" element={<Course />} />
           <Route path="profile" element={<ProfileTeacher />} />
           <Route path="profile/edit" element={<EditProfileTeacher />} />
+        </Route>
+
+        <Route path="/user" element={<Navbar />}>
+            <Route path="edit" element={<EditProfileStudent />} />
+            <Route path="edit/credentials" element={<EditEmailAndPassword />} />
         </Route>
 
         <Route path="*" element={<Navigate to="/" replace />} /> {/* Заглушка */}
