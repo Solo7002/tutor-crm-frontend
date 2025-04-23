@@ -16,6 +16,7 @@ import UserCard from "./Components/HomeTaskCheck/UserCard";
 import HomeTaskCheckModal from "./Components/HomeTaskCreateModal/HomeTaskCheckModal";
 import EvaluateAIModal from "./Components/HomeTaskCreateModal/EvaluateAIModal";
 import EvaluateModal from "./Components/HomeTaskCreateModal/EvaluateModal";
+import { ToastContainer } from "react-toastify";
 
 const scrollbarFunction = () => {
   const scrollContainer = document.getElementById('scrollContainer');
@@ -295,6 +296,7 @@ const HometaskTeacher = () => {
 
   return (
     <div className="hometask-teacher-page px-4 md:pr-10">
+      <ToastContainer />
       <HomeTaskCreateModal
         isOpened={isModalOpened}
         onClose={() => { setIsModalOpened(false); setSelectedHometask(null); }}

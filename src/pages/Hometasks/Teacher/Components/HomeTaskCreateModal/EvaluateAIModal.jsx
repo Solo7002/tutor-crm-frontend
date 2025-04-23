@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
 import StandartInput from "../StandartInput/StandartInput";
+import { toast } from 'react-toastify';
 
 const EvaluateAIModal = ({ isOpened, onClose, onNext, hometask = null, doneHometask = null, subject = "", setRefreshTrigger }) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -70,9 +71,27 @@ const EvaluateAIModal = ({ isOpened, onClose, onNext, hometask = null, doneHomet
       });
       onClose();
       setRefreshTrigger();
+              toast.success(`Завдання було успішно оцінено: ${aiMark}/${hometask.MaxMark}`, {
+                  position: "bottom-right",
+                  autoClose: 3000,
+                  hideProgressBar: false,
+                  closeOnClick: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  progress: undefined,
+              });
     } catch (error) {
       console.error('Ошибка при обновлении DoneHometask:', error);
       alert("Произошла ошибка при обновлении оценки.");
+      toast.success(`Виникла помилка`, {
+          position: "bottom-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+      });
     }
   };
 

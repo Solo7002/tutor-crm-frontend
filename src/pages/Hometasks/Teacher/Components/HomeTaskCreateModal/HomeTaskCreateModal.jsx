@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
 import StandartInput from "../StandartInput/StandartInput";
 import ImageSelectionModal from './ImageSelectionModal';
+import { toast } from 'react-toastify';
 
 const FileMarkup = ({ fileName, fileUrl }) => {
   return (
@@ -36,6 +37,15 @@ const HomeTaskCreateModal = ({ isOpened, onClose, subject = "", group = "", sele
   const [description, setDescription] = useState('');
   const fileInputRef = useRef(null);
   const coverInputRef = useRef(null);
+
+  const standardCovers = [
+    'https://blobstorage226122007.blob.core.windows.net/blob-storage-container/hometask13042025_cover_1.png',
+    'https://blobstorage226122007.blob.core.windows.net/blob-storage-container/hometask13042025_cover_2.png',
+    'https://blobstorage226122007.blob.core.windows.net/blob-storage-container/hometask13042025_cover_3.png',
+    'https://blobstorage226122007.blob.core.windows.net/blob-storage-container/hometask13042025_cover_4.png',
+    'https://blobstorage226122007.blob.core.windows.net/blob-storage-container/hometask13042025_cover_5.png',
+    'https://blobstorage226122007.blob.core.windows.net/blob-storage-container/hometask13042025_cover_6.png'
+  ];
 
   const [isImageModalOpen, setIsImageModalOpen] = useState(false);
 
@@ -135,13 +145,19 @@ const HomeTaskCreateModal = ({ isOpened, onClose, subject = "", group = "", sele
     const currentDate = new Date().toISOString();
     const deadlineDate = new Date(deadline + 'T00:00:00Z').toISOString();
 
+    let imgId;
+    if (coverImage === null) {
+        imgId = standardCovers[Math.floor(Math.random() * standardCovers.length)];
+        setCoverImage(imgId);
+    }
+
     const homeTaskData = {
       HomeTaskHeader: header,
       HomeTaskDescription: description,
       StartDate: currentDate,
       DeadlineDate: deadlineDate,
       MaxMark: parseInt(maxScore),
-      ImageFilePath: coverImage,
+      ImageFilePath: coverImage || imgId,
       GroupId: selectedGroupId,
       files: newFiles.map(file => ({ FilePath: file.url, FileName: file.name }))
     };
@@ -155,8 +171,28 @@ const HomeTaskCreateModal = ({ isOpened, onClose, subject = "", group = "", sele
       setCoverImage(null);
       setHeader("");
       setDescription("");
+      
+    toast.success("Завдання було успішно створено", {
+        position: "bottom-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+    });
     } catch (error) {
       console.error('Помилка при створенні домашнього завдання:', error);
+      
+      toast.error("Помилка при створенні домашнього завдання", {
+          position: "bottom-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+      });
       alert('Не вдалося створити домашнє завдання');
     }
   };
@@ -175,9 +211,28 @@ const HomeTaskCreateModal = ({ isOpened, onClose, subject = "", group = "", sele
       await axios.put(`http://localhost:4000/api/hometasks/${hometask.HometaskId}`, updatedHomeTaskData);
       onClose();
       setRefreshTrigger();
+      toast.success("Завдання було успішно змінено", {
+          position: "bottom-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+      });
     } catch (error) {
       console.error('Помилка при редагуванні домашнього завдання:', error);
       alert('Не вдалося зберегти зміни');
+      
+      toast.error("Помилка при редагуванні домашнього завдання", {
+          position: "bottom-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+      });
     }
   };
 

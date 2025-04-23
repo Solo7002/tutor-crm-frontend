@@ -40,7 +40,7 @@ const TaskCardBlock2 = React.forwardRef(({ isSelected, onSelect, hometask }, ref
                 Видано:
                 <br />
               </span>
-              <span className="text-[#120c38] text-xs sm:text-[15px] font-extrabold font-['Lato']">
+              <span className="text-[#120c38] text-xs sm:text-[15px] font-extrabold font-['Mulish']">
                 {new Date(hometask.HometaskStartDate).toLocaleDateString("ru-RU")}
               </span>
             </div>
@@ -67,7 +67,7 @@ const TaskCardBlock2 = React.forwardRef(({ isSelected, onSelect, hometask }, ref
                 Виконати до:
                 <br />
               </span>
-              <span className="text-[#8a48e6] text-xs sm:text-[15px] font-extrabold font-['Lato']">
+              <span className="text-[#8a48e6] text-xs sm:text-[15px] font-extrabold font-['Mulish']">
               {new Date(hometask.HometaskDeadlineDate).toLocaleDateString("ru-RU")}
               </span>
             </div>
