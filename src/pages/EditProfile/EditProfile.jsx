@@ -28,7 +28,6 @@ export default function EditProfile() {
                 const decoded = jwtDecode(token);
                 axios.get(`http://localhost:4000/api/users/${decoded.id}/profile`)
                     .then(res => {
-                        console.log('res.data', res.data)
                         const user = res.data;
                         const initialData = {
                             LastName: user.LastName || '',
@@ -117,7 +116,6 @@ export default function EditProfile() {
         }
 
         setErrors(newErrors);
-        console.log("Validation errors:", newErrors);
         return Object.keys(newErrors).length === 0;
     };
 
