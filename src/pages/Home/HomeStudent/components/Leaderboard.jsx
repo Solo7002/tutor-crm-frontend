@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { jwtDecode } from "jwt-decode";
 import Dropdown from "./Dropdown";
+import { toast } from 'react-toastify';
 
 const Leaderboard = ({ leaders }) => {
     const [selectedSubject, setSelectedSubject] = useState("Усі предмети");
@@ -11,7 +12,7 @@ const Leaderboard = ({ leaders }) => {
     useEffect(() => {
         const token = sessionStorage.getItem('token');
         if (!token) {
-            console.error('No token found in session storage');
+            toast.error('Токен не знайдено в сховищі сесії!');
             return;
         }
 
@@ -19,7 +20,7 @@ const Leaderboard = ({ leaders }) => {
             const decodedToken = jwtDecode(token);
             setCurrentUserEmail(decodedToken.email);
         } catch (error) {
-            console.error('Error decoding token:', error);
+            toast.error('Ошибка при расшифровке токена!');
         }
     }, []);
 
@@ -129,11 +130,10 @@ const Leaderboard = ({ leaders }) => {
                                             }}
                                         >
                                             <div
+                                                className="text-xs sm:text-sm md:text-xl truncate max-w-[100px] sm:max-w-[150px] md:max-w-none"
                                                 style={{
                                                     fontFamily: "Mulish",
                                                     fontWeight: index === 0 ? "700" : "400",
-                                                    fontSize: "15pt",
-                                                    lineHeight: "18.83pt",
                                                     letterSpacing: "-0.5%",
                                                     color: "#120C38",
                                                 }}

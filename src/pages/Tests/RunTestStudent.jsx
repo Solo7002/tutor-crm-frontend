@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios'; 
 import { PrimaryButton } from "../../components/Buttons/Buttons";
 import { decryptData } from '../../utils/crypto';
+import { toast } from 'react-toastify';
 
 export default function RunTestStudent() {
   const navigate = useNavigate();
@@ -21,7 +22,6 @@ export default function RunTestStudent() {
   useEffect(() => {
     const decryptedTestId = decryptData(encryptedTestId);
     setDoneTestId(decryptedTestId);
-    console.log("decryptedTestId: ", decryptedTestId);
 
     axios.get(`http://localhost:4000/api/tests/testByDoneTest/${decryptedTestId}`)
       .then(response => {
@@ -29,7 +29,7 @@ export default function RunTestStudent() {
         setTimeRemaining(response.data.TimeLimit * 60);
       })
       .catch(error => {
-        console.error("Error fetching test data:", error);
+        toast.error("Ошибка при получении тестов!");
       });
   }, [encryptedTestId]);
 
@@ -69,7 +69,7 @@ export default function RunTestStudent() {
           navigate(`/student/tests/complete/${encryptedTestId}`);
         })
         .catch(error => {
-          console.error('Ошибка при отправке теста:', error);
+          toast.error('Ошибка при отправке теста!');
         });
     }
   }, [currentQuestionIndex, testData, timeRemaining, selectedAnswers]);

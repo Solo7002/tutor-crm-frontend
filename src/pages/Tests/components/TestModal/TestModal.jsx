@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { PrimaryButton, SecondaryButton } from '../Buttons/Buttons2';
 import { encryptData } from '../../../../utils/crypto';
+import { toast } from 'react-toastify';
 
 const TestModal = ({ isOpened, onClose, test, studentId }) => {
   const navigate = useNavigate();
@@ -98,7 +99,7 @@ const TestModal = ({ isOpened, onClose, test, studentId }) => {
   
       navigate(`/test/${encryptedTestId}`);
     } catch (error) {
-      console.error('Помилка при створенні тесту:', error);
+      toast.error('Помилка при створенні тесту!');
     }
   };
 

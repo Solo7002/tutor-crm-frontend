@@ -69,6 +69,10 @@
     border: 1px solid rgb(209 213 219 / var(--tw-border-opacity, 1)) !important;
 }
 
+.navbar .sidebar .navlink.disabled {
+    pointer-events: none;
+}
+
 @media (max-width: 768px) {
     .navbar .bg-nav-pattern{
         display: none;
@@ -172,6 +176,38 @@
     .navbar .footer .navlink  {
         width: 5vh !important;
         height: 5vh !important;
+    }
+
+    .navbar .sidebar .navlink.disabled {
+        position: relative;
+        width: 5vh !important;
+        height: 5vh !important;
+        border: 1px solid #8A48E6 !important;
+        opacity: 0.5;
+        background: white !important;
+      }
+    
+      .navbar .sidebar .navlink.disabled .nav-icon {
+        width: 5vh !important;
+        height: 5vh !important;
+        border: none !important;
+      }
+    
+      .navbar .sidebar .navlink.disabled svg path {
+        stroke: #8A48E6 !important;
+      }
+    
+      .navbar .sidebar .navlink.disabled .nav-item-text {
+        display: none !important;
+      }
+    
+      .navbar .sidebar .navlink.disabled > div.absolute {
+        display: block !important;
+        top: -10px !important;
+        right: -10px !important;
+        font-size: 10px !important;
+        padding: 2px 4px !important;
+        height: auto !important;
     }
 
     .navbar .footer .navlink svg {

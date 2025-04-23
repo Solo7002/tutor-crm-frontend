@@ -10,6 +10,8 @@ import Graphic from './components/Graphic';
 import Productivity from './components/Productivity';
 import { jwtDecode } from 'jwt-decode';
 import { useLocation } from 'react-router-dom';
+import { toast } from 'react-toastify';
+
 export default function HomeTeacher() {
     const [leaders, setLeaders] = useState([]);
     const [events, setEvents] = useState([]);
@@ -32,7 +34,7 @@ export default function HomeTeacher() {
             try {
                 const token = sessionStorage.getItem('token');
                 if (!token) {
-                    console.error('No token found in session storage');
+                    toast.error('Токен не знайдено в сховищі сесії!');
                     return;
                 }
 
@@ -40,14 +42,14 @@ export default function HomeTeacher() {
                 try {
                     decodedToken = jwtDecode(token);
                 } catch (error) {
-                    console.error('Error decoding token:', error);
+                    toast.error('Ошибка при расшифровке токена!');
                     return;
                 }
 
                 const userId = decodedToken.id;
 
                 if (!userId) {
-                    console.error('User ID not found in token');
+                    toast.error('User ID не знайдено в токені!');
                     return;
                 }
 
@@ -58,12 +60,11 @@ export default function HomeTeacher() {
                 });
 
                 if (!teacherResponse.data.success || !teacherResponse.data.data.length) {
-                    console.error('No teacher found for this user');
+                    toast.error('Вчитель не знайдено для цього користувача!');
                     return;
                 }
 
                 const teacher = teacherResponse.data.data[0];
-                console.log(teacher);
                 
                 setTeacherId(teacher.TeacherId);
 
@@ -87,7 +88,7 @@ export default function HomeTeacher() {
                 setProductivityData(productivityResponse.data);
 
             } catch (error) {
-                console.error('Error fetching teacher data:', error.response?.data || error.message);
+                toast.error('Помилка при отриманні даних вчителя!');
             }
         };
 
@@ -95,31 +96,64 @@ export default function HomeTeacher() {
     }, []);
 
     return (
-        <div className="flex flex-col md:flex-row bg-[#F6EEFF] p-2 min-h-[90vh] overflow-hidden">
-            <div className="flex flex-col w-full md:hidden space-y-4">
-                <Greetings user={user || {}} />
-                <Productivity productivityData={productivityData || {}} />
-                <LatestActivity activities={activities} />
-                <NearestEvents events={events} />
-                <Leaderboard leaders={leaders} />
-                <Graphic chartData={grades} />
-            </div>
-            <div className="hidden md:flex md:flex-row w-full">
-                {/* Left col */}
-                <div className="w-full md:w-9/12 pr-4 mb-2 md:mb-0">
+        <div className="flex flex-col bg-[#F6EEFF] p-2 sm:p-4 min-h-[90vh] max-w-full overflow-x-hidden">
+            {/* Mobile Layout */}
+            <div className="flex flex-col w-full lg:hidden space-y-4 min-h-[90vh]">
+                <div className="w-full">
                     <Greetings user={user || {}} />
-                    {/* Graphic and leader flex box */}
-                    <div className="flex flex-col md:flex-row gap-4 mb-6 h-[30vh]">
-                        <Productivity productivityData={productivityData || {}} />
-                        <Leaderboard leaders={leaders} />
-                    </div>
+                </div>
+                <div className="w-full">
+                    <Productivity productivityData={productivityData || {}} />
+                </div>
+                <div className="w-full">
+                    <LatestActivity activities={activities} />
+                </div>
+                <div className="w-full">
+                    <NearestEvents events={events} />
+                </div>
+                <div className="w-full">
+                    <Leaderboard leaders={leaders} />
+                </div>
+                <div className="w-full">
                     <Graphic chartData={grades} />
                 </div>
-                {/* Right col */}
-                <div className="w-full md:w-3/12 ml-auto mr-4">
-                    <Schedule days={days} />
-                    <LatestActivity activities={activities} />
-                    <NearestEvents events={events} />
+            </div>
+
+            {/* Desktop Layout */}
+            <div className="hidden lg:flex w-full">
+                <div className="flex flex-col lg:flex-row w-full gap-4">
+                    {/* Left column - 75% on large screens */}
+                    <div className="w-full lg:w-3/4 space-y-4">
+                        <div className="w-full">
+                            <Greetings user={user || {}} />
+                        </div>
+                        
+                        <div className="flex flex-col md:flex-row gap-4 w-full h-[30vh]">
+                            <div className="w-full md:w-1/2">
+                                <Productivity productivityData={productivityData || {}} />
+                            </div>
+                            <div className="w-full md:w-1/2">
+                                <Leaderboard leaders={leaders} />
+                            </div>
+                        </div>
+                        
+                        <div className="w-full">
+                            <Graphic chartData={grades} />
+                        </div>
+                    </div>
+                    
+                    {/* Right column - 25% on large screens */}
+                    <div className="w-full lg:w-1/4 space-y-4">
+                        <div className="w-full">
+                            <Schedule days={days} />
+                        </div>
+                        <div className="w-full">
+                            <LatestActivity activities={activities} />
+                        </div>
+                        <div className="w-full">
+                            <NearestEvents events={events} />
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

@@ -11,6 +11,7 @@ import SearchTeachers from './components/SearchTeacher';
 //import Map from './components/Map';
 import { jwtDecode } from 'jwt-decode';
 import { useLocation } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 export default function HomeStudent() {
   const [leaders, setLeaders] = useState([]);
@@ -32,7 +33,7 @@ export default function HomeStudent() {
       try {
         const token = sessionStorage.getItem('token');
         if (!token) {
-          console.error('No token found in session storage');
+          toast.error('Токен не знайдено в сховищі сесії!');
           return;
         }
 
@@ -40,14 +41,14 @@ export default function HomeStudent() {
         try {
           decodedToken = jwtDecode(token);
         } catch (error) {
-          console.error('Error decoding token:', error);
+          toast.error('Ошибка при расшифровке токена!');
           return;
         }
 
         const userId = decodedToken.id;
 
         if (!userId) {
-          console.error('User ID not found in token');
+          toast.error('User ID не знайдено в токені!');
           return;
         }
 
@@ -58,7 +59,7 @@ export default function HomeStudent() {
         });
 
         if (!studentResponse.data.success || !studentResponse.data.data.length) {
-          console.error('No student found for this user');
+          toast.error('Студент не знайдено для цього користувача!');
           return;
         }
 
@@ -73,8 +74,6 @@ export default function HomeStudent() {
           axios.get(`http://localhost:4000/api/students/${student.StudentId}/user`)
         ]);
 
-        console.log("------- grades: ", gradesResponse.data);
-
         setLeaders(leadersResponse.data);
         setGrades(gradesResponse.data.reverse());
         setEvents(eventsResponse.data.reverse());
@@ -82,7 +81,7 @@ export default function HomeStudent() {
         setUser(userResponse.data);
 
       } catch (error) {
-        console.error('Error fetching student data:', error.response?.data || error.message);
+        toast.error('Помилка при отриманні даних студента!');
       }
     };
 

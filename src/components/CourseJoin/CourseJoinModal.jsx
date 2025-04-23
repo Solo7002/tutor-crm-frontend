@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Dropdown from './Dropdown';
 import axios from 'axios';
+import { toast } from 'react-toastify';
 
 const CourseJoinModal = ({ isOpen, onClose, courses, userFrom, teacher, user }) => {
     const [stage, setStage] = useState(1);
@@ -15,7 +16,6 @@ const CourseJoinModal = ({ isOpen, onClose, courses, userFrom, teacher, user }) 
     const [enrolledCourses, setEnrolledCourses] = useState(new Set());
     const [enrolledGroups, setEnrolledGroups] = useState(new Set());
 
-    // Fetch the student's enrolled groups when the modal opens
     useEffect(() => {
         const fetchEnrolledGroups = async () => {
             try {
@@ -37,8 +37,7 @@ const CourseJoinModal = ({ isOpen, onClose, courses, userFrom, teacher, user }) 
                     setEnrolledGroups(enrolledGroupIds);
                 }
             } catch (err) {
-                console.error('Error fetching enrolled groups:', err);
-                setError('Не вдалося завантажити інформацію про ваші групи. Спробуйте ще раз.');
+                toast.error('Не вдалося завантажити інформацію про ваші групи. Спробуйте ще раз.');
             }
         };
 
@@ -47,13 +46,11 @@ const CourseJoinModal = ({ isOpen, onClose, courses, userFrom, teacher, user }) 
         }
     }, [isOpen, userFrom]);
 
-    // Filter available courses
     useEffect(() => {
         const filteredCourses = courses.filter(course => !enrolledCourses.has(course.CourseId));
         setAvailableCourses(filteredCourses);
     }, [courses, enrolledCourses]);
 
-    // Filter available groups when a course is selected
     useEffect(() => {
         if (formData.course) {
             const selectedCourse = courses.find((course) => course.CourseName === formData.course);
@@ -114,9 +111,10 @@ const CourseJoinModal = ({ isOpen, onClose, courses, userFrom, teacher, user }) 
             };
             try {
                 const response = await axios.post('http://localhost:4000/api/notifications/join', requestData);
+                toast.success('Запит надіслано!');
                 setStage(3);
             } catch (err) {
-                console.error('Server error:', err);
+                toast.error('Не вдалося надіслати запит. Спробуйте ще раз!');
                 setError('Не вдалося надіслати запит. Спробуйте ще раз.');
             }
         }

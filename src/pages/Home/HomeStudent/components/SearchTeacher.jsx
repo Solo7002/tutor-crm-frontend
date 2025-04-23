@@ -103,7 +103,7 @@ const SearchTeacher = () => {
   return (
     <div className="bg-[#E0C8FF] w-full min-h-[33vh] flex flex-col rounded-[20px] shadow-md justify-between relative">
       <div className="flex flex-col sm:flex-row w-full">
-        <div className="flex flex-wrap p-2 sm:p-4 gap-2">
+        <div className="flex p-2 sm:p-4 gap-2">
           {/* Вид навчання */}
           <div className="w-full sm:w-auto min-w-[150px]">
             <Dropdown
@@ -140,9 +140,9 @@ const SearchTeacher = () => {
         </div>
 
         {/* Шукати */}
-        <div className="p-2 sm:p-4 self-center sm:ml-auto">
-          <Link to="/student/search">
-            <div className="w-full sm:w-[300px] md:w-[420px] h-12 px-4 py-2 bg-white rounded-[40px] flex items-center justify-between border hover:border-[#8a48e6]">
+        <div className="p-2 sm:p-4 self-center sm:ml-auto w-full justify-end">
+          <Link to="/student/search" className="w-full ml-auto max-w-[420px] h-12 px-4 py-2 bg-white rounded-[40px] flex items-center justify-between border hover:border-[#8a48e6]">
+            
               <div className="text-[#827ead] text-[15px] font-normal font-['Nunito']">
                 Шукати
               </div>
@@ -163,7 +163,6 @@ const SearchTeacher = () => {
                   />
                 </svg>
               </div>
-            </div>
           </Link>
         </div>
       </div>

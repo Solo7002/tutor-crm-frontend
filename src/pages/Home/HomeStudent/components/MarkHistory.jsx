@@ -99,7 +99,7 @@ const MarkHistory = ({ grades }) => {
                     {/* Content */}
                     <div>
                       <div className="text-[#6f6f6f] text-[10pt] font-normal font-['Mulish']">{grade.date}</div>
-                      <div className="text-black text-[14pt] font-semibold font-['Segoe UI']">{grade.subject}</div>
+                      <div className="text-black text-[14pt] font-bold font-['Nunito'] truncate max-w-[calc(100%)]">{grade.subject}</div>
                       <div className="text-[#6f6f6f] text-[10pt] font-normal font-['Mulish']">{getTypeUkr(grade.type)}</div>
                     </div>
                   </div>

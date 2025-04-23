@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { toast } from 'react-toastify';
 
 const AddReviewModal = ({ isOpened, onClose, userIdFor, userIdFrom, onRefreshReviews }) => {
   const [isOpen, setIsOpen] = useState(isOpened);
@@ -9,8 +10,6 @@ const AddReviewModal = ({ isOpened, onClose, userIdFor, userIdFrom, onRefreshRev
 
   useEffect(() => {
     setIsOpen(isOpened);
-    console.log("For: ", userIdFor);
-    console.log("From: ", userIdFrom);
   }, [isOpened]);
 
   if (!isOpen) return null;
@@ -34,8 +33,9 @@ const AddReviewModal = ({ isOpened, onClose, userIdFor, userIdFrom, onRefreshRev
       await axios.post('http://localhost:4000/api/userReviews', reviewData);
       onClose();
       onRefreshReviews();
+      toast.success('Відгук відправлено!');
     } catch (error) {
-      console.error('Помилка при відправці відгуку:', error);
+      toast.error('Помилка при відправці відгуку!');
     }
   };
 

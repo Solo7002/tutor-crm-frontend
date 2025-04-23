@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { Calendar } from "react-calendar";
+import { useNavigate } from 'react-router-dom';
 import "./Schedule.css";
 
 const Schedule = ({ days }) => {
   const [selectedDate, setSelectedDate] = useState(new Date());
+  const navigate = useNavigate();
 
   const months = [
     "Січень",
@@ -57,16 +59,15 @@ const Schedule = ({ days }) => {
   };
 
   return (
-    <div className="bg-white p-4 rounded-[20px] mb-6 shadow-md h-[28vh] justify-center items-start gap-[22.67px] overflow-hidden schedule-mobile-hidden">
+    <div className="bg-white p-2 sm:p-4 rounded-[20px] mb-4 sm:mb-6 shadow-md h-[26vh] sm:h-[28vh] justify-center items-start gap-2 sm:gap-[22.67px] overflow-hidden">
       {/* Header */}
       <h2
-        className="text-lg font-semibold m-3"
+        className="text-base sm:text-lg md:text-xl font-semibold m-2 sm:m-3"
         style={{
           fontFamily: "Nunito",
           fontWeight: "700",
-          fontSize: "16pt",
-          lineHeight: "10.2pt",
-          letterSpacing: "0.59pt",
+          lineHeight: "1.35",
+          letterSpacing: "0.5pt",
           color: "#120C38",
         }}
       >
@@ -77,7 +78,7 @@ const Schedule = ({ days }) => {
       <Calendar
         className="custom-calendar"
         value={selectedDate}
-        onChange={setSelectedDate}
+        onChange={() => navigate("/teacher/calendar")}
         tileClassName={getTileClassName}
         navigationLabel={({ date }) => formatMonthYear(null, date)}
         showNavigation={false}

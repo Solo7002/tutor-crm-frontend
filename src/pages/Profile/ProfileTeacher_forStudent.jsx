@@ -7,6 +7,7 @@ import CourseList from './components/CourseList';
 import { useNavigate } from 'react-router-dom';
 import { jwtDecode } from "jwt-decode";
 import { decryptData } from '../../utils/crypto';
+import { toast } from 'react-toastify';
 
 const FilledStar = () => (
     <svg width="34" height="33" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -71,7 +72,7 @@ export default function ProfileTeacher() {
                         });
                     });
             } catch (error) {
-                console.error("Ошибка при расшифровке токена:", error);
+                toast.error("Ошибка при расшифровке токена!");
             }
         }
 
@@ -88,7 +89,7 @@ export default function ProfileTeacher() {
                                     <div className="w-full flex flex-col items-center">
                                         <img
                                             className="w-20 h-20 md:w-[92px] md:h-[92px] rounded-full"
-                                            src={user.ImageFilePath ? user.ImageFilePath : `https://ui-avatars.com/api/?name=${user.LastName + ' ' + user.FirstName}&background=random&size=86`}
+                                            src={user.ImageFilePath ? user.ImageFilePath : `https://ui-avatars.com/api/?name=${user.FirstName + ' ' + user.LastName}&background=random&size=86`}
                                             alt='teacher'
                                         />
                                         <div className="text-black text-sm md:text-[15px] font-normal font-['Mulish'] mt-2">

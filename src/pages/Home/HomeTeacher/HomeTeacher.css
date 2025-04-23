@@ -2,40 +2,105 @@
 @tailwind components;
 @tailwind utilities;
 
-@media (max-width: 768px) {
-    .students-success .apexcharts-legend {
-        top: 0px !important;
-        width: auto !important;
-        display: flex !important;
-        flex-wrap: nowrap !important;
-        overflow: hidden !important;
-    }
+/* Global responsive styling */
+.overflow-hidden {
+  overflow: hidden !important;
+}
 
-    .students-success .apexcharts-legend .apexcharts-legend-text {
-        white-space: nowrap !important;
-        width: auto !important;
-    }
+.page-container {
+  max-width: 100%;
+  overflow-x: hidden;
+}
 
-    .students-success tspan{
-        font-size: 8px;
-    }
+/* Typography responsiveness */
+h1, h2, h3, h4, h5, h6 {
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  hyphens: auto;
+}
 
-    .students-success{
-        width: 100% !important;
-        height: 40vh !important;
-    }
-    .students-success > div:nth-child(2) {
-        margin-left: 0 !important;
-        margin-right: auto !important;
-        width: 95% !important;
-        justify-content: flex-start !important;
-    }
-    .students-success .apexcharts-canvas {
-        left: 0 !important;
-        margin-left: 0 !important;
-    }
+/* Image responsiveness */
+img {
+  max-width: 100%;
+  height: auto;
+}
 
-    .mobile-dropdown-teacher{
-        width: 35vw !important;
-    }
+/* Common card components */
+.card-container {
+  @apply rounded-[20px] shadow-md overflow-hidden;
+}
+
+/* Mobile-specific styles */
+@media (max-width: 640px) {
+  .students-success .apexcharts-legend {
+    top: 0px !important;
+    width: auto !important;
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+  }
+
+  .students-success .apexcharts-legend .apexcharts-legend-text {
+    white-space: nowrap !important;
+    width: auto !important;
+  }
+
+  .students-success tspan {
+    font-size: 8px;
+  }
+
+  .students-success {
+    width: 100% !important;
+    height: 40vh !important;
+  }
+  
+  .students-success > div:nth-child(2) {
+    margin-left: 0 !important;
+    margin-right: auto !important;
+    width: 95% !important;
+    justify-content: flex-start !important;
+  }
+  
+  .students-success .apexcharts-canvas {
+    left: 0 !important;
+    margin-left: 0 !important;
+  }
+
+  .mobile-dropdown-teacher {
+    width: 100% !important;
+    max-width: 200px !important;
+  }
+}
+
+/* Tablet-specific styles */
+@media (min-width: 641px) and (max-width: 1024px) {
+  .students-success {
+    width: 100% !important;
+  }
+  
+  .mobile-dropdown-teacher {
+    width: 25vw !important;
+    max-width: 200px !important;
+  }
+}
+
+/* Common responsive layout helpers */
+.flex-responsive {
+  @apply flex flex-col sm:flex-row;
+}
+
+.grid-responsive {
+  @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3;
+}
+
+/* Ensures text doesn't overflow containers */
+.text-truncate {
+  @apply truncate max-w-full;
+}
+
+/* Component-specific responsive adjustments */
+.greetings svg {
+  max-height: 100%;
+  width: auto;
 }

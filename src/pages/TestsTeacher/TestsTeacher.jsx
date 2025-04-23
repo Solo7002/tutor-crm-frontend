@@ -8,7 +8,6 @@ import CreateModal from "./components/CreateModal/CreateModal";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
-import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const TestsTeacher = () => {
@@ -226,8 +225,6 @@ const TestsTeacher = () => {
       </div>
 
       {isModalOpen && <CreateModal onClose={handleCloseModal} teacher_id={teacher_id} token={token} />}
-
-      <ToastContainer position="bottom-right" autoClose={3000} hideProgressBar={false} newestOnTop closeOnClick pauseOnHover />
     </div>
   );
 };
