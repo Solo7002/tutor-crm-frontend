@@ -808,7 +808,7 @@ const Navbar = () => {
             />
           )}
           <Outlet />
-          <ToastContainer position="bottom-right" autoClose={5000} hideProgressBar={false} />
+          <ToastContainer position="bottom-right" autoClose={5000} hideProgressBar={false} newestOnTop closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="light" transition={Bounce} />
         </div>
         <div className="absolute top-[80px] right-0 w-[60px] bg-nav-pattern bg-repeat pointer-events-none" style={{ height: 'calc(100% - 80px)' }} />
       </div>
