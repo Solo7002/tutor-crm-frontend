@@ -4,7 +4,7 @@ import "./ItemLesson.css";
 import ChangeDayModal from "../ChangeDayModal/ChangeDayModal";
 import { toast } from "react-toastify";
 
-const ItemLesson = ({ token, lesson, teacherId }) => {
+const ItemLesson = ({ token, lesson, teacherId , onRefresh}) => {
   const [isCollapsed, setIsCollapsed] = useState(true);
   const [isOpenModal, setIsOpenModel] = useState(false);
 
@@ -36,7 +36,7 @@ const ItemLesson = ({ token, lesson, teacherId }) => {
         { autoClose: 5000 }
       );
 
-      window.location.reload();
+      onRefresh();
     } catch (error) {
       console.error("Error deleting lesson:", error);
       const errorMessage = error.response?.data?.message || error.message || "Не вдалося видалити заняття. Спробуйте ще раз.";
@@ -64,7 +64,7 @@ const ItemLesson = ({ token, lesson, teacherId }) => {
 
   return (
     <div className="item-lesson-container">
-      <ChangeDayModal initialData={lesson} teacherId={teacherId} token={token} isOpen={isOpenModal} onClose={onClose} />
+      <ChangeDayModal initialData={lesson} teacherId={teacherId} token={token} isOpen={isOpenModal} onClose={onClose} onRefresh={onRefresh} />
 
       <div className="item-lesson-header">
         <div className="item-lesson-circle" />

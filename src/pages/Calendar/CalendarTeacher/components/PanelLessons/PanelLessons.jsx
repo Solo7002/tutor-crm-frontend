@@ -5,7 +5,7 @@ import Dropdown from "../../../../Materials/components/Dropdown";
 import "./PanelLessons.css";
 import moment from "moment";
 
-const PanelLessons = ({ token, teacherId, lessons: initialLessons, selectedDate, onResetDate }) => {
+const PanelLessons = ({ token, teacherId, lessons: initialLessons, selectedDate, onResetDate,onRefresh}) => {
   const [lessons, setLessons] = useState(initialLessons);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [sortType, setSortType] = useState("today"); 
@@ -99,7 +99,7 @@ const PanelLessons = ({ token, teacherId, lessons: initialLessons, selectedDate,
 
   return (
     <div className="panel">
-      <AddDayModal token={token} teacherId={teacherId} onClose={onAddClose} isOpen={isAddModalOpen} />
+      <AddDayModal token={token} teacherId={teacherId} onClose={onAddClose} isOpen={isAddModalOpen} onRefresh={onRefresh} />
       <div className="panel-header">
         <div className="panel-date-dropdown">
           <Dropdown onSelect={handleSortSelect} categories={sortOptions} />
@@ -109,7 +109,7 @@ const PanelLessons = ({ token, teacherId, lessons: initialLessons, selectedDate,
 
       <div className="panel-lessons">
         {lessons.map((lesson) => (
-          <ItemLesson key={lesson.PlannedLessonId} lesson={lesson} token={token} />
+          <ItemLesson key={lesson.PlannedLessonId} lesson={lesson} token={token} onRefresh={onRefresh} />
         ))}
       </div>
 

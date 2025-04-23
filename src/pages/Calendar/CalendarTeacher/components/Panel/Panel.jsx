@@ -17,10 +17,12 @@ const Panel = () => {
 
               {/* Кнопка */}
               <div className="panel-button-wrapper">
-                  <button className="panel-button">
-                      Додати
-                  </button>
-              </div>
+    <button className="panel-button">
+        Додати
+        <span className="soon-label">Скоро</span>
+    </button>
+   
+</div>
           </div>
 
           {/* Декоративні елементи зліва */}

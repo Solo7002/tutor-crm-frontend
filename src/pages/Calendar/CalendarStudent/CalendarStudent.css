@@ -2,10 +2,39 @@
 @tailwind components;
 @tailwind utilities;
 
-.app-container {
-  @apply flex flex-col min-h-screen  p-1;
+.CalendarStudent .app-container {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 1rem;
 }
 
-.app-content {
-  @apply flex flex-row justify-between   w-full mt-1;
+.CalendarStudent .app-content {
+  display: flex;
+  gap: 1rem;
+}
+
+.CalendarStudent .flex-col {
+  flex-direction: column;
+}
+
+@media (max-width: 1000px) {
+  .CalendarStudent .app-content {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+ 
+  .CalendarStudent  .app-content > div {
+    width: 100% !important;
+    margin-bottom: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+ 
+  .CalendarStudent  .panelLesson {
+    margin-top: 1rem;
+    align-items: center;
+  }
 }

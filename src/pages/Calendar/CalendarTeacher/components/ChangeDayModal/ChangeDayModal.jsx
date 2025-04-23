@@ -5,7 +5,7 @@ import moment from "moment";
 import Dropdown from "../../../../../components/Dropdown/Dropdown";
 import { toast } from "react-toastify";
 
-const ChangeDayModal = ({ isOpen, onClose, token, initialData, teacherId }) => {
+const ChangeDayModal = ({ isOpen, onClose, token, initialData, teacherId,onRefresh }) => {
   const [format, setFormat] = useState(initialData?.LessonType || "online");
   const [subject, setSubject] = useState(initialData?.LessonHeader || "");
   const [selectedGroupId, setSelectedGroupId] = useState(initialData?.GroupId?.toString() || null);
@@ -201,7 +201,7 @@ const ChangeDayModal = ({ isOpen, onClose, token, initialData, teacherId }) => {
       );
 
       onClose();
-      window.location.reload();
+      onRefresh();
     } catch (error) {
       const errorMessage = error.response?.data?.message || error.message || "Не вдалося оновити подію. Спробуйте ще раз.";
       toast.error(errorMessage);

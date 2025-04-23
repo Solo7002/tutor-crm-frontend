@@ -4,14 +4,14 @@ import { HomeTaskCardFull, HomeTaskCard } from './components/HomeCard/Hometask-c
 import "./HometaskStudent.css";
 import axios from 'axios';
 import { jwtDecode } from "jwt-decode";
-import SearchButton from '../Materials/components/SearchButton';
 import ToggleSwitch from '../Materials/components/ToggleSwitch';
+import SearchButton from '../Materials/components/SearchButton';
 import Dropdown from '../../components/Dropdown/Dropdown';
 import SortDropdown from '../Materials/components/SortDropdown';
 import { HometaskModal } from "./components/HometaskModal/HometaskModal";
 import { formatDate } from "../../functions/formatDate";
+import { toast } from 'react-toastify';
 
-// Simple debounce utility
 const debounce = (func, wait) => {
   let timeout;
   return (...args) => {
@@ -42,11 +42,12 @@ const HometaskStudent = () => {
   const [userId, setUserId] = useState(null);
   const [studentId, setStudentId] = useState(null);
   const [token, setToken] = useState(null);
-  const [isSwitching, setIsSwitching] = useState(false); // New state for switching
+  const [isSwitching, setIsSwitching] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     const tok = sessionStorage.getItem("token");
-    setToken(tok); // Fixed: Use tok instead of token
+    setToken(tok);
     if (tok) {
       try {
         const decoded = jwtDecode(tok);
@@ -304,12 +305,158 @@ const HometaskStudent = () => {
     setIsModalOpen(false);
   };
 
-  // Debounced button click handler
+  const refreshTasks = useCallback(async () => {
+    try {
+      await Promise.all([
+        fetchTasksByStatus(`http://localhost:4000/api/hometasks/newHometask/${studentId}`, setNewHomeTasks, "new"),
+        fetchTasksByStatus(`http://localhost:4000/api/donehometasks/pendingHometask/${studentId}`, setPendingHomeTasks, "pending"),
+      ]);
+    } catch (error) {
+      console.error("Error refreshing tasks:", error);
+    }
+  }, [studentId, token]);
+
+  const sendHometask = useCallback(async (selectedFiles) => {
+    setIsSubmitting(true);
+  
+    try {
+      
+      const uploadedFiles = await Promise.all(
+        selectedFiles.map(async (file) => {
+          const formData = new FormData();
+          formData.append('file', file);
+  
+          const uploadResponse = await axios.post(
+            'http://localhost:4000/api/files/uploadAndReturnLink',
+            formData,
+            {
+              headers: { Authorization: `Bearer ${token}` },
+            }
+          );
+  
+          const fileUrl = uploadResponse.data?.fileUrl;
+  
+         
+          if (!fileUrl || typeof fileUrl !== 'string' || !fileUrl.startsWith('http')) {
+            console.error('Ошибка загрузки файла:', file.name, 'Ответ:', uploadResponse.data);
+            throw new Error(`Ошибка загрузки файла "${file.name}".`);
+          }
+  
+          return {
+            name: file.name,
+            url: fileUrl,
+          };
+        })
+      );
+  
+    
+      if (uploadedFiles.length !== selectedFiles.length) {
+        throw new Error('Не все файлы были загружены. Попробуйте ещё раз.');
+      }
+  
+     
+      const createResponse = await axios.post(
+        'http://localhost:4000/api/doneHometasks',
+        {
+          HomeTaskId: hometaskInModal.HomeTaskId,
+          StudentId: studentId,
+          DoneDate: new Date().toISOString(),
+          Mark: -1,
+        },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+  
+      const doneHometaskId = createResponse.data.DoneHomeTaskId;
+  
+    
+      await Promise.all(
+        uploadedFiles.map((file) =>
+          axios.post(
+            'http://localhost:4000/api/doneHometaskFiles/',
+            {
+              DoneHomeTaskId: doneHometaskId,
+              FileName: file.name,
+              FilePath: file.url,
+            },
+            {
+              headers: { Authorization: `Bearer ${token}` },
+            }
+          )
+        )
+      );
+  
+      
+      toast.success(
+        <div>
+          <p>Домашнее задание успешно отправлено!</p>
+          <p>Название: {hometaskInModal.HomeTaskHeader}</p>
+        </div>,
+        { position: 'bottom-right', autoClose: 5000 }
+      );
+  
+      await refreshTasks();
+      setSelectedButton(1);
+      setStatus('pending');
+      handleCloseModal();
+    } catch (error) {
+      console.error('Ошибка при отправке домашнего задания:', error);
+      toast.error(
+        error?.message || 'Не удалось отправить домашнее задание. Попробуйте ещё раз.',
+        {
+          position: 'bottom-right',
+          autoClose: 5000,
+        }
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
+  }, [hometaskInModal, studentId, token, refreshTasks]);
+  
+  const cancelHometask = useCallback(async () => {
+    if (hometaskDoneInModal) {
+      setIsSubmitting(true);
+      try {
+        await axios.delete(`http://localhost:4000/api/doneHometasks/${hometaskDoneInModal.DoneHomeTaskId}`, {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+
+        toast.success(
+          <div>
+            <p>Відправлення домашнього завдання скасовано!</p>
+            <p>Назва: {hometaskInModal.HomeTaskHeader}</p>
+          </div>,
+          {
+            position: "bottom-right",
+            autoClose: 5000
+          }
+        );
+
+        await refreshTasks();
+        setSelectedButton(0);
+        setStatus("default");
+        handleCloseModal();
+      } catch (error) {
+        console.error("Cancel hometask error:", error);
+        toast.error(
+          "Не вдалося скасувати відправлення. Спробуйте ще раз.",
+          {
+            position: "bottom-right",
+            autoClose: 5000
+          }
+        );
+      } finally {
+        setIsSubmitting(false);
+      }
+    }
+  }, [hometaskDoneInModal, hometaskInModal, token, refreshTasks]);
+
   const handleButtonClick = useCallback(
     debounce((index) => {
-      setIsSwitching(true);  
+      setIsSwitching(true);
       setSelectedButton(index);
-    
+
       switch (index) {
         case 0:
           setStatus("default");
@@ -324,7 +471,7 @@ const HometaskStudent = () => {
           setStatus("default");
           break;
       }
-       
+
       setTimeout(() => setIsSwitching(false), 100);
     }, 100),
     []
@@ -349,19 +496,18 @@ const HometaskStudent = () => {
     setDoneHomeTasks((prev) => sortTasks(prev, option));
   }, [sortTasks]);
 
-  // Memoize the selected task list
   const selectedTasks = useMemo(() => {
-    if (isSwitching) return []; // Return empty array during switching to show loading
+    if (isSwitching) return [];
     return selectedButton === 0 ? newHomeTasks : selectedButton === 1 ? pendingHomeTasks : doneHomeTasks;
   }, [selectedButton, newHomeTasks, pendingHomeTasks, doneHomeTasks, isSwitching]);
 
   return (
     <div>
       {isModalOpen && (
-        <div className="hometask-modal" tabIndex={-1} ref={(el) => el?.focus()}>
-          <div className="hometask-modal-content">
+        <div className="hometask-modal fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-2 sm:p-4" tabIndex={-1} ref={(el) => el?.focus()}>
+          <div className="hometask-modal-content w-full max-w-lg md:max-w-2xl lg:max-w-3xl bg-white rounded-lg shadow-xl max-h-[90vh] overflow-y-auto">
             {!isDataLoaded ? (
-              <div className="modal-loading">Завантаження...</div>
+              <div className="modal-loading p-4 text-center">Завантаження...</div>
             ) : (
               <HometaskModal
                 onClose={handleCloseModal}
@@ -372,15 +518,20 @@ const HometaskStudent = () => {
                 hometaskDone={hometaskDoneInModal}
                 hometaskFiles={hometaskFile}
                 studentId={studentId}
+                onSendHometask={sendHometask}
+                onCancelHometask={cancelHometask}
+                isSubmitting={isSubmitting}
               />
             )}
           </div>
         </div>
       )}
       <main>
-        <div className="hometask p-6">
+        <div className="hometask p-3 sm:p-6">
+
           <div className="nav flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-            <div className="h-12 flex items-center gap-2 overflow-x-auto w-full sm:w-auto px-2 no-scrollbar">
+
+            <div className="task-buttons-wrapper flex items-center overflow-x-auto w-full sm:w-auto sm:h-auto p-2 space-x-1 no-scrollbar">
               {buttons.map((button, index) => (
                 <TaskButton
                   key={index}
@@ -389,56 +540,45 @@ const HometaskStudent = () => {
                   count={button.count}
                   isSelected={selectedButton === index}
                   onClick={() => handleButtonClick(index)}
-                  className="flex-shrink-0"
+                  className="flex-shrink-0 m-1 first:ml-0 last:mr-0 "
                 />
               ))}
             </div>
-            <div className="flex items-center gap-2 w-full sm:w-auto">
+
+            <div className="search-wrapper flex items-center w-full sm:w-auto">
               <SearchButton
                 onSearchClick={() => handleSearch(searchQuery)}
                 value={searchQuery}
                 setValue={setSearchQuery}
+                className="w-full"
               />
-              <div className="flex items-center">
-                <div data-svg-wrapper>
-                  <svg
-                    width="40"
-                    height="40"
-                    className="sm:w-12 sm:h-12"
-                    viewBox="0 0 48 48"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <rect width="48" height="48" rx="24" fill="white" />
-                    <path
-                      d="M13.3334 13.3333H34.6667V16.2293C34.6666 16.9365 34.3855 17.6147 33.8854 18.1147L28 24V33.3333L20 36V24.6667L14.0267 18.096C13.5806 17.6052 13.3334 16.9659 13.3334 16.3027V13.3333Z"
-                      stroke="#120C38"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
-                </div>
-              </div>
             </div>
           </div>
-          <div className="buttons-box flex flex-col sm:flex-row gap-2">
-            <div className="gap-2 flex">
+
+
+          <div className="buttons-box flex flex-col sm:flex-row sm:justify-between gap-2 my-4">
+            <div className="w-full sm:w-auto">
               <Dropdown
                 options={subjects}
                 onSelectSubject={(subject) => setSelectedSubject(subject)}
+                className="w-full"
               />
             </div>
-            <div className="gap-2 flex">
+            <div className="w-full sm:w-auto  mb-2">
               <SortDropdown
                 options={["Спочатку нові", "Спочатку старі", "За алфавітом"]}
                 onSelect={(option) => sortAllTasks(option)}
+                className="w-full"
               />
             </div>
           </div>
-          <div className="flex flex-wrap gap-4 items-center my-6">
+
+
+          <div className="flex flex-wrap gap-4 items-center my-7">
             {isSwitching ? (
-              <div className="col-span-full text-center">Завантаження...</div>
+              <div className="w-full text-center py-4">Завантаження...</div>
+            ) : selectedTasks.length === 0 ? (
+              <div className="w-full text-center text-gray-500 py-4">Нічого немає</div>
             ) : (
               selectedTasks.map((task) => (
                 isBlock ? (

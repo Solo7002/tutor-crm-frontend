@@ -5,7 +5,7 @@ import moment from "moment";
 import Dropdown from "../../../../../components/Dropdown/Dropdown";
 import { toast } from "react-toastify";
 
-const AddDayModal = ({ isOpen, onClose, token, teacherId }) => {
+const AddDayModal = ({ isOpen, onClose, token, teacherId,onRefresh }) => {
   const [eventType, setEventType] = useState("one-time");
   const [format, setFormat] = useState("online");
   const [subject, setSubject] = useState("");
@@ -21,7 +21,20 @@ const AddDayModal = ({ isOpen, onClose, token, teacherId }) => {
   const [touched, setTouched] = useState({});
   const [isLoading, setIsLoading] = useState(false);
 
-  teacherId = 1;
+  const resetForm = () => {
+    setEventType("one-time");
+    setFormat("online");
+    setSubject("");
+    setSelectedGroupId(null);
+    setStartHour("");
+    setStartMinute("0");
+    setEndHour("");
+    setEndMinute("0");
+    setDate("");
+    setLinkOrAddress("");
+    setErrors({});
+    setTouched({});
+  };
 
   useEffect(() => {
     if (isOpen) {
@@ -150,7 +163,7 @@ const AddDayModal = ({ isOpen, onClose, token, teacherId }) => {
       const baseDate = new Date(date).toISOString().split("T")[0];
       const startMoment = moment(`${baseDate}T${startTime}`);
       const endMoment = moment(`${baseDate}T${endTime}`);
-
+      
       const lessonDates = [];
       const endOfMonth = moment(baseDate).endOf("month").startOf("day");
       let currentDate = startMoment.clone();
@@ -172,9 +185,9 @@ const AddDayModal = ({ isOpen, onClose, token, teacherId }) => {
       for (const lessonDate of lessonDates) {
         const lessonData = {
           LessonHeader: subject,
-          StartLessonTime: lessonDate.start.toISOString(),
-          EndLessonTime: lessonDate.end.toISOString(),
-          LessonDate: lessonDate.start.toISOString().split("T")[0],
+          StartLessonTime: moment(lessonDate.start).format("YYYY-MM-DDTHH:mm:ss"),
+          EndLessonTime: moment(lessonDate.end).format("YYYY-MM-DDTHH:mm:ss"),
+          LessonDate: moment(lessonDate.start).format("YYYY-MM-DD"),          
           LessonType: format,
           GroupId: selectedGroupId,
           TeacherId: teacherId,
@@ -193,23 +206,37 @@ const AddDayModal = ({ isOpen, onClose, token, teacherId }) => {
             },
           }
         );
-
-        console.log("Lesson created successfully:", response.data);
-        const groupName = groups.find(group => group.GroupId === selectedGroupId)?.GroupName;
-        toast.success(
-          <div>
-            <p>Заняття успішно заплановано!</p>
-            <p>Предмет: {subject}</p>
-            <p>Група: {groupName}</p>
-            <p>Дата: {moment(lessonDate.start).format("DD.MM.YYYY")}</p>
-            <p>Час: {startTime} - {endTime}</p>
-            <p>Формат: {format === "online" ? "Онлайн" : "Офлайн"}</p>
-          </div>,
-          { autoClose: 5000 }
-        );
+     
+       
+       
+        
+      
       }
+      const groupName = groups.find(group => group.GroupId === selectedGroupId)?.GroupName;
+        
+      toast.success(
+        <div>
+          <p>Усі заняття успішно заплановано!</p>
+          <p>Предмет: {subject}</p>
+          <p>Група: {groupName}</p>
+          <p>
+            Дати:{" "}
+            {lessonDates.map((lesson, index) => (
+              <span key={index}>
+                {moment(lesson.start).format("DD.MM.YYYY")}
+                {index < lessonDates.length - 1 ? ", " : ""}
+              </span>
+            ))}
+          </p>
+          <p>Кількість занять: {lessonDates.length}</p>
+          <p>Формат: {format === "online" ? "Онлайн" : "Офлайн"}</p>
+        </div>,
+        { toastId: `summary-${moment().format("YYYY-MM-DD-HH-mm-ss")}`, autoClose: 4000 }
+      );
       onClose();
-      window.location.reload();
+      resetForm();
+      onRefresh();
+     
     } catch (error) {
       console.error("Error creating lesson:", error.response?.data || error.message);
       const errorMessage = error.response?.data?.message || error.message || "Не вдалося зберегти подію. Спробуйте ще раз.";
