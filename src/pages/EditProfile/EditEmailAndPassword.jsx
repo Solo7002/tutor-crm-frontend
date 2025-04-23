@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import PasswordInput from '../../components/PasswordInput/PasswordInput';
 import axios from 'axios';
 import { jwtDecode } from 'jwt-decode';
-import { toast } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
 import ConfirmCodeInput from '../../components/ConfirmCodeInput/ConfirmCodeInput';
 
 
@@ -15,6 +15,8 @@ export default function EditEmailAndPassword() {
     const [emailAlreadySent, setEmailAlreadySent] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [confirmError, setConfirmError] = useState(false);
+
+    const [initialEmail, setInitialEmail] = useState('');
 
     const [formData, setFormData] = useState({
         NewEmail: '',
@@ -30,6 +32,7 @@ export default function EditEmailAndPassword() {
                 axios.get(`http://localhost:4000/api/users/${decoded.id}/credentials`).then(res => {
                     setUserId(decoded.id);
                     setFormData({ NewEmail: res.data.Email })
+                    setInitialEmail(res.data.Email);
                 })
 
             } catch (error) {
@@ -94,19 +97,19 @@ export default function EditEmailAndPassword() {
     const validateForm = () => {
         const newErrors = {};
 
-        if (!formData.Email) {
-            newErrors.Email = "Email обов'язковий";
-        } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(formData.Email)) {
-            newErrors.Email = 'Невірний формат email';
+        if (!formData.NewEmail) {
+            newErrors.NewEmail = "Email обов'язковий";
+        } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(formData.NewEmail)) {
+            newErrors.NewEmail = 'Невірний формат email';
         }
 
-        if (formData.newPassword) {
+        if (formData.NewPassword) {
             const passwordValidation = validatePassword(formData.NewPassword);
             if (!passwordValidation.isValid) {
                 newErrors.NewPassword = passwordValidation.error;
             }
             if (formData.ConfirmPassword !== formData.NewPassword) {
-                newErrors.confirmPassword = "Паролі не співпадають";
+                newErrors.ConfirmPassword = "Паролі не співпадають";
             }
         }
 
@@ -133,16 +136,30 @@ export default function EditEmailAndPassword() {
 
     const sendConfirmationCode = async () => {
         try {
-            const sendData = {
-                UserId: userId,
-                NewEmail: formData.NewEmail || null,
-                NewPassword: formData.NewPassword || null,
-            };
-            console.log('sendData', sendData)
-            await axios.post('http://localhost:4000/api/users/send-update-credentials-code', sendData);
-            setEmailAlreadySent(true);
-            setStep(2);
-            toast.success('Код підтвердження надіслано на вашу пошту!');
+            console.log(formData.NewEmail === initialEmail && (formData.NewPassword === undefined || formData.NewPassword === ''))
+            if (formData.NewEmail === initialEmail && (formData.NewPassword === undefined || formData.NewPassword === '')) {
+                toast.info("Жодних змін не внесено.", {
+                    position: "bottom-right",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                });
+            }
+            else if (validateForm()) {
+                const sendData = {
+                    UserId: userId,
+                    NewEmail: formData.NewEmail || null,
+                    NewPassword: formData.NewPassword || null,
+                };
+                console.log('sendData', sendData)
+                await axios.post('http://localhost:4000/api/users/send-update-credentials-code', sendData);
+                setEmailAlreadySent(true);
+                setStep(2);
+                toast.success('Код підтвердження надіслано на вашу пошту!');
+            }
         } catch (error) {
             toast.error(`Помилка при відправці коду: ${error.response?.data?.message}`);
         }
@@ -176,58 +193,79 @@ export default function EditEmailAndPassword() {
 
 
     return (
-        <div className='w-full flex justify-center px-4'>
+        <div className='w-full flex justify-center px-4 relative'>
+            <ToastContainer />
+            <button onClick={() => navigate('/user/edit')} id="button-back" class="w-12 h-12 p-2 absolute left-[0px] top-[20px] bg-white rounded-[40px] outline outline-1 outline-offset-[-1px] outline-[#d7d7d7] hover:bg-[#d7d7d7] hidden xl:inline-flex justify-start items-center gap-2.5">
+                <div data-svg-wrapper data-fill="Off" data-plus="Off" data-property-1="Arrow" class="relative">
+                    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M6.66699 16H25.3337M6.66699 16L14.667 24M6.66699 16L14.667 8" stroke="#120C38" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                </div>
+            </button>
             <div className='w-full md:w-[970px] flex flex-col gap-6 py-4'>
                 {step === 1 && (
-                        <div className="w-full md:relative">
-                            {/* Desktop version */}
-                            <div className="w-[970px] p-5 bg-white rounded-[20px] flex flex-col gap-5">
-                                <div className="w-72 h-6 justify-start text-black text-xl font-normal font-['Mulish']">
-                                    Зміна пошти та паролю
+                    <div className="w-full flex flex-col gap-6">
+                        {/* Form Container */}
+                        <div className="w-full p-5 bg-white rounded-[20px] flex flex-col gap-5">
+                            <div className="text-black text-xl font-normal font-['Mulish']">
+                                Зміна пошти та паролю
+                            </div>
+
+                            <div className="w-full flex flex-col items-center gap-5 mt-2">
+                                <div className="w-full md:w-[550px]">
+                                    <input
+                                        type="email"
+                                        name="NewEmail"
+                                        value={formData.NewEmail}
+                                        onChange={handleInputChange}
+                                        className={`w-full h-14 p-4 bg-white rounded-2xl outline outline-1 ${errors.NewEmail ? 'outline-red-500' : 'outline-[#8a48e6]'} text-[#120c38] text-base font-normal font-['Mulish']`}
+                                        placeholder="Email"
+                                    />
+                                    {errors.NewEmail && <div className="text-red-500 text-sm mt-1">{errors.NewEmail}</div>}
                                 </div>
 
-                                <div className="relative mx-[90px]">
-                                    <input type="email" name="NewEmail" value={formData.NewEmail} onChange={handleInputChange}
-                                        className={`w-[550px] h-14 p-4 bg-white rounded-2xl outline outline-1 ${errors.Email ? 'outline-red-500' : 'outline-[#8a48e6]'} text-[#120c38] text-base font-normal font-['Mulish']`}
-                                        placeholder="Email" />
-                                    {errors.Email && <div className="text-red-500 text-sm mt-1">{errors.Email}</div>}
-                                </div>
-
-                                <div className="relative mx-[90px]">
+                                <div className="w-full md:w-[550px]">
                                     <PasswordInput
                                         name="NewPassword"
                                         value={formData.NewPassword}
                                         onChange={handlePasswordInputChange}
                                         placeholder="Новий пароль"
-                                        className={errors.newPassword ? 'outline-red-500' : 'outline-[#8a48e6]'}
+                                        className={errors.NewPassword ? 'outline-red-500' : 'outline-[#8a48e6]'}
                                     />
-                                    {errors.newPassword && <div className="text-red-500 text-sm mt-1">{errors.newPassword}</div>}
+                                    {errors.NewPassword && <div className="text-red-500 text-sm mt-1">{errors.NewPassword}</div>}
                                 </div>
 
-                                <div className="relative mx-[90px]">
+                                <div className="w-full md:w-[550px]">
                                     <PasswordInput
                                         name="ConfirmPassword"
                                         value={formData.ConfirmPassword}
                                         onChange={handlePasswordInputChange}
                                         placeholder="Підтвердження пароля"
-                                        className={errors.confirmPassword ? 'outline-red-500' : 'outline-[#8a48e6]'}
+                                        className={errors.ConfirmPassword ? 'outline-red-500' : 'outline-[#8a48e6]'}
                                     />
-                                    {errors.confirmPassword && <div className="text-red-500 text-sm mt-1">{errors.confirmPassword}</div>}
+                                    {errors.ConfirmPassword && <div className="text-red-500 text-sm mt-1">{errors.ConfirmPassword}</div>}
                                 </div>
                             </div>
+                        </div>
 
-                            <div className="w-full flex justify-center items-center absolute bottom-[-60px] left-0">
-                                <button onClick={sendConfirmationCode} disabled={isLoading}
-                                    className="w-96 h-12 px-10 py-2 bg-[#8a4ae6] rounded-2xl flex justify-center items-center gap-2.5 overflow-hidden hover:bg-[#632DAE] transition-colors">
-                                    <span className="text-center text-white text-xl font-medium font-['Nunito']">
-                                        {isLoading ? 'Збереження...' : 'Зберегти зміни'}
-                                    </span>
-                                </button>
-                                {errors.submit && <div className="text-red-500 text-sm text-center mt-2">{errors.submit}</div>}
-                            </div>
-                        </div>)}
+                        {/* Button Section */}
+                        <div className="w-full flex flex-col items-center mt-4 mb-8">
+                            <button
+                                onClick={sendConfirmationCode}
+                                disabled={isLoading}
+                                className="w-full md:w-96 h-12 px-10 py-2 bg-[#8a4ae6] rounded-2xl flex justify-center items-center gap-2.5 overflow-hidden hover:bg-[#632DAE] transition-colors"
+                            >
+                                <span className="text-center text-white text-xl font-medium font-['Nunito']">
+                                    {isLoading ? 'Збереження...' : 'Зберегти зміни'}
+                                </span>
+                            </button>
+                            {errors.submit && <div className="text-red-500 text-sm text-center mt-2">{errors.submit}</div>}
+                        </div>
+                    </div>
+                )}
+
                 {step === 2 && (
-                    <div className="confirm-code w-[970px] p-5 bg-white rounded-[20px] flex flex-col gap-5">
+                    <div className="confirm-code w-full p-5 bg-white rounded-[20px] flex flex-col gap-5">
                         <h1 className="text-center text-lg">
                             Код підтвердження надіслано на адресу <b>{formData.NewEmail || 'ваш поточний email'}</b>
                         </h1>
@@ -237,9 +275,9 @@ export default function EditEmailAndPassword() {
                         <div className="w-full flex justify-center mt-3">
                             <ConfirmCodeInput isLoading={isLoading} callback={handleConfirmCode} />
                         </div>
-                        <div className="big-error-text">
+                        <div className="w-full flex justify-center mt-2">
                             <h2
-                                className={`text-md ${confirmError ? 'text-red-600' : 'text-white'} ml-1 mt-2 pr-5`}
+                                className={`text-md ${confirmError ? 'text-red-600' : 'text-white'} mt-2`}
                             >
                                 Код підтвердження не вірний, або термін його дії закінчився
                             </h2>
