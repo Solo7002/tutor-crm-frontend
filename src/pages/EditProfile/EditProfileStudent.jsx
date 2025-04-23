@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { jwtDecode } from "jwt-decode";
 import { PatternFormat } from 'react-number-format';
 import PasswordInput from '../../components/PasswordInput/PasswordInput';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 export default function EditProfileStudent() {
@@ -391,7 +391,6 @@ export default function EditProfileStudent() {
 
     return (
         <div className='w-full flex justify-center px-4'>
-            <ToastContainer />
             <div className='w-full md:w-[970px] flex flex-col gap-6 py-4'>
                 <div className="w-full md:relative">
                     {/* Desktop version */}
@@ -465,7 +464,7 @@ export default function EditProfileStudent() {
                                 />
                                 {errors.confirmPassword && <div className="text-red-500 text-sm mt-1">{errors.confirmPassword}</div>}
                             </div>
-{/* 
+                            {/* 
                             <div className="flex gap-4">
                                 <div className="flex-1">
                                     <input type="text" name="SchoolName" value={formData.SchoolName} onChange={handleInputChange}
@@ -483,21 +482,21 @@ export default function EditProfileStudent() {
                         </div>
                     </div>
 
-                        <div className="w-full flex flex-col gap-5 mt-5 justify-center items-center">
-                            <button onClick={handleSubmit} disabled={isLoading}
-                                className="w-96 h-12 px-10 py-2 bg-[#8a4ae6] rounded-2xl flex justify-center items-center gap-2.5 overflow-hidden hover:bg-[#632DAE] transition-colors">
-                                <span className="text-center text-white text-xl font-medium font-['Nunito']">
-                                    {isLoading ? 'Збереження...' : 'Змінити пароль та/або пошту'}
-                                </span>
-                            </button>
-                            <button onClick={handleSubmit} disabled={isLoading}
-                                className="w-96 h-12 px-10 py-2 bg-[#8a4ae6] rounded-2xl flex justify-center items-center gap-2.5 overflow-hidden hover:bg-[#632DAE] transition-colors">
-                                <span className="text-center text-white text-xl font-medium font-['Nunito']">
-                                    {isLoading ? 'Збереження...' : 'Зберегти зміни'}
-                                </span>
-                            </button>
-                            {errors.submit && <div className="text-red-500 text-sm text-center mt-2">{errors.submit}</div>}
-                        </div>
+                    <div className="w-full flex flex-col gap-5 mt-5 justify-center items-center">
+                        <button onClick={handleSubmit} disabled={isLoading}
+                            className="w-96 h-12 px-10 py-2 bg-[#8a4ae6] rounded-2xl flex justify-center items-center gap-2.5 overflow-hidden hover:bg-[#632DAE] transition-colors">
+                            <span className="text-center text-white text-xl font-medium font-['Nunito']">
+                                {isLoading ? 'Збереження...' : 'Змінити пароль та/або пошту'}
+                            </span>
+                        </button>
+                        <button onClick={handleSubmit} disabled={isLoading}
+                            className="w-96 h-12 px-10 py-2 bg-[#8a4ae6] rounded-2xl flex justify-center items-center gap-2.5 overflow-hidden hover:bg-[#632DAE] transition-colors">
+                            <span className="text-center text-white text-xl font-medium font-['Nunito']">
+                                {isLoading ? 'Збереження...' : 'Зберегти зміни'}
+                            </span>
+                        </button>
+                        {errors.submit && <div className="text-red-500 text-sm text-center mt-2">{errors.submit}</div>}
+                    </div>
 
                     {/* Mobile version */}
                     <div className="md:hidden w-full max-w-[384px] mx-auto bg-white rounded-[20px] p-5">

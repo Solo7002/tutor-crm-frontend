@@ -72,7 +72,6 @@ const CalendarTeacher = () => {
           />
         </div>
       </div>
-      <ToastContainer position="bottom-right" autoClose={3000} hideProgressBar={false} newestOnTop closeOnClick pauseOnHover />
     </div>
   );
 };
