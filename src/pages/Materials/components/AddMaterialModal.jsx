@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { toast } from 'react-toastify';
 
 const AddMaterialModal = ({ isOpened = false, onClose, onRefreshMaterials, teacherId, parentId }) => {
   const [selectedFiles, setSelectedFiles] = useState([]);
@@ -7,15 +8,42 @@ const AddMaterialModal = ({ isOpened = false, onClose, onRefreshMaterials, teach
   const [isUploading, setIsUploading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState({});
 
-  const handleFileChange = (e) => {
-    const newFiles = Array.from(e.target.files).map((file, index) => ({
-      name: file.name,
-      id: Date.now() + index,
-      file: file,
-      status: 'pending'
-    }));
+  const MAX_FILE_SIZE = 49 * 1024 * 1024;
+  const FORBIDDEN_EXTENSIONS = ['txt', 'bat'];
 
-    setSelectedFiles([...selectedFiles, ...newFiles]);
+  const validateFile = (file) => {
+    if (file.size > MAX_FILE_SIZE) {
+      toast.error(`Файл "${file.name}" перевищує максимальний розмір (49MB)`);
+      return { valid: false, reason: 'size', message: `Файл "${file.name}" перевищує максимальний розмір (49MB)` };
+    }
+
+    const extension = file.name.split('.').pop().toLowerCase();
+    if (FORBIDDEN_EXTENSIONS.includes(extension)) {
+      toast.error(`Файл "${file.name}" має заборонений формат (${extension})`);
+      return { valid: false, reason: 'type', message: `Файл "${file.name}" має заборонений формат (${extension})` };
+    }
+
+    return { valid: true };
+  };
+
+  const handleFileChange = (e) => {
+    const files = Array.from(e.target.files);
+    const validatedFiles = [];
+
+    files.forEach(file => {
+      const validation = validateFile(file);
+      
+      if (validation.valid) {
+        validatedFiles.push({
+          name: file.name,
+          id: Date.now() + validatedFiles.length,
+          file: file,
+          status: 'pending'
+        });
+      }
+    });
+
+    setSelectedFiles([...selectedFiles, ...validatedFiles]);
   };
 
   const removeFile = (id) => {
@@ -48,20 +76,31 @@ const AddMaterialModal = ({ isOpened = false, onClose, onRefreshMaterials, teach
     e.stopPropagation();
     setIsDragging(false);
 
-    const newFiles = Array.from(e.dataTransfer.files).map((file, index) => ({
-      name: file.name,
-      id: Date.now() + index,
-      file: file,
-      status: 'pending'
-    }));
+    const files = Array.from(e.dataTransfer.files);
+    const validatedFiles = [];
 
-    setSelectedFiles([...selectedFiles, ...newFiles]);
+    files.forEach(file => {
+      const validation = validateFile(file);
+      
+      if (validation.valid) {
+        validatedFiles.push({
+          name: file.name,
+          id: Date.now() + validatedFiles.length,
+          file: file,
+          status: 'pending'
+        });
+      }
+    });
+
+    setSelectedFiles([...selectedFiles, ...validatedFiles]);
   };
 
   const handleSubmit = async () => {
     if (selectedFiles.length === 0) return;
     
     setIsUploading(true);
+    
+    const failedUploads = [];
     
     try {
       const uploadPromises = selectedFiles.map(async (fileObj) => {
@@ -95,23 +134,40 @@ const AddMaterialModal = ({ isOpened = false, onClose, onRefreshMaterials, teach
         } catch (error) {
           console.error(`Error uploading file ${fileObj.name}:`, error);
           updateFileStatus(fileObj.id, 'error');
+          failedUploads.push(`Помилка завантаження файлу "${fileObj.name}": ${error.response?.data?.error || 'Невідома помилка'}`);
           throw error;
         }
       });
 
-      await Promise.all(uploadPromises);
-      
-      setTimeout(() => {
-        setSelectedFiles([]);
-        setUploadProgress({});
-        setIsUploading(false);
-        onRefreshMaterials();
-        onClose();
-      }, 800);
+      await Promise.allSettled(uploadPromises);
       
     } catch (error) {
       console.error('Error uploading files:', error);
-      setIsUploading(false);
+    } finally {
+      onRefreshMaterials();
+
+      toast.success("Матеріали успішно додані");
+      
+      if (failedUploads.length > 0) {
+        sessionStorage.setItem('uploadErrors', JSON.stringify(failedUploads));
+      }
+      
+      onClose();
+      
+      setTimeout(() => {
+        const storedErrors = sessionStorage.getItem('uploadErrors');
+        if (storedErrors) {
+          const errors = JSON.parse(storedErrors);
+          errors.forEach(error => {
+            toast.error(error);
+          });
+          sessionStorage.removeItem('uploadErrors');
+        }
+        
+        setSelectedFiles([]);
+        setUploadProgress({});
+        setIsUploading(false);
+      }, 300);
     }
   };
   
@@ -124,6 +180,19 @@ const AddMaterialModal = ({ isOpened = false, onClose, onRefreshMaterials, teach
       )
     );
   };
+
+  useEffect(() => {
+    if (!isOpened) {
+      const storedErrors = sessionStorage.getItem('uploadErrors');
+      if (storedErrors) {
+        const errors = JSON.parse(storedErrors);
+        errors.forEach(error => {
+          toast.error(error);
+        });
+        sessionStorage.removeItem('uploadErrors');
+      }
+    }
+  }, [isOpened]);
 
   const getFileIcon = (status) => {
     switch(status) {
@@ -219,6 +288,9 @@ const AddMaterialModal = ({ isOpened = false, onClose, onRefreshMaterials, teach
 
               <p className="text-center text-[#827ead] text-sm font-['Mulish'] mt-5">
                 Перетягніть файли з комп'ютера у цю область
+              </p>
+              <p className="text-center text-[#827ead] text-xs font-['Mulish'] mt-2">
+                Обмеження: макс. 49MB, без TXT або BAT файлів
               </p>
             </div>
           </>

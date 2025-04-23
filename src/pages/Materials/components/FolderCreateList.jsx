@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 
-export default function FolderCreateBlock({ parentId, teacherId, token, setShowFolderCreateBlock, setRefreshData }) {
+export default function FolderCreateList({ parentId, teacherId, token, setShowFolderCreateList, setRefreshData }) {
     const [folderName, setFolderName] = useState('');
     const inputRef = useRef(null);
 
@@ -14,7 +14,7 @@ export default function FolderCreateBlock({ parentId, teacherId, token, setShowF
 
     const handleBlur = () => {
         if (folderName.trim() === '') {
-            setShowFolderCreateBlock(false);
+            setShowFolderCreateList(false);
         } else {
             const currentDate = new Date().toISOString();
             axios.post('http://localhost:4000/api/materials', {
@@ -29,9 +29,8 @@ export default function FolderCreateBlock({ parentId, teacherId, token, setShowF
                 headers: { Authorization: `Bearer ${token}` }
             })
             .then(response => {
-                setShowFolderCreateBlock(false);
+                setShowFolderCreateList(false);
                 setRefreshData(prev => !prev);
-
                 
                 toast.success("Нову папку створено");
             })
@@ -42,27 +41,25 @@ export default function FolderCreateBlock({ parentId, teacherId, token, setShowF
     };
 
     return (
-        <div 
-            className="w-[244px] h-[234px] relative bg-white rounded-3xl border border-[#d7d7d7]"
-        >
-            <div data-svg-wrapper className="left-[72px] top-[40px] absolute">
-                <svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M20.8333 16.6667H37.5L50 29.1667H79.1667C81.3768 29.1667 83.4964 30.0446 85.0592 31.6074C86.622 33.1702 87.5 35.2899 87.5 37.5V70.8333C87.5 73.0435 86.622 75.1631 85.0592 76.7259C83.4964 78.2887 81.3768 79.1667 79.1667 79.1667H20.8333C18.6232 79.1667 16.5036 78.2887 14.9408 76.7259C13.378 75.1631 12.5 73.0435 12.5 70.8333V25C12.5 22.7899 13.378 20.6702 14.9408 19.1074C16.5036 17.5446 18.6232 16.6667 20.8333 16.6667Z" stroke="#827FAE" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+        <div className="w-full h-[74px] p-[15px] bg-white rounded-3xl border border-[#d7d7d7] justify-start items-center gap-5 inline-flex relative">
+            <div data-svg-wrapper>
+                <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M8.33333 6.66666H15L20 11.6667H31.6667C32.5507 11.6667 33.3986 12.0178 34.0237 12.643C34.6488 13.2681 35 14.1159 35 15V28.3333C35 29.2174 34.6488 30.0652 34.0237 30.6903C33.3986 31.3155 32.5507 31.6667 31.6667 31.6667H8.33333C7.44928 31.6667 6.60143 31.3155 5.97631 30.6903C5.35119 30.0652 5 29.2174 5 28.3333V9.99999C5 9.11593 5.35119 8.26809 5.97631 7.64297C6.60143 7.01785 7.44928 6.66666 8.33333 6.66666Z" stroke="#827FAE" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
             </div>
-            <div className="h-11 left-[15px] bottom-6 absolute flex-col justify-start items-start gap-1.5 inline-flex">
+            <div className="grow shrink basis-0 flex-col justify-start items-start gap-2.5 inline-flex">
                 <input 
                     ref={inputRef}
                     value={folderName}
                     onChange={(e) => setFolderName(e.target.value)}
                     placeholder='Введіть назву' 
-                    className="self-stretch text-[#120C38] text-[15px] font-normal font-['Mulish'] outline outline-1 outline-[#8A48E6] rounded-lg p-1 cursor-pointer hover:outline-[1.2px]"
+                    className="w-full text-[#120C38] text-[15px] font-normal font-['Mulish'] outline outline-1 outline-[#8A48E6] rounded-lg p-1 cursor-pointer hover:outline-[1.2px]"
                     onBlur={handleBlur}
                     onKeyDown={(e) => {
                         if (e.key === 'Enter') handleBlur();
                     }}
                 />
-                <div className="self-stretch h-4 text-[#827ead] text-[15px] font-bold font-['Nunito']">Папка</div>
+                <div className="self-stretch h-4 text-[#827ead] text-xs font-bold font-['Nunito']">Папка</div>
             </div>
         </div>
     );

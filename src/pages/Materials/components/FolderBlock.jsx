@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
 
 export default function FolderBlock({ name, onClick, folderId = null, onDelete, onEdit, openAccessModalHandler }) {
     const [isEditDelVisible, setIsEditDelVisible] = useState(false);
@@ -14,7 +15,50 @@ export default function FolderBlock({ name, onClick, folderId = null, onDelete, 
             onEdit(newName, folderId);
         }
         setIsEditing(false);
+
+        toast.success(
+            <div>
+                <p>Назву папки змінено</p>
+                <p>Нова назва: {newName}</p>
+            </div>
+        );
     };
+
+    const handleDelete = (e) => {
+        e.stopPropagation();
+
+        toast.info(
+            <div>
+                <p>Ви впевнені, що хочете видалити цю папку?</p>
+                <div className="flex gap-2 mt-2">
+                    <button
+                        className="px-3 py-1 bg-red-600 text-white rounded-md hover:bg-red-700"
+                        onClick={() => {
+                            onDelete(folderId);
+
+                            toast.dismiss();
+                            toast.success(
+                                <div>
+                                    <p>Папка успішно видалена!</p>
+                                    <p>Назва: {name}</p>
+                                </div>,
+                                { autoClose: 5000 }
+                            );
+                        }}
+                    >
+                        Видалити
+                    </button>
+                    <button
+                        className="px-3 py-1 bg-gray-300 text-gray-800 rounded-md hover:bg-gray-400"
+                        onClick={() => toast.dismiss()}
+                    >
+                        Скасувати
+                    </button>
+                </div>
+            </div>,
+            { autoClose: false, closeOnClick: false }
+        );
+    }
 
     return (
         <div
@@ -55,14 +99,13 @@ export default function FolderBlock({ name, onClick, folderId = null, onDelete, 
             )}
 
             <div
-                className={`absolute top-0 w-full max-w-[244px] px-[9px] py-[15px] bg-white rounded-3xl shadow-[1px_1px_5px_0px_rgba(0,0,0,0.17)] z-10 inline-flex flex-col justify-start items-start gap-[15px] overflow-hidden transition-all duration-300 ${
-                    isEditDelVisible
+                className={`absolute top-0 w-full max-w-[244px] px-[9px] py-[15px] bg-white rounded-3xl shadow-[1px_1px_5px_0px_rgba(0,0,0,0.17)] z-10 inline-flex flex-col justify-start items-start gap-[15px] overflow-hidden transition-all duration-300 ${isEditDelVisible
                         ? 'h-[175px] opacity-100 pointer-events-auto'
                         : 'h-0 opacity-0 pointer-events-none'
-                }`}
+                    }`}
             >
                 <button
-                    onClick={(e) => {e.stopPropagation(); onDelete(folderId)}}
+                    onClick={handleDelete}
                     className="h-10 pl-2 pr-2.5 py-2.5 bg-white rounded-[40px] inline-flex justify-start items-center gap-2.5 hover:bg-gray-100 transition-colors duration-200 focus:outline-none"
                 >
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -78,7 +121,7 @@ export default function FolderBlock({ name, onClick, folderId = null, onDelete, 
                 </button>
 
                 <button
-                    onClick={(e) => {e.stopPropagation(); setIsEditing(true)}}
+                    onClick={(e) => { e.stopPropagation(); setIsEditing(true) }}
                     className="h-10 pl-2 pr-2.5 py-2.5 bg-white rounded-[40px] inline-flex justify-start items-center gap-2.5 hover:bg-gray-100 transition-colors duration-200 focus:outline-none"
                 >
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -101,7 +144,7 @@ export default function FolderBlock({ name, onClick, folderId = null, onDelete, 
                 </button>
 
                 <button
-                    onClick={(e) => {e.stopPropagation(); openAccessModalHandler(folderId)}}
+                    onClick={(e) => { e.stopPropagation(); openAccessModalHandler(folderId) }}
                     className="h-10 pl-2 pr-2.5 py-2.5 bg-white rounded-[40px] inline-flex justify-start items-center gap-2.5 hover:bg-gray-100 transition-colors duration-200 focus:outline-none"
                 >
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -131,7 +174,7 @@ export default function FolderBlock({ name, onClick, folderId = null, onDelete, 
                 </button>
 
                 <button
-                    onClick={(e) => {e.stopPropagation();setIsEditDelVisible(false);}}
+                    onClick={(e) => { e.stopPropagation(); setIsEditDelVisible(false); }}
                     className="w-10 h-10 p-2 absolute right-[9px] top-[15px] bg-white rounded-[40px] inline-flex justify-center items-center hover:bg-gray-100 transition-colors duration-200 focus:outline-none"
                 >
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

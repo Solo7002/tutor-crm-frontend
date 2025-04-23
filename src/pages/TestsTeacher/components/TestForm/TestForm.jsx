@@ -2,7 +2,7 @@ import React, { useEffect, useState, useMemo } from 'react';
 import Toggle from '../Toggle/Toggle';
 import CustomInput from '../CustomInput/CustomInput';
 
-const TestForm = ({ defaultNumQuestions = '2', onFormChange, errors: externalErrors }) => {
+const TestForm = ({ defaultNumQuestions = '2', onFormChange, errors: externalErrors, createdQuestionsAmount=null }) => {
   const [subject, setSubject] = useState('');
   const [description, setDescription] = useState('');
   const [numQuestions, setNumQuestions] = useState(defaultNumQuestions);
@@ -15,7 +15,6 @@ const TestForm = ({ defaultNumQuestions = '2', onFormChange, errors: externalErr
   const [formErrors, setFormErrors] = useState({});
   const [touched, setTouched] = useState({});
 
-  // Individual validation functions
   const validateSubject = (value) => {
     return !value || value.trim() === '' ? 'Тема тесту не може бути порожньою.' : '';
   };
@@ -73,13 +72,11 @@ const TestForm = ({ defaultNumQuestions = '2', onFormChange, errors: externalErr
     return deadlineDate < today ? 'Дедлайн не може бути меншим за сьогоднішню дату.' : '';
   };
 
-  // Handle blur for each field
   const handleBlur = (field, value) => {
     setTouched((prev) => ({ ...prev, [field]: true }));
     let error = '';
     let newValue = value;
     
-    // Set default value and validate
     switch (field) {
       case 'subject':
         error = validateSubject(value);
@@ -124,7 +121,6 @@ const TestForm = ({ defaultNumQuestions = '2', onFormChange, errors: externalErr
     setFormErrors((prev) => ({ ...prev, [field]: error }));
   };
 
-  // Check overall form validity
   const isFormValid = () => {
     const errors = {
       subject: validateSubject(subject),
@@ -219,10 +215,10 @@ const TestForm = ({ defaultNumQuestions = '2', onFormChange, errors: externalErr
   );
 
   return (
-    <div className="w-full mx-auto p-4 sm:p-6 md:p-8 bg-white rounded-2xl shadow-sm">
-      <div className="space-y-4 sm:space-y-6">
+    <div className="w-full mx-auto p-3 sm:p-4 md:p-6 lg:p-8 bg-white rounded-2xl shadow-sm">
+      <div className="space-y-3 sm:space-y-4 md:space-y-6">
         <div className="flex flex-col sm:flex-row sm:space-x-4">
-          <div className="w-full sm:w-1/2 mb-4 sm:mb-0">
+          <div className="w-full sm:w-1/2 mb-3 sm:mb-0">
             <CustomInput
               label="Тема:"
               value={subject}
@@ -231,7 +227,7 @@ const TestForm = ({ defaultNumQuestions = '2', onFormChange, errors: externalErr
               placeholder="Ввести текст тут"
             />
             {touched.subject && (formErrors.subject || externalErrors?.subject) && (
-              <p className="text-red-500 text-sm mt-1">{formErrors.subject || externalErrors.subject}</p>
+              <p className="text-red-500 text-xs sm:text-sm mt-1">{formErrors.subject || externalErrors.subject}</p>
             )}
           </div>
           <div className="w-full sm:w-1/2">
@@ -245,11 +241,11 @@ const TestForm = ({ defaultNumQuestions = '2', onFormChange, errors: externalErr
               icon={starIcon}
             />
             {touched.maxScore && (formErrors.maxScore || externalErrors?.maxScore) && (
-              <p className="text-red-500 text-sm mt-1">{formErrors.maxScore || externalErrors.maxScore}</p>
+              <p className="text-red-500 text-xs sm:text-sm mt-1">{formErrors.maxScore || externalErrors.maxScore}</p>
             )}
           </div>
         </div>
-
+  
         <div className="w-full">
           <CustomInput
             label="Опис:"
@@ -259,28 +255,29 @@ const TestForm = ({ defaultNumQuestions = '2', onFormChange, errors: externalErr
             placeholder="Ввести текст тут"
           />
           {touched.description && (formErrors.description || externalErrors?.description) && (
-            <p className="text-red-500 text-sm mt-1">{formErrors.description || externalErrors.description}</p>
+            <p className="text-red-500 text-xs sm:text-sm mt-1">{formErrors.description || externalErrors.description}</p>
           )}
         </div>
-
+  
         <div className="flex flex-col sm:flex-row sm:space-x-4">
-          <div className="w-full sm:w-1/3 mb-4 sm:mb-0">
+          <div className="w-full sm:w-1/3 mb-3 sm:mb-0">
             <CustomInput
               label="Кількість питань"
               type="number"
-              value={numQuestions}
+              value={createdQuestionsAmount? createdQuestionsAmount : numQuestions}
               onChange={handleNumQuestionsChange}
               onBlur={() => handleBlur('numQuestions', numQuestions)}
               placeholder={defaultNumQuestions}
               min="1"
               max="20"
               icon={questionIcon}
+              disabled={createdQuestionsAmount}
             />
             {touched.numQuestions && (formErrors.numQuestions || externalErrors?.numQuestions) && (
-              <p className="text-red-500 text-sm mt-1">{formErrors.numQuestions || externalErrors.numQuestions}</p>
+              <p className="text-red-500 text-xs sm:text-sm mt-1">{formErrors.numQuestions || externalErrors.numQuestions}</p>
             )}
           </div>
-          <div className="w-full sm:w-1/3 mb-4 sm:mb-0">
+          <div className="w-full sm:w-1/3 mb-3 sm:mb-0">
             <CustomInput
               label="Кількість спроб"
               type="number"
@@ -291,7 +288,7 @@ const TestForm = ({ defaultNumQuestions = '2', onFormChange, errors: externalErr
               icon={checkIcon}
             />
             {touched.numAttempts && (formErrors.numAttempts || externalErrors?.numAttempts) && (
-              <p className="text-red-500 text-sm mt-1">{formErrors.numAttempts || externalErrors.numAttempts}</p>
+              <p className="text-red-500 text-xs sm:text-sm mt-1">{formErrors.numAttempts || externalErrors.numAttempts}</p>
             )}
           </div>
           <div className="w-full sm:w-1/3">
@@ -317,11 +314,11 @@ const TestForm = ({ defaultNumQuestions = '2', onFormChange, errors: externalErr
               icon={clockIcon}
             />
             {touched.time && (formErrors.time || externalErrors?.time) && (
-              <p className="text-red-500 text-sm mt-1">{formErrors.time || externalErrors.time}</p>
+              <p className="text-red-500 text-xs sm:text-sm mt-1">{formErrors.time || externalErrors.time}</p>
             )}
           </div>
         </div>
-
+  
         <div className="w-full">
           <CustomInput
             label="Дедлайн"
@@ -332,17 +329,16 @@ const TestForm = ({ defaultNumQuestions = '2', onFormChange, errors: externalErr
             min={formatDateForInput(new Date())}
           />
           {touched.deadline && (formErrors.deadline || externalErrors?.deadline) && (
-            <p className="text-red-500 text-sm mt-1">{formErrors.deadline || externalErrors.deadline}</p>
+            <p className="text-red-500 text-xs sm:text-sm mt-1">{formErrors.deadline || externalErrors.deadline}</p>
           )}
         </div>
-
-        <div className="space-y-3 sm:space-y-4 mt-2">
+  
+        <div className="space-y-2 sm:space-y-3 mt-2">
           <Toggle
             checked={showAnswersAfterTest}
             onChange={() => setShowAnswersAfterTest(!showAnswersAfterTest)}
             label="Показати учню усі відповіді після тесту."
           />
-
         </div>
       </div>
     </div>

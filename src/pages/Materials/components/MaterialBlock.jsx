@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
 import './styles/Material.css';
 
 export default function MaterialBlock({ name, ext, img, onDownloadClick, materialId = null, onDelete, onEdit, openAccessModalHandler }) {
@@ -15,10 +16,51 @@ export default function MaterialBlock({ name, ext, img, onDownloadClick, materia
         if (newName.trim() !== '' && newName!==name) {
             onEdit(newName, materialId);
             setIsEditing(false);
+
+            toast.success(
+                <div>
+                  <p>Назву матеріалу змінено</p>
+                  <p>Нова назва: {newName}</p>
+                </div>
+              );
         } else {
             setIsEditing(false);
         }
     };
+
+    const handleDelete = () => {
+        toast.info(
+            <div>
+              <p>Ви впевнені, що хочете видалити цей матеріал?</p>
+              <div className="flex gap-2 mt-2">
+                <button
+                  className="px-3 py-1 bg-red-600 text-white rounded-md hover:bg-red-700"
+                  onClick={() => {
+                    onDelete(materialId);
+
+                    toast.dismiss();
+                    toast.success(
+                      <div>
+                        <p>Матеріал успішно видалено!</p>
+                        <p>Назва: {name}</p>
+                      </div>,
+                      { autoClose: 5000 }
+                    );
+                  }}
+                >
+                  Видалити
+                </button>
+                <button
+                  className="px-3 py-1 bg-gray-300 text-gray-800 rounded-md hover:bg-gray-400"
+                  onClick={() => toast.dismiss()}
+                >
+                  Скасувати
+                </button>
+              </div>
+            </div>,
+            { autoClose: false, closeOnClick: false }
+          );
+    }
 
     return (
         <div className="w-[244px] h-[234px] relative bg-white rounded-3xl outline outline-1 outline-[#d7d7d7] transition-shadow duration-200 hover:shadow-[0_0_0_3px_#8A48E6] hover:outline-none z-30">
@@ -75,7 +117,7 @@ export default function MaterialBlock({ name, ext, img, onDownloadClick, materia
                     }`}
                 >
                     <button
-                        onClick={() => onDelete(materialId)}
+                        onClick={handleDelete}
                         data-icon-position="Left"
                         data-property-1="No Outline"
                         data-size="Small"

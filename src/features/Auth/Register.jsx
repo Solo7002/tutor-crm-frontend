@@ -380,11 +380,11 @@ const Register = () => {
 
                         <div className="teacher-student-select-div">
                             <div className="role-container" onClick={() => changeRole("Student")}>
-                                <img src="/assets/register/student.png" alt="student" className={`rounded-full border-purple-600 ${selectedRole === "Student" ? "border-4 hover:border-4" : "border-0 hover:border-2"}`} />
+                                <img src="/assets/register/student.png" alt="student" className={`rounded-full outline outline-purple-600 ${selectedRole === "Student" ? "outline-4 hover:outline-4" : "outline-0 hover:outline-2"}`} />
                                 <p className={`text-center mt-2 ${selectedRole === "Student" ? "font-bold" : ""}`}>Учень</p>
                             </div>
                             <div className="role-container" onClick={() => changeRole("Teacher")}>
-                                <img src="/assets/register/teacher.png" alt="teacher" className={`rounded-full border-purple-600 ${selectedRole === "Teacher" ? "border-4 hover:border-4" : "border-0 hover:border-2"}`} />
+                                <img src="/assets/register/teacher.png" alt="teacher" className={`rounded-full outline outline-purple-600 ${selectedRole === "Teacher" ? "outline-4 hover:outline-4" : "outline-0 hover:outline-2"}`} />
                                 <p className={`text-center mt-2 ${selectedRole === "Teacher" ? "font-bold" : ""}`}>Вчитель</p>
                             </div>
                         </div>
@@ -418,7 +418,7 @@ const Register = () => {
                 {(step === 1) && (<PrimaryButton onClick={handleNext} disabled={!Object.values(step1Validation).every(val => val)}>Далі</PrimaryButton>)}
                 {(step === 1) && (<SecondaryButton onClick={handlePrev}>Авторизація</SecondaryButton>)}
 
-                {(step === 2) && (<PrimaryButton onClick={handleNext}>Далі</PrimaryButton>)}
+                {(step === 2) && (<PrimaryButton onClick={handleNext}>{formData.ImageFilePath?"Далі":"Пропустити"}</PrimaryButton>)}
                 {(step === 2) && (<SecondaryButton onClick={handlePrev}>Назад</SecondaryButton>)}
 
                 {(step === 3) && (<PrimaryButton onClick={handleNext} disabled={!selectedRole}>Далі</PrimaryButton>)}

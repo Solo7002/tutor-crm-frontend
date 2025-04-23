@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from 'axios';
+import { toast } from 'react-toastify';
 
 export default function AccessManagementModal({ materialId, courses = [], isOpened = false, onClose = () => { } }) {
   const [expandedCourses, setExpandedCourses] = useState({});
@@ -56,25 +57,21 @@ export default function AccessManagementModal({ materialId, courses = [], isOpen
     const group = course?.Groups.find(g => g.GroupId === groupId);
 
     if (group) {
-      // Create updated student selection state with the new change
       const updatedStudentSelections = {
         ...selectedStudents,
         [studentId]: checkedStatus
       };
 
-      // Check if all students in this group are now selected
       const allStudentsSelected = group.Students.every(
         student => updatedStudentSelections[student.StudentId]
       );
 
-      // Update group selection based on students' selection
       setSelectedGroups(prev => {
         const updatedGroupSelections = {
           ...prev,
           [groupId]: allStudentsSelected
         };
 
-        // Now update course selection based on new group selections
         updateCourseSelection(courseId, updatedGroupSelections);
 
         return updatedGroupSelections;
@@ -175,8 +172,8 @@ export default function AccessManagementModal({ materialId, courses = [], isOpen
     console.log("Выбранные StudentId:", selectedStudentIds);
     
     axios.put(`http://localhost:4000/api/materials/setAccessToMaterial/${materialId}`, selectedStudentIds)
-      .then(response => {
-        console.log("Access updated successfully:", response.data);
+      .then(response => {  
+        toast.success("Доступ до матеріалу оновлено");
         onClose();
       })
       .catch(error => {
@@ -194,7 +191,6 @@ export default function AccessManagementModal({ materialId, courses = [], isOpen
       />
 
       <div className="relative w-full max-w-3xl mx-auto bg-white rounded-2xl shadow-xl transform transition-all z-50">
-        {/* Заголовок модального окна */}
         <div className="flex justify-between items-center p-6 border-b border-gray-200">
           <h3 className="text-lg font-bold text-[#120c38] font-['Nunito']">Керування доступом до навчальних матеріалів</h3>
           <button
@@ -207,13 +203,11 @@ export default function AccessManagementModal({ materialId, courses = [], isOpen
           </button>
         </div>
 
-        {/* Содержимое модального окна */}
         <div className="p-6 max-h-[60vh] overflow-y-auto">
           {courses.length > 0 ? (
             <div className="space-y-4">
               {courses.map(course => (
                 <div key={course.CourseId} className="border border-gray-200 rounded-xl overflow-hidden">
-                  {/* Заголовок курса */}
                   <div
                     className="flex items-center justify-between p-4 cursor-pointer hover:bg-gray-50 transition-colors"
                     onClick={() => toggleCourse(course.CourseId)}
@@ -243,12 +237,10 @@ export default function AccessManagementModal({ materialId, courses = [], isOpen
                     </div>
                   </div>
 
-                  {/* Группы */}
                   {expandedCourses[course.CourseId] && (
                     <div className="p-4 pt-0 bg-gray-50">
                       {course.Groups.map(group => (
                         <div key={group.GroupId} className="ml-6 mt-3 border-l border-gray-200 pl-4">
-                          {/* Заголовок группы */}
                           <div
                             className="flex items-center justify-between p-2 cursor-pointer hover:bg-gray-100 rounded-lg transition-colors"
                             onClick={() => toggleGroup(group.GroupId)}
@@ -278,7 +270,6 @@ export default function AccessManagementModal({ materialId, courses = [], isOpen
                             </div>
                           </div>
 
-                          {/* Ученики */}
                           {expandedGroups[group.GroupId] && (
                             <div className="ml-6 mt-2">
                               {group.Students.map(student => (
@@ -319,7 +310,6 @@ export default function AccessManagementModal({ materialId, courses = [], isOpen
           )}
         </div>
 
-        {/* Кнопки действий */}
         <div className="flex justify-end p-6 border-t border-gray-200">
           <button
             onClick={handleSave}

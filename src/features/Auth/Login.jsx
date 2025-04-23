@@ -32,15 +32,15 @@ const Login = () => {
     setLoginValidation(prev => ({ ...prev, [fieldName]: isValid }));
   };
 
-  const validatePassword = (password) => {
-    console.log("const validatePassword = (password)");
-    const errors = [];
-    if (errorLogin) {
-      console.log("errorLogin - Неправильний email або пароль");
-      errors.push("Неправильний email або пароль");
-    }
-    return errors;
-  };
+  // const validatePassword = (password) => {
+  //   console.log("const validatePassword = (password)");
+  //   const errors = [];
+  //   if (errorLogin) {
+  //     console.log("errorLogin - Неправильний email або пароль");
+  //     errors.push("Неправильний email або пароль");
+  //   }
+  //   return errors;
+  // };
 
   const validateEmail = async (email) => {
     const errors = [];
@@ -76,7 +76,7 @@ const Login = () => {
   const handleLogIn = async (e) => {
     e.preventDefault();
 
-    if (!loginValidation.Email || !loginValidation.Password) {
+    if (!loginValidation.Email) {
       setErrorLogin(true);
       return;
     }
@@ -142,7 +142,7 @@ const Login = () => {
           placeholder={"Пароль"}
           value={Password}
           onChange={handlePasswordChange}
-          validate={validatePassword}
+          // validate={validatePassword}
           onValidationChange={handleValidationChange}
           onTrigger={errorLogin}
         />

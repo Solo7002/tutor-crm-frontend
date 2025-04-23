@@ -3,11 +3,11 @@
 @tailwind utilities;
 
 .StudentItem {
-  @apply w-full max-w-[420px];
+  @apply w-full max-w-[280px] sm:max-w-[350px] md:max-w-[420px];
 }
 
 .StudentItem-container {
-  @apply w-[420px] h-[86px] relative rounded-3xl overflow-hidden;
+  @apply w-full h-[70px] sm:h-[78px] md:h-[86px] relative rounded-xl sm:rounded-2xl md:rounded-3xl overflow-hidden;
   @apply border border-solid;
   @apply flex items-center;
 }
@@ -29,27 +29,27 @@
 }
 
 .StudentItem-avatar {
-  @apply h-full w-auto aspect-square rounded-3xl object-cover;
+  @apply h-full w-auto aspect-square rounded-xl sm:rounded-2xl md:rounded-3xl object-cover;
   @apply absolute left-0 top-0 bottom-0;
 }
 
 .StudentItem-info {
-  @apply ml-[24%] flex flex-col justify-center max-w-[40%];
+  @apply ml-[27%] md:ml-[24%] flex flex-col justify-center max-w-[40%];
 }
 
 .StudentItem-name {
   @apply text-[#120c38] font-normal font-['Mulish'] text-left;
-  @apply text-lg truncate;
+  @apply text-sm sm:text-base md:text-lg truncate;
 }
 
 .StudentItem-date {
   @apply text-[#827ead] font-bold font-['Nunito'] text-left;
-  @apply text-base mt-1;
+  @apply text-xs sm:text-sm md:text-base mt-1;
 }
 
 .StudentItem-score {
-  @apply w-[125px] absolute right-4 rounded-full inline-flex justify-center items-center;
-  @apply px-0 py-2 bg-[#f5934e];
+  @apply w-[85px] sm:w-[105px] md:w-[125px] absolute right-2 sm:right-3 md:right-4 rounded-full inline-flex justify-center items-center;
+  @apply px-0 py-1 sm:py-1.5 md:py-2 bg-[#f5934e];
 }
 
 .StudentItem-score[data-style-status="Low"] {
@@ -78,5 +78,12 @@
 
 .StudentItem-score-text {
   @apply text-white font-bold font-['Nunito'] text-center;
-  @apply text-base;
+  @apply text-xs sm:text-sm md:text-base;
+}
+
+@media (max-width: 640px) {
+  .taskButton button {
+    flex-wrap: nowrap;
+    white-space: nowrap;
+  }
 }

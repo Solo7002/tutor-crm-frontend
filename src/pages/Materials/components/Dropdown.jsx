@@ -34,7 +34,7 @@ export default function Dropdown({ onSelect, categories }) {
 
             {/* Выпадающий список */}
             {isOpen && (
-                <ul className="absolute w-full mt-1 bg-white border border-[#d7d7d7] rounded-2xl shadow-lg z-10">
+                <ul className="absolute w-full mt-1 bg-white border border-[#d7d7d7] rounded-2xl shadow-lg z-40">
                     {Object.keys(categories).map((category) => (
                         category === selectedCategory ? null : (
                             <li

@@ -227,15 +227,14 @@ const CreateTestAi = () => {
           <p>Тест успішно створено!</p>
           <p>Назва: {formData.subject}</p>
           <p>Група: {questionsPayload[0]?.answers[0]?.TestQuestionId ? 'Невідома' : 'Невідома'}</p>
-          <p>Курс: {formData.description || 'Без опису'}</p>
-          <p>Дедлайн: {formData.deadline ? new Date(formData.deadline).toLocaleDateString('uk-UA') : 'Не вказано'}</p>
-          <p>Макс. бал: {formData.maxScore || 0}</p>
         </div>,
         { autoClose: 5000 }
       );
 
-      navigate('/teacher/tests');
-      navigate(0);
+      setTimeout(() => {
+        navigate('/teacher/tests');
+        navigate(0);
+      }, 1500);
     } catch (error) {
       console.error('Помилка:', error);
       const errorMessage = error.response?.data?.message || error.message || 'Виникла помилка при створенні тесту';
