@@ -11,7 +11,6 @@ import MaterialsTeacher from "../pages/Materials/Teacher/MaterialsTeacher";
 import TestStudent from "../pages/Tests/TestStudent"
 import ProfileTeacher from "../pages/Profile/ProfileTeacher";
 import ProfileTeacher_forStudent from "../pages/Profile/ProfileTeacher_forStudent";
-import EditProfileTeacher from "../pages/EditProfile/EditProfileTeacher";
 import CalendarStudent from "../pages/Calendar/CalendarStudent/CalendarStudent";
 import RunTestStudent from "../pages/Tests/RunTestStudent";
 import DoneTestStudent from "../pages/Tests/DoneTestStudent";
@@ -25,7 +24,8 @@ import CreateTestAi from "../pages/TestsTeacher/CreateTestAi";
 import CalendarTeacher from "../pages/Calendar/CalendarTeacher/CalendarTeacher";
 import Course from "../pages/Course/Course";
 import ProfileStudent from "../pages/Profile/ProfileStudent";
-import EditProfileStudent from "../pages/EditProfile/EditProfileStudent";
+import EditEmailAndPassword from "../pages/EditProfile/EditEmailAndPassword";
+import EditProfile from "../pages/EditProfile/EditProfile";
 
 const AppRoutes = () => {
   return (
@@ -56,7 +56,6 @@ const AppRoutes = () => {
           {/* <Route path="info" element={<InfoStudent />} /> */}
           {/* <Route path="settings" element={<SettingsStudent />} /> */}
           <Route path="profile" element={<ProfileStudent />} />
-          <Route path="profile/edit" element={<EditProfileStudent />} />
         </Route>
 
         {/* Teacher Routes */}
@@ -76,7 +75,11 @@ const AppRoutes = () => {
           {/* <Route path="settings" element={<SettingsTeacher />} /> */}
           <Route path="courses" element={<Course />} />
           <Route path="profile" element={<ProfileTeacher />} />
-          <Route path="profile/edit" element={<EditProfileTeacher />} />
+        </Route>
+
+        <Route path="/user" element={<Navbar />}>
+            <Route path="edit" element={<EditProfile />} />
+            <Route path="edit/credentials" element={<EditEmailAndPassword />} />
         </Route>
 
         <Route path="*" element={<Navigate to="/" replace />} /> {/* Заглушка */}

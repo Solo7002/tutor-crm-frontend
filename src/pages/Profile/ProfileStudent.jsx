@@ -62,7 +62,7 @@ export default function ProfileStudent() {
                                 <div className="w-full flex justify-center mt-3">
                                     <button
                                         className="px-4 py-2 rounded-[40px] outline outline-1 outline-[#8a48e6] flex justify-center hover:bg-[#632DAE] hover:text-white items-center text-[#8a48e6] text-xs md:text-[15px] font-bold font-['Nunito'] transition-colors"
-                                        onClick={() => navigate("/student/profile/edit")}
+                                        onClick={() => navigate("/user/edit")}
                                     >
                                         Редагувати профіль
                                     </button>
@@ -121,9 +121,9 @@ export default function ProfileStudent() {
 
                                 </div>
                                 <div className="w-full flex justify-center mt-24 md:absolute md:-bottom-[150px] md:-left-0 md:w-auto md:mt-0">
-                                    <button className="w-auto px-4 py-2 bg-[#8a48e6] rounded-[40px] flex justify-center items-center text-white text-sm md:text-[15px] font-bold font-['Nunito']">
+                                    <a href='https://tutoct.great-site.net/price/' className="w-auto px-4 py-2 bg-[#8a48e6] hover:bg-[#632DAE] rounded-[40px] flex justify-center items-center text-white text-sm md:text-[15px] font-bold font-['Nunito']">
                                         Детальніше
-                                    </button>
+                                    </a>
                                 </div>
                             </div>
                         </div>

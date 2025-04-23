@@ -1,15 +1,34 @@
 import React from "react";
 import axios from 'axios';
 import { formatDate } from "../../../../../functions/formatDate";
+import { toast } from "react-toastify";
 
 const TaskCardTile = ({ hometask, onEdit, setRefreshTrigger }) => {
   const handleDelete = async () => {
     try {
       await axios.delete(`http://localhost:4000/api/hometasks/${hometask.HometaskId}`);
       setRefreshTrigger();
+        toast.success("Завдання було успішно видалено", {
+            position: "bottom-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+        });
     } catch (error) {
       console.error("Помилка при видаленні домашнього завдання:", error);
       alert("Не вдалося видалити домашнє завдання");
+        toast.error("Не вдалося видалити домашнє завдання", {
+            position: "bottom-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+        });
     }
   };
 
@@ -66,7 +85,7 @@ const TaskCardTile = ({ hometask, onEdit, setRefreshTrigger }) => {
               </div>
               <div
                 style={{
-                  fontFamily: "Lato",
+                  fontFamily: "Mulish",
                   fontWeight: 800,
                   fontSize: "15px",
                   color: "#8a48e6",
@@ -105,7 +124,7 @@ const TaskCardTile = ({ hometask, onEdit, setRefreshTrigger }) => {
               </div>
               <div
                 style={{
-                  fontFamily: "Lato",
+                  fontFamily: "Mulish",
                   fontWeight: 800,
                   fontSize: "15px",
                 }}
