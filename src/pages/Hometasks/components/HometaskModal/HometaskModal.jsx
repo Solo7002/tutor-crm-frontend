@@ -8,7 +8,19 @@ import HometaskDoneItemDownload from '../HometaskDoneItemDownload/HometaskDoneIt
 import axios from 'axios';
 import { toast } from 'react-toastify';
 
-export const HometaskModal = ({ onClose, status, token, hometask, hometaskFiles, hometaskDone = null, hometaskDoneFiles, studentId }) => {
+export const HometaskModal = ({ 
+  onClose, 
+  status, 
+  token, 
+  hometask, 
+  hometaskFiles, 
+  hometaskDone = null, 
+  hometaskDoneFiles, 
+  studentId, 
+  onSendHometask, 
+  onCancelHometask, 
+  isSubmitting 
+}) => {
   const [selectedFiles, setSelectedFiles] = useState([]);
   const fileInputRef = useRef(null);
   const [fileUrls, setFileUrls] = useState({});
@@ -20,87 +32,19 @@ export const HometaskModal = ({ onClose, status, token, hometask, hometaskFiles,
     console.log('Selected files:', files);
   };
 
-  const sendHometask = async () => {
-    try {
-      // создаем и получаем id doneHometask,для подальшего создания файлов
-      const createDoneHometaskResponse = await axios.post(
-        'http://localhost:4000/api/doneHometasks',
-        {
-          HomeTaskId: hometask.HomeTaskId,
-          StudentId: studentId,
-          DoneDate: new Date().toISOString(),
-          Mark: -1
-        }, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-      );
-
-      const doneHometaskId = createDoneHometaskResponse.data.DoneHomeTaskId;
-
-      const uploadedFiles = await Promise.all(
-        selectedFiles.map(async (file) => {
-          const formData = new FormData();
-          formData.append('file', file);
-          console.log("FormData:", formData);
-
-          const uploadResponse = await axios.post(
-            'http://localhost:4000/api/files/uploadAndReturnLink',
-            formData, {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-          );
-
-          return {
-            name: file.name,
-            url: uploadResponse.data.fileUrl
-          };
-        })
-      )
-
-      await Promise.all(
-        uploadedFiles.map(async (file) => {
-          await axios.post(
-            'http://localhost:4000/api/doneHometaskFiles/',
-            {
-              DoneHomeTaskId: doneHometaskId,
-              FileName: file.name,
-              FilePath: file.url
-            },
-            {
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
-            }
-          )
-        })
-      )
-      
-      toast.success(
-        <div>
-          <p>Домашнє завдання успішно відправлено!</p>
-          <p>Назва: {hometask.HomeTaskHeader}</p>
-        </div>,
+  const handleSubmit = () => {
+    if (selectedFiles.length === 0) {
+      toast.warn(
+        "Будь ласка, виберіть хоча б один файл.",
         {
           position: "bottom-right",
           autoClose: 5000
         }
       );
-      onClose();
-    } catch (error) {
-      console.log("Send hometask error:", error)
-      toast.error(
-        "Не вдалося відправити домашнє завдання. Спробуйте ще раз.",
-        {
-          position: "bottom-right",
-          autoClose: 5000
-        }
-      );
+      return;
     }
-  }
+    onSendHometask(selectedFiles);
+  };
 
   const downloadFile = async (FileName) => {
     try {
@@ -119,36 +63,6 @@ export const HometaskModal = ({ onClose, status, token, hometask, hometaskFiles,
       return null;
     } catch (error) {
       console.error('Ошибка при скачивании файла:', error);
-    }
-  };
-
-  const cancellationOfHomework = async () => {
-    if (hometaskDone) {
-      try {
-        await axios.delete(`http://localhost:4000/api/doneHometasks/${hometaskDone.DoneHomeTaskId}`, {
-          headers: { Authorization: `Bearer ${token}` }
-        });
-        toast.success(
-          <div>
-            <p>Відправлення домашнього завдання скасовано!</p>
-            <p>Назва: {hometask.HomeTaskHeader}</p>
-          </div>,
-          {
-            position: "bottom-right",
-            autoClose: 5000
-          }
-        );
-        onClose();
-      } catch (error) {
-        console.error("Cancel hometask error:", error);
-        toast.error(
-          "Не вдалося скасувати відправлення. Спробуйте ще раз.",
-          {
-            position: "bottom-right",
-            autoClose: 5000
-          }
-        );
-      }
     }
   };
 
@@ -226,7 +140,6 @@ export const HometaskModal = ({ onClose, status, token, hometask, hometaskFiles,
     fetchFileUrlsDoneHomeTask();
   }, [hometaskDoneFiles, token]);
 
-  // Prevent body scrolling when modal is open
   useEffect(() => {
     document.body.style.overflow = 'hidden';
     return () => {
@@ -236,17 +149,14 @@ export const HometaskModal = ({ onClose, status, token, hometask, hometaskFiles,
 
   return (
     <>
-      {/* Fixed overlay that covers the entire screen */}
       <div
         className="fixed inset-0 bg-black bg-opacity-50 z-50 overflow-hidden"
         onClick={onClose}
       ></div>
 
-      {/* Modal container with fixed positioning */}
       <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-2xl p-4 w-[90%] max-w-[596px] max-h-[90vh] z-50 flex flex-col overflow-y-auto">
-        {/* Header */}
         <div className="flex justify-between items-center mb-4">
-          <button onClick={onClose} className="focus:outline-none">
+          <button onClick={onClose} className="focus:outline-none" disabled={isSubmitting}>
             <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
               <rect width="40" height="40" rx="20" fill="white" />
               <path d="M13 20H27M13 20L19 26M13 20L19 14" stroke="#120C38" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
@@ -260,9 +170,7 @@ export const HometaskModal = ({ onClose, status, token, hometask, hometaskFiles,
           </svg>
         </div>
 
-        {/* Content */}
         <div className="flex flex-col flex-grow">
-          {/* Image and info section */}
           <div className="flex flex-col md:flex-row items-start gap-4">
             <img
               src={hometask.ImageFilePath}
@@ -271,7 +179,6 @@ export const HometaskModal = ({ onClose, status, token, hometask, hometaskFiles,
             />
 
             <div className="w-full md:w-[344px]">
-              {/* Date issued */}
               <div className="w-full h-14 p-2.5 rounded-2xl border border-[#d7d7d7] flex justify-between items-center mb-2">
                 <div className="w-28 h-8">
                   <div className="text-[#827ead] text-xs font-normal font-['Mulish']">Видано</div>
@@ -282,9 +189,7 @@ export const HometaskModal = ({ onClose, status, token, hometask, hometaskFiles,
                 </svg>
               </div>
 
-              {/* Info cards grid */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                {/* Deadline */}
                 <div className="w-full h-14 p-2.5 rounded-2xl border border-[#8a48e6] flex justify-between items-center">
                   <div className="w-28 h-8">
                     <div className="text-[#827ead] text-xs font-normal font-['Mulish']">Виконати до</div>
@@ -295,7 +200,6 @@ export const HometaskModal = ({ onClose, status, token, hometask, hometaskFiles,
                   </svg>
                 </div>
 
-                {/* Completed */}
                 <div className="w-full h-14 p-2.5 rounded-2xl border border-[#d7d7d7] flex justify-between items-center">
                   <div className="w-28 h-8">
                     <div className="text-[#827ead] text-xs font-normal font-['Mulish']">Виконано</div>
@@ -306,7 +210,6 @@ export const HometaskModal = ({ onClose, status, token, hometask, hometaskFiles,
                   </svg>
                 </div>
 
-                {/* Max score */}
                 <div className="w-full h-14 p-2.5 rounded-2xl border border-[#d7d7d7] flex justify-between items-center">
                   <div className="w-28 h-8">
                     <div className="text-[#827ead] text-[11px] font-normal font-['Mulish']">Максимальний бал</div>
@@ -317,7 +220,6 @@ export const HometaskModal = ({ onClose, status, token, hometask, hometaskFiles,
                   </svg>
                 </div>
 
-                {/* Status */}
                 <div className={`w-full h-14 p-2.5 rounded-2xl border ${getBorderStatusColor()} flex justify-between items-center`}>
                   <div className="w-28 h-8">
                     <div className="text-[#827ead] text-xs font-normal font-['Mulish']">Статус</div>
@@ -333,7 +235,6 @@ export const HometaskModal = ({ onClose, status, token, hometask, hometaskFiles,
             </div>
           </div>
 
-          {/* Task description */}
           <div className="p-4 flex flex-col gap-2">
             <div className="text-[#8a48e6] text-base font-bold font-['Nunito']">
               Завдання
@@ -343,7 +244,6 @@ export const HometaskModal = ({ onClose, status, token, hometask, hometaskFiles,
             </div>
           </div>
 
-          {/* Attached files */}
           <div className="flex-col justify-start items-start p-4 gap-4 inline-flex">
             <div className="self-stretch text-[#8a48e6] text-base font-bold font-['Nunito']">Прикріплені файли</div>
             <div className="w-full max-h-48 overflow-y-auto flex-col justify-start items-start gap-4 inline-flex">
@@ -358,7 +258,6 @@ export const HometaskModal = ({ onClose, status, token, hometask, hometaskFiles,
             </div>
           </div>
 
-          {/* Selected files */}
           <div className="flex flex-wrap flex-row max-h-24 overflow-y-auto p-2">
             {status === "default" && selectedFiles.map((file, index) => (
               <HometaskDoneItem key={index} text={file.name} onClick={() => handleRemoveFile(index)} />
@@ -374,7 +273,6 @@ export const HometaskModal = ({ onClose, status, token, hometask, hometaskFiles,
           </div>
         </div>
 
-        {/* Footer */}
         <div className="sticky bottom-0 bg-white pt-3 left-0 right-0 mt-2">
           <div className="flex justify-between items-center">
             {status === "done" && hometaskDone && (
@@ -391,19 +289,37 @@ export const HometaskModal = ({ onClose, status, token, hometask, hometaskFiles,
                   onChange={handleFileChange}
                   accept="image/jpeg, image/png, application/pdf"
                   multiple
+                  disabled={isSubmitting}
                 />
-                <BlackButton className="w-36 h-11 px-4 py-2 outline outline-1 outline-black" onClick={() => fileInputRef.current.click()}>
+                <BlackButton 
+                  className="w-36 h-11 px-4 py-2 outline outline-1 outline-black" 
+                  onClick={() => fileInputRef.current.click()}
+                  disabled={isSubmitting}
+                >
                   Обрати
                 </BlackButton>
-                <StatusButton status={status} className="w-56 h-11 px-4 py-2 flex" onClick={sendHometask} />
+                <StatusButton
+                  status={status}
+                  className="w-56 h-11 px-4 py-2 flex"
+                  onClick={handleSubmit}
+                  disabled={isSubmitting}
+                />
               </>
             )}
             {status === "pending" && (
               <>
-                <BlackButton className="w-36 h-11 px-4 py-2  outline outline-1 outline-black" disabled={true}>
+                <BlackButton 
+                  className="w-36 h-11 px-4 py-2 outline outline-1 outline-black" 
+                  disabled={true}
+                >
                   Обрати
                 </BlackButton>
-                <StatusButton status={status} className="w-56 h-11 px-4 py-2 flex" onClick={cancellationOfHomework} />
+                <StatusButton
+                  status={status}
+                  className="w-56 h-11 px-4 py-2 flex"
+                  onClick={onCancelHometask}
+                  disabled={isSubmitting}
+                />
               </>
             )}
           </div>
@@ -411,4 +327,4 @@ export const HometaskModal = ({ onClose, status, token, hometask, hometaskFiles,
       </div>
     </>
   );
-}
+};

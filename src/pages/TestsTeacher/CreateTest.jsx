@@ -257,7 +257,7 @@ const CreateTest = () => {
     }
   };
 
-  const addNewQuestion = () => {
+ const addNewQuestion = () => {
     setQuestions((prevQuestions) => [...prevQuestions, prevQuestions.length + 1]);
   };
 

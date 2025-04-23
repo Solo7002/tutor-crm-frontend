@@ -33,7 +33,8 @@ const CreateTestAi = () => {
   const handleGenerate = async () => {
     setIsGenerating(true);
     setErrors({});
-
+ 
+    
     if (!formData.isValid) {
       toast.error('Будь ласка, виправте помилки у формі');
       setErrors({ form: 'Будь ласка, виправте помилки у формі.' });
@@ -263,6 +264,7 @@ const CreateTestAi = () => {
         defaultNumQuestions="5"
         onFormChange={handleFormChange}
         errors={errors}
+        questionInputDis={false}
       />
 
       {generated && (

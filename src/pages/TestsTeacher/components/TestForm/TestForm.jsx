@@ -2,7 +2,7 @@ import React, { useEffect, useState, useMemo } from 'react';
 import Toggle from '../Toggle/Toggle';
 import CustomInput from '../CustomInput/CustomInput';
 
-const TestForm = ({ defaultNumQuestions = '2', onFormChange, errors: externalErrors }) => {
+const TestForm = ({ defaultNumQuestions = '1', onFormChange, errors: externalErrors, questionInputDis=true }) => {
   const [subject, setSubject] = useState('');
   const [description, setDescription] = useState('');
   const [numQuestions, setNumQuestions] = useState(defaultNumQuestions);
@@ -11,11 +11,13 @@ const TestForm = ({ defaultNumQuestions = '2', onFormChange, errors: externalErr
   const [maxScore, setMaxScore] = useState('12');
   const [deadline, setDeadline] = useState('');
   const [showAnswersAfterTest, setShowAnswersAfterTest] = useState(false);
-  const [showCorrectAnswersDuringTest, setShowCorrectAnswersDuringTest] = useState(false);
   const [formErrors, setFormErrors] = useState({});
   const [touched, setTouched] = useState({});
+  useEffect(() => {
+    setNumQuestions(defaultNumQuestions);
+  }, [defaultNumQuestions]);
 
-  // Individual validation functions
+  
   const validateSubject = (value) => {
     return !value || value.trim() === '' ? 'Тема тесту не може бути порожньою.' : '';
   };
@@ -73,13 +75,12 @@ const TestForm = ({ defaultNumQuestions = '2', onFormChange, errors: externalErr
     return deadlineDate < today ? 'Дедлайн не може бути меншим за сьогоднішню дату.' : '';
   };
 
-  // Handle blur for each field
+   
   const handleBlur = (field, value) => {
     setTouched((prev) => ({ ...prev, [field]: true }));
     let error = '';
     let newValue = value;
-    
-    // Set default value and validate
+  
     switch (field) {
       case 'subject':
         error = validateSubject(value);
@@ -124,7 +125,7 @@ const TestForm = ({ defaultNumQuestions = '2', onFormChange, errors: externalErr
     setFormErrors((prev) => ({ ...prev, [field]: error }));
   };
 
-  // Check overall form validity
+  
   const isFormValid = () => {
     const errors = {
       subject: validateSubject(subject),
@@ -145,7 +146,6 @@ const TestForm = ({ defaultNumQuestions = '2', onFormChange, errors: externalErr
     maxScore,
     deadline,
     showAnswersAfterTest,
-    showCorrectAnswersDuringTest,
     numQuestions,
     description,
     isValid: isFormValid(),
@@ -156,7 +156,6 @@ const TestForm = ({ defaultNumQuestions = '2', onFormChange, errors: externalErr
     maxScore,
     deadline,
     showAnswersAfterTest,
-    showCorrectAnswersDuringTest,
     numQuestions,
     description,
   ]);
@@ -172,6 +171,7 @@ const TestForm = ({ defaultNumQuestions = '2', onFormChange, errors: externalErr
   };
 
   const handleNumQuestionsChange = (e) => {
+    if(!questionInputDis){
     const value = e.target.value;
     if (value === '') {
       setNumQuestions('');
@@ -184,6 +184,10 @@ const TestForm = ({ defaultNumQuestions = '2', onFormChange, errors: externalErr
       } else {
         setNumQuestions(num.toString());
       }
+    }
+    }
+    else{
+      setNumQuestions(defaultNumQuestions)
     }
   };
 
@@ -243,6 +247,7 @@ const TestForm = ({ defaultNumQuestions = '2', onFormChange, errors: externalErr
               onBlur={() => handleBlur('maxScore', maxScore)}
               placeholder="12"
               icon={starIcon}
+           
             />
             {touched.maxScore && (formErrors.maxScore || externalErrors?.maxScore) && (
               <p className="text-red-500 text-sm mt-1">{formErrors.maxScore || externalErrors.maxScore}</p>
@@ -274,6 +279,7 @@ const TestForm = ({ defaultNumQuestions = '2', onFormChange, errors: externalErr
               placeholder={defaultNumQuestions}
               min="1"
               max="20"
+              readOnly={questionInputDis}
               icon={questionIcon}
             />
             {touched.numQuestions && (formErrors.numQuestions || externalErrors?.numQuestions) && (

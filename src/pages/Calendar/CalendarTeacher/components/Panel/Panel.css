@@ -11,7 +11,7 @@
 } */
 
 .panel-container {
-    @apply w-full h-36 sm:h-44 md:h-48 relative overflow-hidden rounded-2xl bg-[#1E1A3C];
+    @apply w-full   sm:h-52 md:h-56 relative overflow-hidden rounded-2xl bg-[#1E1A3C];
 }
 
 .panel-container::before {
@@ -22,7 +22,7 @@
     right: 0;
     bottom: 0;
     background: url('/public/assets/patterns/pattern4.png');
-    opacity: 0.1; /* Прозрачность 10% */
+    opacity: 0.1;  
     z-index: 0;
     background-size:contain;
     background-position: center;
@@ -46,13 +46,14 @@
 }
 
 .panel-button-wrapper {
-    @apply flex justify-center;
+    @apply flex justify-center relative;
 }
-
 .panel-button {
     @apply w-28 sm:w-32 h-9 sm:h-10 px-4 py-2 bg-[#8a48e6] rounded-3xl text-white text-sm sm:text-base font-bold font-['Nunito'];
 }
-
+.soon-label {
+    @apply absolute top-[-1px] text-[#8a48e6] px-1 text-xs bg-white  rounded-full font-bold;
+}
 .panel-decor-left {
     @apply absolute left-0 top-0 sm:w-80;
 }

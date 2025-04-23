@@ -37,7 +37,7 @@ const MyCalendar = ({ events, onDateSelect }) => {
       ? moment(date).isSame(moment(selectedDate), "day")
       : false;
 
-    console.log("selectedDate: ", selectedDate);
+ 
 
     let classname = "rbc-day-bg ";
     if (hasEvent) classname += "rbc-event ";
