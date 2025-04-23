@@ -6,6 +6,7 @@ import { jwtDecode } from "jwt-decode";
 import Reviews from './Reviews/Reviews';
 import GroupList from './components/GroupList';
 import { PatternFormat } from 'react-number-format';
+import { toast } from 'react-toastify';
 
 export default function ProfileStudent() {
     const navigate = useNavigate();
@@ -20,14 +21,13 @@ export default function ProfileStudent() {
                 const decoded = jwtDecode(token);
                 
                 axios.get(`http://localhost:4000/api/students/${decoded.id}/info`).then(res => {
-                    console.log('data', res.data);
                     setStudent(res.data.student);
                     setUser(res.data.user);
                     setGroups(res.data.groups);
                 })
                 
             } catch (error) {
-                console.error("Ошибка при расшифровке токена:", error);
+                toast.error("Ошибка при расшифровке токена!");
             }
         }
     }, [])

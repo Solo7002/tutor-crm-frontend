@@ -6,6 +6,7 @@ import TaskButton from "./components/TaskButton/TaskButton";
 import TestCard from "./components/TestCard/TestCard";
 import TestModal from "./components/TestModal/TestModal";
 import SortDropdown from "../Materials/components/SortDropdown";
+import { toast } from 'react-toastify';
 
 const buttons = [
   { text: "До виконання", icon: "M9 6H20M9 12H20M9 18H20M5 6V6.01M5 12V12.01M5 18V18.01", count: 0 },
@@ -31,7 +32,7 @@ const TestStudent = () => {
         const decoded = jwtDecode(token);
         setUserId(decoded.id);
       } catch (error) {
-        console.error("Ошибка при расшифровке токена:", error);
+        toast.error("Ошибка при расшифровке токена!");
       }
     }
   }, []);
@@ -46,7 +47,7 @@ const TestStudent = () => {
           }
         })
         .catch((error) => {
-          console.error("Ошибка при получении studentId:", error);
+          toast.error("Ошибка при получении studentId!");
         });
     }
   }, [userId]);
@@ -59,7 +60,7 @@ const TestStudent = () => {
           setTests(response.data);
         })
         .catch((error) => {
-          console.error("Ошибка при получении тестов:", error);
+          toast.error("Ошибка при получении тестов!");
         });
     }
   }, [studentId]);

@@ -5,6 +5,8 @@ import { jwtDecode } from "jwt-decode";
 import NotificationList from "../../components/Notifications/NotificationList";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import "./Navbar.css";
 
 const Navbar = () => {
@@ -19,6 +21,7 @@ const Navbar = () => {
   const [lastname, setLastname] = useState("");
   const [firstname, setFirstname] = useState("");
   const [balance, setBalance] = useState(0);
+  const navigate = useNavigate();
 
   useLayoutEffect(() => {
     const token = sessionStorage.getItem("token");
@@ -27,7 +30,7 @@ const Navbar = () => {
         const decoded = jwtDecode(token);
         setUserId(decoded.id);
       } catch (error) {
-        console.error("Ошибка при расшифровке токена:", error);
+        toast.error('Ошибка при расшифровке токена!');
       }
     }
   }, []);
@@ -57,56 +60,10 @@ const Navbar = () => {
           setUserName(`${FirstName} ${LastName}`);
         })
         .catch((error) => {
-          console.error("Ошибка при получении данных пользователя или баланса:", error);
+          toast.error('Ошибка при получении данных пользователя или баланса!');
         });
     }
   }, [userId]);
-
-  const getDefaultActiveNavItem = () => {
-    if (userRole === "Student") {
-      switch (location.pathname) {
-        case "/student/home":
-          return "home";
-        case "/student/hometask":
-          return "task";
-        case "/student/tests":
-          return "test";
-        case "/student/calendar":
-          return "calendar";
-        case "/student/materials":
-          return "library";
-        case "/student/search":
-          return "search";
-        case "/student/info":
-          return "info";
-        case "/student/settings":
-          return "settings";
-        default:
-          return "profile";
-      }
-    } else if (userRole === "Teacher") {
-      switch (location.pathname) {
-        case "/teacher/home":
-          return "home";
-        case "/teacher/hometasks":
-          return "task";
-        case "/teacher/tests":
-          return "test";
-        case "/teacher/calendar":
-          return "calendar";
-        case "/teacher/materials":
-          return "library";
-        case "/teacher/info":
-          return "info";
-        case "/teacher/settings":
-          return "settings";
-        default:
-          return "profile";
-      }
-    }
-  };
-
-  const [activeNavItem, setActiveNavItem] = useState(getDefaultActiveNavItem());
 
   // const handleNavItemClick = (navItem, label) => {
   //   setActiveNavItem(navItem);
@@ -114,23 +71,28 @@ const Navbar = () => {
   //   if (isSidebarOpen) setIsSidebarOpen(false);
   // };
 
-  const NavItem = ({ icon, text, to, isActive, onClick, noBorder, hamburger, blackText, group, fontSize }) => {
+  const NavItem = ({ icon, text, to, isActive, onClick, noBorder, hamburger, blackText, group, fontSize, isDisabled }) => {
     const baseButtonStyle = {
-      backgroundColor: isActive ? "#8A48E6" : "white",
+      backgroundColor: isDisabled ? "white" : (isActive ? "#8A48E6" : "white"),
       height: "40px",
       display: "flex",
       alignItems: "center",
       minWidth: "40px",
       width: isSidebarOpen ? "auto" : "40px",
       justifyContent: "flex-start",
-      border: ((noBorder || hamburger) ? "none" : (isActive ? "1px solid #8A48E6" : "1px solid #D7D7D7")),
-      borderRight: (group === 'footer' ? "none" : (isSidebarOpen ? ((noBorder || hamburger) ? "none" : (isActive ? "1px solid #8A48E6" : "1px solid #D7D7D7")) : "none")),
+      border: isDisabled
+        ? "none"
+        : ((noBorder || hamburger) ? "none" : (isActive ? "1px solid #8A48E6" : "1px solid #D7D7D7")),
+      borderRight: isDisabled
+        ? (isSidebarOpen ? "none" : "none")
+        : (group === 'footer' ? "none" : (isSidebarOpen ? ((noBorder || hamburger) ? "none" : (isActive ? "1px solid #8A48E6" : "1px solid #D7D7D7")) : "none")),
       transition: "background-color 0.3s, color 0.3s",
       borderRadius: "9999px",
-      cursor: "pointer",
+      cursor: isDisabled ? "not-allowed" : "pointer",
       position: "relative",
       marginBottom: "20px",
       marginLeft: "7px",
+      opacity: isDisabled ? 0.5 : 1,
     };
 
     const textStyles = {
@@ -143,15 +105,15 @@ const Navbar = () => {
         hover: { color: isActive ? "white" : "#120C38" },
       },
       footer: {
-        default: { color: isActive ? "white" : "#120C38" },
-        hover: { color: "white" },
+        default: { color: isDisabled ? "#120C38" : (isActive ? "white" : "#120C38") },
+        hover: { color: isDisabled ? "#120C38" : "white" },
       },
     };
 
     const hoverBackground = {
       menu: "#8A48E6",
       main: isActive ? "#632DAE" : "#E5E7EB",
-      footer: "#A768FF",
+      footer: isDisabled ? "white" : "#A768FF",
     };
 
     const getStrokeColor = () => {
@@ -173,12 +135,15 @@ const Navbar = () => {
       }),
     });
 
+    const Component = isDisabled ? "div" : Link;
+
     return (
-      <Link
-        className="navlink"
-        to={to}
+      <Component
+        className={isDisabled ? "disabled navlink" : "navlink"}
+        {...(isDisabled ? {} : { to })}
         style={baseButtonStyle}
         onMouseEnter={(e) => {
+          if (isDisabled) return;
           if (group === "main") {
             e.currentTarget.style.backgroundColor = hoverBackground[group];
             // e.currentTarget.style.border = noBorder ? "none" : "1px solid white";
@@ -186,8 +151,8 @@ const Navbar = () => {
             const svgDiv = e.currentTarget.querySelector("div");
             const svgPaths = e.currentTarget.querySelectorAll("path");
             if (svgPaths) {
-                // svgDiv.style.border = isActive || noBorder ? "none" : "1px solid #ccc";
-                if(isActive && isSidebarOpen) svgDiv.style.borderRight = "1px solid #FFFFFF"
+              // svgDiv.style.border = isActive || noBorder ? "none" : "1px solid #ccc";
+              if (isActive && isSidebarOpen) svgDiv.style.borderRight = "1px solid #FFFFFF"
               svgPaths.forEach((path) => {
                 path.setAttribute("stroke", isActive ? "white" : "#120C38");
               });
@@ -214,6 +179,7 @@ const Navbar = () => {
           }
         }}
         onMouseLeave={(e) => {
+          if (isDisabled) return; // No hover effects for disabled button
           if (group === "main") {
             e.currentTarget.style.backgroundColor = isActive ? "#8A48E6" : "white";
             // e.currentTarget.style.border = noBorder ? "none" : "1px solid #D7D7D7";
@@ -221,8 +187,8 @@ const Navbar = () => {
             const svgDiv = e.currentTarget.querySelector("div");
             const svgPaths = e.currentTarget.querySelectorAll("path");
             if (svgPaths) {
-                // svgDiv.style.border = isActive || noBorder ? "none" : "1px solid #ccc";
-                if(isActive && isSidebarOpen) svgDiv.style.borderRight = "1px solid #FFFFFF"
+              // svgDiv.style.border = isActive || noBorder ? "none" : "1px solid #ccc";
+              if (isActive && isSidebarOpen) svgDiv.style.borderRight = "1px solid #FFFFFF"
               svgPaths.forEach((path) => {
                 path.setAttribute("stroke", isActive ? "white" : "#827FAE");
               });
@@ -249,9 +215,15 @@ const Navbar = () => {
           }
         }}
         onClick={() => {
-          onClick();
+          if (!isDisabled) onClick();
         }}
       >
+        {/* Скоро Badge for Disabled Button */}
+        {isDisabled && (
+          <div className="absolute -top-2 -right-[-20px] bg-white text-[#8A48E6] text-xs px-1.5 py-0.5 rounded-xl font-medium border border-[#8A48E6] h-auto">
+            Скоро
+          </div>
+        )}
         {/* Icon */}
         <div
           className="nav-icon"
@@ -264,8 +236,8 @@ const Navbar = () => {
             alignItems: "center",
             justifyContent: "center",
             border: "none",
-            borderRight: (!hamburger && !noBorder) ? (isActive ? "1px solid #FFFFFF" : "1px solid #ccc") : null, //isSidebarOpen && 
-            borderRadius: "50%"
+            borderRight: (!hamburger && !noBorder) ? (isActive ? "1px solid #FFFFFF" : "1px solid #ccc") : null,//isSidebarOpen && 
+            borderRadius: "100%"
           }}
         >
           {updatedIcon}
@@ -286,7 +258,7 @@ const Navbar = () => {
             {text}
           </span>
         )}
-      </Link>
+      </Component>
     );
   };
 
@@ -385,34 +357,50 @@ const Navbar = () => {
     if (userRole === "Student") {
       return [
         {
-          path: "/student/settings", label: "Налаштування", key: "settings", icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M10.325 4.317C10.751 2.561 13.249 2.561 13.675 4.317C13.7389 4.5808 13.8642 4.82578 14.0407 5.032C14.2172 5.23822 14.4399 5.39985 14.6907 5.50375C14.9414 5.60764 15.2132 5.65085 15.4838 5.62987C15.7544 5.60889 16.0162 5.5243 16.248 5.383C17.791 4.443 19.558 6.209 18.618 7.753C18.4769 7.98466 18.3924 8.24634 18.3715 8.51677C18.3506 8.78721 18.3938 9.05877 18.4975 9.30938C18.6013 9.55999 18.7627 9.78258 18.9687 9.95905C19.1747 10.1355 19.4194 10.2609 19.683 10.325C21.439 10.751 21.439 13.249 19.683 13.675C19.4192 13.7389 19.1742 13.8642 18.968 14.0407C18.7618 14.2172 18.6001 14.4399 18.4963 14.6907C18.3924 14.9414 18.3491 15.2132 18.3701 15.4838C18.3911 15.7544 18.4757 16.0162 18.617 16.248C19.557 17.791 17.791 19.558 16.247 18.618C16.0153 18.4769 15.7537 18.3924 15.4832 18.3715C15.2128 18.3506 14.9412 18.3938 14.6906 18.4975C14.44 18.6013 14.2174 18.7627 14.0409 18.9687C13.8645 19.1747 13.7391 19.4194 13.675 19.683C13.249 21.439 10.751 21.439 10.325 19.683C10.2611 19.4192 10.1358 19.1742 9.95929 18.968C9.7828 18.7618 9.56011 18.6001 9.30935 18.4963C9.05859 18.3924 8.78683 18.3491 8.51621 18.3701C8.24559 18.3911 7.98375 18.4757 7.752 18.617C6.209 19.557 4.442 17.791 5.382 16.247C5.5231 16.0153 5.60755 15.7537 5.62848 15.4832C5.64942 15.2128 5.60624 14.9412 5.50247 14.6906C5.3987 14.44 5.23726 14.2174 5.03127 14.0409C4.82529 13.8645 4.58056 13.7391 4.317 13.675C2.561 13.249 2.561 10.751 4.317 10.325C4.5808 10.2611 4.82578 10.1358 5.032 9.95929C5.23822 9.7828 5.39985 9.56011 5.50375 9.30935C5.60764 9.05859 5.65085 8.78683 5.62987 8.51621C5.60889 8.24559 5.5243 7.98375 5.383 7.752C4.443 6.209 6.209 4.442 7.753 5.382C8.753 5.99 10.049 5.452 10.325 4.317Z" stroke="#120C38" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-            <path d="M9 12C9 12.7956 9.31607 13.5587 9.87868 14.1213C10.4413 14.6839 11.2044 15 12 15C12.7956 15 13.5587 14.6839 14.1213 14.1213C14.6839 13.5587 15 12.7956 15 12C15 11.2044 14.6839 10.4413 14.1213 9.87868C13.5587 9.31607 12.7956 9 12 9C11.2044 9 10.4413 9.31607 9.87868 9.87868C9.31607 10.4413 9 11.2044 9 12Z" stroke="#120C38" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-          </svg>
+          path: "/student/settings",
+          label: "Налаштування",
+          key: "settings",
+          isDisabled: true, // Mark settings as disabled
+          icon: (
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M10.325 4.317C10.751 2.561 13.249 2.561 13.675 4.317C13.7389 4.5808 13.8642 4.82578 14.0407 5.032C14.2172 5.23822 14.4399 5.39985 14.6907 5.50375C14.9414 5.60764 15.2132 5.65085 15.4838 5.62987C15.7544 5.60889 16.0162 5.5243 16.248 5.383C17.791 4.443 19.558 6.209 18.618 7.753C18.4769 7.98466 18.3924 8.24634 18.3715 8.51677C18.3506 8.78721 18.3938 9.05877 18.4975 9.30938C18.6013 9.55999 18.7627 9.78258 18.9687 9.95905C19.1747 10.1355 19.4194 10.2609 19.683 10.325C21.439 10.751 21.439 13.249 19.683 13.675C19.4192 13.7389 19.1742 13.8642 18.968 14.0407C18.7618 14.2172 18.6001 14.4399 18.4963 14.6907C18.3924 14.9414 18.3491 15.2132 18.3701 15.4838C18.3911 15.7544 18.4757 16.0162 18.617 16.248C19.557 17.791 17.791 19.558 16.247 18.618C16.0153 18.4769 15.7537 18.3924 15.4832 18.3715C15.2128 18.3506 14.9412 18.3938 14.6906 18.4975C14.44 18.6013 14.2174 18.7627 14.0409 18.9687C13.8645 19.1747 13.7391 19.4194 13.675 19.683C13.249 21.439 10.751 21.439 10.325 19.683C10.2611 19.4192 10.1358 19.1742 9.95929 18.968C9.7828 18.7618 9.56011 18.6001 9.30935 18.4963C9.05859 18.3924 8.78683 18.3491 8.51621 18.3701C8.24559 18.3911 7.98375 18.4757 7.752 18.617C6.209 19.557 4.442 17.791 5.382 16.247C5.5231 16.0153 5.60755 15.7537 5.62848 15.4832C5.64942 15.2128 5.60624 14.9412 5.50247 14.6906C5.3987 14.44 5.23726 14.2174 5.03127 14.0409C4.82529 13.8645 4.58056 13.7391 4.317 13.675C2.561 13.249 2.561 10.751 4.317 10.325C4.5808 10.2611 4.82578 10.1358 5.032 9.95929C5.23822 9.7828 5.39985 9.56011 5.50375 9.30935C5.60764 9.05859 5.65085 8.78683 5.62987 8.51621C5.60889 8.24559 5.5243 7.98375 5.383 7.752C4.443 6.209 6.209 4.442 7.753 5.382C8.753 5.99 10.049 5.452 10.325 4.317Z" stroke="#8A48E6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+              <path d="M9 12C9 12.7956 9.31607 13.5587 9.87868 14.1213C10.4413 14.6839 11.2044 15 12 15C12.7956 15 13.5587 14.6839 14.1213 14.1213C14.6839 13.5587 15 12.7956 15 12C15 11.2044 14.6839 10.4413 14.1213 9.87868C13.5587 9.31607 12.7956 9 12 9C11.2044 9 10.4413 9.31607 9.87868 9.87868C9.31607 10.4413 9 11.2044 9 12Z" stroke="#8A48E6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
           )
         },
         {
-          path: "/student/info", label: "Інформація", key: "info", icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M11.9949 19.9786V20M11.9949 13.559C12.8928 13.5619 13.7655 13.2403 14.4719 12.6462C15.1783 12.0521 15.6773 11.2201 15.8883 10.2846C16.0992 9.34912 16.0098 8.36475 15.6345 7.49044C15.2591 6.61612 14.6198 5.90292 13.8197 5.46599C13.0254 5.0299 12.1169 4.89469 11.2418 5.08235C10.3667 5.27001 9.57658 5.76949 9 6.49955" stroke="#120C38" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-          </svg>
+          path: "/student/info",
+          label: "Інформація",
+          key: "info",
+          icon: (
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M11.9949 19.9786V20M11.9949 13.559C12.8928 13.5619 13.7655 13.2403 14.4719 12.6462C15.1783 12.0521 15.6773 11.2201 15.8883 10.2846C16.0992 9.34912 16.0098 8.36475 15.6345 7.49044C15.2591 6.61612 14.6198 5.90292 13.8197 5.46599C13.0254 5.0299 12.1169 4.89469 11.2418 5.08235C10.3667 5.27001 9.57658 5.76949 9 6.49955" stroke="#120C38" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
           )
         },
-
       ];
     } else if (userRole === "Teacher") {
       return [
-
-
         {
-          path: "/teacher/settings", label: "Налаштування", key: "settings", icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M10.325 4.317C10.751 2.561 13.249 2.561 13.675 4.317C13.7389 4.5808 13.8642 4.82578 14.0407 5.032C14.2172 5.23822 14.4399 5.39985 14.6907 5.50375C14.9414 5.60764 15.2132 5.65085 15.4838 5.62987C15.7544 5.60889 16.0162 5.5243 16.248 5.383C17.791 4.443 19.558 6.209 18.618 7.753C18.4769 7.98466 18.3924 8.24634 18.3715 8.51677C18.3506 8.78721 18.3938 9.05877 18.4975 9.30938C18.6013 9.55999 18.7627 9.78258 18.9687 9.95905C19.1747 10.1355 19.4194 10.2609 19.683 10.325C21.439 10.751 21.439 13.249 19.683 13.675C19.4192 13.7389 19.1742 13.8642 18.968 14.0407C18.7618 14.2172 18.6001 14.4399 18.4963 14.6907C18.3924 14.9414 18.3491 15.2132 18.3701 15.4838C18.3911 15.7544 18.4757 16.0162 18.617 16.248C19.557 17.791 17.791 19.558 16.247 18.618C16.0153 18.4769 15.7537 18.3924 15.4832 18.3715C15.2128 18.3506 14.9412 18.3938 14.6906 18.4975C14.44 18.6013 14.2174 18.7627 14.0409 18.9687C13.8645 19.1747 13.7391 19.4194 13.675 19.683C13.249 21.439 10.751 21.439 10.325 19.683C10.2611 19.4192 10.1358 19.1742 9.95929 18.968C9.7828 18.7618 9.56011 18.6001 9.30935 18.4963C9.05859 18.3924 8.78683 18.3491 8.51621 18.3701C8.24559 18.3911 7.98375 18.4757 7.752 18.617C6.209 19.557 4.442 17.791 5.382 16.247C5.5231 16.0153 5.60755 15.7537 5.62848 15.4832C5.64942 15.2128 5.60624 14.9412 5.50247 14.6906C5.3987 14.44 5.23726 14.2174 5.03127 14.0409C4.82529 13.8645 4.58056 13.7391 4.317 13.675C2.561 13.249 2.561 10.751 4.317 10.325C4.5808 10.2611 4.82578 10.1358 5.032 9.95929C5.23822 9.7828 5.39985 9.56011 5.50375 9.30935C5.60764 9.05859 5.65085 8.78683 5.62987 8.51621C5.60889 8.24559 5.5243 7.98375 5.383 7.752C4.443 6.209 6.209 4.442 7.753 5.382C8.753 5.99 10.049 5.452 10.325 4.317Z" stroke="#120C38" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-            <path d="M9 12C9 12.7956 9.31607 13.5587 9.87868 14.1213C10.4413 14.6839 11.2044 15 12 15C12.7956 15 13.5587 14.6839 14.1213 14.1213C14.6839 13.5587 15 12.7956 15 12C15 11.2044 14.6839 10.4413 14.1213 9.87868C13.5587 9.31607 12.7956 9 12 9C11.2044 9 10.4413 9.31607 9.87868 9.87868C9.31607 10.4413 9 11.2044 9 12Z" stroke="#120C38" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-          </svg>
+          path: "/teacher/settings",
+          label: "Налаштування",
+          key: "settings",
+          isDisabled: true, // Mark settings as disabled
+          icon: (
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M10.325 4.317C10.751 2.561 13.249 2.561 13.675 4.317C13.7389 4.5808 13.8642 4.82578 14.0407 5.032C14.2172 5.23822 14.4399 5.39985 14.6907 5.50375C14.9414 5.60764 15.2132 5.65085 15.4838 5.62987C15.7544 5.60889 16.0162 5.5243 16.248 5.383C17.791 4.443 19.558 6.209 18.618 7.753C18.4769 7.98466 18.3924 8.24634 18.3715 8.51677C18.3506 8.78721 18.3938 9.05877 18.4975 9.30938C18.6013 9.55999 18.7627 9.78258 18.9687 9.95905C19.1747 10.1355 19.4194 10.2609 19.683 10.325C21.439 10.751 21.439 13.249 19.683 13.675C19.4192 13.7389 19.1742 13.8642 18.968 14.0407C18.7618 14.2172 18.6001 14.4399 18.4963 14.6907C18.3924 14.9414 18.3491 15.2132 18.3701 15.4838C18.3911 15.7544 18.4757 16.0162 18.617 16.248C19.557 17.791 17.791 19.558 16.247 18.618C16.0153 18.4769 15.7537 18.3924 15.4832 18.3715C15.2128 18.3506 14.9412 18.3938 14.6906 18.4975C14.44 18.6013 14.2174 18.7627 14.0409 18.9687C13.8645 19.1747 13.7391 19.4194 13.675 19.683C13.249 21.439 10.751 21.439 10.325 19.683C10.2611 19.4192 10.1358 19.1742 9.95929 18.968C9.7828 18.7618 9.56011 18.6001 9.30935 18.4963C9.05859 18.3924 8.78683 18.3491 8.51621 18.3701C8.24559 18.3911 7.98375 18.4757 7.752 18.617C6.209 19.557 4.442 17.791 5.382 16.247C5.5231 16.0153 5.60755 15.7537 5.62848 15.4832C5.64942 15.2128 5.60624 14.9412 5.50247 14.6906C5.3987 14.44 5.23726 14.2174 5.03127 14.0409C4.82529 13.8645 4.58056 13.7391 4.317 13.675C2.561 13.249 2.561 10.751 4.317 10.325C4.5808 10.2611 4.82578 10.1358 5.032 9.95929C5.23822 9.7828 5.39985 9.56011 5.50375 9.30935C5.60764 9.05859 5.65085 8.78683 5.62987 8.51621C5.60889 8.24559 5.5243 7.98375 5.383 7.752C4.443 6.209 6.209 4.442 7.753 5.382C8.753 5.99 10.049 5.452 10.325 4.317Z" stroke="#8A48E6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+              <path d="M9 12C9 12.7956 9.31607 13.5587 9.87868 14.1213C10.4413 14.6839 11.2044 15 12 15C12.7956 15 13.5587 14.6839 14.1213 14.1213C14.6839 13.5587 15 12.7956 15 12C15 11.2044 14.6839 10.4413 14.1213 9.87868C13.5587 9.31607 12.7956 9 12 9C11.2044 9 10.4413 9.31607 9.87868 9.87868C9.31607 10.4413 9 11.2044 9 12Z" stroke="#8A48E6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
           )
-        }, {
-          path: "/teacher/info", label: "Інформація", key: "info", icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M11.9949 19.9786V20M11.9949 13.559C12.8928 13.5619 13.7655 13.2403 14.4719 12.6462C15.1783 12.0521 15.6773 11.2201 15.8883 10.2846C16.0992 9.34912 16.0098 8.36475 15.6345 7.49044C15.2591 6.61612 14.6198 5.90292 13.8197 5.46599C13.0254 5.0299 12.1169 4.89469 11.2418 5.08235C10.3667 5.27001 9.57658 5.76949 9 6.49955" stroke="#120C38" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-          </svg>
+        },
+        {
+          path: "/teacher/info",
+          label: "Інформація",
+          key: "info",
+          icon: (
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M11.9949 19.9786V20M11.9949 13.559C12.8928 13.5619 13.7655 13.2403 14.4719 12.6462C15.1783 12.0521 15.6773 11.2201 15.8883 10.2846C16.0992 9.34912 16.0098 8.36475 15.6345 7.49044C15.2591 6.61612 14.6198 5.90292 13.8197 5.46599C13.0254 5.0299 12.1169 4.89469 11.2418 5.08235C10.3667 5.27001 9.57658 5.76949 9 6.49955" stroke="#120C38" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
           )
         },
       ];
@@ -421,15 +409,45 @@ const Navbar = () => {
 
   const settingsAndInfoLinks = getSettingsAndInfoLinks();
 
+
+  const getDefaultActiveNavItem = () => {
+    const navLinks = getNavLinks();
+    const settingsAndInfoLinks = getSettingsAndInfoLinks();
+    const allLinks = [...navLinks, ...settingsAndInfoLinks].sort(
+      (a, b) => b.path.length - a.path.length
+    );
+  
+    // Find the link whose path is a prefix of the current location.pathname
+    const currentLink = allLinks.find((link) =>
+      location.pathname.includes(link.path)
+    );
+  
+    return currentLink?.key || "profile";
+  };
+
+  const [activeNavItem, setActiveNavItem] = useState(() => {
+    const navLinks = getNavLinks();
+    const settingsAndInfoLinks = getSettingsAndInfoLinks();
+    const allLinks = [...navLinks, ...settingsAndInfoLinks].sort(
+      (a, b) => b.path.length - a.path.length
+    );
+    const currentLink = allLinks.find((link) =>
+      location.pathname.includes(link.path)
+    );
+    return currentLink?.key || "profile";
+  });
+
   const getDefaultPageTitle = () => {
     const navLinks = getNavLinks();
     const settingsAndInfoLinks = getSettingsAndInfoLinks();
-    const allLinks = [...navLinks, ...settingsAndInfoLinks];
-
-    const currentLink = allLinks.find((link) =>
-      location.pathname.startsWith(link.path)
+    const allLinks = [...navLinks, ...settingsAndInfoLinks].sort(
+      (a, b) => b.path.length - a.path.length
     );
-
+  
+    const currentLink = allLinks.find((link) =>
+      location.pathname.includes(link.path)
+    );
+  
     return currentLink?.label || "Профіль";
   };
 
@@ -440,11 +458,15 @@ const Navbar = () => {
     setCurrentPageTitle(getDefaultPageTitle());
   }, [location.pathname, userRole]);
 
-  const handleNavItemClick = (navItem, label) => {
+  const handleNavItemClick = (navItem, label, path) => {
     setActiveNavItem(navItem);
     setCurrentPageTitle(label);
     if (isSidebarOpen) setIsSidebarOpen(false);
+    if (path) {
+      navigate(path);
+    }
   };
+
   return (
     <div className="flex h-screen w-[100%] navbar">
       {/* Sidebar */}
@@ -486,7 +508,7 @@ const Navbar = () => {
             onClick={() => handleNavItemClick("profile", "Профіль")}
           >
             <img
-              src={imageUrl ? imageUrl : `https://ui-avatars.com/api/?name=${lastname + " " + firstname}&background=random&size=86`}
+              src={imageUrl ? imageUrl : `https://ui-avatars.com/api/?name=${firstname + " " + lastname}&background=random&size=86`}
               alt="Profile"
               style={{
                 width: "100%",
@@ -496,28 +518,28 @@ const Navbar = () => {
             />
           </div>
 
-                  <div
-                      className="profile-name"
-                      style={{
-                          position: "absolute",
-                          left: "100px",
-                          top: "80px",
-                          color: "#120C38",
-                          fontFamily: "Nunito",
-                          fontWeight: "700",
-                      }}
-                  >
-                      {userName}
-                      <div
-                          style={{
-                              fontSize: "12px",
-                              color: "#827FAE",
-                              marginTop: "5px",
-                          }}
-                      >
-                          Баланс: {balance}
-                      </div>
-                  </div></Link>
+          <div
+            className="profile-name"
+            style={{
+              position: "absolute",
+              left: "100px",
+              top: "80px",
+              color: "#120C38",
+              fontFamily: "Nunito",
+              fontWeight: "700",
+            }}
+          >
+            {userName}
+            <div
+              style={{
+                fontSize: "12px",
+                color: "#827FAE",
+                marginTop: "5px",
+              }}
+            >
+              Баланс: {balance}
+            </div>
+          </div></Link>
 
         {/* Navigation Items */}
         <div className="navitems" style={{ marginTop: "80px", padding: "20px", flex: 1 }}>
@@ -529,7 +551,7 @@ const Navbar = () => {
               to={link.path}
               isActive={activeNavItem === link.key}
               onClick={() => {
-                handleNavItemClick(link.key, link.label);
+                handleNavItemClick(link.key, link.label, link.path);
               }}
               group="main"
             />
@@ -543,10 +565,15 @@ const Navbar = () => {
               key={link.key}
               icon={link.icon}
               text={link.label}
-              to={link.path}
               isActive={activeNavItem === link.key}
+              isDisabled={link.isDisabled}
               onClick={() => {
-                handleNavItemClick(link.key);
+                if (link.isDisabled) return;
+                if (link.key === "info") {
+                  window.open("https://tutoct.great-site.net/faq/", "_blank");
+                } else {
+                handleNavItemClick(link.key, link.label);
+                }
               }}
               group="footer"
               noBorder

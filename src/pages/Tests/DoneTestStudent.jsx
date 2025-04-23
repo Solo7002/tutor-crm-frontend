@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import './DoneTestStudent.css';
 import { PrimaryButton, SecondaryButton } from './components/Buttons/Buttons2';
 import axios from 'axios';
+import { toast } from 'react-toastify';
 
 const DoneTestStudent = () => {
     const navigate = useNavigate();
@@ -32,7 +33,6 @@ const DoneTestStudent = () => {
         return <div>Завантаження...</div>;
     }
 
-    console.log(testData);
     
     const percentage = (testData.Mark / testData.MaxMark) * 100;
 
@@ -61,7 +61,7 @@ const DoneTestStudent = () => {
 
             navigate(`/test/${encryptedTestId}`);
         } catch (error) {
-            console.error('Помилка при створенні тесту:', error);
+            toast.error('Помилка при створенні тесту!');
         }
     };
 

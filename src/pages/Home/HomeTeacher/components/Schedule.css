@@ -1,35 +1,37 @@
+/* Base styles */
 .custom-calendar {
     width: 100% !important;
     border: none;
+    font-size: 14px;
 }
 
 .react-calendar__navigation {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
 }
 
 .react-calendar__navigation__label {
     font-family: 'Lato', sans-serif;
     font-weight: 700;
-    font-size: 16pt;
-    line-height: 19.2px;
-    letter-spacing: 0.59px;
+    font-size: 1rem;
+    line-height: 1.2;
+    letter-spacing: 0.5px;
     color: #120C38;
     text-transform: uppercase;
 }
 
 .react-calendar__month-view__weekdays {
     display: grid;
-    grid-template-columns: repeat(7, minmax(30px, 1fr)) !important;
+    grid-template-columns: repeat(7, 1fr) !important;
     text-align: center;
-    margin-bottom: 10px;
+    margin-bottom: 6px;
 }
 
 .react-calendar__month-view__weekdays__weekday {
     font-family: 'Nunito', sans-serif;
-    font-size: 15.65pt;
+    font-size: 0.75rem;
     color: #8A48E6;
     text-transform: uppercase;
     text-decoration: none !important;
@@ -48,29 +50,25 @@
     color: #8A48E6;
 }
 
-/* Стили для самих ячеек */
+/* Styles for cells */
 .react-calendar__tile {
     position: relative;
     text-align: center;
     border-radius: 50% !important;
-    width: 30px !important;
-    height: 30px !important;
-    min-width: 30px !important;
-    /* Предотвращаем сжатие */
-    max-width: 30px !important;
-    /* Предотвращаем растяжение */
+    width: 25px !important;
+    height: 25px !important;
+    min-width: 25px !important;
+    max-width: 25px !important;
     aspect-ratio: 1 !important;
-    font-size: 15pt;
+    font-size: 0.75rem;
     font-family: 'Nunito', sans-serif;
     transition: background-color 0.3s ease;
     padding: 0 !important;
-    margin: 0 !important;
+    margin: 0 auto !important;
     display: flex;
-    /* Для центрирования текста внутри */
     align-items: center;
     justify-content: center;
     box-sizing: border-box;
-    /* Учитываем padding и border в размерах */
 }
 
 .outside-month-tile {
@@ -103,46 +101,83 @@
     text-decoration: none;
 }
 
-/* Установим фиксированную ширину колонок для дней */
+/* Grid layout for days */
 .react-calendar__month-view__days {
     display: grid !important;
-    grid-template-columns: repeat(7, minmax(30px, 1fr)) !important;
-    /* 7 колонок по 30px */
+    grid-template-columns: repeat(7, 1fr) !important;
     justify-content: center !important;
-    /* Центрируем сетку, если она уже ширины контейнера */
-    gap: 5px !important;
-    /* Опционально: добавим небольшой отступ между ячейками */
+    gap: 2px !important;
 }
 
-/* Сетка для дней недели */
+/* Grid for weekdays */
 .react-calendar__month-view__weekdays {
     display: grid !important;
-    grid-template-columns: repeat(7, minmax(30px, 1fr)) !important;
+    grid-template-columns: repeat(7, 1fr) !important;
     text-align: center !important;
-    margin-bottom: 10px !important;
-    justify-content: center !important; /* Центрируем сетку */
-    gap: 5px !important; /* Синхронизируем с gap в днях */
-  }
-  
-  /* Сами обозначения дней недели */
-  .react-calendar__month-view__weekdays__weekday {
+    margin-bottom: 5px !important;
+    justify-content: center !important;
+    gap: 2px !important;
+}
+
+/* Weekday labels */
+.react-calendar__month-view__weekdays__weekday {
     font-family: 'Nunito', sans-serif !important;
-    font-size: 15.65pt !important;
+    font-size: 0.75rem !important;
     color: #8A48E6 !important;
     text-transform: uppercase !important;
     text-decoration: none !important;
     cursor: default !important;
     outline: none !important;
     border-bottom: none !important;
-    width: 30px !important; /* Фиксируем ширину */
-    height: 30px !important; /* Для единообразия */
-    display: flex !important; /* Центрируем текст */
+    display: flex !important;
     align-items: center !important;
     justify-content: center !important;
     box-sizing: border-box !important;
-  }
-  
-  /* Убираем подчеркивание у abbr */
-  .react-calendar__month-view__weekdays__weekday abbr {
+}
+
+/* Remove underline from abbr */
+.react-calendar__month-view__weekdays__weekday abbr {
     text-decoration: none !important;
-  }
+}
+
+/* Media queries for responsive design */
+@media (min-width: 480px) {
+    .react-calendar__tile {
+        width: 28px !important;
+        height: 28px !important;
+        min-width: 28px !important;
+        max-width: 28px !important;
+        font-size: 0.8rem;
+    }
+    
+    .react-calendar__month-view__weekdays__weekday {
+        font-size: 0.8rem !important;
+    }
+    
+    .react-calendar__navigation__label {
+        font-size: 1.1rem;
+    }
+}
+
+@media (min-width: 768px) {
+    .react-calendar__tile {
+        width: 30px !important;
+        height: 30px !important;
+        min-width: 30px !important;
+        max-width: 30px !important;
+        font-size: 0.9rem;
+    }
+    
+    .react-calendar__month-view__weekdays__weekday {
+        font-size: 0.9rem !important;
+    }
+    
+    .react-calendar__navigation__label {
+        font-size: 1.2rem;
+    }
+    
+    .react-calendar__month-view__days,
+    .react-calendar__month-view__weekdays {
+        gap: 5px !important;
+    }
+}

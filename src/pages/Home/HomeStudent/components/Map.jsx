@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
+import { toast } from 'react-toastify';
 
 const customIcon = new L.Icon({
   icon: <svg width="39" height="39" viewBox="0 0 39 39" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -22,7 +23,7 @@ function LocateUser() {
           map.setView([latitude, longitude], 13);
         },
         (error) => {
-          console.error('Ошибка получения местоположения:', error);
+          toast.error('Ошибка получения местоположения!');
         }
       );
     }
@@ -41,7 +42,7 @@ export default function Map() {
           setPosition([latitude, longitude]);
         },
         (error) => {
-          console.error('Ошибка получения местоположения:', error);
+          toast.error('Ошибка получения местоположения!');
         }
       );
     }

@@ -37,11 +37,11 @@ const Productivity = ({ productivityData }) => {
 
   const getChangeIndicator = (current, previous) => {
     if (current === previous) {
-      return <span className="text-[#120C38] text-lg font-bold">—</span>;
+      return <span className="text-[#120C38] text-base sm:text-lg font-bold">—</span>;
     }
     return (
       <svg
-        className="w-6 h-6"
+        className="w-5 h-5 sm:w-6 sm:h-6"
         viewBox="0 0 24 24"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
@@ -91,13 +91,13 @@ const Productivity = ({ productivityData }) => {
   );
 
   return (
-    <div className="flex-1 bg-white p-4 rounded-[20px] shadow-md h-full">
-      <div className="relative w-full h-[277px]">
-        <div className="flex justify-between items-center mb-4">
-          <h2 className="text-[#120c38] font-bold font-['Nunito'] text-xl md:text-2xl">
+    <div className="flex-1 bg-white p-2 sm:p-4 rounded-[20px] shadow-md h-full overflow-hidden">
+      <div className="relative w-full h-full">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 mb-2 sm:mb-4">
+          <h2 className="text-[#120c38] font-bold font-['Nunito'] text-base sm:text-lg md:text-xl truncate max-w-[130px] sm:max-w-none">
             Продуктивність
           </h2>
-          <div className="w-[10vw] mobile-dropdown-teacher">
+          <div className="w-full sm:w-[10vw] mobile-dropdown-teacher">
             <Dropdown
               textAll="За весь час"
               options={periods.filter((p) => p !== "За весь час")}
@@ -107,8 +107,8 @@ const Productivity = ({ productivityData }) => {
         </div>
 
         {/* Рейтинг */}
-        <div className="flex justify-between items-center mb-4">
-          <span className="text-[#120c38] text-lg font-bold font-['Mulish']">
+        <div className="flex justify-between items-center mb-2 sm:mb-4">
+          <span className="text-[#120c38] text-base sm:text-lg font-bold font-['Mulish'] truncate max-w-[100px] sm:max-w-none">
             Рейтинг
           </span>
           <div className="flex items-center">
@@ -119,7 +119,7 @@ const Productivity = ({ productivityData }) => {
                 const fillWidth = partialFill ? `${fractionalPart * 100}%` : "0%";
 
                 return (
-                  <div key={star} className="relative w-6 h-6">
+                  <div key={star} className="relative w-5 h-5 sm:w-6 sm:h-6">
                     <svg
                       className="w-full h-full"
                       viewBox="0 0 16 16"
@@ -147,12 +147,12 @@ const Productivity = ({ productivityData }) => {
         </div>
 
         {/* Перевірено завдань */}
-        <div className="flex justify-between items-center mb-4">
-          <span className="text-[#120c38] text-lg font-normal font-['Mulish']">
+        <div className="flex justify-between items-center mb-2 sm:mb-4">
+          <span className="text-[#120c38] text-sm sm:text-base md:text-lg font-normal font-['Mulish'] truncate max-w-[150px] sm:max-w-none">
             Перевірено завдань
           </span>
-          <div className="flex items-center gap-2">
-            <span className="text-[#120c38] text-lg font-semibold font-['Mulish']">
+          <div className="flex items-center gap-1 sm:gap-2 flex-shrink-0">
+            <span className="text-[#120c38] text-sm sm:text-base md:text-lg font-semibold font-['Mulish']">
               {currentPeriodData.tasksChecked || 0}
             </span>
             {tasksIndicator}
@@ -160,12 +160,12 @@ const Productivity = ({ productivityData }) => {
         </div>
 
         {/* Проведено уроків */}
-        <div className="flex justify-between items-center mb-4">
-          <span className="text-[#120c38] text-lg font-normal font-['Mulish']">
+        <div className="flex justify-between items-center mb-2 sm:mb-4">
+          <span className="text-[#120c38] text-sm sm:text-base md:text-lg font-normal font-['Mulish'] truncate max-w-[150px] sm:max-w-none">
             Проведено уроків
           </span>
-          <div className="flex items-center gap-2">
-            <span className="text-[#120c38] text-lg font-semibold font-['Mulish']">
+          <div className="flex items-center gap-1 sm:gap-2 flex-shrink-0">
+            <span className="text-[#120c38] text-sm sm:text-base md:text-lg font-semibold font-['Mulish']">
               {currentPeriodData.lessonsConducted || 0}
             </span>
             {lessonsIndicator}
@@ -173,15 +173,15 @@ const Productivity = ({ productivityData }) => {
         </div>
 
         {/* Нові учні */}
-        <div className="flex justify-between items-center mb-4">
-          <span className="text-[#120c38] text-lg font-normal font-['Mulish']">
+        <div className="flex justify-between items-center mb-2 sm:mb-4">
+          <span className="text-[#120c38] text-sm sm:text-base md:text-lg font-normal font-['Mulish'] truncate max-w-[150px] sm:max-w-none">
             Нові учні
           </span>
-          <div className="flex items-baseline gap-1">
-            <span className="text-[#120c38] text-lg font-semibold font-['Mulish']">
+          <div className="flex items-baseline gap-1 flex-shrink-0">
+            <span className="text-[#120c38] text-sm sm:text-base md:text-lg font-semibold font-['Mulish']">
               {currentPeriodData.newClients || 0}
             </span>
-            <sup className="text-[10px] font-semibold font-['Mulish']">
+            <sup className="text-[8px] sm:text-[10px] font-semibold font-['Mulish']">
               {clientsChange}
             </sup>
           </div>
@@ -189,14 +189,14 @@ const Productivity = ({ productivityData }) => {
 
         {/* Отримані відгуки */}
         <div className="flex justify-between items-center">
-          <span className="text-[#120c38] text-lg font-normal font-['Mulish']">
+          <span className="text-[#120c38] text-sm sm:text-base md:text-lg font-normal font-['Mulish'] truncate max-w-[150px] sm:max-w-none">
             Отримані відгуки
           </span>
-          <div className="flex items-baseline gap-1">
-            <span className="text-[#120c38] text-lg font-semibold font-['Mulish']">
+          <div className="flex items-baseline gap-1 flex-shrink-0">
+            <span className="text-[#120c38] text-sm sm:text-base md:text-lg font-semibold font-['Mulish']">
               {currentPeriodData.reviewsReceived || 0}
             </span>
-            <sup className="text-[10px] font-semibold font-['Mulish']">
+            <sup className="text-[8px] sm:text-[10px] font-semibold font-['Mulish']">
               {reviewsChange}
             </sup>
           </div>

@@ -35,7 +35,7 @@ const Comment = ({ review }) => {
                 <div className="w-full flex items-start">
                     <img
                         className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 rounded-full flex-shrink-0 object-cover"
-                        src={review.UserFrom.ImageFilePath ? review.UserFrom.ImageFilePath : `https://ui-avatars.com/api/?name=${review.UserFrom.LastName + ' ' + review.UserFrom.FirstName}&background=random&size=86`}
+                        src={review.UserFrom.ImageFilePath ? review.UserFrom.ImageFilePath : `https://ui-avatars.com/api/?name=${review.UserFrom.FirstName + ' ' + review.UserFrom.LastName}&background=random&size=86`}
                         alt="review image"
                     />
 

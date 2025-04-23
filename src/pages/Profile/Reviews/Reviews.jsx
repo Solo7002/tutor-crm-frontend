@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Comment from '../components/Comment';
 import AddReviewModal from "../components/AddReviewModal";
+import { toast } from 'react-toastify';
 
 const Reviews = ({ userId, userFrom = null }) => {
   const [reviews, setReviews] = useState([]);
@@ -20,7 +21,7 @@ const Reviews = ({ userId, userFrom = null }) => {
           setReviews(res.data.reverse());
         });
       } catch (error) {
-        console.error("Помилка при отриманні відгуків:", error);
+        toast.error("Помилка при отриманні відгуків!");
       }
     }
   }, [userId, refreshReviews]);
@@ -34,7 +35,7 @@ const Reviews = ({ userId, userFrom = null }) => {
           setUserFromId(userFrom.UserId);
         });
       } catch (error) {
-        console.error("Помилка при отриманні відгуків:", error);
+        toast.error("Помилка при отриманні відгуків!");
       }
     }
   }, [userFrom, userId, canMakeReview]);

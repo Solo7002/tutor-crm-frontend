@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { Calendar } from "react-calendar";
+import { useNavigate } from 'react-router-dom';
 import "./Schedule.css";
 
 const Schedule = ({ days }) => {
   const [selectedDate, setSelectedDate] = useState(new Date());
+  const navigate = useNavigate();
 
   const months = [
     "Січень",
@@ -77,7 +79,7 @@ const Schedule = ({ days }) => {
       <Calendar
         className="custom-calendar"
         value={selectedDate}
-        onChange={setSelectedDate}
+        onChange={() => navigate("/student/calendar")}
         tileClassName={getTileClassName}
         navigationLabel={({ date }) => formatMonthYear(null, date)}
         showNavigation={false}
