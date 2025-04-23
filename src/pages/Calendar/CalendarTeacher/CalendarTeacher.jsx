@@ -20,34 +20,34 @@ const CalendarTeacher = () => {
     try {
       const decodedToken = jwtDecode(token);
       const userId = decodedToken?.id;
- 
+
       if (!userId) return;
- 
+
       const teacherRes = await axios.get(
         `http://localhost:4000/api/teachers/search/user/${userId}`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
- 
+
       const teacher = teacherRes.data.data[0];
       if (!teacher?.TeacherId) return;
- 
+
       setTeacherId(teacher.TeacherId);
- 
+
       const lessonsRes = await axios.get(
         `http://localhost:4000/api/plannedLessons/getLessonByTecher/${teacher.TeacherId}`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
-     
+
       setLessons(lessonsRes.data);
     } catch (err) {
       console.error("Error fetching data:", err);
     }
   };
- 
+
   useEffect(() => {
     fetchTeacherAndLessons();
   }, [token]);
@@ -55,8 +55,8 @@ const CalendarTeacher = () => {
   useEffect(() => {
     const checkIfMobile = () => {
       console.log(window.innerWidth);
-      
-      setIsMobile(window.innerWidth <= 1000); 
+
+      setIsMobile(window.innerWidth <= 1000);
     };
 
 
@@ -75,22 +75,23 @@ const CalendarTeacher = () => {
   return (
     <div className="TeacherCalendar">
 
-    
-    <div className="app-container">
-      <div className={`app-content ${isMobile ? 'flex-col' : ''}`}>
-        <div className={isMobile ? 'w-full' : 'w-3/4'}>
-          <Panel />
-          <MyCalendar events={lessons} onDateSelect={handleDateSelect} />
-        </div>
-        <div className={`panelLesson ${isMobile ? 'w-full mt-4' : ''}`}>
-          <PanelLessons
-            teacherId={teacherId}
-            token={token}
-            lessons={lessons}
-            selectedDate={selectedDate}
-            onResetDate={resetSelectedDate}
-            onRefresh={fetchTeacherAndLessons}
-          />
+
+      <div className="app-container">
+        <div className={`app-content ${isMobile ? 'flex-col' : ''}`}>
+          <div className={isMobile ? 'w-full' : 'w-3/4'}>
+            <Panel />
+            <MyCalendar events={lessons} onDateSelect={handleDateSelect} />
+          </div>
+          <div className={`panelLesson ${isMobile ? 'w-full mt-4' : ''}`}>
+            <PanelLessons
+              teacherId={teacherId}
+              token={token}
+              lessons={lessons}
+              selectedDate={selectedDate}
+              onResetDate={resetSelectedDate}
+              onRefresh={fetchTeacherAndLessons}
+            />
+          </div>
         </div>
       </div>
     </div>

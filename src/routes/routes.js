@@ -19,7 +19,6 @@ import RunTestStudent from "../pages/Tests/RunTestStudent";
 import DoneTestStudent from "../pages/Tests/DoneTestStudent";
 import SearchTeachers from "../pages/SearchTeachers/SearchTeachers";
 import ProfileStudent from "../pages/Profile/ProfileStudent";
-import ProfileStudent from "../pages/Profile/ProfileStudent";
 import EditEmailAndPassword from "../pages/EditProfile/EditEmailAndPassword";
 import EditProfile from "../pages/EditProfile/EditProfile";
 

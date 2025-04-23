@@ -3,7 +3,7 @@ import { Link, useLocation, Outlet } from "react-router-dom";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 import NotificationList from "../../components/Notifications/NotificationList";
-import { ToastContainer } from 'react-toastify';
+import { ToastContainer, Bounce } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';

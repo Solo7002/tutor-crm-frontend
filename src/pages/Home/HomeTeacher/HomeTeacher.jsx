@@ -11,8 +11,10 @@ import Productivity from './components/Productivity';
 import { jwtDecode } from 'jwt-decode';
 import { useLocation } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { useTranslation } from "react-i18next";
 
 export default function HomeTeacher() {
+    const { t } = useTranslation(); 
     const [leaders, setLeaders] = useState([]);
     const [events, setEvents] = useState([]);
     const [activities, setActivities] = useState([]);

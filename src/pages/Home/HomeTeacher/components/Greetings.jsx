@@ -1,6 +1,9 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 
 const Greetings = ({user}) => {
+  const { t } = useTranslation(); 
+
   return (
     <div className="flex flex-row bg-[#120C38] pt-4 sm:pt-6 rounded-[20px] mb-4 sm:mb-6 shadow-md min-h-[180px] sm:h-[20vh] bg-pattern greetings overflow-hidden" 
       style={{
@@ -8,7 +11,7 @@ const Greetings = ({user}) => {
       }}
     >
       <div className="w-full sm:w-[70%] text-white p-3 sm:p-5" style={{ fontFamily: "Mulish", fontWeight: "400", fontSize: "15pt", lineHeight: "18.83px", letterSpacing: "-0.5%" }}>
-        <div className="text-xl sm:text-2xl font-bold mb-2 sm:mb-6" style={{ fontFamily: "Nunito", fontStyle: "normal", fontWeight: "700", fontSize: "clamp(24px, 5vw, 32px)", lineHeight: "1.375", letterSpacing: "-0.005em", color: "#FFFFFF" }}>Привіт {user ? user.firstName || "User" : "User"}!</div>
+        <div className="text-xl sm:text-2xl font-bold mb-2 sm:mb-6" style={{ fontFamily: "Nunito", fontStyle: "normal", fontWeight: "700", fontSize: "clamp(24px, 5vw, 32px)", lineHeight: "1.375", letterSpacing: "-0.005em", color: "#FFFFFF" }}>{t("HomeStudent.testText")} {user ? user.firstName || "User" : "User"}!</div>
         <p className="text-sm sm:text-base">Як і восьминіг, ви майстер багатозадачності – ведіть уроки, плануєте розклад, керуєте учнями. OctoCRM допоможе вам організувати всі процеси зручно та ефективно!</p>
       </div>
       <div className="flex justify-end w-[130%] md:w-[30%]">

@@ -11,6 +11,7 @@ const TestForm = ({ defaultNumQuestions = '2', onFormChange, errors: externalErr
   const [maxScore, setMaxScore] = useState('12');
   const [deadline, setDeadline] = useState('');
   const [showAnswersAfterTest, setShowAnswersAfterTest] = useState(false);
+  const [showCorrectAnswersDuringTest, setShowCorrectAnswersDuringTest] = useState(false);
   const [formErrors, setFormErrors] = useState({});
   const [touched, setTouched] = useState({});
 
@@ -140,6 +141,7 @@ const TestForm = ({ defaultNumQuestions = '2', onFormChange, errors: externalErr
     maxScore,
     deadline,
     showAnswersAfterTest,
+    showCorrectAnswersDuringTest,
     numQuestions,
     description,
     isValid: isFormValid(),
@@ -150,6 +152,7 @@ const TestForm = ({ defaultNumQuestions = '2', onFormChange, errors: externalErr
     maxScore,
     deadline,
     showAnswersAfterTest,
+    showCorrectAnswersDuringTest,
     numQuestions,
     description,
   ]);
@@ -165,7 +168,6 @@ const TestForm = ({ defaultNumQuestions = '2', onFormChange, errors: externalErr
   };
 
   const handleNumQuestionsChange = (e) => {
-    if(!questionInputDis){
     const value = e.target.value;
     if (value === '') {
       setNumQuestions('');
@@ -178,10 +180,6 @@ const TestForm = ({ defaultNumQuestions = '2', onFormChange, errors: externalErr
       } else {
         setNumQuestions(num.toString());
       }
-    }
-    }
-    else{
-      setNumQuestions(defaultNumQuestions)
     }
   };
 
@@ -241,7 +239,6 @@ const TestForm = ({ defaultNumQuestions = '2', onFormChange, errors: externalErr
               onBlur={() => handleBlur('maxScore', maxScore)}
               placeholder="12"
               icon={starIcon}
-           
             />
             {touched.maxScore && (formErrors.maxScore || externalErrors?.maxScore) && (
               <p className="text-red-500 text-xs sm:text-sm mt-1">{formErrors.maxScore || externalErrors.maxScore}</p>
@@ -273,7 +270,6 @@ const TestForm = ({ defaultNumQuestions = '2', onFormChange, errors: externalErr
               placeholder={defaultNumQuestions}
               min="1"
               max="20"
-              readOnly={questionInputDis}
               icon={questionIcon}
               disabled={createdQuestionsAmount}
             />
