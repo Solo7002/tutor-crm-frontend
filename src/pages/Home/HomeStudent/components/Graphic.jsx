@@ -29,7 +29,7 @@ const Graphic = ({ chartData }) => {
     const homeworkData = Array(6).fill(null).map((_, index) => {
         const dataPoint = chartData.find(
             (item) =>
-                item.type === "Homework" &&
+                (item.type === "Homework" || item.type === "Test") &&
                 months.indexOf(lastSixMonths[index]) === new Date(item.date).getMonth()
         );
         return dataPoint ? dataPoint.grade : null;

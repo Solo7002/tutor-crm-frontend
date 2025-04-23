@@ -38,7 +38,7 @@ export default function SortDropdown({ options, onSelect }) {
                 </svg>
             </button>
             {isOpen && (
-                <ul className="absolute top-9 left-0 w-full bg-white border border-[#D7D7D7] rounded-md shadow-md z-10 text-[#827ead] text-[15px] font-bold font-['Nunito']">
+                <ul className="absolute top-9 left-0 w-full bg-white border border-[#D7D7D7] rounded-md shadow-md z-40 text-[#827ead] text-[15px] font-bold font-['Nunito']">
                     {options.map((option, index) => (
                         <li
                             key={index}

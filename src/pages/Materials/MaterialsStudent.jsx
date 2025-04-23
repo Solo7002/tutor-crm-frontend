@@ -1,5 +1,5 @@
-import React, { use, useEffect, useState } from 'react';
-import './MaterialsStudent.css'
+import React, { useEffect, useState } from 'react';
+import './MaterialsStudent.css';
 import Dropdown from './components/Dropdown';
 import ToggleSwitch from './components/ToggleSwitch';
 import SortDropdown from './components/SortDropdown';
@@ -12,17 +12,16 @@ import axios from 'axios';
 import { jwtDecode } from "jwt-decode";
 import FolderUpBlock from './components/FolderUpBlock';
 import FolderUpList from './components/FolderUpList';
+import useCookieState from '../../utils/hooks/useCookieState';
 
 export default function MaterialsStudent() {
-    const [isBlock, setIsBlock] = useState(true);
-    const [parent, setParent] = useState(null);
-    // eslint-disable-next-line
+    const [isBlock, setIsBlock] = useCookieState('MaterialsStudent_displayMode', true);
+    const [parent, setParent] = useCookieState('MaterialsStudent_currentFolder', null);
     const [materials, setMaterials] = useState([]);
-    // eslint-disable-next-line
-    const [dir, setDir] = useState([]);
+    const [dir, setDir] = useCookieState('MaterialsStudent_currentPath', []);
     const [searchValue, setSearchValue] = useState('');
     const [selectedCategory, setSelectedCategory] = useState(null);
-    const [order, setOrder] = useState('За алфавітом');
+    const [order, setOrder] = useCookieState('MaterialsStudent_sortOrder', 'За алфавітом');
     const fileCategories = {
         "Усі формати": null,
         "Презентації": [".pptx", ".ppt"],
@@ -33,9 +32,6 @@ export default function MaterialsStudent() {
         "Зображення": [".jpg", ".jpeg", ".png", ".gif", ".bmp", ".tiff", ".webp", ".svg"]
     };
 
-
-
-
     const loadMaterials = async () => {
         const token = sessionStorage.getItem("token");
         if (!token) return;
@@ -44,29 +40,33 @@ export default function MaterialsStudent() {
         const userId = decoded.id;
 
         try {
-            await axios.get(`http://localhost:4000/api/materials/getMaterialsByStudentUserId/${userId}`, { params: { FileExtension: fileCategories[selectedCategory], ParentId: parent, order: order } }).then(res => {
-                console.log('res', res.data)
+            await axios.get(`http://localhost:4000/api/materials/getMaterialsByStudentUserId/${userId}`, { 
+                params: { FileExtension: fileCategories[selectedCategory], ParentId: parent, order: order } 
+            }).then(res => {
+                console.log('res', res.data);
                 setMaterials(res.data);
             });
-        }
-        catch (error) {
+        } catch (error) {
             console.error("Error fetching materials:", error);
         }
-    }
+    };
+
     useEffect(() => {
         loadMaterials();
-    }, [parent, selectedCategory, order])
+    }, [parent, selectedCategory, order]);
 
     const onFolderClick = (id, name) => {
         setParent(id);
-        dir.push(name);
-    }
+        setDir(prevDir => [...prevDir, name]);
+    };
+
     const onFolderUpClick = () => {
         axios.get(`http://localhost:4000/api/materials/${parent}`).then(res => {
             setParent(res.data.ParentId);
-            dir.pop();
-        })
-    }
+            setDir(prevDir => prevDir.slice(0, -1));
+        });
+    };
+
     const onDownloadClick = (path) => {
         let fileName = path.split('/').pop();
         axios.get(`http://localhost:4000/api/files/download/${fileName}`)
@@ -75,6 +75,7 @@ export default function MaterialsStudent() {
             })
             .catch(err => console.error(err));
     };
+
     const onSearchClick = () => {
         setDir([]);
         if (searchValue === '') {
@@ -82,32 +83,21 @@ export default function MaterialsStudent() {
             loadMaterials();
             return;
         }
-        axios.get('http://localhost:4000/api/materials/search', { params: { MaterialName: searchValue, Type: "file" } }).then(res => {
-            console.log('res', res)
+        axios.get('http://localhost:4000/api/materials/search', { 
+            params: { MaterialName: searchValue, Type: "file" } 
+        }).then(res => {
+            console.log('res', res);
             setMaterials(res.data.data);
-        })
-    }
+        });
+    };
+
     const handleCategorySelect = (category) => {
         setSelectedCategory(category);
-        // if (category === "Усі формати") {
-        //     axios.get(`http://localhost:4000/api/materials/search`, { params: { ParentId: parent } })
-        //         .then(res => {
-        //             console.log('res', res)
-        //             setMaterials(res.data.data);
-        //         })
-        //         .catch(err => console.error(err));
-        //     return;
-        // }
-        // axios.get(`http://localhost:4000/api/materials/search`, { params: { FileExtension: fileCategories[category], ParentId: parent } })
-        //     .then(res => {
-        //         console.log('res', res)
-        //         setMaterials(res.data.data);
-        //     })
-        //     .catch(err => console.error(err));
     };
+
     const handleSortSelect = (o) => {
         setOrder(o);
-    }
+    };
 
     const ImgValidFormats = (filepath) => {
         if (filepath) {
@@ -116,11 +106,11 @@ export default function MaterialsStudent() {
             return imgFormats.includes(imgExt) ? filepath : null;
         }
         return null;
-    }
+    };
 
     return (
         <div className='MaterialsStudent mr-10 mt-3'>
-            <div className='buttons-box'>
+            <div className='my-[18px] items-center flex flex-wrap md:justify-between'>
                 <div className="gap-2 flex">
                     <div className="button button-selected">
                         <div data-svg-wrapper>
@@ -142,52 +132,56 @@ export default function MaterialsStudent() {
                         <div className="text-[#8a48e6] text-[15px] font-bold font-['Nunito']">Магазин</div>
                     </div>
                 </div>
-                <div className="gap-2 flex">
-                    <SearchButton onSearchClick={() => { setDir([]); }} value={searchValue} setValue={setSearchValue} />
+                <div className="gap-2 flex w-full mt-2 md:w-auto md:mt-0">
+                    <SearchButton onSearchClick={onSearchClick} value={searchValue} setValue={setSearchValue} />
                 </div>
             </div>
-            <div className='buttons-box'>
-                <div className="gap-2 flex">
+            <div className='w-full flex flex-wrap md:justify-between'>
+                <div className="gap-2 flex flex-wrap">
                     <ToggleSwitch isOn={isBlock} setIsOn={setIsBlock} />
                     <Dropdown categories={fileCategories} onSelect={handleCategorySelect} />
                 </div>
-
-                <div className="gap-2 flex">
+                <div className="gap-2 flex mt-2 md:mt-0">
                     <SortDropdown
                         options={["За алфавітом", "Спочатку нові", "Спочатку старі"]}
                         onSelect={(option) => handleSortSelect(option)}
                     />
-
                 </div>
             </div>
-            <div className='mb-4 font-[Nunito] text-[15px] text-[#827FAE] font-bold'>
+            <div className='mt-6 mb-4 font-[Nunito] text-[15px] text-[#827FAE] font-bold'>
                 Архів
-                {
-                    dir.map((d, index) =>
-                        ' / ' + d
-                    )
-                }
+                {dir.map((d, index) => ' / ' + d)}
             </div>
             <div className={`w-full flex flex-wrap gap-4 mt-4 mb-8`}>
-                {
-                    parent === null
-                        ?
-                        null
-                        :
-                        isBlock ? <FolderUpBlock onClick={onFolderUpClick} /> : <FolderUpList onClick={onFolderUpClick} />
-                }
-                {
-                    materials.map((m, index) =>
-                        m.Type === "folder"
-                            ?
-                            isBlock ? <FolderBlock name={m.MaterialName} onClick={() => onFolderClick(m.MaterialId, m.MaterialName)} /> : <FolderList name={m.MaterialName} onClick={() => onFolderClick(m.MaterialId, m.MaterialName)} />
-                            :
-                            isBlock ? <MaterialBlock name={m.MaterialName} ext={m.FilePath.split('.').pop().toUpperCase()}
-                                img={ImgValidFormats(m.FilePath)} onDownloadClick={() => onDownloadClick(m.FilePath)} /> : <MaterialList name={m.MaterialName} ext={m.FilePath.split('.').pop().toUpperCase()} onDownloadClick={() => onDownloadClick(m.FilePath)} />
+                <div className={`w-full text-center font-[Nunito] text-[16px] text-[#827FAE] ${parent === null && materials.length === 0 ? "" : "hidden"}`}>
+                    Жоден вчитель поки що не надав Вам доступ до своїх матеріалів {":("}
+                </div>
+                {parent === null ? null : isBlock ? <FolderUpBlock onClick={onFolderUpClick} /> : <FolderUpList onClick={onFolderUpClick} />}
+                {materials.map((m, index) =>
+                    m.Type === "folder" ? (
+                        isBlock ? (
+                            <FolderBlock name={m.MaterialName} onClick={() => onFolderClick(m.MaterialId, m.MaterialName)} />
+                        ) : (
+                            <FolderList name={m.MaterialName} onClick={() => onFolderClick(m.MaterialId, m.MaterialName)} />
+                        )
+                    ) : (
+                        isBlock ? (
+                            <MaterialBlock
+                                name={m.MaterialName}
+                                ext={m.FilePath.split('.').pop().toUpperCase()}
+                                img={ImgValidFormats(m.FilePath)}
+                                onDownloadClick={() => onDownloadClick(m.FilePath)}
+                            />
+                        ) : (
+                            <MaterialList
+                                name={m.MaterialName}
+                                ext={m.FilePath.split('.').pop().toUpperCase()}
+                                onDownloadClick={() => onDownloadClick(m.FilePath)}
+                            />
+                        )
                     )
-                }
+                )}
             </div>
-
         </div>
     );
 }

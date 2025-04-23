@@ -467,6 +467,10 @@ const Navbar = () => {
     }
   };
 
+  const clearSessionStorage = () => {
+    sessionStorage.clear();
+  }
+
   return (
     <div className="flex h-screen w-[100%] navbar">
       {/* Sidebar */}
@@ -783,6 +787,7 @@ const Navbar = () => {
             <Link to="/">
               <button
                 className="top-buttons p-2 rounded-full border border-gray-300 hover:bg-[#A768FF] transition-all duration-300"
+                onClick={() => {clearSessionStorage();}}
               >
                 <div style={{ width: "24px", height: "24px", display: "flex", alignItems: "center", justifyContent: "center" }}>
                   {<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

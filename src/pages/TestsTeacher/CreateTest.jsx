@@ -237,15 +237,14 @@ const CreateTest = () => {
           <p>Тест успішно створено!</p>
           <p>Назва: {formData.subject}</p>
           <p>Група: {questionsPayload[0]?.answers[0]?.TestQuestionId ? 'Невідома' : 'Невідома'}</p>
-          <p>Курс: {formData.description || 'Без опису'}</p>
-          <p>Дедлайн: {formData.deadline ? new Date(formData.deadline).toLocaleDateString('uk-UA') : 'Не вказано'}</p>
-          <p>Макс. бал: {formData.maxScore || 0}</p>
         </div>,
         { autoClose: 5000 }
       );
 
-      navigate('/teacher/tests');
-      navigate(0);
+      setTimeout(() => {
+        navigate('/teacher/tests');
+        navigate(0);
+      }, 1500);
     } catch (error) {
       console.error('Помилка:', error);
       const errorMessage = error.response?.data?.message || error.message || 'Виникла помилка при створенні тесту';
@@ -285,15 +284,16 @@ const CreateTest = () => {
   };
 
   return (
-    <div className="test-page-container">
+    <div className="test-page-container w-full max-w-[900px] mx-auto px-4 sm:px-6">
       <TestForm
         defaultNumQuestions={`${questions.length}`}
         onFormChange={handleFormChange}
         errors={errors}
+        createdQuestionsAmount={questions.length}
       />
-
-      <div className="questions-container mt-4">
-        <div className="questions-section space-y-6">
+  
+      <div className="questions-container mt-4 sm:mt-6 md:mt-8">
+        <div className="questions-section space-y-4 sm:space-y-6">
           {questions.map((questionNumber) => (
             <div key={questionNumber} className="relative">
               <AddQuestion
@@ -313,17 +313,17 @@ const CreateTest = () => {
           ))}
         </div>
       </div>
-
-      <div className="flex justify-center gap-4 mt-6 mb-24 flex-wrap">
+  
+      <div className="flex flex-col sm:flex-row justify-center gap-4 mt-6 mb-24">
         <PrimaryButton
           onClick={addNewQuestion}
-          className="w-96 bg-purple-500 hover:bg-purple-600"
+          className="w-full sm:w-auto sm:flex-1 max-w-md mx-auto sm:mx-0 bg-purple-500 hover:bg-purple-600"
         >
           Додати ще одне запитання
         </PrimaryButton>
-
+  
         <PrimaryButton
-          className="w-96 max-w-full"
+          className="w-full sm:w-auto sm:flex-1 max-w-md mx-auto sm:mx-0"
           onClick={handleSubmit}
           disabled={isSubmitting}
         >

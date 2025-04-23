@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import Dropdown from '../components/Dropdown';
 import ToggleSwitch from '../components/ToggleSwitch';
 import SortDropdown from '../components/SortDropdown';
@@ -14,23 +14,25 @@ import { jwtDecode } from "jwt-decode";
 import FolderUpList from '../components/FolderUpList';
 import AddMaterialModal from '../components/AddMaterialModal';
 import AccessManagementModal from '../components/AccessManagementModal';
+import useCookieState from '../../../utils/hooks/useCookieState';
+import FolderCreateList from '../components/FolderCreateList';
 
 export default function MaterialsTeacher() {
-    const [isBlock, setIsBlock] = useState(true);
-    const [materials, setMaterials] = useState([]);
-    const [currentFolder, setCurrentFolder] = useState(null);
-    const [searchValue, setSearchValue] = useState('');
-    const [selectedCategory, setSelectedCategory] = useState("Усі формати");
-    const [sortOrder, setSortOrder] = useState("За алфавітом");
-    const [dir, setDir] = useState([]);
-    const [teacherId, setTeacherId] = useState();
-    const [nowParentId, setNowParentId] = useState(null);
-    const [refreshData, setRefreshData] = useState(false);
-    const [showFolderCreateBlock, setShowFolderCreateBlock] = useState(false);
+    const [isBlock, setIsBlock] = useCookieState('MaterialsTeacher_isBlock', true);
+    const [materials, setMaterials] = useCookieState('MaterialsTeacher_materials', []);
+    const [currentFolder, setCurrentFolder] = useCookieState('MaterialsTeacher_currentFolder', null);
+    const [searchValue, setSearchValue] = useCookieState('MaterialsTeacher_searchValue', '');
+    const [selectedCategory, setSelectedCategory] = useCookieState('MaterialsTeacher_selectedCategory', "Усі формати");
+    const [sortOrder, setSortOrder] = useCookieState('MaterialsTeacher_sortOrder', "За алфавітом");
+    const [dir, setDir] = useCookieState('MaterialsTeacher_dir', []);
+    const [teacherId, setTeacherId] = useCookieState('MaterialsTeacher_teacherId', null);
+    const [nowParentId, setNowParentId] = useCookieState('MaterialsTeacher_nowParentId', null);
+    const [refreshData, setRefreshData] = useCookieState('MaterialsTeacher_refreshData', false);
+    const [showFolderCreateBlock, setShowFolderCreateBlock] = useCookieState('MaterialsTeacher_showFolderCreateBlock', false);
 
-    const [isAddMaterialModalOpened, setIsAddMaterialModalOpened] = useState(false);
-    const [isAccessManagementModalOpened, setIsAccessManagementModalOpened] = useState(false);
-    const [selectedMaterial, setSelectedMaterial] = useState({});
+    const [isAddMaterialModalOpened, setIsAddMaterialModalOpened] = useCookieState('MaterialsTeacher_isAddMaterialModalOpened', false);
+    const [isAccessManagementModalOpened, setIsAccessManagementModalOpened] = useCookieState('MaterialsTeacher_isAccessManagementModalOpened', false);
+    const [selectedMaterial, setSelectedMaterial] = useCookieState('MaterialsTeacher_selectedMaterial', {});
 
     const fileCategories = {
         "Усі формати": null,
@@ -65,7 +67,7 @@ export default function MaterialsTeacher() {
 
     const handleFolderClick = (folder) => {
         setCurrentFolder(folder);
-        dir.push(folder.MaterialName);
+        setDir([...dir, folder.MaterialName]);
         setNowParentId(folder.MaterialId);
     };
 
@@ -73,8 +75,8 @@ export default function MaterialsTeacher() {
         if (currentFolder) {
             const parentFolder = materials.find(material => material.MaterialId === currentFolder.ParentId);
             setCurrentFolder(parentFolder || null);
-            dir.pop();
-            setNowParentId(null);
+            setDir(dir.slice(0, -1));
+            setNowParentId(parentFolder ? parentFolder.MaterialId : null);
         }
     };
 
@@ -135,12 +137,10 @@ export default function MaterialsTeacher() {
             return imgFormats.includes(imgExt) ? filepath : null;
         }
         return null;
-    }
+    };
 
     const handleMaterialEdit = async (newName, matId) => {
         try {
-            console.log("------- matId: ", matId);
-            console.log("------- newName: ", newName);
             await axios.put(`http://localhost:4000/api/materials/${matId}`, { MaterialName: newName });
             setRefreshData(!refreshData);
         } catch (error) {
@@ -161,7 +161,7 @@ export default function MaterialsTeacher() {
         const response = await axios.get(`http://localhost:4000/api/materials/studentsByMaterial/${matId}`);
         setSelectedMaterial(response.data);
         setIsAccessManagementModalOpened(true);
-    }
+    };
 
     return (
         <div className='MaterialsTeacher mr-10 mt-3'>
@@ -179,7 +179,7 @@ export default function MaterialsTeacher() {
                 onClose={() => setIsAccessManagementModalOpened(false)}
             />
 
-            <div className='buttons-box'>
+            <div className='my-[18px] items-center flex flex-wrap md:justify-between'>
                 <div className="gap-2 flex">
                     <div className="button button-selected">
                         <div data-svg-wrapper>
@@ -189,7 +189,7 @@ export default function MaterialsTeacher() {
                         </div>
                         <div className="text-white text-[15px] font-bold font-['Nunito']">Архів</div>
                     </div>
-                    <div className="h-12 px-4 py-2 bg-white text-[#8a48e6] rounded-[32px] border border-[#8a48e6] justify-start items-center gap-2 flex relative opacity-50 cursor-not-allowed">
+                    <div className="px-4 py-2 bg-white text-[#8a48e6] rounded-[32px] border border-[#8a48e6] justify-start items-center gap-2 flex relative opacity-50 cursor-not-allowed">
                         <div className="absolute -top-2 -right-2 bg-[#8A48E6] text-white text-xs px-1.5 py-0.5 rounded-xl font-medium">
                             Скоро
                         </div>
@@ -201,12 +201,12 @@ export default function MaterialsTeacher() {
                         <div className="text-[#8a48e6] text-[15px] font-bold font-['Nunito']">Магазин</div>
                     </div>
                 </div>
-                <div className="gap-2 flex">
+                <div className="gap-2 flex w-full mt-2 md:w-auto md:mt-0">
                     <SearchButton onSearchClick={() => { setDir([]); }} value={searchValue} setValue={setSearchValue} />
                 </div>
             </div>
-            <div className='w-full flex justify-between'>
-                <div className="gap-2 flex">
+            <div className='w-full flex flex-wrap md:justify-between'>
+                <div className="gap-2 flex flex-wrap">
                     <ToggleSwitch isOn={isBlock} setIsOn={setIsBlock} />
                     <Dropdown categories={fileCategories} onSelect={(category) => setSelectedCategory(category)} />
                     <div className='button-wrapper flex items-center justify-start gap-2.5 rounded-full border border-[#8a48e6] bg-white hover:bg-[#8a48e6] px-3 py-2 stroke-[#8A48E6] hover:stroke-white text-[#8a48e6] hover:text-white cursor-pointer ml-3' onClick={() => { setIsAddMaterialModalOpened(true) }}>
@@ -227,7 +227,7 @@ export default function MaterialsTeacher() {
                         <span className="justify-center text-[15px] font-bold font-['Nunito']">Створити папку</span>
                     </div>
                 </div>
-                <div className="gap-2 flex">
+                <div className="gap-2 flex mt-2 md:mt-0">
                     <SortDropdown
                         options={["За алфавітом", "Спочатку нові", "Спочатку старі"]}
                         onSelect={(option) => setSortOrder(option)}
@@ -253,13 +253,22 @@ export default function MaterialsTeacher() {
                     </>
                 )}
                 {showFolderCreateBlock && (
-                    <FolderCreateBlock
+                    <>{isBlock ? (<FolderCreateBlock
                         parentId={nowParentId}
                         teacherId={teacherId}
                         token={sessionStorage.getItem("token")}
                         setShowFolderCreateBlock={setShowFolderCreateBlock}
                         setRefreshData={setRefreshData}
-                    />
+                    />)
+                        :
+                        (<FolderCreateList
+                            parentId={nowParentId}
+                            teacherId={teacherId}
+                            token={sessionStorage.getItem("token")}
+                            setShowFolderCreateList={setShowFolderCreateBlock}
+                            setRefreshData={setRefreshData}
+                        />)}
+                    </>
                 )}
                 {folders.map(folder => (
                     <>
@@ -278,6 +287,10 @@ export default function MaterialsTeacher() {
                                 key={folder.MaterialId}
                                 name={folder.MaterialName}
                                 onClick={() => handleFolderClick(folder)}
+                                folderId={folder.MaterialId}
+                                onDelete={handleMaterialDelete}
+                                onEdit={handleMaterialEdit}
+                                openAccessModalHandler={() => openAccessModalHandler(folder.MaterialId)}
                             />
                         )}
                     </>
@@ -302,7 +315,11 @@ export default function MaterialsTeacher() {
                                 name={file.MaterialName}
                                 ext={file.FilePath.split('.').pop()}
                                 img={ImgValidFormats(file.FilePath)}
-                                onDownloadClick={() => onDownloadClick(file.FilePath)}
+                                onDownloadClick={() => { onDownloadClick(file.FilePath); }}
+                                materialId={file.MaterialId}
+                                onDelete={handleMaterialDelete}
+                                onEdit={handleMaterialEdit}
+                                openAccessModalHandler={() => openAccessModalHandler(file.MaterialId)}
                             />
                         )}
                     </>

@@ -16,7 +16,7 @@ import UserCard from "./Components/HomeTaskCheck/UserCard";
 import HomeTaskCheckModal from "./Components/HomeTaskCreateModal/HomeTaskCheckModal";
 import EvaluateAIModal from "./Components/HomeTaskCreateModal/EvaluateAIModal";
 import EvaluateModal from "./Components/HomeTaskCreateModal/EvaluateModal";
-import { ToastContainer } from "react-toastify";
+import useCookieState from "../../../utils/hooks/useCookieState";
 
 const scrollbarFunction = () => {
   const scrollContainer = document.getElementById('scrollContainer');
@@ -52,113 +52,30 @@ const scrollbarFunction = () => {
   });
 }
 
-const SaveToLocalStorage = (states) => {
-  const {
-    isBlockType,
-    selectedCourseName,
-    selectedGroupName,
-    searchQuery,
-    sortOption,
-    isManagerPage,
-    selectedCard,
-    selectedFilter,
-    isExpanded
-  } = states;
-
-  useEffect(() => {
-    localStorage.setItem('isBlockType', JSON.stringify(isBlockType));
-  }, [isBlockType]);
-
-  useEffect(() => {
-    localStorage.setItem('selectedCourseName', selectedCourseName || '');
-  }, [selectedCourseName]);
-
-  useEffect(() => {
-    localStorage.setItem('selectedGroupName', selectedGroupName || '');
-  }, [selectedGroupName]);
-
-  useEffect(() => {
-    localStorage.setItem('searchQuery', searchQuery);
-  }, [searchQuery]);
-
-  useEffect(() => {
-    localStorage.setItem('sortOption', sortOption);
-  }, [sortOption]);
-
-  useEffect(() => {
-    localStorage.setItem('isManagerPage', JSON.stringify(isManagerPage));
-  }, [isManagerPage]);
-
-  useEffect(() => {
-    localStorage.setItem('selectedCard', selectedCard || '');
-  }, [selectedCard]);
-
-  useEffect(() => {
-    localStorage.setItem('selectedFilter', selectedFilter);
-  }, [selectedFilter]);
-
-  useEffect(() => {
-    localStorage.setItem('isExpanded', JSON.stringify(isExpanded));
-  }, [isExpanded]);
-};
-
 const HometaskTeacher = () => {
-  const [isBlockType, setIsBlockType] = useState(() => {
-    const saved = localStorage.getItem('isBlockType');
-    return saved !== null ? JSON.parse(saved) : true;
-  });
+  const [isBlockType, setIsBlockType] = useCookieState('HometaskTeacher_isBlockType', true);
+  const [selectedCourseName, setSelectedCourseName] = useCookieState('HometaskTeacher_selectedCourseName', null);
+  const [selectedGroupName, setSelectedGroupName] = useCookieState('HometaskTeacher_selectedGroupName', null);
+  const [searchQuery, setSearchQuery] = useCookieState('HometaskTeacher_searchQuery', '');
+  const [sortOption, setSortOption] = useCookieState('HometaskTeacher_sortOption', 'Спочатку нові');
+  const [isManagerPage, setIsManagerPage] = useCookieState('HometaskTeacher_isManagerPage', true);
+  const [selectedCard, setSelectedCard] = useCookieState('HometaskTeacher_selectedCard', null);
+  const [selectedFilter, setSelectedFilter] = useCookieState('HometaskTeacher_selectedFilter', 'check');
+  const [isExpanded, setIsExpanded] = useCookieState('HometaskTeacher_isExpanded', false);
+  
   const [teacherData, setTeacherData] = useState(null);
-  const [selectedCourseName, setSelectedCourseName] = useState(() => {
-    return localStorage.getItem('selectedCourseName') || null;
-  });
-  const [selectedGroupName, setSelectedGroupName] = useState(() => {
-    return localStorage.getItem('selectedGroupName') || null;
-  });
   const [isLoading, setIsLoading] = useState(true);
-  const [searchQuery, setSearchQuery] = useState(() => {
-    return localStorage.getItem('searchQuery') || "";
-  });
-  const [sortOption, setSortOption] = useState(() => {
-    return localStorage.getItem('sortOption') || "Спочатку нові";
-  });
   const [isModalOpened, setIsModalOpened] = useState(false);
   const [selectedHometask, setSelectedHometask] = useState(null);
   const [refreshTrigger, setRefreshTrigger] = useState(false);
-
-  const [isManagerPage, setIsManagerPage] = useState(() => {
-    const saved = localStorage.getItem('isManagerPage');
-    return saved !== null ? JSON.parse(saved) : true;
-  });
-  const [selectedCard, setSelectedCard] = useState(() => {
-    return localStorage.getItem('selectedCard') || null;
-  });
-  const [selectedFilter, setSelectedFilter] = useState(() => {
-    return localStorage.getItem('selectedFilter') || "check";
-  });
-  const [isExpanded, setIsExpanded] = useState(() => {
-    const saved = localStorage.getItem('isExpanded');
-    return saved !== null ? JSON.parse(saved) : false;
-  });
   const cardRefs = useRef([]);
   const [selectedHometask2, setSelectedHometask2] = useState(null);
   const [selectedDoneHometask, setSelectedDoneHometask] = useState();
   const [isCheckModalOpened, setIsCheckModalOpened] = useState(false);
   const [isEvaluateModalOpened, setIsEvaluateModalOpened] = useState(false);
   const [isEvaluateAIModalOpened, setIsEvaluateAIModalOpened] = useState(false);
-
+  
   scrollbarFunction();
-
-  SaveToLocalStorage({
-    isBlockType,
-    selectedCourseName,
-    selectedGroupName,
-    searchQuery,
-    sortOption,
-    isManagerPage,
-    selectedCard,
-    selectedFilter,
-    isExpanded
-  });
 
   useEffect(() => {
     const token = sessionStorage.getItem("token");
@@ -296,7 +213,6 @@ const HometaskTeacher = () => {
 
   return (
     <div className="hometask-teacher-page px-4 md:pr-10">
-      <ToastContainer />
       <HomeTaskCreateModal
         isOpened={isModalOpened}
         onClose={() => { setIsModalOpened(false); setSelectedHometask(null); }}

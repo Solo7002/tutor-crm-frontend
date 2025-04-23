@@ -18,6 +18,7 @@ const TestsTeacher = () => {
   const [filteredTests, setFilteredTests] = useState([]);
   const [originalTests, setOriginalTests] = useState([]);
   const [groups, setGroups] = useState([]);
+  const [filteredGroups, setFilteredGroups] = useState([]);
   const [courses, setCourses] = useState([]);
   const [selectedGroup, setSelectedGroup] = useState("Усі групи");
   const [selectedCourse, setSelectedCourse] = useState("Усі курси");
@@ -73,9 +74,11 @@ const TestsTeacher = () => {
           }
         );
         const transformedGroups = groupsResponse.data.map((group) => ({
-          SubjectName: group.GroupName,
+          GroupName: group.GroupName,
+          CourseName: group.CourseName,
         }));
         setGroups(transformedGroups);
+        setFilteredGroups(transformedGroups);
 
         const coursesResponse = await axios.get(
           `http://localhost:4000/api/courses/courses-by-teacher/${teacher_id}`,
@@ -100,6 +103,24 @@ const TestsTeacher = () => {
 
     fetchData();
   }, [teacher_id, token]);
+
+  useEffect(() => {
+    if (selectedCourse === "Усі курси") {
+      setFilteredGroups(groups);
+    } else {
+      const filtered = groups.filter((group) => group.CourseName === selectedCourse);
+      setFilteredGroups(filtered);
+    }
+  }, [selectedCourse, groups]);
+
+  useEffect(() => {
+    if (selectedCourse !== "Усі курси") {
+      const availableGroups = filteredGroups.map((group) => group.GroupName);
+      if (!availableGroups.includes(selectedGroup)) {
+        setSelectedGroup(availableGroups[0] || "Усі групи");
+      }
+    }
+  }, [filteredGroups, selectedCourse, selectedGroup]);
 
   const handleSearch = (query) => {
     if (query === "") {
@@ -159,10 +180,11 @@ const TestsTeacher = () => {
   };
 
   return (
-    <div className="TestsTeacher mt-6 mr-10">
-      <div className="flex items-center m-2 gap-2">
-        <div className="w-[139px] h-12 relative">
-          <div className="left-0 top-0 absolute inline-flex justify-start items-center gap-2 overflow-hidden">
+    <div className="TestsTeacher w-full px-4 sm:px-6 md:px-8 lg:px-10 mt-6">
+      {/* Header with filters */}
+      <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 mb-6">
+        <div className="relative">
+          <div className="inline-flex justify-start items-center gap-2 overflow-hidden">
             <div data-number-visible="false" data-property-1="Active" data-size="Big" className="h-12 px-4 py-2 bg-[#8a48e6] rounded-[32px] flex justify-start items-center gap-2">
               <svg width="17" height="14" viewBox="0 0 17 14" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M5 1H16M5 7H16M5 13H16M1 1V1.01M1 7V7.01M1 13V13.01" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
@@ -171,7 +193,7 @@ const TestsTeacher = () => {
             </div>
           </div>
         </div>
-        <div className="ml-auto">
+        <div className="sm:ml-auto w-full sm:w-auto">
           <SearchButton
             onSearchClick={() => handleSearch(searchQuery)}
             value={searchQuery}
@@ -180,34 +202,44 @@ const TestsTeacher = () => {
         </div>
       </div>
 
-      <div className="flex items-baseline space-x-4 m-2 mb-6 mt-4">
-        <Dropdown
-          options={courses}
-          textAll="Усі курси"
-          onSelectSubject={handleSelectCourse}
-        />
-        <Dropdown
-          options={groups}
-          textAll="Усі групи"
-          onSelectSubject={handleSelectGroup}
-        />
+      {/* Filters */}
+      <div className="flex flex-col md:flex-row gap-4 mb-6">
+        <div className="w-full md:w-[175px]">
+          <Dropdown
+            options={courses}
+            textAll="Усі курси"
+            onSelectSubject={handleSelectCourse}
+            wFull={true}
+          />
+        </div>
+        <div className="w-full md:w-[175px]">
+          <Dropdown
+            options={filteredGroups.map((group) => ({ SubjectName: group.GroupName }))}
+            textAll="Усі групи"
+            onSelectSubject={handleSelectGroup}
+            wFull={true}
+          />
+        </div>
       </div>
 
-      <div className="w-full min-w-0 overflow-x-auto">
+      {/* Tests Container */}
+      <div className="w-full overflow-x-auto pb-[100px]">
         {loading ? (
-          <div>Loading tests...</div>
+          <div className="w-full text-center py-8">Loading tests...</div>
         ) : error ? (
-          <div>Error: {error}</div>
+          <div className="w-full text-center py-8 text-red-500">Error: {error}</div>
         ) : Object.keys(groupedTests).length === 0 ? (
-          <div>No tests found for this teacher.</div>
+          <div className="w-full text-center py-8 font-[Nunito] text-[16px] text-[#827FAE]">
+            Немає тестів {":("} 
+          </div>
         ) : (
-          <div className="mb-[200px]">
+          <div className="w-full">
             {Object.entries(groupedTests).map(([courseName, courseTests]) => (
               <div key={courseName} className="mb-8">
-                <div className="w-full text-left text-[#120C38] text-[24px] font-[Nunito] font-bold mb-4">
+                <div className="w-full text-left text-[#120C38] text-xl sm:text-2xl font-[Nunito] font-bold mb-4">
                   Курс: {courseName}
                 </div>
-                <div className="flex flex-wrap justify-start gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
                   {courseTests.map((test) => (
                     <TestItem key={test.TestId} test={test} />
                   ))}
@@ -218,8 +250,9 @@ const TestsTeacher = () => {
         )}
       </div>
 
-      <div className="fixed bottom-0 left-0 right-0 bg-white z-10 p-4 flex justify-center items-center">
-        <PrimaryButton className="w-96" onClick={handleOpenModal}>
+      {/* Fixed Create Button */}
+      <div className="fixed bottom-0 left-0 right-0 bg-white z-10 p-4 flex justify-center items-center shadow-lg">
+        <PrimaryButton className="w-full max-w-md" onClick={handleOpenModal}>
           Створити
         </PrimaryButton>
       </div>

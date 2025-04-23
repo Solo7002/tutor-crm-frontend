@@ -20,7 +20,6 @@ const AddQuestion = ({ taskNumber, onQuestionChange, errors, initialData }) => {
   const [questionText, setQuestionText] = useState(initialData?.questionText || '');
   const [isInitialized, setIsInitialized] = useState(false);
 
-  // Initialize state only once when initialData is first provided
   useEffect(() => {
     if (initialData && !isInitialized) {
       setQuestionText(initialData.questionText || '');
@@ -36,7 +35,7 @@ const AddQuestion = ({ taskNumber, onQuestionChange, errors, initialData }) => {
             ]
       );
       setSelectedOption(initialData.correctAnswer || '');
-      setIsInitialized(true); // Mark as initialized to prevent future resets
+      setIsInitialized(true);
     }
   }, [initialData, isInitialized]);
 
@@ -103,10 +102,11 @@ const AddQuestion = ({ taskNumber, onQuestionChange, errors, initialData }) => {
       }
     };
   }, [previewImage]);
+
   return (
-    <div className="p-5 rounded-lg bg-white space-y-4">
-      <div className="flex items-center gap-3">
-        <span className="text-lg font-bold text-gray-700">{taskNumber}.</span>
+    <div className="p-3 sm:p-5 rounded-lg bg-white space-y-3 sm:space-y-4">
+      <div className="flex items-center gap-2 sm:gap-3">
+        <span className="text-base sm:text-lg font-bold text-gray-700">{taskNumber}.</span>
         <div className="flex-1">
           <CustomInput
             placeholder="Введіть завдання"
@@ -115,11 +115,11 @@ const AddQuestion = ({ taskNumber, onQuestionChange, errors, initialData }) => {
             onChange={(e) => setQuestionText(e.target.value)}
           />
           {errors?.questionText && (
-            <p className="text-red-500 text-sm mt-1">{errors.questionText}</p>
+            <p className="text-red-500 text-xs sm:text-sm mt-1">{errors.questionText}</p>
           )}
         </div>
       </div>
-
+  
       <div>
         <input
           type="file"
@@ -132,7 +132,7 @@ const AddQuestion = ({ taskNumber, onQuestionChange, errors, initialData }) => {
           htmlFor={`question-image-upload-${taskNumber}`}
           className="flex items-center gap-2 text-purple-500 font-bold cursor-pointer hover:text-purple-600"
         >
-          <svg width="24" height="24" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg width="20" height="20" viewBox="0 0 50 50" fill="none" className="sm:w-6 sm:h-6" xmlns="http://www.w3.org/2000/svg">
             <path
               d="M31.2498 16.6667H31.2706M26.0414 43.75H12.4998C10.8422 43.75 9.25244 43.0915 8.08034 41.9194C6.90824 40.7473 6.24976 39.1576 6.24976 37.5V12.5C6.24976 10.8424 6.90824 9.25269 8.08034 8.08058C9.25244 6.90848 10.8422 6.25 12.4998 6.25H37.4998C39.1574 6.25 40.7471 6.90848 41.9192 8.08058C43.0913 9.25269 43.7498 10.8424 43.7498 12.5V26.0417"
               stroke="#8A48E6"
@@ -155,51 +155,51 @@ const AddQuestion = ({ taskNumber, onQuestionChange, errors, initialData }) => {
               strokeLinejoin="round"
             />
           </svg>
-          <span>Додати зображення</span>
+          <span className="text-sm sm:text-base">Додати зображення</span>
         </label>
       </div>
-
+  
       {previewImage ? (
         <div className="mt-2">
           <img
             src={previewImage}
             alt="Попередній перегляд питання"
-            className="max-w-full h-auto max-h-40 object-contain rounded-md border border-gray-200"
+            className="max-w-full h-auto max-h-32 sm:max-h-40 object-contain rounded-md border border-gray-200"
           />
           <button
             onClick={() => {
               setPreviewImage(null);
               setQuestionImage(null);
             }}
-            className="mt-2 text-sm text-red-500 hover:text-red-700"
+            className="mt-2 text-xs sm:text-sm text-red-500 hover:text-red-700"
           >
             Видалити зображення
           </button>
         </div>
       ) : (
-        <p className="text-sm text-gray-500">Зображення не вибрано.</p>
+        <p className="text-xs sm:text-sm text-gray-500">Зображення не вибрано.</p>
       )}
-
-      <p className="text-sm text-gray-500">
+  
+      <p className="text-xs sm:text-sm text-gray-500">
         Введіть {options.length} відповіді вибору і позначте вірну відповідь.
       </p>
-
+  
       <div className="space-y-2">
         {options.map((option, index) => (
-          <div key={option.id} className="flex items-center gap-3 py-1">
-            <div className="flex items-center gap-2">
+          <div key={option.id} className="flex items-start sm:items-center gap-2 sm:gap-3 py-1">
+            <div className="flex items-center gap-1 sm:gap-2">
               <input
                 type="radio"
                 value={option.id}
                 checked={selectedOption === option.id.toString()}
                 onChange={() => handleRadioChange(option.id)}
-                className="w-5 h-5 text-purple-500 border-gray-300 focus:ring-purple-500 accent-purple-500 relative top-[12px]"
+                className="w-4 h-4 sm:w-5 sm:h-5 text-purple-500 border-gray-300 focus:ring-purple-500 accent-purple-500 relative top-1 sm:top-[12px]"
               />
               {errors?.correctAnswer && selectedOption !== option.id.toString() && (
-                <p className="text-red-500 text-sm mt-1">{errors.correctAnswer}</p>
+                <p className="text-red-500 text-xs sm:text-sm mt-1">{errors.correctAnswer}</p>
               )}
             </div>
-            <div className="flex-1 flex items-center gap-3">
+            <div className="flex-1 flex items-center gap-2 sm:gap-3">
               <div className="flex-1">
                 <CustomInput
                   value={option.value}
@@ -208,13 +208,13 @@ const AddQuestion = ({ taskNumber, onQuestionChange, errors, initialData }) => {
                   className="w-full"
                 />
                 {errors?.options && errors.options[index] && (
-                  <p className="text-red-500 text-sm mt-1">{errors.options[index]}</p>
+                  <p className="text-red-500 text-xs sm:text-sm mt-1">{errors.options[index]}</p>
                 )}
               </div>
               {options.length > 2 && (
                 <button
                   onClick={() => removeOption(option.id)}
-                  className="text-red-500 hover:text-red-700 relative top-[12px]"
+                  className="text-red-500 hover:text-red-700 relative top-1 sm:top-[12px]"
                 >
                   ✕
                 </button>

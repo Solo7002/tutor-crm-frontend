@@ -1,6 +1,6 @@
 import "./TestResults.css";
 import { useParams, useNavigate } from "react-router-dom";
-import TaskButton from "../../components/TaskButton/TaskButton";
+import TaskButton from "./components/TaskButton/TaskButton";
 import StudentItem from "./components/StudentItem/StudentItem";
 import { PrimaryButton } from "../../components/Buttons/Buttons";
 import { useEffect, useState } from "react";
@@ -93,28 +93,26 @@ const TestResults = () => {
     }
   }, [testId, token]);
 
-  const handleDeleteTest = () => {
+  const handleDeleteTest = async () => {
     try {
-      axios.delete(`http://localhost:4000/api/tests/${testId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
-        toast.success(
-          <div>
-            <p>Тест успішно видалено!</p>
-            <p>Назва: {test.TestName}</p>
-            <p>Група: {test.GroupName || 'Невідома'}</p>
-            <p>Курс: {test.CourseName || 'Невідомий'}</p>
-            <p>Дедлайн: {test.DeadlineDate ? formatDate(test.DeadlineDate) : 'Не вказано'}</p>
-          </div>,
-          { autoClose: 5000 }
-        );
-
-      navigate('/teacher/tests');
-      navigate(0);
+      await axios.delete(`http://localhost:4000/api/tests/${testId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      
+      toast.success(
+        <div>
+          <p>Тест успішно видалено!</p>
+          <p>Назва: {test.TestName}</p>
+          <p>Група: {test.GroupName || 'Невідома'}</p>
+        </div>,
+        { autoClose: 5000 }
+      );
+      
+      setTimeout(() => {
+        navigate('/teacher/tests');
+      }, 1500);
     } catch (error) {
       console.error("Error deleting test:", error);
       const errorMessage = error.response?.data?.message || error.message || "Не вдалося видалити тест. Спробуйте ще раз.";
@@ -130,20 +128,20 @@ const TestResults = () => {
   const displayedStudents = selectedTab === 0 ? studentsDone : studentsNotDone;
 
   return (
-    <div className="TestResults p-4 pr-10 mt-4 rounded-lg">
+    <div className="TestResults p-3 md:p-4 lg:pr-10 mt-2 md:mt-4 rounded-lg w-full">
       {loading ? (
         <div>Loading...</div>
       ) : error ? (
         <div>Error: {error}</div>
       ) : test ? (
         <>
-          <div className="flex justify-between items-center mb-4">
-            <div className="text-left text-[#120c38] text-2xl font-bold font-['Nunito']">
+          <div className="flex justify-between items-center mb-2 md:mb-4">
+            <div className="text-left text-[#120c38] text-lg sm:text-xl md:text-2xl font-bold font-['Nunito'] pr-2">
               Результати тесту: {test.TestName}
             </div>
             <div className="cursor-pointer" onClick={() => {navigate("/teacher/tests")}}>
             <svg
-              className="w-6 h-6"
+              className="w-5 h-5 md:w-6 md:h-6"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
@@ -156,25 +154,25 @@ const TestResults = () => {
             </svg>
             </div>
           </div>
-          <div className="flex justify-between items-start">
+          <div className="flex flex-col sm:flex-row justify-between items-start gap-2 sm:gap-0">
             <div className="">
-              <div className="text-[#827ead] text-xl font-normal font-['Mulish']">
+              <div className="text-[#827ead] text-base sm:text-lg md:text-xl font-normal font-['Mulish']">
                 Курс: {test.CourseName || "N/A"}
               </div>
-              <div className="text-[#827ead] text-xl font-normal font-['Mulish'] mt-2">
+              <div className="text-[#827ead] text-base sm:text-lg md:text-xl font-normal font-['Mulish'] mt-1 md:mt-2">
                 Група: {test.GroupName || "N/A"}
               </div>
             </div>
-            <div className="text-right">
-              <div className="text-[#827ead] text-xl font-normal font-['Mulish']">
+            <div className="text-left sm:text-right mt-2 sm:mt-0">
+              <div className="text-[#827ead] text-base sm:text-lg md:text-xl font-normal font-['Mulish']">
                 Видано: {formatDate(test.CreatedDate)}
               </div>
-              <div className="text-[#827ead] text-xl font-normal font-['Mulish'] mt-2">
+              <div className="text-[#827ead] text-base sm:text-lg md:text-xl font-normal font-['Mulish'] mt-1 md:mt-2">
                 Термін до: {formatDate(test.DeadlineDate)}
               </div>
             </div>
           </div>
-          <div className="flex space-x-4 mb-8 mt-5">
+          <div className="flex flex-wrap gap-2 sm:space-x-4 mb-4 sm:mb-8 mt-3 sm:mt-5">
             <TaskButton
               text={"Виконало учнів"}
               icon={"M5 12L10 17L20 7"}
@@ -192,14 +190,14 @@ const TestResults = () => {
               onClick={() => handleTabClick(1)}
             />
           </div>
-
-          <div >
+  
+          <div>
             {displayedStudents.length === 0 ? (
               <div>
-
+  
               </div>
             ) : (
-              <div className="flex flex-wrap justify-start gap-4 mb-[100px] ">
+              <div className="flex flex-wrap justify-center sm:justify-start gap-2 sm:gap-4 mb-24 sm:mb-[100px]">
                 {displayedStudents.map((student, index) => (
                   <StudentItem
                     key={index}
@@ -209,15 +207,13 @@ const TestResults = () => {
                     maxScore={student.MaxScore}
                     status={student.Status}
                     img={student.ImageFilePath ? student.ImageFilePath : `https://ui-avatars.com/api/?name=${student.LastName + ' ' + student.FirstName}&background=random&size=86`}
-
                   />
                 ))}
               </div>
-
             )}
           </div>
-          <div className="md:fixed bottom-0 left-0 right-0 bg-white z-10 p-2 flex justify-center items-center space-x-3">
-            <PrimaryButton className="w-96" onClick={handleDeleteTest}>Видалити тест</PrimaryButton>
+          <div className="fixed bottom-0 left-0 right-0 bg-white z-10 p-2 flex justify-center items-center">
+            <PrimaryButton className="w-full max-w-xs sm:max-w-sm md:max-w-md" onClick={handleDeleteTest}>Видалити тест</PrimaryButton>
           </div>
         </>
       ) : (
