@@ -4,11 +4,13 @@ import axios from "axios";
 import "./SearchTeachers.css";
 import { encryptData } from '../../utils/crypto';
 import Dropdown from "./components/Dropdown";
+import { useTranslation } from "react-i18next";
+import { toast } from 'react-toastify';
 
 const SearchTeachers = () => {
+    const { t } = useTranslation();
     const [teachers, setTeachers] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
     const [page, setPage] = useState(1);
     const [hasMore, setHasMore] = useState(true);
     const [showFilters, setShowFilters] = useState(false);
@@ -18,10 +20,10 @@ const SearchTeachers = () => {
         aboutTeacher: "",
         priceMin: "",
         priceMax: "",
-        rating: "desc", // desc = від більшого до меншого, asc = від меншого до більшого
-        format: "", // online/offline
-        priceSort: "", // new: for price sorting dropdown
-        lessonFormat: "", // new: for lesson format dropdown
+        rating: "desc",
+        format: "",
+        priceSort: "",
+        lessonFormat: "",
     });
 
     const defaultFilters = {
@@ -37,35 +39,32 @@ const SearchTeachers = () => {
     };
 
     const lessonTypeOptions = [
-        { key: "group", value: "Груповий" },
-        { key: "solo", value: "Індивідуальний" },
+        { key: "group", value: t("SearchTeachers.lessonTypeGroup") },
+        { key: "solo", value: t("SearchTeachers.lessonTypeSolo") },
     ];
 
     const priceSortOptions = [
-        { key: "desc", value: "Від більшого" },
-        { key: "asc", value: "Від меншого" },
-    ];
-
-    const meetingTypeOptions = [
-        { key: "offline", value: "Офлайн" },
-        { key: "online", value: "Онлайн" },
+        { key: "desc", value: t("SearchTeachers.priceSortDesc") },
+        { key: "asc", value: t("SearchTeachers.priceSortAsc") },
     ];
 
     const fetchTeachers = useCallback(async (pageNum = 1) => {
         try {
             setLoading(true);
-            setError(null);
-
+            const token = sessionStorage.getItem("token");
             const queryParams = new URLSearchParams({
                 ...filters,
                 page: pageNum,
-                limit: pageNum === 1 ? 12 : 6, // Load 12 cards initially, then 6 more
+                limit: pageNum === 1 ? 12 : 6,
             }).toString();
-
             const response = await axios.get(
-                `http://localhost:4000/api/students/searchTeachers?${queryParams}`
+                `${process.env.REACT_APP_BASE_API_URL}/api/students/searchTeachers?${queryParams}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                }
             );
-
             if (response.data.success) {
                 if (pageNum === 1) {
                     setTeachers(response.data.data);
@@ -80,11 +79,11 @@ const SearchTeachers = () => {
             if (pageNum === 1) {
                 setTeachers([]);
             }
-            setError(err.message || "Failed to fetch teachers.");
+            toast.error(t("SearchTeachers.errorLoading"));
         } finally {
             setLoading(false);
         }
-    }, [filters]);
+    }, [filters, t]);
 
     useEffect(() => {
         setPage(1);
@@ -99,10 +98,27 @@ const SearchTeachers = () => {
         }));
     };
 
-    const loadMore = () => {
-        const nextPage = page + 1;
-        setPage(nextPage);
-        fetchTeachers(nextPage);
+    const loadMore = async () => {
+        try {
+            const token = sessionStorage.getItem("token");
+            const nextPage = page + 1;
+            const response = await axios.get(
+                `${process.env.REACT_APP_BASE_API_URL}/api/students/searchTeachers?page=${nextPage}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                }
+            );
+            if (response.data.length === 0) {
+                setHasMore(false);
+                return;
+            }
+            setTeachers(prev => [...prev, ...response.data]);
+            setPage(nextPage);
+        } catch (err) {
+            toast.error(t("SearchTeachers.errorLoadingMore"));
+        }
     };
 
     const toggleFilters = () => {
@@ -114,7 +130,6 @@ const SearchTeachers = () => {
         setShowFilters(false);
     };
 
-    // Функция для рендера звезд рейтинга
     const renderStars = (rating) => {
         const fullStars = Math.floor(rating || 0);
         const fractionalPart = (rating || 0) - fullStars;
@@ -156,17 +171,14 @@ const SearchTeachers = () => {
 
     return (
         <div className="flex flex-col bg-[#F6EEFF] search-teachers-page">
-            {/* Fixed Top Section */}
             <div className="p-6 pb-0 bg-[#F6EEFF]">
                 <div className="flex flex-col-reverse lg:flex-row lg:gap-4">
-                    {/* Search and Filters Section */}
                     <div className="flex gap-4 w-full lg:w-[32%] lg:mr-4">
                         <div className="flex flex-1 gap-4 flex-col w-full">
-                            {/* Search Input */}
                             <div className="w-full h-12 px-4 py-2 bg-white rounded-[40px] outline outline-1 outline-offset-[-1px] outline-[#8a48e6] inline-flex justify-end items-center gap-2.5 search-input">
                                 <input
                                     type="text"
-                                    placeholder="Шукати"
+                                    placeholder={t("SearchTeachers.searchPlaceholder")}
                                     className="flex-1 text-[#827ead] text-base font-normal font-['Nunito'] bg-transparent border-none outline-none"
                                     name="aboutTeacher"
                                     value={filters.aboutTeacher}
@@ -180,7 +192,6 @@ const SearchTeachers = () => {
                             </div>
 
                             <div className="flex flex-nowrap gap-2 sm:gap-4 justify-between search-teachers-page-sorts">
-                                {/* Filter Button */}
                                 <div className="relative">
                                     <button
                                         onClick={toggleFilters}
@@ -191,10 +202,8 @@ const SearchTeachers = () => {
                                         </svg>
                                     </button>
 
-                                    {/* Filter Popup */}
                                     {showFilters && (
                                         <div className="absolute top-23 left-0 w-[90vw] sm:w-[332px] bg-white rounded-2xl border border-[#D7D7D7] p-6 z-50 shadow-xl filter-popup">
-                                            {/* Price Range */}
                                             <div className="mb-8">
                                                 <h3 className="text-[#120C38] text-2xl font-bold font-['Nunito'] flex gap-3 mb-4">
                                                     <button
@@ -204,12 +213,13 @@ const SearchTeachers = () => {
                                                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                             <path d="M5 12H19M5 12L11 18M5 12L11 6" stroke="#120C38" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                                                         </svg>
-                                                    </button><span>Вартість навчання</span>
+                                                    </button>
+                                                    <span>{t("SearchTeachers.priceLabel")}</span>
                                                 </h3>
                                                 <div className="flex mt-6">
                                                     <input
                                                         type="number"
-                                                        placeholder="Мінімальна"
+                                                        placeholder={t("SearchTeachers.priceMin")}
                                                         className="price-input w-[136px]"
                                                         name="priceMin"
                                                         value={filters.priceMin}
@@ -218,7 +228,7 @@ const SearchTeachers = () => {
                                                     <span className="mt-1 text-[#7630c5] text-3xl">-</span>
                                                     <input
                                                         type="number"
-                                                        placeholder="Максимальна"
+                                                        placeholder={t("SearchTeachers.priceMax")}
                                                         className="price-input w-[136px]"
                                                         name="priceMax"
                                                         value={filters.priceMax}
@@ -227,12 +237,11 @@ const SearchTeachers = () => {
                                                 </div>
                                             </div>
 
-                                            {/* Rating */}
                                             <div className="mb-8">
-                                                <h3 className="text-[#120C38] text-2xl font-bold font-['Nunito'] mb-4">Рейтинг</h3>
+                                                <h3 className="text-[#120C38] text-2xl font-bold font-['Nunito'] mb-4">{t("SearchTeachers.ratingLabel")}</h3>
                                                 <div className="space-y-4">
                                                     <label className="flex items-center justify-between cursor-pointer">
-                                                        <span className="text-[#120C38] text-sm font-normal font-['Mulish']">Від більшого до меншого</span>
+                                                        <span className="text-[#120C38] text-sm font-normal font-['Mulish']">{t("SearchTeachers.ratingDesc")}</span>
                                                         <input
                                                             type="radio"
                                                             name="rating"
@@ -244,7 +253,7 @@ const SearchTeachers = () => {
                                                         <div className={`radio-button ${filters.rating === "desc" ? "checked" : ""}`} />
                                                     </label>
                                                     <label className="flex items-center justify-between cursor-pointer">
-                                                        <span className="text-[#120C38] text-sm font-normal font-['Mulish']">Від меншого до більшого</span>
+                                                        <span className="text-[#120C38] text-sm font-normal font-['Mulish']">{t("SearchTeachers.ratingAsc")}</span>
                                                         <input
                                                             type="radio"
                                                             name="rating"
@@ -258,12 +267,11 @@ const SearchTeachers = () => {
                                                 </div>
                                             </div>
 
-                                            {/* Format */}
                                             <div className="mb-8">
-                                                <h3 className="text-[#120C38] text-2xl font-bold font-['Nunito'] mb-4">Формат</h3>
+                                                <h3 className="text-[#120C38] text-2xl font-bold font-['Nunito'] mb-4">{t("SearchTeachers.formatLabel")}</h3>
                                                 <div className="space-y-4">
                                                     <label className="flex items-center justify-between cursor-pointer">
-                                                        <span className="text-[#120C38] text-sm font-normal font-['Mulish']">Онлайн</span>
+                                                        <span className="text-[#120C38] text-sm font-normal font-['Mulish']">{t("SearchTeachers.formatOnline")}</span>
                                                         <input
                                                             type="radio"
                                                             name="format"
@@ -275,7 +283,7 @@ const SearchTeachers = () => {
                                                         <div className={`radio-button ${filters.format === "online" ? "checked" : ""}`} />
                                                     </label>
                                                     <label className="flex items-center justify-between cursor-pointer">
-                                                        <span className="text-[#120C38] text-sm font-normal font-['Mulish']">Офлайн</span>
+                                                        <span className="text-[#120C38] text-sm font-normal font-['Mulish']">{t("SearchTeachers.formatOffline")}</span>
                                                         <input
                                                             type="radio"
                                                             name="format"
@@ -289,21 +297,19 @@ const SearchTeachers = () => {
                                                 </div>
                                             </div>
 
-                                            {/* Reset Button */}
                                             <button
                                                 onClick={resetFilters}
                                                 className="w-full h-12 bg-[#8a48e6] text-white rounded-full font-bold font-['Nunito'] hover:bg-[#7339cc] transition-colors"
                                             >
-                                                Скинути
+                                                {t("SearchTeachers.resetButton")}
                                             </button>
                                         </div>
                                     )}
                                 </div>
 
-                                {/* Price Sort Dropdown */}
                                 <div className="h-12 w-[12vw] mx-1 mt-[2px] mobile-dropdown-searchteacher">
                                     <Dropdown
-                                        textAll="За ціною"
+                                        textAll={t("SearchTeachers.priceSort")}
                                         options={priceSortOptions.map(option => option.value)}
                                         onSelect={(value) => {
                                             const selectedOption = priceSortOptions.find(opt => opt.value === value) || { key: "" };
@@ -312,10 +318,9 @@ const SearchTeachers = () => {
                                     />
                                 </div>
 
-                                {/* Lesson Type Dropdown */}
                                 <div className="h-12 w-[12vw] mx-1 mt-[2px] mobile-dropdown-searchteacher">
                                     <Dropdown
-                                        textAll="Вид занять"
+                                        textAll={t("SearchTeachers.lessonType")}
                                         options={lessonTypeOptions.map(option => option.value)}
                                         onSelect={(value) => {
                                             const selectedOption = lessonTypeOptions.find(opt => opt.value === value) || { key: "" };
@@ -327,13 +332,10 @@ const SearchTeachers = () => {
                         </div>
                     </div>
 
-                    {/* Banner */}
-                    <div className="flex bg-[#120C38] z-[0] rounded-lg shadow-md h-[108px] w-full lg:w-[65%] bg-pattern overflow-hidden relative" style={{
-                        backgroundRepeat: "repeat",
-                    }}>
+                    <div className="flex bg-[#120C38] z-[0] rounded-lg shadow-md h-[108px] w-full lg:w-[65%] bg-pattern overflow-hidden relative" style={{ backgroundRepeat: "repeat" }}>
                         <div className="w-full lg:w-[80%] text-white px-5 py-2" style={{ fontFamily: "Mulish", fontWeight: "400", fontSize: "15pt", lineHeight: "18.83px", letterSpacing: "-0.5%" }}>
-                            <div className="text-xl lg:text-2xl font-bold my-2" style={{ fontFamily: "Nunito", fontStyle: "normal", fontWeight: "700", lineHeight: "44px", letterSpacing: "-0.005em", color: "#FFFFFF" }}>Ваш ключ до успіху в навчанні!</div>
-                            <p className="text-sm lg:text-base" style={{ fontFamily: "Nunito", fontStyle: "normal", fontWeight: "400", color: "#FFFFFF" }}>Прокачайте свої знання з найкращими репетиторами!</p>
+                            <div className="text-xl lg:text-2xl font-bold my-2" style={{ fontFamily: "Nunito", fontStyle: "normal", fontWeight: "700", lineHeight: "44px", letterSpacing: "-0.005em", color: "#FFFFFF" }}>{t("SearchTeachers.bannerTitle")}</div>
+                            <p className="text-sm lg:text-base" style={{ fontFamily: "Nunito", fontStyle: "normal", fontWeight: "400", color: "#FFFFFF" }}>{t("SearchTeachers.bannerText")}</p>
                         </div>
                         <svg className="hidden lg:block absolute right-10 top-[10px]" style={{ width: "232px", height: "137px" }} viewBox="0 0 232 137" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <g clip-path="url(#clip0_677_936)">
@@ -376,16 +378,13 @@ const SearchTeachers = () => {
                 </div>
             </div>
 
-            {/* Scrollable Content Section */}
             <div className="flex-1 overflow-y-auto p-4 sm:p-6 pt-0">
-                {/* Teacher Cards Grid */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 teacher-cards-grid">
                     {teachers.map((teacher) => (
                         <div
                             key={teacher.TeacherId}
                             className="bg-white min-h-[205px] max-h-[250px] w-full rounded-2xl border border-[#8a48e6] p-4 hover:shadow-lg transition-shadow teacher-card"
                         >
-                            {/* Teacher Info */}
                             <div className="flex items-start space-x-3 mb-4">
                                 <img
                                     className="w-16 h-16 rounded-full object-cover"
@@ -395,55 +394,49 @@ const SearchTeachers = () => {
                                 <div className="flex-grow">
                                     <div className="mt-1">{renderStars(teacher.Rating)}</div>
                                     <h3 className="text-[#120c38] text-lg font-bold font-['Nunito'] mb-1">
-                                        {teacher.FullName || "Волкова Надія Миколаївна"}
+                                        {teacher.FullName || t("SearchTeachers.defaultTeacherName")}
                                     </h3>
                                     <p className="text-[#827fae] text-sm font-normal font-['Mulish']">
-                                        {teacher.SubjectName || "Математика"}
+                                        {teacher.SubjectName || t("SearchTeachers.defaultSubject")}
                                     </p>
                                 </div>
                             </div>
 
-                            {/* Teacher Description */}
                             <p className="text-[#6f6f6f] text-sm font-normal font-['Mulish'] mb-4 line-clamp-3">
-                                {teacher.AboutTeacher ||
-                                    "Привіт! Я, Надія Волкова, вчитель математики та фізики. Я маю власну методику навчання, а також розробила авторські матеріали що гарантує якісне засвоєння нових знань."}
+                                {teacher.AboutTeacher || t("SearchTeachers.defaultDescription")}
                             </p>
 
-                            {/* Price and View Button */}
                             <div className="flex items-center justify-between mt-auto">
                                 <div className="text-black text-xl font-bold font-['Nunito']">
-                                    Від {teacher.LessonPrice} грн
+                                    {t("SearchTeachers.from")} {teacher.LessonPrice} {t("SearchTeachers.currency")}
                                 </div>
                                 <Link
                                     to={`/student/teacher_profile/${encryptData(teacher.TeacherId)}`}
                                     className="px-6 py-2 bg-[#8a48e6] text-white rounded-full text-sm font-bold font-['Nunito'] hover:bg-[#7339cc] transition-colors"
                                 >
-                                    Переглянути
+                                    {t("SearchTeachers.viewButton")}
                                 </Link>
                             </div>
                         </div>
                     ))}
-                    {/* Load More Button */}
                     {hasMore && !loading && (
                         <div className="col-span-1 sm:col-span-2 lg:col-span-3 flex justify-center items-center mt-8 mb-6 more-btn">
                             <button
                                 onClick={loadMore}
                                 className="w-full sm:w-auto px-8 py-3 bg-[#8a48e6] text-white rounded-full text-base font-bold font-['Nunito'] hover:bg-[#7339cc] transition-colors"
                             >
-                                Переглянути більше
+                                {t("SearchTeachers.loadMoreButton")}
                             </button>
                         </div>
                     )}
                 </div>
 
-                {/* Loading and Error States */}
                 {loading && (
-                    <p className="text-center mt-6 loading-pulse">Загрузка...</p>
+                    <p className="text-center mt-6 loading-pulse">{t("SearchTeachers.loading")}</p>
                 )}
-                {error && <p className="text-center mt-6 text-red-500">{error}</p>}
-                {teachers.length === 0 && !loading && !error && (
+                {teachers.length === 0 && !loading && (
                     <p className="text-center mt-6 text-gray-500">
-                        Немає доступних викладачів
+                        {t("SearchTeachers.noTeachers")}
                     </p>
                 )}
             </div>

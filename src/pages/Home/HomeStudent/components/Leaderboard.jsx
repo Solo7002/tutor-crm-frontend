@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { jwtDecode } from "jwt-decode";
 import Dropdown from "./Dropdown";
 import { toast } from 'react-toastify';
 
 const Leaderboard = ({ leaders }) => {
-    const [selectedSubject, setSelectedSubject] = useState("Усі предмети");
+    const { t } = useTranslation();
+    const [selectedSubject, setSelectedSubject] = useState(t('HomeStudent.Leaderboard.all_subjects'));
     const [filteredLeaders, setFilteredLeaders] = useState([]);
     const [currentUserEmail, setCurrentUserEmail] = useState(null);
 
@@ -12,7 +14,7 @@ const Leaderboard = ({ leaders }) => {
     useEffect(() => {
         const token = sessionStorage.getItem('token');
         if (!token) {
-            toast.error('Токен не знайдено в сховищі сесії!');
+            toast.error(t('HomeStudent.errorNoToken'));
             return;
         }
 
@@ -20,15 +22,15 @@ const Leaderboard = ({ leaders }) => {
             const decodedToken = jwtDecode(token);
             setCurrentUserEmail(decodedToken.email);
         } catch (error) {
-            toast.error('Ошибка при расшифровке токена!');
+            toast.error(t('HomeStudent.errorTokenDecode'));
         }
-    }, []);
+    }, [t]);
 
-    const subjects = ["Усі предмети", ...new Set(leaders.map((leader) => leader.subject))];
+    const subjects = [t('HomeStudent.Leaderboard.all_subjects'), ...new Set(leaders.map((leader) => leader.subject))];
     useEffect(() => {
         const getFilteredLeaders = () => {
             let filtered;
-            if (selectedSubject === "Усі предмети") {
+            if (selectedSubject === t('HomeStudent.Leaderboard.all_subjects')) {
                 filtered = Array.from(new Map(leaders.map((leader) => [leader.email, leader])).values());
             } else {
                 filtered = leaders.filter((leader) => leader.subject === selectedSubject);
@@ -39,7 +41,7 @@ const Leaderboard = ({ leaders }) => {
         };
 
         setFilteredLeaders(getFilteredLeaders());
-    }, [leaders, selectedSubject]);
+    }, [leaders, selectedSubject, t]);
 
     return (
         <div className="flex-1 bg-white p-4 rounded-[20px] shadow-md h-full leaders">
@@ -56,12 +58,12 @@ const Leaderboard = ({ leaders }) => {
                         color: "#120C38",
                     }}
                 >
-                    Таблиця лідерів
+                    {t('HomeStudent.Leaderboard.title')}
                 </div>
                 <div className="w-[12vw] mobile-dropdown-student">
                     <Dropdown
-                        textAll="Усі предмети"
-                        options={subjects.filter((subject) => subject !== "Усі предмети")}
+                        textAll={t('HomeStudent.Leaderboard.all_subjects')}
+                        options={subjects.filter((subject) => subject !== t('HomeStudent.Leaderboard.all_subjects'))}
                         onSelect={(subject) => setSelectedSubject(subject)}
                     />
                 </div>
@@ -104,7 +106,7 @@ const Leaderboard = ({ leaders }) => {
                                         {/* Profile Image */}
                                         <img
                                             src={leader.image ? leader.image : `https://ui-avatars.com/api/?name=${leader.name}&background=random&size=86`}
-                                            alt={`${leader.name}'s profile`}
+                                            alt={t('HomeStudent.Leaderboard.profile_alt')}
                                             onError={(e) => {
                                                 e.target.src = `https://ui-avatars.com/api/?name=${leader.name}&background=random&size=86`;
                                             }}
@@ -143,7 +145,7 @@ const Leaderboard = ({ leaders }) => {
                                         </div>
                                     </div>
 
-                                    {/* Trophy section - Insert your SVG here */}
+                                    {/* Trophy section */}
                                     <div className="flex items-center">
                                         {/* Trophy Count */}
                                         <span
@@ -157,7 +159,7 @@ const Leaderboard = ({ leaders }) => {
                                         >
                                             {leader.trophies || 0}
                                         </span>
-                                        {/* Trophy SVG Placeholder - Replace this div with your SVG */}
+                                        {/* Trophy SVG */}
                                         <div
                                             style={{
                                                 width: "20px",
@@ -200,7 +202,7 @@ const Leaderboard = ({ leaders }) => {
                                 color: "#120C38",
                             }}
                         >
-                            Немає інформації
+                            {t('HomeStudent.Leaderboard.no_data')}
                         </div>}
             </ol>
         </div>

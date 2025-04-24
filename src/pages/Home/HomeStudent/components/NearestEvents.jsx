@@ -1,7 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+
 
 const NearestEvents = ({ events }) => {
+  const { t } = useTranslation();
+
   return (
     <div className="bg-white rounded-[20px] shadow-md h-[25vh] overflow-y-auto events relative">
       {/* Header */}
@@ -15,7 +19,7 @@ const NearestEvents = ({ events }) => {
           letterSpacing: "-0.5%",
         }}
       >
-        Найближчі події
+        {t('HomeStudent.NearestEvents.title')}
       </h2>
 
       {/* List Container */}
@@ -60,7 +64,7 @@ const NearestEvents = ({ events }) => {
                         className="w-[90px] h-[35px] px-4 py-2 right-[10px] top-[12px] absolute rounded-[40px] border border-[#8a48e6] justify-center items-center gap-2.5 inline-flex cursor-pointer"
                       >
                         <div className="text-[#8a48e6] text-[14px] font-normal font-['Mulish']">
-                          Перейти
+                          {t('HomeStudent.NearestEvents.go_to')}
                         </div>
                       </div>
                     </Link>
@@ -77,7 +81,7 @@ const NearestEvents = ({ events }) => {
                   color: "#120C38",
                 }}
               >
-                Немає інформації
+                {t('HomeStudent.NearestEvents.no_data')}
               </div>}
         </ul>
       </div>

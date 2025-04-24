@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { Calendar } from "react-calendar";
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from "react-i18next";
 import "./Schedule.css";
 
 const Schedule = ({ days }) => {
+  const { t } = useTranslation();
   const [selectedDate, setSelectedDate] = useState(new Date());
   const navigate = useNavigate();
 
@@ -48,13 +50,21 @@ const Schedule = ({ days }) => {
   };
 
   const formatMonthYear = (locale, date) => {
-    const month = months[date.getMonth()];
+    const month = t(`HomeStudent.Schedule.months.${date.getMonth()}`);
     const year = date.getFullYear();
     return `${month} ${year}`;
   };
 
   const formatShortWeekday = (locale, date) => {
-    const weekdays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+    const weekdays = [
+      t('HomeStudent.Schedule.weekdays.sun'),
+      t('HomeStudent.Schedule.weekdays.mon'),
+      t('HomeStudent.Schedule.weekdays.tue'),
+      t('HomeStudent.Schedule.weekdays.wed'),
+      t('HomeStudent.Schedule.weekdays.thu'),
+      t('HomeStudent.Schedule.weekdays.fri'),
+      t('HomeStudent.Schedule.weekdays.sat'),
+    ];
     return weekdays[date.getDay()].charAt(0);
   };
 
@@ -72,7 +82,10 @@ const Schedule = ({ days }) => {
           color: "#120C38",
         }}
       >
-        {months[selectedDate.getMonth()]} {selectedDate.getFullYear()}
+        {t('HomeStudent.Schedule.title', {
+          month: t(`HomeStudent.Schedule.months.${selectedDate.getMonth()}`),
+          year: selectedDate.getFullYear(),
+        })}
       </h2>
 
       {/* Calendar */}

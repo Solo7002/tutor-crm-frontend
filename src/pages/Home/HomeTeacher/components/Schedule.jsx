@@ -1,26 +1,13 @@
 import React, { useState } from "react";
 import { Calendar } from "react-calendar";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import "./Schedule.css";
 
-const Schedule = ({ days }) => {
+const Schedule = ({ days = [] }) => {
+  const { t } = useTranslation();
   const [selectedDate, setSelectedDate] = useState(new Date());
   const navigate = useNavigate();
-
-  const months = [
-    "Січень",
-    "Лютий",
-    "Березень",
-    "Квітень",
-    "Травень",
-    "Червень",
-    "Липень",
-    "Серпень",
-    "Вересень",
-    "Жовтень",
-    "Листопад",
-    "Грудень",
-  ];
 
   const getTileClassName = ({ date, view }) => {
     if (view === "month") {
@@ -48,19 +35,19 @@ const Schedule = ({ days }) => {
   };
 
   const formatMonthYear = (locale, date) => {
-    const month = months[date.getMonth()];
-    const year = date.getFullYear();
-    return `${month} ${year}`;
+    return t("HomeTeacher.Schedule.title", {
+      month: t(`HomeTeacher.Schedule.months.${date.getMonth()}`),
+      year: date.getFullYear(),
+    });
   };
 
   const formatShortWeekday = (locale, date) => {
-    const weekdays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-    return weekdays[date.getDay()].charAt(0);
+    const weekday = date.getDay();
+    return t(`HomeTeacher.Schedule.weekdays.${weekday}`);
   };
 
   return (
     <div className="bg-white p-2 sm:p-4 rounded-[20px] mb-4 sm:mb-6 shadow-md h-[26vh] sm:h-[28vh] justify-center items-start gap-2 sm:gap-[22.67px] overflow-hidden">
-      {/* Header */}
       <h2
         className="text-base sm:text-lg md:text-xl font-semibold m-2 sm:m-3"
         style={{
@@ -71,20 +58,34 @@ const Schedule = ({ days }) => {
           color: "#120C38",
         }}
       >
-        {months[selectedDate.getMonth()]} {selectedDate.getFullYear()}
+        {t("HomeTeacher.Schedule.title", {
+          month: t(`HomeTeacher.Schedule.months.${selectedDate.getMonth()}`),
+          year: selectedDate.getFullYear(),
+        })}
       </h2>
-
-      {/* Calendar */}
-      <Calendar
-        className="custom-calendar"
-        value={selectedDate}
-        onChange={() => navigate("/teacher/calendar")}
-        tileClassName={getTileClassName}
-        navigationLabel={({ date }) => formatMonthYear(null, date)}
-        showNavigation={false}
-        locale="en-US"
-        formatShortWeekday={formatShortWeekday}
-      />
+      {days.length > 0 ? (
+        <Calendar
+          className="custom-calendar"
+          value={selectedDate}
+          onChange={() => navigate("/teacher/calendar")}
+          tileClassName={getTileClassName}
+          navigationLabel={({ date }) => formatMonthYear(null, date)}
+          showNavigation={false}
+          locale="en-US"
+          formatShortWeekday={formatShortWeekday}
+        />
+      ) : (
+        <div
+          className="text-sm sm:text-base text-center mt-10"
+          style={{
+            fontFamily: "Mulish",
+            letterSpacing: "-0.5%",
+            color: "#120C38",
+          }}
+        >
+          {t("HomeTeacher.Schedule.no_data")}
+        </div>
+      )}
     </div>
   );
 };

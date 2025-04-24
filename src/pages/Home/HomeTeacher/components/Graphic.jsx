@@ -1,23 +1,25 @@
 import React, { useState } from "react";
 import Chart from "react-apexcharts";
 import Dropdown from "./Dropdown";
+import { useTranslation } from "react-i18next";
 
 const Graphic = ({ chartData }) => {
-  const [selectedGroup, setSelectedGroup] = useState("Усі групи");
+  const { t } = useTranslation();
+  const [selectedGroup, setSelectedGroup] = useState(t("HomeTeacher.Graphic.all_groups"));
 
   const months = [
-    "Січень",
-    "Лютий",
-    "Березень",
-    "Квітень",
-    "Травень",
-    "Червень",
-    "Липень",
-    "Серпень",
-    "Вересень",
-    "Жовтень",
-    "Листопад",
-    "Грудень",
+    t("HomeTeacher.Graphic.months.0"),
+    t("HomeTeacher.Graphic.months.1"),
+    t("HomeTeacher.Graphic.months.2"),
+    t("HomeTeacher.Graphic.months.3"),
+    t("HomeTeacher.Graphic.months.4"),
+    t("HomeTeacher.Graphic.months.5"),
+    t("HomeTeacher.Graphic.months.6"),
+    t("HomeTeacher.Graphic.months.7"),
+    t("HomeTeacher.Graphic.months.8"),
+    t("HomeTeacher.Graphic.months.9"),
+    t("HomeTeacher.Graphic.months.10"),
+    t("HomeTeacher.Graphic.months.11"),
   ];
 
   const currentDate = new Date();
@@ -28,10 +30,10 @@ const Graphic = ({ chartData }) => {
     lastSixMonths.unshift(months[monthIndex]);
   }
 
-  const groups = ["Усі групи", ...new Set(chartData.map((item) => item.group))];
+  const groups = [t("HomeTeacher.Graphic.all_groups"), ...new Set(chartData.map((item) => item.group))];
 
   const filteredData =
-    selectedGroup === "Усі групи"
+    selectedGroup === t("HomeTeacher.Graphic.all_groups")
       ? chartData
       : chartData.filter((item) => item.group === selectedGroup);
 
@@ -79,8 +81,8 @@ const Graphic = ({ chartData }) => {
         },
       },
       axisBorder: {
-          show: true,
-          color: "#120C38",
+        show: true,
+        color: "#120C38",
       },
     },
     yaxis: {
@@ -95,8 +97,8 @@ const Graphic = ({ chartData }) => {
         },
       },
       axisBorder: {
-          show: true,
-          color: "#120C38",
+        show: true,
+        color: "#120C38",
       },
     },
     colors: ["#C3A2F2", "#88F2FF", "#827EAD"],
@@ -127,8 +129,8 @@ const Graphic = ({ chartData }) => {
           seriesIndex === 0
             ? "Homework"
             : seriesIndex === 1
-            ? "Classwork"
-            : "Test";
+              ? "Classwork"
+              : "Test";
         const grades = filteredData
           .filter(
             (item) =>
@@ -139,25 +141,24 @@ const Graphic = ({ chartData }) => {
         const average = calculateAverage(type, month);
 
         return `
-          <div style="padding: 10px; background: #fff; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.2);">
-            <strong>${month} (${type}):</strong><br/>
-            Оцінки: ${grades.length > 0 ? grades.join(", ") : "Немає даних"}<br/>
-            Середня: ${average || "Немає даних"}
-          </div>
-        `;
+                    <div style="padding: 10px; background: #fff; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.2);">
+                        <strong>${month} (${t(`HomeTeacher.Graphic.types.${type}`)}):</strong><br/>
+                        ${t("HomeTeacher.Graphic.grades")}: ${grades.length > 0 ? grades.join(", ") : t("HomeTeacher.Graphic.no_data")}<br/>
+                        ${t("HomeTeacher.Graphic.average")}: ${average || t("HomeTeacher.Graphic.no_data")}
+                    </div>
+                `;
       },
     },
   };
 
   const series = [
-    { name: "-Домашня робота", data: homeworkData },
-    { name: "-Робота в класі", data: classworkData },
-    { name: "-Тести", data: testData },
+    { name: t("HomeTeacher.Graphic.homework"), data: homeworkData },
+    { name: t("HomeTeacher.Graphic.classwork"), data: classworkData },
+    { name: t("HomeTeacher.Graphic.test"), data: testData },
   ];
 
   return (
     <div className="relative bg-white w-[100%] h-[33vh] flex flex-col rounded-[20px] shadow-md justify-between students-success">
-      {/* border border-[#8a48e6] */}
       <div className="flex justify-between items-center px-4 pt-4">
         <div
           className="text-[#120c38] font-bold font-['Nunito']"
@@ -166,19 +167,27 @@ const Graphic = ({ chartData }) => {
             lineHeight: "1.2",
           }}
         >
-          Успішність учнів
+          {t("HomeTeacher.Graphic.title")}
         </div>
         <div className="w-[15vw] mobile-dropdown-teacher">
           <Dropdown
-            textAll="Усі групи"
-            options={groups.filter((group) => group !== "Усі групи")}
+            textAll={t("HomeTeacher.Graphic.all_groups")}
+            options={groups.filter((group) => group !== t("HomeTeacher.Graphic.all_groups"))}
             onSelect={(group) => setSelectedGroup(group)}
           />
         </div>
       </div>
-
       <div className="w-[90%] h-[80%] relative mx-auto">
-        <Chart options={options} series={series} type="bar" height="100%" width="100%" />
+        {chartData && chartData.length > 0 ? (
+          <Chart options={options} series={series} type="bar" height="100%" width="100%" />
+        ) : (
+          <div
+            className="text-[#120c38] text-center mt-10"
+            style={{ fontFamily: "Mulish", fontSize: "15pt" }}
+          >
+            {t("HomeTeacher.Graphic.no_data")}
+          </div>
+        )}
       </div>
     </div>
   );

@@ -14,7 +14,7 @@ import { toast } from 'react-toastify';
 import { useTranslation } from "react-i18next";
 
 export default function HomeTeacher() {
-    const { t } = useTranslation(); 
+    const { t } = useTranslation();
     const [leaders, setLeaders] = useState([]);
     const [events, setEvents] = useState([]);
     const [activities, setActivities] = useState([]);
@@ -24,11 +24,11 @@ export default function HomeTeacher() {
     const [user, setUser] = useState(null);
     const [teacherId, setTeacherId] = useState(null);
 
-    const location=useLocation();
+    const location = useLocation();
     const searchParams = new URLSearchParams(location.search);
     const tokenServer = searchParams.get('token');
-    if(tokenServer){
-      sessionStorage.setItem('token',tokenServer);
+    if (tokenServer) {
+        sessionStorage.setItem('token', tokenServer);
     }
 
     useEffect(() => {
@@ -36,7 +36,7 @@ export default function HomeTeacher() {
             try {
                 const token = sessionStorage.getItem('token');
                 if (!token) {
-                    toast.error('Токен не знайдено в сховищі сесії!');
+                    toast.error(t('HomeTeacher.errorNoToken'));
                     return;
                 }
 
@@ -44,42 +44,86 @@ export default function HomeTeacher() {
                 try {
                     decodedToken = jwtDecode(token);
                 } catch (error) {
-                    toast.error('Ошибка при расшифровке токена!');
+                    toast.error(t('HomeTeacher.errorTokenDecode'));
                     return;
                 }
 
                 const userId = decodedToken.id;
 
                 if (!userId) {
-                    toast.error('User ID не знайдено в токені!');
+                    toast.error(t('HomeTeacher.errorNoUserId'));
                     return;
                 }
 
-                const teacherResponse = await axios.get(`http://localhost:4000/api/teachers/search/user/${userId}`, {
-                    headers: {
-                        Authorization: `Bearer ${token}`
+                const teacherResponse = await axios.get(
+                    `${process.env.REACT_APP_BASE_API_URL}/api/teachers/search/user/${userId}`,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${token}`
+                        }
                     }
-                });
+                );
 
                 if (!teacherResponse.data.success || !teacherResponse.data.data.length) {
-                    toast.error('Вчитель не знайдено для цього користувача!');
+                    toast.error(t('HomeTeacher.errorNoTeacher'));
                     return;
                 }
 
                 const teacher = teacherResponse.data.data[0];
-                
                 setTeacherId(teacher.TeacherId);
 
-                const [userResponse, leadersResponse, activitiesResponse, eventsResponse,
-                    daysResponse, gradesResponse, productivityResponse] = await Promise.all([
-                        axios.get(`http://localhost:4000/api/teachers/${teacher.TeacherId}/user`),
-                        axios.get(`http://localhost:4000/api/teachers/${teacher.TeacherId}/leaders`),
-                        axios.get(`http://localhost:4000/api/teachers/${teacher.TeacherId}/activities`),
-                        axios.get(`http://localhost:4000/api/teachers/${teacher.TeacherId}/events`),
-                        axios.get(`http://localhost:4000/api/teachers/${teacher.TeacherId}/days`),
-                        axios.get(`http://localhost:4000/api/teachers/${teacher.TeacherId}/grades`),
-                        axios.get(`http://localhost:4000/api/teachers/${teacher.TeacherId}/productivity`)
-                    ]);
+                const [
+                    userResponse,
+                    leadersResponse,
+                    activitiesResponse,
+                    eventsResponse,
+                    daysResponse,
+                    gradesResponse,
+                    productivityResponse
+                ] = await Promise.all([
+                    axios.get(`${process.env.REACT_APP_BASE_API_URL}/api/teachers/${teacher.TeacherId}/user`,
+                        {
+                            headers: {
+                                Authorization: `Bearer ${token}`
+                            }
+                        }),
+                    axios.get(`${process.env.REACT_APP_BASE_API_URL}/api/teachers/${teacher.TeacherId}/leaders`,
+                        {
+                            headers: {
+                                Authorization: `Bearer ${token}`
+                            }
+                        }),
+                    axios.get(`${process.env.REACT_APP_BASE_API_URL}/api/teachers/${teacher.TeacherId}/activities`,
+                        {
+                            headers: {
+                                Authorization: `Bearer ${token}`
+                            }
+                        }),
+                    axios.get(`${process.env.REACT_APP_BASE_API_URL}/api/teachers/${teacher.TeacherId}/events`,
+                        {
+                            headers: {
+                                Authorization: `Bearer ${token}`
+                            }
+                        }),
+                    axios.get(`${process.env.REACT_APP_BASE_API_URL}/api/teachers/${teacher.TeacherId}/days`,
+                        {
+                            headers: {
+                                Authorization: `Bearer ${token}`
+                            }
+                        }),
+                    axios.get(`${process.env.REACT_APP_BASE_API_URL}/api/teachers/${teacher.TeacherId}/grades`,
+                        {
+                            headers: {
+                                Authorization: `Bearer ${token}`
+                            }
+                        }),
+                    axios.get(`${process.env.REACT_APP_BASE_API_URL}/api/teachers/${teacher.TeacherId}/productivity`,
+                        {
+                            headers: {
+                                Authorization: `Bearer ${token}`
+                            }
+                        })
+                ]);
 
                 setUser(userResponse.data);
                 setLeaders(leadersResponse.data);
@@ -90,12 +134,12 @@ export default function HomeTeacher() {
                 setProductivityData(productivityResponse.data);
 
             } catch (error) {
-                toast.error('Помилка при отриманні даних вчителя!');
+                toast.error(t('HomeTeacher.errorFetchData'));
             }
         };
 
         fetchTeacherData();
-    }, []);
+    }, [t]);
 
     return (
         <div className="flex flex-col bg-[#F6EEFF] p-2 sm:p-4 min-h-[90vh] max-w-full overflow-x-hidden">
@@ -129,7 +173,7 @@ export default function HomeTeacher() {
                         <div className="w-full">
                             <Greetings user={user || {}} />
                         </div>
-                        
+
                         <div className="flex flex-col md:flex-row gap-4 w-full h-[30vh]">
                             <div className="w-full md:w-1/2">
                                 <Productivity productivityData={productivityData || {}} />
@@ -138,12 +182,12 @@ export default function HomeTeacher() {
                                 <Leaderboard leaders={leaders} />
                             </div>
                         </div>
-                        
+
                         <div className="w-full">
                             <Graphic chartData={grades} />
                         </div>
                     </div>
-                    
+
                     {/* Right column - 25% on large screens */}
                     <div className="w-full lg:w-1/4 space-y-4">
                         <div className="w-full">

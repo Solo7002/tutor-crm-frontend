@@ -2,9 +2,12 @@ import React, { useState, useEffect, useCallback } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { encryptData } from '../../../../utils/crypto';
+import { useTranslation } from "react-i18next";
+import { toast } from 'react-toastify';
 import Dropdown from "./Dropdown";
 
 const SearchTeacher = () => {
+  const { t } = useTranslation();
   const [teachers, setTeachers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -15,13 +18,13 @@ const SearchTeacher = () => {
   });
 
   const lessonTypeOptions = [
-    { key: "group", value: "Груповий" },
-    { key: "solo", value: "Індивідуальний" },
+    { key: "group", value: t("SearchTeachers.lessonTypeGroup") },
+    { key: "solo", value: t("SearchTeachers.lessonTypeSolo") },
   ];
 
   const meetingTypeOptions = [
-    { key: "offline", value: "Офлайн" },
-    { key: "online", value: "Онлайн" },
+    { key: "offline", value: t("SearchTeachers.formatOffline") },
+    { key: "online", value: t("SearchTeachers.formatOnline") },
   ];
 
   const fetchTeachers = useCallback(async () => {
@@ -29,25 +32,36 @@ const SearchTeacher = () => {
       setLoading(true);
       setError(null);
 
+      const token = sessionStorage.getItem('token');
+      if (!token) {
+        throw new Error(t('HomeStudent.errorNoToken'));
+      }
+
       const queryParams = new URLSearchParams(filters).toString();
       const response = await axios.get(
-        `http://localhost:4000/api/students/searchTeachers?${queryParams}`
+        `${process.env.REACT_APP_BASE_API_URL}/api/students/searchTeachers?${queryParams}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
 
       if (response.data.success) {
         setTeachers(response.data.data);
-      } else if (response.data.message === "No teachers found.") {
+      } else if (response.data.message === t('SearchTeachers.noTeachers')) {
         setTeachers([]);
       } else {
         throw new Error(response.data.message);
       }
     } catch (err) {
       setTeachers([]);
-      setError(err.message || "Failed to fetch teachers.");
+      setError(err.message || t('SearchTeachers.errorLoading'));
+      toast.error(err.message || t('SearchTeachers.errorLoading'));
     } finally {
       setLoading(false);
     }
-  }, [filters]);
+  }, [filters, t]);
 
   useEffect(() => {
     fetchTeachers();
@@ -107,15 +121,13 @@ const SearchTeacher = () => {
           {/* Вид навчання */}
           <div className="w-full sm:w-auto min-w-[150px]">
             <Dropdown
-              textAll="Вид навчання"
-              options={lessonTypeOptions.map((option) => option.value)}
+              textAll={t('SearchTeachers.lessonType')}
+              options={[t('SearchTeachers.lessonTypeGroup'), t('SearchTeachers.lessonTypeSolo')]}
               onSelect={(value) => {
-                const selectedOption = lessonTypeOptions.find(
-                  (option) => option.value === value
-                );
+                const selectedKey = value === t('SearchTeachers.lessonTypeGroup') ? 'group' : 'solo';
                 setFilters((prevFilters) => ({
                   ...prevFilters,
-                  lessonType: selectedOption ? selectedOption.key : "",
+                  lessonType: selectedKey,
                 }));
               }}
             />
@@ -124,15 +136,13 @@ const SearchTeacher = () => {
           {/* Формат */}
           <div className="w-full sm:w-auto min-w-[150px]">
             <Dropdown
-              textAll="Формат"
-              options={meetingTypeOptions.map((option) => option.value)}
+              textAll={t('SearchTeachers.formatLabel')}
+              options={[t('SearchTeachers.formatOnline'), t('SearchTeachers.formatOffline')]}
               onSelect={(value) => {
-                const selectedOption = meetingTypeOptions.find(
-                  (option) => option.value === value
-                );
+                const selectedKey = value === t('SearchTeachers.formatOnline') ? 'online' : 'offline';
                 setFilters((prevFilters) => ({
                   ...prevFilters,
-                  meetingType: selectedOption ? selectedOption.key : "",
+                  meetingType: selectedKey,
                 }));
               }}
             />
@@ -142,27 +152,26 @@ const SearchTeacher = () => {
         {/* Шукати */}
         <div className="p-2 sm:p-4 self-center sm:ml-auto w-full justify-end">
           <Link to="/student/search" className="w-full ml-auto max-w-[420px] h-12 px-4 py-2 bg-white rounded-[40px] flex items-center justify-between border hover:border-[#8a48e6]">
-            
-              <div className="text-[#827ead] text-[15px] font-normal font-['Nunito']">
-                Шукати
-              </div>
-              <div>
-                <svg
-                  width="32"
-                  height="32"
-                  viewBox="0 0 32 32"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M28 28L20 20M4 13.3333C4 14.559 4.24141 15.7727 4.71046 16.905C5.1795 18.0374 5.86699 19.0663 6.73367 19.933C7.60035 20.7997 8.62925 21.4872 9.76162 21.9562C10.894 22.4253 12.1077 22.6667 13.3333 22.6667C14.559 22.6667 15.7727 22.4253 16.905 21.9562C18.0374 21.4872 19.0663 20.7997 19.933 19.933C20.7997 19.0663 21.4872 18.0374 21.9562 16.905C22.4253 15.7727 22.6667 14.559 22.6667 13.3333C22.6667 12.1077 22.4253 10.894 21.9562 9.76162C21.4872 8.62925 20.7997 7.60035 19.933 6.73367C19.0663 5.86699 18.0374 5.1795 16.905 4.71046C15.7727 4.24141 14.559 4 13.3333 4C12.1077 4 10.894 4.24141 9.76162 4.71046C8.62925 5.1795 7.60035 5.86699 6.73367 6.73367C5.86699 7.60035 5.1795 8.62925 4.71046 9.76162C4.24141 10.894 4 12.1077 4 13.3333Z"
-                    stroke="#120C38"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              </div>
+            <div className="text-[#827ead] text-[15px] font-normal font-['Nunito']">
+            {t('SearchTeachers.searchPlaceholder')}
+            </div>
+            <div>
+              <svg
+                width="32"
+                height="32"
+                viewBox="0 0 32 32"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M28 28L20 20M4 13.3333C4 14.559 4.24141 15.7727 4.71046 16.905C5.1795 18.0374 5.86699 19.0663 6.73367 19.933C7.60035 20.7997 8.62925 21.4872 9.76162 21.9562C10.894 22.4253 12.1077 22.6667 13.3333 22.6667C14.559 22.6667 15.7727 22.4253 16.905 21.9562C18.0374 21.4872 19.0663 20.7997 19.933 19.933C20.7997 19.0663 21.4872 18.0374 21.9562 16.905C22.4253 15.7727 22.6667 14.559 22.6667 13.3333C22.6667 12.1077 22.4253 10.894 21.9562 9.76162C21.4872 8.62925 20.7997 7.60035 19.933 6.73367C19.0663 5.86699 18.0374 5.1795 16.905 4.71046C15.7727 4.24141 14.559 4 13.3333 4C12.1077 4 10.894 4.24141 9.76162 4.71046C8.62925 5.1795 7.60035 5.86699 6.73367 6.73367C5.86699 7.60035 5.1795 8.62925 4.71046 9.76162C4.24141 10.894 4 12.1077 4 13.3333Z"
+                  stroke="#120C38"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </div>
           </Link>
         </div>
       </div>
@@ -171,7 +180,7 @@ const SearchTeacher = () => {
       <div className="flex flex-col overflow-y-auto p-2">
         {/* стан загрузки */}
         {loading && (
-          <div className="text-center py-4">Загрузка...</div>
+          <div className="text-center py-4">{t('SearchTeachers.loading')}</div>
         )}
 
         {/* Помилка */}
@@ -181,7 +190,7 @@ const SearchTeacher = () => {
 
         {/* Вчителі і наявність */}
         {teachers.length === 0 && !loading && error && (
-          <p className="text-center text-gray-500 py-4">Немає доступних викладачів</p>
+          <p className="text-center text-gray-500 py-4">{t('SearchTeachers.noTeachers')}</p>
         )}
 
         {/* Картки вчителів */}
@@ -199,10 +208,10 @@ const SearchTeacher = () => {
                     />
                     <div className="ml-4">
                       <div className="text-[#120c38] text-lg font-bold font-['Nunito']">
-                        {teacher.FullName || "Волкова Надія Миколаївна"}
+                        {teacher.FullName || t('SearchTeachers.defaultTeacherName')}
                       </div>
                       <div className="text-[#827fae] text-sm font-normal font-['Mulish']">
-                        {teacher.SubjectName || "Математика"}
+                        {teacher.SubjectName || t('SearchTeachers.defaultSubject')}
                       </div>
                       <div className="mt-1">
                         {renderStars(teacher.Rating)}
@@ -212,7 +221,7 @@ const SearchTeacher = () => {
 
                   {/* Ціна */}
                   <div className="text-black text-xl font-bold font-['Nunito'] mb-4 md:mb-0">
-                    Від {teacher.LessonPrice} грн
+                  {t('SearchTeachers.from')} {teacher.LessonPrice} {t('SearchTeachers.currency')}
                   </div>
                 </div>
 
@@ -221,15 +230,14 @@ const SearchTeacher = () => {
 
                 {/* Переглянути */}
                 <div className="flex justify-between">
-                <div className="text-[#6f6f6f] text-sm font-normal font-['Mulish'] mt-4 mb-4 line-clamp-2">
-                  {teacher.AboutTeacher ||
-                    "Привіт! Я, Надія Волкова, вчитель математики та фізики. Я маю власну методику навчання, а також розробила авторські матеріали що гарантує якісне засвоєння нових знань."}
-                </div>
+                  <div className="text-[#6f6f6f] text-sm font-normal font-['Mulish'] mt-4 mb-4 line-clamp-2">
+                    {teacher.AboutTeacher || t('SearchTeachers.defaultDescription')}
+                  </div>
                   <Link
                     to={`/student/teacher_profile/${encryptData(teacher.TeacherId)}`}
                     className="inline-block h-[40px] px-4 py-2 bg-[#8a48e6] cursor-pointer rounded-[40px] text-white text-[15px] font-bold font-['Nunito'] hover:bg-[#7a3bd0] transition-colors"
                   >
-                    Переглянути
+                    {t('SearchTeachers.viewButton')}
                   </Link>
                 </div>
               </div>

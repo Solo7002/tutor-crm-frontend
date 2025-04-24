@@ -1,15 +1,42 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 
-const Greetings = ({user}) => {
+const Greetings = ({ user }) => {
+  const { t } = useTranslation();
+  const userName = user ? user.firstName || "User" : "User";
+
   return (
-    <div className="flex flex-row bg-[#120C38] pt-4 sm:pt-6 rounded-[20px] mb-4 sm:mb-6 shadow-md min-h-[180px] sm:h-[20vh] bg-pattern greetings overflow-hidden" 
+    <div
+      className="flex flex-row bg-[#120C38] pt-4 sm:pt-6 rounded-[20px] mb-4 sm:mb-6 shadow-md min-h-[180px] sm:h-[20vh] bg-pattern greetings overflow-hidden"
       style={{
         backgroundRepeat: "repeat",
       }}
     >
-      <div className="w-full sm:w-[70%] text-white p-3 sm:p-5" style={{ fontFamily: "Mulish", fontWeight: "400", fontSize: "15pt", lineHeight: "18.83px", letterSpacing: "-0.5%" }}>
-        <div className="text-xl sm:text-2xl font-bold mb-2 sm:mb-6" style={{ fontFamily: "Nunito", fontStyle: "normal", fontWeight: "700", fontSize: "clamp(24px, 5vw, 32px)", lineHeight: "1.375", letterSpacing: "-0.005em", color: "#FFFFFF" }}>Привіт {user ? user.firstName || "User" : "User"}!</div>
-        <p className="text-sm sm:text-base">Як і восьминіг, ви майстер багатозадачності – ведіть уроки, плануєте розклад, керуєте учнями. OctoCRM допоможе вам організувати всі процеси зручно та ефективно!</p>
+      <div
+        className="w-full sm:w-[70%] text-white p-3 sm:p-5"
+        style={{
+          fontFamily: "Mulish",
+          fontWeight: "400",
+          fontSize: "15pt",
+          lineHeight: "18.83px",
+          letterSpacing: "-0.5%",
+        }}
+      >
+        <div
+          className="text-xl sm:text-2xl font-bold mb-2 sm:mb-6"
+          style={{
+            fontFamily: "Nunito",
+            fontStyle: "normal",
+            fontWeight: "700",
+            fontSize: "clamp(24px, 5vw, 32px)",
+            lineHeight: "1.375",
+            letterSpacing: "-0.005em",
+            color: "#FFFFFF",
+          }}
+        >
+          {t("HomeStudent.Greetings.greeting")}, {userName}!
+        </div>
+        <p className="text-sm sm:text-base">{t("HomeStudent.Greetings.description")}</p>
       </div>
       <div className="flex justify-end w-[130%] md:w-[30%]">
         <svg className="w-[200px] md:w-[318px] h-auto mr-6 mt-auto" viewBox="0 0 318 165" fill="none" xmlns="http://www.w3.org/2000/svg">
