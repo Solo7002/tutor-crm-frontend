@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import { useTranslation } from 'react-i18next';
 
 const AddMaterialModal = ({ isOpened = false, onClose, onRefreshMaterials, teacherId, parentId }) => {
+  const { t } = useTranslation();
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [isDragging, setIsDragging] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
@@ -13,14 +15,14 @@ const AddMaterialModal = ({ isOpened = false, onClose, onRefreshMaterials, teach
 
   const validateFile = (file) => {
     if (file.size > MAX_FILE_SIZE) {
-      toast.error(`Файл "${file.name}" перевищує максимальний розмір (49MB)`);
-      return { valid: false, reason: 'size', message: `Файл "${file.name}" перевищує максимальний розмір (49MB)` };
+      toast.error(t('MaterialComponents.AddMaterialModal.fileSizeError', { fileName: file.name }));
+      return { valid: false, reason: 'size', message: t('MaterialComponents.AddMaterialModal.fileSizeError', { fileName: file.name }) };
     }
 
     const extension = file.name.split('.').pop().toLowerCase();
     if (FORBIDDEN_EXTENSIONS.includes(extension)) {
-      toast.error(`Файл "${file.name}" має заборонений формат (${extension})`);
-      return { valid: false, reason: 'type', message: `Файл "${file.name}" має заборонений формат (${extension})` };
+      toast.error(t('MaterialComponents.AddMaterialModal.fileTypeError', { fileName: file.name, extension: extension }));
+      return { valid: false, reason: 'type', message: t('MaterialComponents.AddMaterialModal.fileTypeError', { fileName: file.name, extension: extension }) };
     }
 
     return { valid: true };
@@ -132,9 +134,9 @@ const AddMaterialModal = ({ isOpened = false, onClose, onRefreshMaterials, teach
           
           return response.data;
         } catch (error) {
-          toast.error("Сталася помилка, спробуйте ще раз");
+          toast.error(t('MaterialComponents.AddMaterialModal.errorMessage'));
           updateFileStatus(fileObj.id, 'error');
-          failedUploads.push(`Помилка завантаження файлу "${fileObj.name}": ${error.response?.data?.error || 'Невідома помилка'}`);
+          failedUploads.push(`${t('MaterialComponents.AddMaterialModal.errorMessage')}: "${fileObj.name}": ${error.response?.data?.error || 'Невідома помилка'}`);
           throw error;
         }
       });
@@ -142,11 +144,11 @@ const AddMaterialModal = ({ isOpened = false, onClose, onRefreshMaterials, teach
       await Promise.allSettled(uploadPromises);
       
     } catch (error) {
-      toast.error("Сталася помилка, спробуйте ще раз");
+      toast.error(t('MaterialComponents.AddMaterialModal.errorMessage'));
     } finally {
       onRefreshMaterials();
 
-      toast.success("Матеріали успішно додані");
+      toast.success(t('MaterialComponents.AddMaterialModal.successMessage'));
       
       if (failedUploads.length > 0) {
         sessionStorage.setItem('uploadErrors', JSON.stringify(failedUploads));
@@ -236,7 +238,9 @@ const AddMaterialModal = ({ isOpened = false, onClose, onRefreshMaterials, teach
 
       <div className="relative w-full max-w-md mx-auto bg-white rounded-2xl shadow-xl transform transition-all p-6 z-50">
         <div className="flex justify-between items-center mb-4">
-          <h3 className="text-lg font-bold text-[#120c38] font-['Nunito']">Додати файл</h3>
+          <h3 className="text-lg font-bold text-[#120c38] font-['Nunito']">
+            {t('MaterialComponents.AddMaterialModal.title')}
+          </h3>
           {!isUploading && (
             <button
               className="p-2 rounded-full hover:bg-gray-100 transition-colors"
@@ -257,7 +261,7 @@ const AddMaterialModal = ({ isOpened = false, onClose, onRefreshMaterials, teach
                   <path d="M9 12H15M12 9V15M3 12C3 13.1819 3.23279 14.3522 3.68508 15.4442C4.13738 16.5361 4.80031 17.5282 5.63604 18.364C6.47177 19.1997 7.46392 19.8626 8.55585 20.3149C9.64778 20.7672 10.8181 21 12 21C13.1819 21 14.3522 20.7672 15.4442 20.3149C16.5361 19.8626 17.5282 19.1997 18.364 18.364C19.1997 17.5282 19.8626 16.5361 20.3149 15.4442C20.7672 14.3522 21 13.1819 21 12C21 9.61305 20.0518 7.32387 18.364 5.63604C16.6761 3.94821 14.3869 3 12 3C9.61305 3 7.32387 3.94821 5.63604 5.63604C3.94821 7.32387 3 9.61305 3 12Z" stroke="#8A48E6" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
                 <span className="text-[#8a48e6] text-sm font-['Mulish'] ml-2">
-                  Обрати файл з комп'ютера
+                  {t('MaterialComponents.AddMaterialModal.selectFromComputer')}
                 </span>
                 <input
                   type="file"
@@ -270,7 +274,9 @@ const AddMaterialModal = ({ isOpened = false, onClose, onRefreshMaterials, teach
 
             <div className="flex items-center my-4">
               <div className="flex-grow border-t border-gray-200"></div>
-              <span className="mx-4 text-xs text-[#827ead] font-['Mulish']">або</span>
+              <span className="mx-4 text-xs text-[#827ead] font-['Mulish']">
+                {t('MaterialComponents.AddMaterialModal.or')}
+              </span>
               <div className="flex-grow border-t border-gray-200"></div>
             </div>
 
@@ -287,10 +293,10 @@ const AddMaterialModal = ({ isOpened = false, onClose, onRefreshMaterials, teach
               </svg>
 
               <p className="text-center text-[#827ead] text-sm font-['Mulish'] mt-5">
-                Перетягніть файли з комп'ютера у цю область
+                {t('MaterialComponents.AddMaterialModal.dragAndDropText')}
               </p>
               <p className="text-center text-[#827ead] text-xs font-['Mulish'] mt-2">
-                Обмеження: макс. 49MB, без TXT або BAT файлів
+                {t('MaterialComponents.AddMaterialModal.restrictions')}
               </p>
             </div>
           </>
@@ -341,7 +347,7 @@ const AddMaterialModal = ({ isOpened = false, onClose, onRefreshMaterials, teach
                 <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                 <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
               </svg>
-              <span>Завантаження...</span>
+              <span>{t('MaterialComponents.AddMaterialModal.uploading')}</span>
             </button>
           ) : (
             <button
@@ -349,7 +355,7 @@ const AddMaterialModal = ({ isOpened = false, onClose, onRefreshMaterials, teach
               onClick={handleSubmit}
               disabled={selectedFiles.length === 0}
             >
-              <span>Додати файл(и)</span>
+              <span>{t('MaterialComponents.AddMaterialModal.addFilesButton')}</span>
               <svg className="w-5 h-5 ml-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <path d="M5 12h14M12 5l7 7-7 7" />
               </svg>

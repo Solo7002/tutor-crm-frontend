@@ -1,6 +1,8 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 export default function FolderUpBlock({ onClick }) {
+    const { t } = useTranslation();
     return (
         <div className="w-[244px] h-[234px] relative bg-white rounded-3xl border border-[#d7d7d7] transition-shadow duration-200 hover:shadow-[0_0_0_3px_#8A48E6] flex-col justify-center items-center gap-[35px] inline-flex cursor-pointer" onClick={onClick}>
             <div data-svg-wrapper className="left-[72px] top-[40px] absolute">
@@ -9,7 +11,7 @@ export default function FolderUpBlock({ onClick }) {
                 </svg>
             </div>
             <div className="h-11 left-[15px] bottom-6 absolute flex-col justify-start items-start gap-2.5 inline-flex">
-                <div className="self-stretch text-[#120c38] text-[15px] font-normal font-['Nunito']">Назад</div>
+                <div className="self-stretch text-[#120c38] text-[15px] font-normal font-['Nunito']">{t("MaterialComponents.FolderUpBlock.back")}</div>
             </div>
         </div>
     );

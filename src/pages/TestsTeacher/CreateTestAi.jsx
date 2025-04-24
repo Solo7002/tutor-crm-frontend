@@ -7,8 +7,10 @@ import AddQuestion from "./components/AddQuestion/AddQuestion";
 import { useNavigate, useParams } from "react-router-dom";
 import { decryptData } from '../../utils/crypto';
 import { toast } from "react-toastify";
+import { useTranslation } from "react-i18next";
 
 const CreateTestAi = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const { encodedGroupId } = useParams();
   const [formData, setFormData] = useState({});
@@ -26,18 +28,17 @@ const CreateTestAi = () => {
       const decryptedGroupId = decryptData(encodedGroupId);
       setGroupId(decryptedGroupId);
     } catch (err) {
-      toast.error("Сталася помилка, спробуйте ще раз");
+      toast.error(t("Tests.CreateTestAi.decryptError"));
     }
-  }, [encodedGroupId]);
+  }, [encodedGroupId, t]);
 
   const handleGenerate = async () => {
     setIsGenerating(true);
     setErrors({});
- 
-    
+
     if (!formData.isValid) {
-      toast.error('Будь ласка, виправте помилки у формі');
-      setErrors({ form: 'Будь ласка, виправте помилки у формі.' });
+      toast.error(t("Tests.CreateTestAi.fixFormErrors"));
+      setErrors({ form: t("Tests.CreateTestAi.fixFormErrors") });
       setIsGenerating(false);
       return;
     }
@@ -72,17 +73,17 @@ const CreateTestAi = () => {
       setQuestionsData(formattedQuestions);
       setGenerated(true);
       toast.success(
-        `Тест успішно згенеровано! Кількість питань: ${Object.keys(formattedQuestions).length}`,
+        t("Tests.CreateTestAi.generateSuccess", { count: Object.keys(formattedQuestions).length }),
         { autoClose: 5000 }
       );
     } catch (error) {
       if (error.name === 'AbortError') {
-        toast.info('Генерація була скасована');
+        toast.info(t("Tests.CreateTestAi.abortInfo"));
       } else {
-        toast.error("Сталася помилка генерації, спробуйте ще раз");
+        toast.error(t("Tests.CreateTestAi.generateError"));
         const errorMessage = error.response?.data?.error?.includes('Invalid OpenAI API key')
-          ? 'Помилка автентифікації API. Будь ласка, зв’яжіться з адміністратором.'
-          : 'Не вдалося згенерувати тест: ' + (error.message || error);
+          ? t("Tests.CreateTestAi.apiAuthError")
+          : t("Tests.CreateTestAi.generateFail", { message: error.message || error });
         toast.error(errorMessage);
         setErrors({ general: errorMessage });
       }
@@ -105,16 +106,16 @@ const CreateTestAi = () => {
     const newErrors = {};
 
     if (!formData.isValid) {
-      newErrors.form = 'Будь ласка, виправте помилки у формі.';
+      newErrors.form = t("Tests.CreateTestAi.fixFormErrors");
     }
 
     if (Object.keys(questionsData).length === 0) {
-      newErrors.questions = 'Будь ласка, згенеруйте тест перед створенням.';
+      newErrors.questions = t("Tests.CreateTestAi.generateBeforeSubmit");
     }
 
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
-      toast.error('Будь ласка, виправте помилки у формі');
+      toast.error(t("Tests.CreateTestAi.fixFormErrors"));
       setIsSubmitting(false);
       return;
     }
@@ -153,7 +154,7 @@ const CreateTestAi = () => {
       const testId = testResponse.data.TestId;
 
       if (!testId) {
-        throw new Error('Не вдалося отримати TestId');
+        throw new Error(t("Tests.CreateTestAi.testIdError"));
       }
 
       const questionsPayload = await Promise.all(
@@ -177,7 +178,7 @@ const CreateTestAi = () => {
               );
               fileUrl = imageResponse.data.fileUrl;
             } catch (error) {
-              throw new Error('Не вдалося завантажити зображення: ' + (error.message || error));
+              throw new Error(t("Tests.CreateTestAi.imageUploadError", { message: error.message || error }));
             }
           }
 
@@ -197,7 +198,7 @@ const CreateTestAi = () => {
           const testQuestionId = questionResponse.data.TestQuestionId;
 
           if (!testQuestionId) {
-            throw new Error('Не вдалося отримати TestQuestionId');
+            throw new Error(t("Tests.CreateTestAi.testQuestionIdError"));
           }
 
           const answers = question.options
@@ -225,8 +226,8 @@ const CreateTestAi = () => {
 
       toast.success(
         <div>
-          <p>Тест успішно створено!</p>
-          <p>Назва: {formData.subject}</p>
+          <p>{t("Tests.CreateTestAi.testCreated")}</p>
+          <p>{t("Tests.CreateTestAi.testName")}: {formData.subject}</p>
         </div>,
         { autoClose: 5000 }
       );
@@ -236,7 +237,7 @@ const CreateTestAi = () => {
         navigate(0);
       }, 1500);
     } catch (error) {
-      const errorMessage = error.response?.data?.message || error.message || 'Виникла помилка при створенні тесту';
+      const errorMessage = error.response?.data?.message || error.message || t("Tests.CreateTestAi.createError");
       toast.error(errorMessage);
       setErrors({ general: errorMessage });
     } finally {
@@ -287,7 +288,7 @@ const CreateTestAi = () => {
             onClick={handleGenerate}
             disabled={isGenerating}
           >
-            {isGenerating ? 'Генерується...' : 'Згенерувати'}
+            {isGenerating ? t("Tests.CreateTestAi.generating") : t("Tests.CreateTestAi.generate")}
           </PrimaryButton>
         ) : (
           <>
@@ -296,14 +297,14 @@ const CreateTestAi = () => {
               onClick={handleSubmit}
               disabled={isSubmitting}
             >
-              {isSubmitting ? 'Зберігається...' : 'Створити'}
+              {isSubmitting ? t("Tests.CreateTestAi.saving") : t("Tests.CreateTestAi.create")}
             </PrimaryButton>
             <PrimaryButton
               className="w-96 max-w-full bg-purple-500 hover:bg-purple-600"
               onClick={handleGenerate}
               disabled={isGenerating}
             >
-              {isGenerating ? 'Генерується...' : 'Згенерувати заново'}
+              {isGenerating ? t("Tests.CreateTestAi.generating") : t("Tests.CreateTestAi.regenerate")}
             </PrimaryButton>
           </>
         )}

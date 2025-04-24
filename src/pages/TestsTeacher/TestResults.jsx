@@ -8,8 +8,10 @@ import axios from "axios";
 import { formatDate } from "../../functions/formatDate";
 import { decryptData } from '../../utils/crypto';
 import { toast } from "react-toastify";
+import { useTranslation } from "react-i18next";
 
 const TestResults = () => {
+  const { t } = useTranslation();
   const [testId, setTestId] = useState();
   const [test, setTest] = useState(null);
   const [studentsDone, setStudentsDone] = useState([]);
@@ -29,10 +31,10 @@ const TestResults = () => {
         setTestId(decryptedTestId);
       }
       catch (error) {
-        toast.error("Сталася помилка, спробуйте ще раз");
+        toast.error(t("Tests.TestResults.errorMessage"));
       }
     }
-  }, [encodedTestId])
+  }, [encodedTestId, t])
 
   useEffect(() => {
     if (!testId) return;
@@ -99,9 +101,9 @@ const TestResults = () => {
       
       toast.success(
         <div>
-          <p>Тест успішно видалено!</p>
-          <p>Назва: {test.TestName}</p>
-          <p>Група: {test.GroupName || 'Невідома'}</p>
+          <p>{t("Tests.TestResults.testDeletedSuccess")}</p>
+          <p>{t("Tests.TestResults.title")} {test.TestName}</p>
+          <p>{t("Tests.TestResults.group")} {test.GroupName || t("Tests.TestResults.unknown")}</p>
         </div>,
         { autoClose: 5000 }
       );
@@ -110,8 +112,8 @@ const TestResults = () => {
         navigate('/teacher/tests');
       }, 1500);
     } catch (error) {
-      toast.error("Сталася помилка, спробуйте ще раз");
-      const errorMessage = error.response?.data?.message || error.message || "Не вдалося видалити тест. Спробуйте ще раз.";
+      toast.error(t("Tests.TestResults.errorMessage"));
+      const errorMessage = error.response?.data?.message || error.message || t("Tests.TestResults.deleteFailure");
       toast.error(errorMessage);
     }
   }
@@ -126,14 +128,14 @@ const TestResults = () => {
   return (
     <div className="TestResults p-3 md:p-4 lg:pr-10 mt-2 md:mt-4 rounded-lg w-full">
       {loading ? (
-        <div>Loading...</div>
+        <div>{t("Tests.TestResults.loading")}</div>
       ) : error ? (
-        <div>Error: {error}</div>
+        <div>{t("Tests.TestResults.error")} {error}</div>
       ) : test ? (
         <>
           <div className="flex justify-between items-center mb-2 md:mb-4">
             <div className="text-left text-[#120c38] text-lg sm:text-xl md:text-2xl font-bold font-['Nunito'] pr-2">
-              Результати тесту: {test.TestName}
+              {t("Tests.TestResults.resultsTitle")} {test.TestName}
             </div>
             <div className="cursor-pointer" onClick={() => {navigate("/teacher/tests")}}>
             <svg
@@ -153,31 +155,31 @@ const TestResults = () => {
           <div className="flex flex-col sm:flex-row justify-between items-start gap-2 sm:gap-0">
             <div className="">
               <div className="text-[#827ead] text-base sm:text-lg md:text-xl font-normal font-['Mulish']">
-                Курс: {test.CourseName || "N/A"}
+                {t("Tests.TestResults.course")} {test.CourseName || t("Tests.TestResults.notAvailable")}
               </div>
               <div className="text-[#827ead] text-base sm:text-lg md:text-xl font-normal font-['Mulish'] mt-1 md:mt-2">
-                Група: {test.GroupName || "N/A"}
+                {t("Tests.TestResults.group")} {test.GroupName || t("Tests.TestResults.notAvailable")}
               </div>
             </div>
             <div className="text-left sm:text-right mt-2 sm:mt-0">
               <div className="text-[#827ead] text-base sm:text-lg md:text-xl font-normal font-['Mulish']">
-                Видано: {formatDate(test.CreatedDate)}
+                {t("Tests.TestResults.issued")} {formatDate(test.CreatedDate)}
               </div>
               <div className="text-[#827ead] text-base sm:text-lg md:text-xl font-normal font-['Mulish'] mt-1 md:mt-2">
-                Термін до: {formatDate(test.DeadlineDate)}
+                {t("Tests.TestResults.deadline")} {formatDate(test.DeadlineDate)}
               </div>
             </div>
           </div>
           <div className="flex flex-wrap gap-2 sm:space-x-4 mb-4 sm:mb-8 mt-3 sm:mt-5">
             <TaskButton
-              text={"Виконало учнів"}
+              text={t("Tests.TestResults.studentsDone")}
               icon={"M5 12L10 17L20 7"}
               isSelected={selectedTab === 0}
               count={studentsDone.length}
               onClick={() => handleTabClick(0)}
             />
             <TaskButton
-              text={"Не виконало учнів"}
+              text={t("Tests.TestResults.studentsNotDone")}
               icon={
                 "M3.63604 16.364C2.80031 15.5282 2.13738 14.5361 1.68508 13.4442C1.23279 12.3522 1 11.1819 1 10C1 8.8181 1.23279 7.64778 1.68508 6.55585C2.13738 5.46392 2.80031 4.47177 3.63604 3.63604C4.47177 2.80031 5.46392 2.13738 6.55585 1.68508C7.64778 1.23279 8.8181 1 10 1C11.1819 1 12.3522 1.23279 13.4442 1.68508C14.5361 2.13738 15.5282 2.80031 16.364 3.63604M3.63604 16.364C4.47177 17.1997 5.46392 17.8626 6.55585 18.3149C7.64778 18.7672 8.8181 19 10 19C11.1819 19 12.3522 18.7672 13.4442 18.3149C14.5361 17.8626 15.5282 17.1997 16.364 16.364C17.1997 15.5282 17.8626 14.5361 18.3149 13.4442C18.7672 12.3522 19 11.1819 19 10C19 8.8181 18.7672 7.64778 18.3149 6.55585C17.8626 5.46392 17.1997 4.47177 16.364 3.63604M3.63604 16.364L16.364 3.63604"
               }
@@ -209,11 +211,13 @@ const TestResults = () => {
             )}
           </div>
           <div className="fixed bottom-0 left-0 right-0 bg-white z-10 p-2 flex justify-center items-center">
-            <PrimaryButton className="w-full max-w-xs sm:max-w-sm md:max-w-md" onClick={handleDeleteTest}>Видалити тест</PrimaryButton>
+            <PrimaryButton className="w-full max-w-xs sm:max-w-sm md:max-w-md" onClick={handleDeleteTest}>
+              {t("Tests.TestResults.deleteTest")}
+            </PrimaryButton>
           </div>
         </>
       ) : (
-        <div>No test details available.</div>
+        <div>{t("Tests.TestResults.noTestDetails")}</div>
       )}
     </div>
   );

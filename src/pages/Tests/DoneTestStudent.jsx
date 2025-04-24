@@ -5,8 +5,10 @@ import './DoneTestStudent.css';
 import { PrimaryButton, SecondaryButton } from './components/Buttons/Buttons2';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import { useTranslation } from 'react-i18next';
 
 const DoneTestStudent = () => {
+    const { t } = useTranslation();
     const navigate = useNavigate();
     const { encryptedTestId } = useParams();
     const [testData, setTestData] = useState(null);
@@ -28,14 +30,13 @@ const DoneTestStudent = () => {
     }, [encryptedTestId]);
 
     if (error) {
-        return <div>Помилка: {error}</div>;
+        return <div>{t("Tests.DoneTestStudent.error")} {error}</div>;
     }
 
     if (!testData) {
-        return <div>Завантаження...</div>;
+        return <div>{t("Tests.DoneTestStudent.loading")}</div>;
     }
 
-    
     const percentage = (testData.Mark / testData.MaxMark) * 100;
 
     const getBorderColor = (percentage) => {
@@ -43,7 +44,6 @@ const DoneTestStudent = () => {
         if (percentage > 60) return '#F6C23E';
         return '#E74A3B';
     };
-
 
     const runTestHandler = async () => {
         try {
@@ -60,9 +60,7 @@ const DoneTestStudent = () => {
             });
 
             const doneTestId = response.data.DoneTestId;
-
             const encryptedTestId = encryptData(doneTestId);
-
             navigate(`/test/${encryptedTestId}`);
         } catch (error) {
             toast.error('Помилка при створенні тесту!');
@@ -72,16 +70,16 @@ const DoneTestStudent = () => {
     return (
         <div className="done-test-page mx-auto w-full max-w-[900px] px-4">
             <div className='main-container'>
-                <h1 className="header-text">Тест | {testData.SubjectName}</h1>
+                <h1 className="header-text">{t("Tests.DoneTestStudent.testTitle")} {testData.SubjectName}</h1>
 
                 <div className="flex justify-between items-center mb-4">
                     <div className='flex gap-3 mt-3'>
-                        <span className='theme-text1'>Тема: </span>
+                        <span className='theme-text1'>{t("Tests.DoneTestStudent.topic")} </span>
                         <span className='theme-text2'>{testData.TestName}</span>
                     </div>
                     <div className="score-container" style={{ border: `${getBorderColor(percentage)} solid 1px` }}>
                         <div>
-                            <div className="text-xs text-[#827ead] font-normal font-[Mulish]">Бал</div>
+                            <div className="text-xs text-[#827ead] font-normal font-[Mulish]">{t("Tests.DoneTestStudent.score")}</div>
                             <div className="text-[15px] text-[#120C38] font-bold font-[Nunito]">{testData.Mark}</div>
                         </div>
                         <div>
@@ -107,7 +105,7 @@ const DoneTestStudent = () => {
                 <hr className="border-[#f6eeff] mb-4" />
 
                 <div className="flex justify-between gap-5 mb-6">
-                    <p className="result-text mt-1">Результат:</p>
+                    <p className="result-text mt-1">{t("Tests.DoneTestStudent.result")}</p>
                     <div className='w-full flex flex-col'>
                         <span className="percent-text">{percentage.toFixed(0)}%</span>
                         <div className="w-full h-4 bg-gray-200 rounded-[20px] overflow-hidden">
@@ -119,7 +117,7 @@ const DoneTestStudent = () => {
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mb-4">
                     <div className="input-container border-[#8a48e6]">
                         <div>
-                            <div className="text-xs text-[#827ead] font-normal font-[Mulish]">Кількість питань</div>
+                            <div className="text-xs text-[#827ead] font-normal font-[Mulish]">{t("Tests.DoneTestStudent.questionsCount")}</div>
                             <div className="text-[15px] text-[#8a48e6] font-bold font-[Nunito]">{testData.QuestionsAmount}</div>
                         </div>
                         <div>
@@ -130,7 +128,7 @@ const DoneTestStudent = () => {
                     </div>
                     <div className="input-container">
                         <div>
-                            <div className="text-xs text-[#827ead] font-normal font-[Mulish]">Правильні відповіді</div>
+                            <div className="text-xs text-[#827ead] font-normal font-[Mulish]">{t("Tests.DoneTestStudent.correctAnswers")}</div>
                             <div className="text-[15px] text-[#8a48e6] font-bold font-[Nunito]">{testData.CorrectAnswersAmount}</div>
                         </div>
                         <div>
@@ -141,7 +139,7 @@ const DoneTestStudent = () => {
                     </div>
                     <div className="input-container">
                         <div>
-                            <div className="text-xs text-[#827ead] font-normal font-[Mulish]">Неправильні відповіді</div>
+                            <div className="text-xs text-[#827ead] font-normal font-[Mulish]">{t("Tests.DoneTestStudent.incorrectAnswers")}</div>
                             <div className="text-[15px] text-[#8a48e6] font-bold font-[Nunito]">{testData.QuestionsAmount - testData.CorrectAnswersAmount}</div>
                         </div>
                         <div>
@@ -152,7 +150,7 @@ const DoneTestStudent = () => {
                     </div>
                     <div className="input-container border-[#8a48e6]">
                         <div>
-                            <div className="text-xs text-[#827fae] font-normal font-[Mulish]">Часу витрачено</div>
+                            <div className="text-xs text-[#827fae] font-normal font-[Mulish]">{t("Tests.DoneTestStudent.timeSpent")}</div>
                             <div className="text-[15px] text-[#8a48e6] font-bold font-[Nunito]">{testData.SpentTime}</div>
                         </div>
                         <div>
@@ -164,11 +162,15 @@ const DoneTestStudent = () => {
                 </div>
 
                 <p className="attempts-text">
-                    Витрачено спроб: {testData.AttemptsUsed}/{testData.AttemptsTotal}
+                    {t("Tests.DoneTestStudent.attemptsUsed")} {testData.AttemptsUsed}/{testData.AttemptsTotal}
                 </p>
                 <div className="flex space-x-4 mb-3">
-                    <SecondaryButton disabled={testData.AttemptsUsed >= testData.AttemptsTotal} onClick={() => {testData.AttemptsUsed < testData.AttemptsTotal && runTestHandler()}}>Наступна спроба</SecondaryButton>
-                    <PrimaryButton onClick={() => { navigate("/student/tests") }}>Повернуться на тести</PrimaryButton>
+                    <SecondaryButton disabled={testData.AttemptsUsed >= testData.AttemptsTotal} onClick={() => {testData.AttemptsUsed < testData.AttemptsTotal && runTestHandler()}}>
+                        {t("Tests.DoneTestStudent.nextAttempt")}
+                    </SecondaryButton>
+                    <PrimaryButton onClick={() => { navigate("/student/tests") }}>
+                        {t("Tests.DoneTestStudent.returnToTests")}
+                    </PrimaryButton>
                 </div>
             </div>
 
@@ -188,15 +190,15 @@ const DoneTestStudent = () => {
 
                             if (ans.isSelectedAnswer && ans.isRightAnswer) {
                                 borderColor = 'border-green-600';
-                                labelText = 'Ваша відповідь';
+                                labelText = t("Tests.DoneTestStudent.yourAnswer");
                                 labelColor = 'text-green-600';
                             } else if (ans.isSelectedAnswer && !ans.isRightAnswer) {
                                 borderColor = 'border-red-600';
-                                labelText = 'Ваша відповідь';
+                                labelText = t("Tests.DoneTestStudent.yourAnswer");
                                 labelColor = 'text-red-600';
                             } else if (!ans.isSelectedAnswer && ans.isRightAnswer) {
                                 borderColor = 'border-green-600';
-                                labelText = 'Правильна відповідь';
+                                labelText = t("Tests.DoneTestStudent.correctAnswer");
                                 labelColor = 'text-green-600';
                             }
 

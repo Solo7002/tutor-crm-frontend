@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
+import { useTranslation } from 'react-i18next';
 
 export default function FolderBlock({ name, onClick, folderId = null, onDelete, onEdit, openAccessModalHandler }) {
+    const { t } = useTranslation();
     const [isEditDelVisible, setIsEditDelVisible] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
     const [newName, setNewName] = useState(name);
@@ -18,8 +20,8 @@ export default function FolderBlock({ name, onClick, folderId = null, onDelete, 
 
         toast.success(
             <div>
-                <p>Назву папки змінено</p>
-                <p>Нова назва: {newName}</p>
+                <p>{t("MaterialComponents.FolderBlock.toast.folderNameChanged")}</p>
+                <p>{t("MaterialComponents.FolderBlock.toast.newName", { name: newName })}</p>
             </div>
         );
     };
@@ -29,7 +31,7 @@ export default function FolderBlock({ name, onClick, folderId = null, onDelete, 
 
         toast.info(
             <div>
-                <p>Ви впевнені, що хочете видалити цю папку?</p>
+                <p>{t("MaterialComponents.FolderBlock.toast.confirmDelete")}</p>
                 <div className="flex gap-2 mt-2">
                     <button
                         className="px-3 py-1 bg-red-600 text-white rounded-md hover:bg-red-700"
@@ -39,20 +41,20 @@ export default function FolderBlock({ name, onClick, folderId = null, onDelete, 
                             toast.dismiss();
                             toast.success(
                                 <div>
-                                    <p>Папка успішно видалена!</p>
-                                    <p>Назва: {name}</p>
+                                    <p>{t("MaterialComponents.FolderBlock.toast.folderDeleted")}</p>
+                                    <p>{t("MaterialComponents.FolderBlock.toast.deletedName", { name: name })}</p>
                                 </div>,
                                 { autoClose: 5000 }
                             );
                         }}
                     >
-                        Видалити
+                        {t("MaterialComponents.FolderBlock.toast.deleteButton")}
                     </button>
                     <button
                         className="px-3 py-1 bg-gray-300 text-gray-800 rounded-md hover:bg-gray-400"
                         onClick={() => toast.dismiss()}
                     >
-                        Скасувати
+                        {t("MaterialComponents.FolderBlock.toast.cancelButton")}
                     </button>
                 </div>
             </div>,
@@ -117,7 +119,7 @@ export default function FolderBlock({ name, onClick, folderId = null, onDelete, 
                             strokeLinejoin="round"
                         />
                     </svg>
-                    <div className="justify-center text-[#e64851] text-[15px] font-bold font-['Nunito']">Видалити</div>
+                    <div className="justify-center text-[#e64851] text-[15px] font-bold font-['Nunito']">{t("MaterialComponents.FolderBlock.delete")}</div>
                 </button>
 
                 <button
@@ -140,7 +142,7 @@ export default function FolderBlock({ name, onClick, folderId = null, onDelete, 
                             strokeLinejoin="round"
                         />
                     </svg>
-                    <div className="justify-center text-[#120c38] text-[15px] font-bold font-['Nunito']">Змінити назву</div>
+                    <div className="justify-center text-[#120c38] text-[15px] font-bold font-['Nunito']">{t("MaterialComponents.FolderBlock.editName")}</div>
                 </button>
 
                 <button
@@ -170,7 +172,7 @@ export default function FolderBlock({ name, onClick, folderId = null, onDelete, 
                             strokeLinejoin="round"
                         />
                     </svg>
-                    <div className="justify-center text-[#120c38] text-[15px] font-bold font-['Nunito']">Керування доступом</div>
+                    <div className="justify-center text-[#120c38] text-[15px] font-bold font-['Nunito']">{t("MaterialComponents.FolderBlock.manageAccess")}</div>
                 </button>
 
                 <button
@@ -199,7 +201,7 @@ export default function FolderBlock({ name, onClick, folderId = null, onDelete, 
                             if (e.key === 'Enter') handleSave();
                         }}
                         autoFocus
-                        placeholder="Введіть нову назву"
+                        placeholder={t("MaterialComponents.FolderBlock.enterNewName")}
                         className="self-stretch text-[#120C38] text-[15px] font-normal font-['Mulish'] outline outline-1 outline-[#8A48E6] rounded-lg p-1 cursor-pointer hover:outline-[1.2px]"
                     />
                 ) : (
@@ -207,7 +209,7 @@ export default function FolderBlock({ name, onClick, folderId = null, onDelete, 
                         {name.length > 24 ? `${name.slice(0, 21)}...` : name}
                     </div>
                 )}
-                <div className="self-stretch h-4 text-[#827ead] text-[15px] font-bold font-['Nunito']">Папка</div>
+                <div className="self-stretch h-4 text-[#827ead] text-[15px] font-bold font-['Nunito']">{t("MaterialComponents.FolderBlock.folder")}</div>
             </div>
         </div>
     );

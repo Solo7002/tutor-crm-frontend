@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import "./CreateModal.css";
 import Dropdown from "../../../../components/Dropdown/Dropdown";
 import axios from "axios";
@@ -7,6 +8,7 @@ import { encryptData } from "../../../../utils/crypto";
 import { toast } from "react-toastify";
 
 const CreateModal = ({ onClose, teacher_id, token }) => {
+  const { t } = useTranslation();
   const [courses, setCourses] = useState([]);
   const [groups, setGroups] = useState([]);
   const [selectedCourseId, setSelectedCourseId] = useState(null);
@@ -29,13 +31,13 @@ const CreateModal = ({ onClose, teacher_id, token }) => {
         );
         setCourses(response.data);
       } catch (error) {
-        toast.error("Сталася помилка, спробуйте ще раз");
+        toast.error(t("Tests.TestTeacherComponents.CreateModal.errorMessage"));
       } finally {
         setIsLoadingCourses(false);
       }
     };
     fetchCourses();
-  }, [teacher_id, token]);
+  }, [teacher_id, token, t]);
 
   useEffect(() => {
     if (selectedCourseId) {
@@ -52,16 +54,16 @@ const CreateModal = ({ onClose, teacher_id, token }) => {
           );
           setGroups(response.data);
         } catch (error) {
-          toast.error("Сталася помилка, спробуйте ще раз");
+          toast.error(t("Tests.TestTeacherComponents.CreateModal.errorMessage"));
         } finally {
           setIsLoadingGroups(false);
         }
       };
       fetchGroups();
     } else {
-      setGroups([]); 
+      setGroups([]);
     }
-  }, [selectedCourseId, token]);
+  }, [selectedCourseId, token, t]);
 
   useEffect(() => {
     setSelectedGroupId(null);
@@ -81,7 +83,9 @@ const CreateModal = ({ onClose, teacher_id, token }) => {
   };
 
   const handleGroupSelect = (groupName) => {
-    const selectedGroup = groups.find((group) => group.GroupName === groupName);
+    const selectedGroup = groups.find(
+      (group) => group.GroupName === groupName
+    );
     setSelectedGroupId(selectedGroup?.GroupId || null);
   };
 
@@ -118,15 +122,23 @@ const CreateModal = ({ onClose, teacher_id, token }) => {
           </div>
         </button>
 
-        <h2 className="modal-title">Створення тесту</h2>
+        <h2 className="modal-title">
+          {t("Tests.TestTeacherComponents.CreateModal.modalTitle")}
+        </h2>
 
         <div className="dropdowns-container">
           {isLoadingCourses ? (
-            <p>Завантаження курсів...</p>
+            <p>
+              {t(
+                "Tests.TestTeacherComponents.CreateModal.loadingCourses"
+              )}
+            </p>
           ) : (
             <div className="dropdown-wrapper">
               <Dropdown
-                textAll="Виберіть курс"
+                textAll={t(
+                  "Tests.TestTeacherComponents.CreateModal.selectCourse"
+                )}
                 options={courses.map((course) => ({
                   SubjectName: course.CourseName,
                 }))}
@@ -138,11 +150,17 @@ const CreateModal = ({ onClose, teacher_id, token }) => {
 
           {selectedCourseId &&
             (isLoadingGroups ? (
-              <p>Завантаження груп...</p>
+              <p>
+                {t(
+                  "Tests.TestTeacherComponents.CreateModal.loadingGroups"
+                )}
+              </p>
             ) : (
               <div className="dropdown-wrapper">
                 <Dropdown
-                  textAll="Виберіть групу"
+                  textAll={t(
+                    "Tests.TestTeacherComponents.CreateModal.selectGroup"
+                  )}
                   options={groups.map((group) => ({
                     SubjectName: group.GroupName,
                   }))}
@@ -159,10 +177,21 @@ const CreateModal = ({ onClose, teacher_id, token }) => {
               className="manual-test-button"
               onClick={handleManualTestClick}
             >
-              <span>Створити тест самостійно</span>
+              <span>
+                {t(
+                  "Tests.TestTeacherComponents.CreateModal.manualTestButton"
+                )}
+              </span>
             </button>
-            <button className="ai-test-button" onClick={handleAITestClick}>
-              <span>Тест від штучного інтелекту</span>
+            <button
+              className="ai-test-button"
+              onClick={handleAITestClick}
+            >
+              <span>
+                {t(
+                  "Tests.TestTeacherComponents.CreateModal.aiTestButton"
+                )}
+              </span>
             </button>
           </div>
         )}

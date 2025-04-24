@@ -1,10 +1,12 @@
 import React, { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import { useTranslation } from 'react-i18next';
 
 export default function FolderCreateBlock({ parentId, teacherId, token, setShowFolderCreateBlock, setRefreshData }) {
     const [folderName, setFolderName] = useState('');
     const inputRef = useRef(null);
+    const { t } = useTranslation();
 
     useEffect(() => {
         if (inputRef.current) {
@@ -33,10 +35,10 @@ export default function FolderCreateBlock({ parentId, teacherId, token, setShowF
                 setRefreshData(prev => !prev);
 
                 
-                toast.success("Нову папку створено");
+                toast.success(t("MaterialComponents.FolderCreateBlock.successMessage"));
             })
             .catch(error => {
-                toast.error("Сталася помилка, спробуйте ще раз");
+                toast.error(t("MaterialComponents.FolderCreateBlock.errorMessage"));
             });
         }
     };
@@ -55,14 +57,14 @@ export default function FolderCreateBlock({ parentId, teacherId, token, setShowF
                     ref={inputRef}
                     value={folderName}
                     onChange={(e) => setFolderName(e.target.value)}
-                    placeholder='Введіть назву' 
+                    placeholder={t("MaterialComponents.FolderCreateBlock.placeholder")}
                     className="self-stretch text-[#120C38] text-[15px] font-normal font-['Mulish'] outline outline-1 outline-[#8A48E6] rounded-lg p-1 cursor-pointer hover:outline-[1.2px]"
                     onBlur={handleBlur}
                     onKeyDown={(e) => {
                         if (e.key === 'Enter') handleBlur();
                     }}
                 />
-                <div className="self-stretch h-4 text-[#827ead] text-[15px] font-bold font-['Nunito']">Папка</div>
+                <div className="self-stretch h-4 text-[#827ead] text-[15px] font-bold font-['Nunito']">{t("MaterialComponents.FolderCreateBlock.label")}</div>
             </div>
         </div>
     );
