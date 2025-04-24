@@ -167,17 +167,16 @@ export default function AccessManagementModal({ materialId, courses = [], isOpen
     const selectedStudentIds = Object.keys(selectedStudents).filter(
       id => selectedStudents[id]
     );
-    
-    console.log("materialId: ", materialId);
-    console.log("Выбранные StudentId:", selectedStudentIds);
-    
-    axios.put(`http://localhost:4000/api/materials/setAccessToMaterial/${materialId}`, selectedStudentIds)
-      .then(response => {  
+
+    axios.put(`${process.env.REACT_APP_BASE_API_URL}/api/materials/setAccessToMaterial/${materialId}`, selectedStudentIds, {
+      headers: { Authorization: `Bearer ${sessionStorage.getItem("token")}` }
+    })
+      .then(response => {
         toast.success("Доступ до матеріалу оновлено");
         onClose();
       })
       .catch(error => {
-        console.error("Error updating access:", error);
+        toast.error("Сталася помилка, спробуйте ще раз");
       });
   };
 

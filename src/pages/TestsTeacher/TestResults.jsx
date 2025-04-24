@@ -29,7 +29,7 @@ const TestResults = () => {
         setTestId(decryptedTestId);
       }
       catch (error) {
-        console.error("error: ", error);
+        toast.error("Сталася помилка, спробуйте ще раз");
       }
     }
   }, [encodedTestId])
@@ -42,41 +42,37 @@ const TestResults = () => {
         setLoading(true);
 
         const testsResponse = await axios.get(
-          `http://localhost:4000/api/tests/${testId}`,
+          `${process.env.REACT_APP_BASE_API_URL}/api/tests/${testId}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
             },
           }
         );
-        console.log("Test Response:", testsResponse.data);
+
         setTest(testsResponse.data);
 
         const studentsDoneResponse = await axios.get(
-          `http://localhost:4000/api/tests/students-done/${testId}`,
+          `${process.env.REACT_APP_BASE_API_URL}/api/tests/students-done/${testId}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
             },
           }
         );
-        console.log("Students Done Response:", studentsDoneResponse.data);
+
         setStudentsDone(studentsDoneResponse.data);
 
         const studentsNotDoneResponse = await axios.get(
-          `http://localhost:4000/api/tests/students-not-done/${testId}`,
+          `${process.env.REACT_APP_BASE_API_URL}/api/tests/students-not-done/${testId}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
             },
           }
         );
-        console.log("Students Not Done Response:", studentsNotDoneResponse.data);
-
 
         setStudentsNotDone(studentsNotDoneResponse.data);
-        console.log(studentsNotDone);
-
 
         setLoading(false);
       } catch (err) {
@@ -95,7 +91,7 @@ const TestResults = () => {
 
   const handleDeleteTest = async () => {
     try {
-      await axios.delete(`http://localhost:4000/api/tests/${testId}`, {
+      await axios.delete(`${process.env.REACT_APP_BASE_API_URL}/api/tests/${testId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -114,7 +110,7 @@ const TestResults = () => {
         navigate('/teacher/tests');
       }, 1500);
     } catch (error) {
-      console.error("Error deleting test:", error);
+      toast.error("Сталася помилка, спробуйте ще раз");
       const errorMessage = error.response?.data?.message || error.message || "Не вдалося видалити тест. Спробуйте ще раз.";
       toast.error(errorMessage);
     }

@@ -9,6 +9,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 
 const TestsTeacher = () => {
   const token = sessionStorage.getItem("token") || "";
@@ -34,7 +35,7 @@ const TestsTeacher = () => {
     const fetchData = async () => {
       const decoded = jwtDecode(token);
       const teacherResponse = await axios.get(
-        `http://localhost:4000/api/teachers/search?UserId=${decoded.id}`,
+        `${process.env.REACT_APP_BASE_API_URL}/api/teachers/search?UserId=${decoded.id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -54,7 +55,7 @@ const TestsTeacher = () => {
         setLoading(true);
 
         const testsResponse = await axios.get(
-          `http://localhost:4000/api/tests/tests-by-teacher/${teacher_id}`,
+          `${process.env.REACT_APP_BASE_API_URL}/api/tests/tests-by-teacher/${teacher_id}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -66,7 +67,7 @@ const TestsTeacher = () => {
         setFilteredTests(testsResponse.data);
 
         const groupsResponse = await axios.get(
-          `http://localhost:4000/api/groups/groups-by-teacher/${teacher_id}`,
+          `${process.env.REACT_APP_BASE_API_URL}/api/groups/groups-by-teacher/${teacher_id}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -81,7 +82,7 @@ const TestsTeacher = () => {
         setFilteredGroups(transformedGroups);
 
         const coursesResponse = await axios.get(
-          `http://localhost:4000/api/courses/courses-by-teacher/${teacher_id}`,
+          `${process.env.REACT_APP_BASE_API_URL}/api/courses/courses-by-teacher/${teacher_id}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -95,7 +96,7 @@ const TestsTeacher = () => {
 
         setLoading(false);
       } catch (err) {
-        console.error("Ошибка при загрузке данных:", err);
+        toast.error("Сталася помилка, спробуйте ще раз");
         setError(err.message);
         setLoading(false);
       }

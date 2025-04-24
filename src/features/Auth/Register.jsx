@@ -73,13 +73,15 @@ const Register = () => {
             errors.push("Некоректний email");
         } else {
             try {
-                const response = await axios.get(`http://localhost:4000/api/users/search?email=${Email}`);
+                const response = await axios.get(`${process.env.REACT_APP_BASE_API_URL}/api/users/search?email=${Email}`, {
+                    headers: { Authorization: `Bearer ${sessionStorage.getItem("token")}` }
+                });
                 if (response.status === 200) {
                     errors.push("Користувач з таким email вже існує");
                 }
             } catch (error) {
                 if (error.response && error.response.status !== 404) {
-                    console.error("Ошибка проверки email:", error);
+                    toast.error("Сталася помилка, спробуйте ще раз");
                     errors.push("Помилка перевірки email");
                 }
             }
@@ -187,24 +189,25 @@ const Register = () => {
 
             try {
                 const response = await axios.post(
-                    "http://localhost:4000/api/files/uploadAndReturnLink",
-                    ReqformData,
-                    { headers: { "Content-Type": "multipart/form-data" } }
+                    `${process.env.REACT_APP_BASE_API_URL}/api/files/uploadAndReturnLink`,
+                    ReqformData, {
+                        headers: { Authorization: `Bearer ${sessionStorage.getItem("token")}` }
+                    }
                 );
 
                 if (formData.ImageFilePath) {
                     const delResponse = await axios.delete(
-                        `http://localhost:4000/api/files/delete/${formData.ImageFilePath.split('/').pop()}`
+                        `${process.env.REACT_APP_BASE_API_URL}/api/files/delete/${formData.ImageFilePath.split('/').pop()}`, {
+                            headers: { Authorization: `Bearer ${sessionStorage.getItem("token")}` }
+                        }
                     );
-                    console.log("del response.status: ", delResponse.status);
                 }
-                console.log("!!! new response.data.url: ", response.data.fileUrl);
                 setFormData((prevFormData) => ({
                     ...prevFormData,
                     ImageFilePath: response.data.fileUrl,
                 }));
             } catch (error) {
-                console.error("Error file upload:", error);
+                toast.error("Сталася помилка, спробуйте ще раз");
             }
         } else {
             setImageError("Будь ласка, виберіть файл зображення");
@@ -222,13 +225,14 @@ const Register = () => {
 
     const sendConfirmationCode = async () => {
         try {
-            console.log("sendConfirmationCode");
-            await axios.post("http://localhost:4000/api/auth/register-email-code", {
+            await axios.post(`${process.env.REACT_APP_BASE_API_URL}/api/auth/register-email-code`, {
                 Username: `${formData.LastName} ${formData.FirstName}`,
                 Email: formData.Email
-            }).then(() => { setEmailAlreadySent(true); console.log("then"); });
+            }, {
+                headers: { Authorization: `Bearer ${sessionStorage.getItem("token")}` }
+            }).then(() => { setEmailAlreadySent(true); });
         } catch (error) {
-            console.error("Error sending confirmation code:", error);
+            toast.error("Сталася помилка, спробуйте ще раз");
         }
     };
 
@@ -253,7 +257,7 @@ const Register = () => {
 
         setIsLoading(true);
         try {
-            const response = await axios.post("http://localhost:4000/api/auth/confirm-email-code", {
+            const response = await axios.post(`${process.env.REACT_APP_BASE_API_URL}/api/auth/confirm-email-code`, {
                 Username: `${formData.LastName} ${formData.FirstName}`,
                 Password: formData.Password,
                 LastName: formData.LastName,
@@ -262,6 +266,8 @@ const Register = () => {
                 ImageFilePath: formData.ImageFilePath,
                 Role: formData.Role,
                 Code: code
+            }, {
+                headers: { Authorization: `Bearer ${sessionStorage.getItem("token")}` }
             });
             if (response.status === 201) {
                 setStep(5);

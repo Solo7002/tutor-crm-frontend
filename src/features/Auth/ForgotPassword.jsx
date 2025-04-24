@@ -4,6 +4,7 @@ import axios from "axios";
 import StandartInput from "../../components/Inputs/StandartInput/StandartInput";
 import { PrimaryButton, SecondaryButton } from '../../components/Buttons/Buttons';
 import "./ForgotPassword.css";
+import { toast } from 'react-toastify';
 
 const ForgotPassword = () => {
     const navigate = useNavigate();
@@ -23,13 +24,15 @@ const ForgotPassword = () => {
             errors.push("Некоректний email");
         } else {
             try {
-                const response = await axios.get(`http://localhost:4000/api/users/search?email=${Email}`);
+                const response = await axios.get(`${process.env.REACT_APP_BASE_API_URL}/api/users/search?email=${Email}`, {
+                    headers: { Authorization: `Bearer ${sessionStorage.getItem("token")}` }
+                });
                 if (response.status === 404) {
                     errors.push("Користувача з таким email не існує");
                 }
             } catch (error) {
                 if (error.response && error.response.status !== 404) {
-                    console.error("Ошибка проверки email:", error);
+                    toast.error("Сталася помилка, спробуйте ще раз");
                     errors.push("Помилка перевірки email");
                 } else if (error.response.status === 404) {
                     errors.push("Користувача з таким email не існує");
@@ -45,9 +48,11 @@ const ForgotPassword = () => {
 
     const handleSendEmail = async () => {
       try {
-        const response = await axios.post('http://localhost:4000/api/auth/reset-password-new', { Email }).then(() => {setStep(2)});
+        const response = await axios.post(`${process.env.REACT_APP_BASE_API_URL}/api/auth/reset-password-new`, { Email }, {
+            headers: { Authorization: `Bearer ${sessionStorage.getItem("token")}` }
+        }).then(() => {setStep(2)});
       } catch (error) {
-        console.error('Ошибка:', error);
+        toast.error("Сталася помилка, спробуйте ще раз");
       }
     };
 

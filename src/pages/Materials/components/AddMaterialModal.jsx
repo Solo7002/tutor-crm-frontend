@@ -115,9 +115,9 @@ const AddMaterialModal = ({ isOpened = false, onClose, onRefreshMaterials, teach
         if (parentId) formData.append('ParentId', parentId);
 
         try {
-          const response = await axios.post('http://localhost:4000/api/materials', formData, {
+          const response = await axios.post(`${process.env.REACT_APP_BASE_API_URL}/api/materials`, formData, {
             headers: {
-              'Content-Type': 'multipart/form-data',
+              Authorization: `Bearer ${sessionStorage.getItem("token")}`
             },
             onUploadProgress: (progressEvent) => {
               const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
@@ -132,7 +132,7 @@ const AddMaterialModal = ({ isOpened = false, onClose, onRefreshMaterials, teach
           
           return response.data;
         } catch (error) {
-          console.error(`Error uploading file ${fileObj.name}:`, error);
+          toast.error("Сталася помилка, спробуйте ще раз");
           updateFileStatus(fileObj.id, 'error');
           failedUploads.push(`Помилка завантаження файлу "${fileObj.name}": ${error.response?.data?.error || 'Невідома помилка'}`);
           throw error;
@@ -142,7 +142,7 @@ const AddMaterialModal = ({ isOpened = false, onClose, onRefreshMaterials, teach
       await Promise.allSettled(uploadPromises);
       
     } catch (error) {
-      console.error('Error uploading files:', error);
+      toast.error("Сталася помилка, спробуйте ще раз");
     } finally {
       onRefreshMaterials();
 

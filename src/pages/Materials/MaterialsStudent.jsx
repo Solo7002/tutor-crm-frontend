@@ -13,8 +13,10 @@ import { jwtDecode } from "jwt-decode";
 import FolderUpBlock from './components/FolderUpBlock';
 import FolderUpList from './components/FolderUpList';
 import useCookieState from '../../utils/hooks/useCookieState';
+import { toast } from 'react-toastify';
 
 export default function MaterialsStudent() {
+    const [token, setToken] = useState();
     const [isBlock, setIsBlock] = useCookieState('MaterialsStudent_displayMode', true);
     const [parent, setParent] = useCookieState('MaterialsStudent_currentFolder', null);
     const [materials, setMaterials] = useState([]);
@@ -36,18 +38,22 @@ export default function MaterialsStudent() {
         const token = sessionStorage.getItem("token");
         if (!token) return;
 
+        setToken(token);
+
         const decoded = jwtDecode(token);
         const userId = decoded.id;
 
         try {
-            await axios.get(`http://localhost:4000/api/materials/getMaterialsByStudentUserId/${userId}`, { 
-                params: { FileExtension: fileCategories[selectedCategory], ParentId: parent, order: order } 
+            await axios.get(`${process.env.REACT_APP_BASE_API_URL}/api/materials/getMaterialsByStudentUserId/${userId}`, { 
+                params: { FileExtension: fileCategories[selectedCategory], ParentId: parent, order: order },
+                headers: {
+                    Authorization: `Bearer ${token}`
+                } 
             }).then(res => {
-                console.log('res', res.data);
                 setMaterials(res.data);
             });
         } catch (error) {
-            console.error("Error fetching materials:", error);
+            toast.error("Сталася помилка, спробуйте ще раз");
         }
     };
 
@@ -61,7 +67,10 @@ export default function MaterialsStudent() {
     };
 
     const onFolderUpClick = () => {
-        axios.get(`http://localhost:4000/api/materials/${parent}`).then(res => {
+        axios.get(`${process.env.REACT_APP_BASE_API_URL}/api/materials/${parent}`, {
+            headers: {
+                Authorization: `Bearer ${process.env.REACT_APP_API_TOKEN}`
+            }}).then(res => {
             setParent(res.data.ParentId);
             setDir(prevDir => prevDir.slice(0, -1));
         });
@@ -69,11 +78,16 @@ export default function MaterialsStudent() {
 
     const onDownloadClick = (path) => {
         let fileName = path.split('/').pop();
-        axios.get(`http://localhost:4000/api/files/download/${fileName}`)
+        axios.get(`${process.env.REACT_APP_BASE_API_URL}/api/files/download/${fileName}`, {
+            headers: {
+                Authorization: `Bearer ${process.env.REACT_APP_API_TOKEN}`
+            }})
             .then(res => {
                 window.open(res.data.url);
             })
-            .catch(err => console.error(err));
+            .catch(err => {  
+                toast.error("Сталася помилка, спробуйте ще раз");
+            });
     };
 
     const onSearchClick = () => {
@@ -83,10 +97,12 @@ export default function MaterialsStudent() {
             loadMaterials();
             return;
         }
-        axios.get('http://localhost:4000/api/materials/search', { 
-            params: { MaterialName: searchValue, Type: "file" } 
+        axios.get(`${process.env.REACT_APP_BASE_API_URL}/api/materials/search`, { 
+            params: { MaterialName: searchValue, Type: "file" },
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
         }).then(res => {
-            console.log('res', res);
             setMaterials(res.data.data);
         });
     };

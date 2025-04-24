@@ -26,7 +26,7 @@ const CreateTestAi = () => {
       const decryptedGroupId = decryptData(encodedGroupId);
       setGroupId(decryptedGroupId);
     } catch (err) {
-      console.log(err.message);
+      toast.error("Сталася помилка, спробуйте ще раз");
     }
   }, [encodedGroupId]);
 
@@ -44,7 +44,7 @@ const CreateTestAi = () => {
 
     try {
       const response = await axios.post(
-        'http://localhost:4000/api/tests/generate-test-by-AI',
+        `${process.env.REACT_APP_BASE_API_URL}/api/tests/generate-test-by-AI`,
         {
           text: `${formData.subject} ${formData.description} `,
           language: 'ua',
@@ -79,7 +79,7 @@ const CreateTestAi = () => {
       if (error.name === 'AbortError') {
         toast.info('Генерація була скасована');
       } else {
-        console.error('Помилка генерації:', error);
+        toast.error("Сталася помилка генерації, спробуйте ще раз");
         const errorMessage = error.response?.data?.error?.includes('Invalid OpenAI API key')
           ? 'Помилка автентифікації API. Будь ласка, зв’яжіться з адміністратором.'
           : 'Не вдалося згенерувати тест: ' + (error.message || error);
@@ -147,7 +147,7 @@ const CreateTestAi = () => {
         ShowAnswers: formData.showAnswersAfterTest || false,
       };
 
-      const testResponse = await axios.post('http://localhost:4000/api/tests', testPayload, {
+      const testResponse = await axios.post(`${process.env.REACT_APP_BASE_API_URL}/api/tests`, testPayload, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const testId = testResponse.data.TestId;
@@ -166,7 +166,7 @@ const CreateTestAi = () => {
 
             try {
               const imageResponse = await axios.post(
-                'http://localhost:4000/api/files/upload',
+                `${process.env.REACT_APP_BASE_API_URL}/api/files/upload`,
                 formDataForImage,
                 {
                   headers: {
@@ -190,7 +190,7 @@ const CreateTestAi = () => {
           };
 
           const questionResponse = await axios.post(
-            'http://localhost:4000/api/testQuestions',
+            `${process.env.REACT_APP_BASE_API_URL}/api/testQuestions`,
             questionData,
             { headers: { Authorization: `Bearer ${token}` } }
           );
@@ -201,16 +201,16 @@ const CreateTestAi = () => {
           }
 
           const answers = question.options
-            .filter((option) => option.value.trim() !== '')
+            .filter((option) => option.trim() !== '')
             .map((option, index) => ({
               TestQuestionId: testQuestionId,
-              AnswerText: option.value,
+              AnswerText: option,
               IsRightAnswer: question.correctAnswer === (index + 1).toString(),
               ImagePath: null,
             }));
 
           for (const answer of answers) {
-            await axios.post('http://localhost:4000/api/testAnswers', answer, {
+            await axios.post(`${process.env.REACT_APP_BASE_API_URL}/api/testAnswers`, answer, {
               headers: { Authorization: `Bearer ${token}` },
             });
           }
@@ -227,7 +227,6 @@ const CreateTestAi = () => {
         <div>
           <p>Тест успішно створено!</p>
           <p>Назва: {formData.subject}</p>
-          <p>Група: {questionsPayload[0]?.answers[0]?.TestQuestionId ? 'Невідома' : 'Невідома'}</p>
         </div>,
         { autoClose: 5000 }
       );
@@ -237,7 +236,6 @@ const CreateTestAi = () => {
         navigate(0);
       }, 1500);
     } catch (error) {
-      console.error('Помилка:', error);
       const errorMessage = error.response?.data?.message || error.message || 'Виникла помилка при створенні тесту';
       toast.error(errorMessage);
       setErrors({ general: errorMessage });

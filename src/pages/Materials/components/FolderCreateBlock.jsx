@@ -17,7 +17,7 @@ export default function FolderCreateBlock({ parentId, teacherId, token, setShowF
             setShowFolderCreateBlock(false);
         } else {
             const currentDate = new Date().toISOString();
-            axios.post('http://localhost:4000/api/materials', {
+            axios.post(`${process.env.REACT_APP_BASE_API_URL}/api/materials`, {
                 MaterialName: folderName,
                 Type: 'folder',
                 FilePath: null,
@@ -36,7 +36,7 @@ export default function FolderCreateBlock({ parentId, teacherId, token, setShowF
                 toast.success("Нову папку створено");
             })
             .catch(error => {
-                console.error('Error creating folder:', error);
+                toast.error("Сталася помилка, спробуйте ще раз");
             });
         }
     };

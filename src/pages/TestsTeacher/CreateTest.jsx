@@ -24,14 +24,12 @@ const CreateTest = () => {
       const decryptedGroupId = decryptData(encodedGroupId);
       setGroupId(decryptedGroupId);
     } catch (err) {
-      console.log(err.message);
+      toast.error("Сталася помилка, спробуйте ще раз");
     }
   }, [encodedGroupId]);
 
   const handleSubmit = async () => {
     setIsSubmitting(true);
-    console.log('Form Data:', formData);
-    console.log('Questions Data:', questionsData);
 
     const newErrors = {};
 
@@ -156,7 +154,7 @@ const CreateTest = () => {
         ShowAnswers: formData.showAnswersAfterTest || false,
       };
 
-      const testResponse = await axios.post('http://localhost:4000/api/tests', testPayload, {
+      const testResponse = await axios.post(`${process.env.REACT_APP_BASE_API_URL}/api/tests`, testPayload, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const testId = testResponse.data.TestId;
@@ -174,7 +172,7 @@ const CreateTest = () => {
 
             try {
               const imageResponse = await axios.post(
-                'http://localhost:4000/api/files/upload',
+                `${process.env.REACT_APP_BASE_API_URL}/api/files/upload`,
                 formDataForImage,
                 {
                   headers: {
@@ -196,10 +194,8 @@ const CreateTest = () => {
             AudioPath: null,
           };
 
-          console.log('Question Data:', questionData);
-
           const questionResponse = await axios.post(
-            'http://localhost:4000/api/testQuestions',
+            `${process.env.REACT_APP_BASE_API_URL}/api/testQuestions`,
             questionData,
             { headers: { Authorization: `Bearer ${token}` } }
           );
@@ -219,7 +215,7 @@ const CreateTest = () => {
             }));
 
           for (const answer of answers) {
-            await axios.post('http://localhost:4000/api/testAnswers', answer, {
+            await axios.post(`${process.env.REACT_APP_BASE_API_URL}/api/testAnswers`, answer, {
               headers: { Authorization: `Bearer ${token}` },
             });
           }
@@ -246,7 +242,6 @@ const CreateTest = () => {
         navigate(0);
       }, 1500);
     } catch (error) {
-      console.error('Помилка:', error);
       const errorMessage = error.response?.data?.message || error.message || 'Виникла помилка при створенні тесту';
       toast.error(errorMessage);
       setErrors({ general: errorMessage });

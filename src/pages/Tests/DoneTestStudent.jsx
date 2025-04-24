@@ -16,7 +16,9 @@ const DoneTestStudent = () => {
         const fetchTestData = async () => {
             try {
                 const decryptedTestId = decryptData(encryptedTestId);
-                const response = await axios.get(`http://localhost:4000/api/doneTests/complete/${decryptedTestId}`);
+                const response = await axios.get(`${process.env.REACT_APP_BASE_API_URL}/api/doneTests/complete/${decryptedTestId}`, {
+                    headers: { Authorization: `Bearer ${sessionStorage.getItem("token")}` }
+                });
                 setTestData(response.data);
             } catch (err) {
                 setError(err.message);
@@ -53,7 +55,9 @@ const DoneTestStudent = () => {
                 TestId: testData.TestId
             };
 
-            const response = await axios.post('http://localhost:4000/api/doneTests', data);
+            const response = await axios.post(`${process.env.REACT_APP_BASE_API_URL}/api/doneTests`, data, {
+                headers: { Authorization: `Bearer ${sessionStorage.getItem("token")}` }
+            });
 
             const doneTestId = response.data.DoneTestId;
 

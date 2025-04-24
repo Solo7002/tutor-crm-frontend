@@ -32,15 +32,13 @@ const Login = () => {
     setLoginValidation(prev => ({ ...prev, [fieldName]: isValid }));
   };
 
-  // const validatePassword = (password) => {
-  //   console.log("const validatePassword = (password)");
-  //   const errors = [];
-  //   if (errorLogin) {
-  //     console.log("errorLogin - Неправильний email або пароль");
-  //     errors.push("Неправильний email або пароль");
-  //   }
-  //   return errors;
-  // };
+  const validatePassword = (password) => {
+    const errors = [];
+    if (errorLogin) {
+      errors.push("Неправильний email або пароль");
+    }
+    return errors;
+  };
 
   const validateEmail = async (email) => {
     const errors = [];
@@ -82,9 +80,11 @@ const Login = () => {
     }
 
     try {
-      const response = await axios.post("http://localhost:4000/api/auth/login", {
+      const response = await axios.post(`${process.env.REACT_APP_BASE_API_URL}/api/auth/login`, {
         Email: Email,
         Password: Password,
+      }, {
+        headers: { Authorization: `Bearer ${sessionStorage.getItem("token")}` }
       });
 
       if (response.data.token) {
@@ -94,7 +94,9 @@ const Login = () => {
 
         const decoded = jwtDecode(response.data.token);
         axios
-          .get(`http://localhost:4000/api/users/${decoded.id}/balance`)
+          .get(`${process.env.REACT_APP_BASE_API_URL}/api/users/${decoded.id}/balance`, {
+            headers: { Authorization: `Bearer ${sessionStorage.getItem("token")}` }
+          })
           .then((response) => {
             const { Role } = response.data;
             if (Role === "Student") {
@@ -102,13 +104,11 @@ const Login = () => {
             } else if (Role === "Teacher") {
               navigate("/teacher/home");
             }
-          })
-        //navigate("/student/home");
+          });
       } else {
         setErrorLogin(true);
       }
     } catch (error) {
-      console.log("error");
       setErrorLogin(true);
     }
   };
@@ -116,12 +116,12 @@ const Login = () => {
   /* OAuth2 */
 
   const oAuthGoogleHandler = () => {
-    window.location.href = "http://localhost:4000/api/auth/google";
+    window.location.href = `${process.env.REACT_APP_BASE_API_URL}/api/auth/google`;
   };
 
   const oAuthFacebookHandler = () => {
 
-    window.location.href = "http://localhost:4000/api/auth/facebook";
+    window.location.href = `${process.env.REACT_APP_BASE_API_URL}/api/auth/facebook`;
   };
 
   return (
@@ -142,7 +142,7 @@ const Login = () => {
           placeholder={"Пароль"}
           value={Password}
           onChange={handlePasswordChange}
-          // validate={validatePassword}
+          validate={validatePassword}
           onValidationChange={handleValidationChange}
           onTrigger={errorLogin}
           validationNeeded={false}

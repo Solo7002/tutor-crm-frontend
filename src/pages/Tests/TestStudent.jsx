@@ -14,6 +14,7 @@ const buttons = [
 ];
 
 const TestStudent = () => {
+  const [token, setToken] = useState();
   const [completedView, setCompletedView] = useState(false);
   const [selectedButton, setSelectedButton] = useState(0);
   const [searchQuery, setSearchQuery] = useState("");
@@ -28,6 +29,7 @@ const TestStudent = () => {
   useEffect(() => {
     const token = sessionStorage.getItem("token");
     if (token) {
+      setToken(token);
       try {
         const decoded = jwtDecode(token);
         setUserId(decoded.id);
@@ -40,7 +42,9 @@ const TestStudent = () => {
   useEffect(() => {
     if (userId) {
       axios
-        .get(`http://localhost:4000/api/students/search-by-user-id/${userId}`)
+        .get(`${process.env.REACT_APP_BASE_API_URL}/api/students/search-by-user-id/${userId}`, {
+          headers: { Authorization: `Bearer ${sessionStorage.getItem("token")}` }
+        })
         .then((response) => {
           if (response.data.success) {
             setStudentId(response.data.data[0].StudentId);
@@ -55,7 +59,9 @@ const TestStudent = () => {
   useEffect(() => {
     if (studentId) {
       axios
-        .get(`http://localhost:4000/api/tests/tests-by-student/${studentId}`)
+        .get(`${process.env.REACT_APP_BASE_API_URL}/api/tests/tests-by-student/${studentId}`, {
+          headers: { Authorization: `Bearer ${sessionStorage.getItem("token")}` }
+        })
         .then((response) => {
           setTests(response.data);
         })
@@ -71,7 +77,7 @@ const TestStudent = () => {
   };
 
   const handleSearch = (query) => {
-    
+
   };
 
   const handleDetailsClick = (test) => {

@@ -4,6 +4,7 @@ import Dropdown from "../../../../components/Dropdown/Dropdown";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { encryptData } from "../../../../utils/crypto";
+import { toast } from "react-toastify";
 
 const CreateModal = ({ onClose, teacher_id, token }) => {
   const [courses, setCourses] = useState([]);
@@ -14,7 +15,6 @@ const CreateModal = ({ onClose, teacher_id, token }) => {
   const [isLoadingGroups, setIsLoadingGroups] = useState(false);
   const navigate = useNavigate();
 
-  // Завантаження курсів при монтуванні компонента
   useEffect(() => {
     const fetchCourses = async () => {
       setIsLoadingCourses(true);
@@ -29,7 +29,7 @@ const CreateModal = ({ onClose, teacher_id, token }) => {
         );
         setCourses(response.data);
       } catch (error) {
-        console.error("Помилка при завантаженні курсів:", error);
+        toast.error("Сталася помилка, спробуйте ще раз");
       } finally {
         setIsLoadingCourses(false);
       }
@@ -37,7 +37,6 @@ const CreateModal = ({ onClose, teacher_id, token }) => {
     fetchCourses();
   }, [teacher_id, token]);
 
-  // Завантаження груп при зміні обраного курсу
   useEffect(() => {
     if (selectedCourseId) {
       const fetchGroups = async () => {
@@ -53,30 +52,27 @@ const CreateModal = ({ onClose, teacher_id, token }) => {
           );
           setGroups(response.data);
         } catch (error) {
-          console.error("Помилка при завантаженні груп:", error);
+          toast.error("Сталася помилка, спробуйте ще раз");
         } finally {
           setIsLoadingGroups(false);
         }
       };
       fetchGroups();
     } else {
-      setGroups([]); // Очищаємо групи, якщо курс не обраний
+      setGroups([]); 
     }
   }, [selectedCourseId, token]);
 
-  // Скидання обраної групи при зміні курсу
   useEffect(() => {
     setSelectedGroupId(null);
   }, [selectedCourseId]);
 
-  // Закриття модального вікна при кліку на оверлей
   const handleOverlayClick = (e) => {
     if (e.target.classList.contains("CreateModal")) {
       onClose();
     }
   };
 
-  // Обробка вибору курсу
   const handleCourseSelect = (courseName) => {
     const selectedCourse = courses.find(
       (course) => course.CourseName === courseName
@@ -84,19 +80,16 @@ const CreateModal = ({ onClose, teacher_id, token }) => {
     setSelectedCourseId(selectedCourse?.CourseId || null);
   };
 
-  // Обробка вибору групи
   const handleGroupSelect = (groupName) => {
     const selectedGroup = groups.find((group) => group.GroupName === groupName);
     setSelectedGroupId(selectedGroup?.GroupId || null);
   };
 
-  // Навігація для створення тесту вручну
   const handleManualTestClick = () => {
     const encryptedGroupId = encryptData(selectedGroupId);
     navigate(`create/${encryptedGroupId}`);
   };
 
-  // Навігація для створення тесту за допомогою ШІ
   const handleAITestClick = () => {
     const encryptedGroupId = encryptData(selectedGroupId);
     navigate(`create-ai/${encryptedGroupId}`);

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Dropdown from '../components/Dropdown';
 import ToggleSwitch from '../components/ToggleSwitch';
 import SortDropdown from '../components/SortDropdown';
@@ -16,8 +16,10 @@ import AddMaterialModal from '../components/AddMaterialModal';
 import AccessManagementModal from '../components/AccessManagementModal';
 import useCookieState from '../../../utils/hooks/useCookieState';
 import FolderCreateList from '../components/FolderCreateList';
+import { toast } from 'react-toastify';
 
 export default function MaterialsTeacher() {
+    const [token, setToken] = useState();
     const [isBlock, setIsBlock] = useCookieState('MaterialsTeacher_isBlock', true);
     const [materials, setMaterials] = useCookieState('MaterialsTeacher_materials', []);
     const [currentFolder, setCurrentFolder] = useCookieState('MaterialsTeacher_currentFolder', null);
@@ -48,18 +50,20 @@ export default function MaterialsTeacher() {
         const token = sessionStorage.getItem("token");
         if (!token) return;
 
+        setToken(token);
+
         const decoded = jwtDecode(token);
         const userId = decoded.id;
 
         const fetchMaterials = async () => {
             try {
-                const response = await axios.get(`http://localhost:4000/api/materials/getByUserId/${userId}`, {
+                const response = await axios.get(`${process.env.REACT_APP_BASE_API_URL}/api/materials/getByUserId/${userId}`, {
                     headers: { Authorization: `Bearer ${token}` }
                 });
                 setMaterials(response.data.Materials);
                 setTeacherId(response.data.TeacherId);
             } catch (error) {
-                console.error("Error fetching materials:", error);
+                toast.error("Сталася помилка, спробуйте ще раз");
             }
         };
         fetchMaterials();
@@ -82,11 +86,13 @@ export default function MaterialsTeacher() {
 
     const onDownloadClick = (path) => {
         let fileName = path.split('/').pop();
-        axios.get(`http://localhost:4000/api/files/download/${fileName}`)
+        axios.get(`${process.env.REACT_APP_BASE_API_URL}/api/files/download/${fileName}`, {
+            headers: { Authorization: `Bearer ${token}` }
+        })
             .then(res => {
                 window.open(res.data.url);
             })
-            .catch(err => console.error(err));
+            .catch(err => toast.error("Сталася помилка, спробуйте ще раз"));
     };
 
     const isSearching = searchValue.trim() !== '';
@@ -141,24 +147,30 @@ export default function MaterialsTeacher() {
 
     const handleMaterialEdit = async (newName, matId) => {
         try {
-            await axios.put(`http://localhost:4000/api/materials/${matId}`, { MaterialName: newName });
+            await axios.put(`${process.env.REACT_APP_BASE_API_URL}/api/materials/${matId}`, { MaterialName: newName }, {
+                headers: { Authorization: `Bearer ${token}` }
+            });
             setRefreshData(!refreshData);
         } catch (error) {
-            console.error('Ошибка при обновлении названия:', error);
+            toast.error("Сталася помилка, спробуйте ще раз");
         }
     };
 
     const handleMaterialDelete = async (matId) => {
         try {
-            await axios.delete(`http://localhost:4000/api/materials/${matId}`);
+            await axios.delete(`${process.env.REACT_APP_BASE_API_URL}/api/materials/${matId}`, {
+                headers: { Authorization: `Bearer ${token}` }
+            });
             setRefreshData(!refreshData);
         } catch (error) {
-            console.error('Ошибка при удалении материала:', error);
+            toast.error("Сталася помилка, спробуйте ще раз")
         }
     };
 
     const openAccessModalHandler = async (matId) => {
-        const response = await axios.get(`http://localhost:4000/api/materials/studentsByMaterial/${matId}`);
+        const response = await axios.get(`${process.env.REACT_APP_BASE_API_URL}/api/materials/studentsByMaterial/${matId}`, {
+            headers: { Authorization: `Bearer ${token}` }
+        });
         setSelectedMaterial(response.data);
         setIsAccessManagementModalOpened(true);
     };
