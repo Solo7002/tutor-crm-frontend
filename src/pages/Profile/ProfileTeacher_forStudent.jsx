@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import './ProfileTeacher.css';
 import Reviews from './Reviews/Reviews';
 import axios from 'axios';
 import CourseList from './components/CourseList';
-import { useNavigate } from 'react-router-dom';
 import { jwtDecode } from "jwt-decode";
 import { decryptData } from '../../utils/crypto';
 import { toast } from 'react-toastify';
+import { useTranslation } from 'react-i18next';
 
 const FilledStar = () => (
     <svg width="34" height="33" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -40,6 +40,7 @@ const StarRating = ({ rating }) => {
 };
 
 export default function ProfileTeacher() {
+    const { t } = useTranslation();
     const navigate = useNavigate();
     const { encryptedTeacherId } = useParams();
     const [user, setUser] = useState({});
@@ -56,27 +57,39 @@ export default function ProfileTeacher() {
 
                 let teacherUserId;
 
-                axios.get(`http://localhost:4000/api/teachers/${decryptedTeacherId}`).then(res => {
+                axios.get(`${process.env.REACT_APP_BASE_API_URL}/api/teachers/${decryptedTeacherId}`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                }).then(res => {
                     teacherUserId = res.data.UserId;
                 })
                     .then(() => {
-                        axios.get(`http://localhost:4000/api/teachers/${teacherUserId}/info`).then(res => {
+                        axios.get(`${process.env.REACT_APP_BASE_API_URL}/api/teachers/${teacherUserId}/info`, {
+                            headers: {
+                                Authorization: `Bearer ${token}`
+                            }
+                        }).then(res => {
                             setTeacher(res.data.teacher);
                             setUser(res.data.user);
                             setCourses(res.data.courses);
                         });
                     })
                     .then(() => {
-                        axios.get(`http://localhost:4000/api/users/${decoded.id}`).then(res => {
+                        axios.get(`${process.env.REACT_APP_BASE_API_URL}/api/users/${decoded.id}`, {
+                            headers: {
+                                Authorization: `Bearer ${token}`
+                            }
+                        }).then(res => {
                             setUserFrom(res.data);
                         });
                     });
             } catch (error) {
-                toast.error("Ошибка при расшифровке токена!");
+                toast.error(t('ProfileTeacher_forStudent.Messages.TokenError'));
             }
         }
 
-    }, [])
+    }, []);
 
     return (
         <div className='main-block w-full h-full px-4 md:px-6 lg:pr-8 mt-4 md:mt-[35px]'>
@@ -104,12 +117,12 @@ export default function ProfileTeacher() {
                                 <div className="w-full mt-3">
                                     <div className="w-full">
                                         <div className="w-full flex justify-between my-[2px]">
-                                            <div className="text-black text-xs md:text-[15px] font-normal font-['Mulish']">Предмет:</div>
+                                            <div className="text-black text-xs md:text-[15px] font-normal font-['Mulish']">{t('ProfileTeacher_forStudent.Info.Subject')}:</div>
                                             <div className="text-right text-black text-xs md:text-[15px] font-normal font-['Mulish']">{teacher.SubjectNames}</div>
                                         </div>
                                         <div className="w-full flex justify-between my-[2px]">
-                                            <div className="text-black text-xs md:text-[15px] font-normal font-['Mulish']">Ціна за урок:</div>
-                                            <div className="text-right text-black text-xs md:text-[15px] font-normal font-['Mulish']">від {teacher.minPrice}грн</div>
+                                            <div className="text-black text-xs md:text-[15px] font-normal font-['Mulish']">{t('ProfileTeacher_forStudent.Info.PricePerLesson')}:</div>
+                                            <div className="text-right text-black text-xs md:text-[15px] font-normal font-['Mulish']">{t('ProfileTeacher_forStudent.Info.PriceFrom')} {teacher.minPrice}грн</div>
                                         </div>
                                     </div>
                                     <div className="w-full my-1 text-[#827ead] text-xs font-normal font-['Mulish'] line-clamp-3 md:line-clamp-none">
@@ -126,7 +139,7 @@ export default function ProfileTeacher() {
                                         </svg>
                                     </div>
                                     <div className="text-[#827ead] text-[10px] font-normal font-['Mulish'] mt-1">
-                                        Зареєстрований користувач: 12.10.2023
+                                        {t('ProfileTeacher_forStudent.Info.RegisteredUser')}: 12.10.2023
                                     </div>
                                 </div>
                             </div>
@@ -139,12 +152,11 @@ export default function ProfileTeacher() {
 
                             <div className="space-y-2 md:space-y-4 relative z-10">
                                 <div className="text-white text-xl md:text-[32px] font-bold font-['Nunito']">
-                                    Навчай на повну!
+                                    {t('ProfileTeacher_forStudent.Subscription.Title')}
                                 </div>
                                 <div className="text-[#827ead] text-sm md:text-[15px] font-normal font-['Mulish']">
-                                    Оформлюй підписку для розширення можливостей
+                                    {t('ProfileTeacher_forStudent.Subscription.Description')}
                                 </div>
-
 
                                 <div className="absolute top-[76px] left-4 hidden md:block" data-svg-wrapper>
                                     <svg width="261" height="155" viewBox="0 0 261 155" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -185,7 +197,6 @@ export default function ProfileTeacher() {
                                         <path d="M102.422 93.9832C103.768 93.0443 104.455 91.7117 103.958 91.0069C103.46 90.302 101.966 90.4918 100.62 91.4307C99.2745 92.3697 98.5869 93.7023 99.0844 94.4071C99.5819 95.112 101.076 94.9222 102.422 93.9832Z" fill="#8A48E6" />
                                         <path d="M148.895 35.4004C144.562 35.4028 140.389 37.0306 137.211 39.9585C134.032 42.8865 132.082 46.8989 131.749 51.1943H127.05C126.705 46.7826 124.655 42.6751 121.331 39.7334C118.006 36.7917 113.665 35.2444 109.217 35.416C104.77 35.5876 100.562 37.4648 97.4769 40.6538C94.3914 43.8429 92.668 48.0959 92.668 52.5209C92.668 56.9459 94.3914 61.199 97.4769 64.388C100.562 67.5771 104.77 69.4543 109.217 69.6259C113.665 69.7974 118.006 68.2501 121.331 65.3084C124.655 62.3667 126.705 58.2592 127.05 53.8476H131.749C132.011 57.164 133.24 60.3324 135.286 62.9651C137.331 65.5977 140.104 67.5803 143.265 68.6701C146.427 69.7599 149.839 69.9096 153.085 69.101C156.33 68.2924 159.268 66.5605 161.539 64.1173C163.81 61.6741 165.315 58.6256 165.87 55.3451C166.425 52.0646 166.006 48.6943 164.664 45.6469C163.322 42.5995 161.116 40.0072 158.315 38.1873C155.514 36.3674 152.24 35.3989 148.895 35.4004ZM109.905 67.1304C107.005 67.1315 104.17 66.278 101.757 64.6777C99.3451 63.0775 97.464 60.8022 96.3518 58.1395C95.2395 55.4768 94.946 52.5461 95.5083 49.7176C96.0705 46.8891 97.4634 44.2897 99.5109 42.248C101.558 40.2062 104.169 38.8135 107.012 38.246C109.855 37.6785 112.804 37.9615 115.485 39.0594C118.166 40.1573 120.46 42.0207 122.077 44.4142C123.694 46.8078 124.561 49.624 124.569 52.5072C124.571 54.4232 124.193 56.3208 123.457 58.0916C122.721 59.8623 121.641 61.4715 120.279 62.827C118.918 64.1826 117.3 65.258 115.52 65.9917C113.74 66.7254 111.832 67.1031 109.905 67.1031V67.1304ZM148.895 67.1304C145.995 67.1304 143.16 66.276 140.749 64.6751C138.337 63.0741 136.457 60.7985 135.346 58.1357C134.234 55.4729 133.941 52.5424 134.504 49.7142C135.067 46.8861 136.461 44.2873 138.508 42.246C140.556 40.2048 143.166 38.8127 146.009 38.2456C148.852 37.6785 151.8 37.9619 154.482 39.0599C157.163 40.1579 159.456 42.0214 161.073 44.4148C162.689 46.8082 163.556 49.6243 163.564 52.5072C163.566 54.4237 163.188 56.3217 162.452 58.0928C161.716 59.864 160.635 61.4734 159.273 62.829C157.91 64.1846 156.292 65.2599 154.512 65.9933C152.731 66.7267 150.822 67.1038 148.895 67.1031V67.1304Z" fill="#120C38" />
                                     </svg>
-
                                 </div>
                             </div>
                         </div>
@@ -197,13 +208,13 @@ export default function ProfileTeacher() {
                         <div className='uchni w-full h-[140px] md:h-[180px] flex items-center'>
                             <div className="w-full h-full bg-white rounded-[20px] flex justify-center items-center flex-col">
                                 <div className="text-center text-[#8a48e6] text-2xl md:text-[32px] font-bold font-['Nunito']">{teacher.StudentsAmount}</div>
-                                <div className="text-center text-[#120c38] text-lg md:text-2xl font-bold font-['Nunito']">Учнів</div>
+                                <div className="text-center text-[#120c38] text-lg md:text-2xl font-bold font-['Nunito']">{t('ProfileTeacher_forStudent.Stats.Students')}</div>
                             </div>
                         </div>
 
                         <div className='rating w-full h-[140px] md:h-[180px] flex items-center'>
                             <div className="w-full h-full bg-white rounded-[20px] flex justify-center items-center flex-col">
-                                <div className="text-center text-[#120c38] text-lg md:text-2xl font-bold font-['Nunito'] mb-2">Рейтинг</div>
+                                <div className="text-center text-[#120c38] text-lg md:text-2xl font-bold font-['Nunito'] mb-2">{t('ProfileTeacher_forStudent.Stats.Rating')}</div>
 
                                 <StarRating rating={teacher.Rating} />
 
@@ -211,19 +222,16 @@ export default function ProfileTeacher() {
                             </div>
                         </div>
 
-                        {/* Stats Block 3 */}
                         <div className='w-full h-[140px] md:h-[180px] flex items-center'>
                             <div className="w-full h-full bg-white rounded-[20px] flex justify-center items-center flex-col p-2">
                                 <div className="text-center text-[#8a48e6] text-2xl md:text-[32px] font-bold font-['Nunito']">{teacher.MaterialsAmount}</div>
-                                <div className="text-center text-[#120c38] text-sm md:text-lg lg:text-2xl font-bold font-['Nunito']">Авторських навчальних матеріалів</div>
+                                <div className="text-center text-[#120c38] text-sm md:text-lg lg:text-2xl font-bold font-['Nunito']">{t('ProfileTeacher_forStudent.Stats.Materials')}</div>
                             </div>
                         </div>
                     </div>
 
-                    {/* Course list component */}
-                    <CourseList courses={courses} userFrom={userFrom} teacher = {teacher} user = {user} />
+                    <CourseList courses={courses} userFrom={userFrom} teacher={teacher} user={user} />
 
-                    {/* Reviews component */}
                     <Reviews userId={user.UserId} userFrom={userFrom} />
                 </div>
             </div>

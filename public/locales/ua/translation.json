@@ -5,7 +5,7 @@
     "Navbar": {
         "Labels": {
             "home": "Головна",
-            "hometask": "Домашні завдання",
+            "hometasks": "Домашні завдання",
             "tests": "Тести",
             "calendar": "Календар",
             "materials": "Матеріали",
@@ -118,6 +118,166 @@
             "Rating": "Рейтинг",
             "ByTrophies": "по трофеях",
             "Trophies": "Трофеїв"
+        },
+        "GroupList":{
+            "Title": "Мої групи",
+            "TableHeaders": {
+                "Number": "№",
+                "GroupNumber": "№ групи",
+                "GroupName": "Назва групи",
+                "CourseName": "Назва курсу",
+                "Teacher": "Вчитель",
+                "Price": "Ціна"
+            },
+            "DefaultGroups": {
+                "MathName": "Математика",
+                "MathFormat": "Офлайн",
+                "MathType": "Індивідуально",
+                "MathTeacher": "Восьменко",
+                "PhysicsName": "Фізика",
+                "PhysicsFormat": "Онлайн",
+                "PhysicsType": "Груповий",
+                "PhysicsTeacher": "Іванов"
+            }
+        },
+        "Reviews": {
+            "Messages": {
+                "FetchReviewsError": "Помилка при отриманні відгуків"
+            },
+            "Title": {
+                "HasReviews": "Відгуки учнів",
+                "NoReviews": "Відгуки відсутні"
+            },
+            "Buttons": {
+                "LoadMore": "Читати більше коментарів",
+                "AddComment": "Додати коментар"
+            }
+        }
+    },
+    "ProfileTeacher": {
+        "Messages": {
+            "TokenDecodeError": "Помилка при розшифровці токена"
+        },
+        "Buttons": {
+            "EditProfile": "Редагувати профіль",
+            "LearnMore": "Детальніше"
+        },
+        "Content": {
+            "RegisteredUser": "Зареєстрований користувач",
+            "Subject": "Предмет",
+            "From": "від",
+            "LessonPrice": "Ціна за урок",
+            "LearnFull": "Навчай на повну",
+            "SubscriptionPrompt": "Оформлюй підписку для розширення можливостей"
+        },
+        "Stats": {
+            "Students": "Учнів",
+            "Rating": "Рейтинг",
+            "Materials": "Авторських навчальних матеріалів"
+        },
+        "CourseList": {
+            "Title": "Курси",
+            "TableHeaders": {
+                "GroupNumber": "№ групи",
+                "GroupName": "Назва групи",
+                "StudentsCount": "Кількість учнів",
+                "Price": "Ціна"
+            },
+            "Buttons": {
+                "EditCourses": "Редагувати курси",
+                "JoinCourse": "Записатися на курс"
+            },
+            "DefaultCourses": {
+                "Math": "Математика",
+                "Physics": "Фізика"
+            }
+        },
+        "AddReviewModal": {
+            "Messages": {
+                "ReviewSent": "Відгук відправлено",
+                "ReviewError": "Помилка при відправці відгуку"
+            },
+            "Title": "Коментар викладачу",
+            "Placeholder": "Введіть текст тут",
+            "Button": {
+                "Submit": "Відправити"
+            }
+        },
+        "Comment": {
+            "Content": {
+                "Course": "Курс"
+            },
+            "Button": {
+                "ShowLess": "Менше",
+                "ShowMore": "Більше"
+            }
+        }
+    },
+    "ProfileTeacher_forStudent":{
+        "Messages": {
+            "TokenError": "Ошибка при расшифровке токена"
+        },
+        "Info": {
+            "Subject": "Предмет",
+            "PricePerLesson": "Ціна за урок",
+            "RegisteredUser": "Зареєстрований користувач",
+            "PriceFrom": "від"
+        },
+        "Subscription": {
+            "Title": "Навчай на повну",
+            "Description": "Оформлюй підписку для розширення можливостей"
+        },
+        "Stats": {
+            "Students": "Учнів",
+            "Rating": "Рейтинг",
+            "Materials": "Авторських навчальних матеріалів"
+        }
+    },
+    "CourseJoinModal":{
+        "Messages": {
+            "FetchGroupsError": "Не вдалося завантажити інформацію про ваші групи. Спробуйте ще раз",
+            "RequestSuccess": "Запит надіслано",
+            "RequestError": "Не вдалося надіслати запит. Спробуйте ще раз"
+        },
+        "Stage1": {
+            "Title": "Запис на курс",
+            "SelectCourseLabel": "Оберіть курс",
+            "NoCoursesAvailable": "На жаль, немає доступних курсів для запису. Ви вже записані на всі доступні курси",
+            "SelectGroupLabel": "Оберіть групу",
+            "NoGroupsAvailable": "На жаль, немає доступних груп для цього курсу. Ви вже записані на всі доступні групи",
+            "NextButton": "Далі"
+        },
+        "Stage2": {
+            "Title": "Запис на курс",
+            "TeacherLabel": "Вчитель",
+            "CourseLabel": "Курс",
+            "GroupLabel": "Група",
+            "TypeLabel": "Вид",
+            "FormatLabel": "Формат",
+            "PriceLabel": "Ціна за заняття",
+            "SubmitButton": "Надіслати запит",
+            "NotSpecified": "Не вказано"
+        },
+        "Stage3": {
+            "Title": "Запит надіслано",
+            "Description": "Незабаром викладач додасть вас до курсу. Чекайте на сповіщення в повідомленнях",
+            "HomeButton": "На головну"
+        },
+        "Dropdown": {
+            "AllCourses": "Усі курси",
+            "AllGroups": "Усі групи"
+        }
+    },
+    "PasswordInput": {
+        "Placeholder": "Пароль",
+        "ValidationErrors": {
+            "EmptyField": "Це поле не може бути порожнім",
+            "Length": "Пароль повинен містити від {minLength} до {maxLength} символів",
+            "Lowercase": "Пароль повинен містити принаймні одну малу літеру",
+            "Uppercase": "Пароль повинен містити принаймні одну велику літеру",
+            "Digit": "Пароль повинен містити принаймні одну цифру",
+            "Special": "Пароль повинен містити принаймні один спеціальний символ",
+            "AllowedChars": "Пароль містить недопустимі символи. Дозволені лише літери, цифри та спеціальні символи"
         }
     },
     "MaterialsStudent": {

@@ -22,7 +22,11 @@ export default function ProfileStudent() {
             try {
                 const decoded = jwtDecode(token);
                 
-                axios.get(`http://localhost:4000/api/students/${decoded.id}/info`).then(res => {
+                axios.get(`${process.env.REACT_APP_BASE_API_URL}/api/students/${decoded.id}/info`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                }).then(res => {
                     setStudent(res.data.student);
                     setUser(res.data.user);
                     setGroups(res.data.groups);

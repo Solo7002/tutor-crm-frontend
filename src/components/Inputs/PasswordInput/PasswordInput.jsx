@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
 import "./PasswordInput.css";
+import { useTranslation } from "react-i18next";
 
 const PasswordInput = ({
   name = "password",
   value = "",
-  placeholder = "Пароль",
+  placeholder = "",
   onChange,
   validate = false,
   onValidationChange,
@@ -12,12 +13,13 @@ const PasswordInput = ({
   onTrigger = false,
   validationNeeded = true,
 }) => {
+  const { t } = useTranslation();
   const [isVisible, setIsVisible] = useState(false);
   const [isValid, setIsValid] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
 
   const validatePassword = (password) => {
-    if(validationNeeded === false){
+    if (validationNeeded === false) {
       return [];
     }
     const errors = [];
@@ -30,25 +32,25 @@ const PasswordInput = ({
     const allowedChars = /^[A-Za-z\d!@#$%^&*()_+\-=\[\]{};':"\\|,.<>/?]*$/.test(password);
 
     if (!password) {
-      errors.push("Це поле не може бути порожнім");
+      errors.push(t('PasswordInput.ValidationErrors.EmptyField'));
     } else {
       if (password.length < minLength || password.length > maxLength) {
-        errors.push(`Пароль повинен містити від ${minLength} до ${maxLength} символів`);
+        errors.push(t('PasswordInput.ValidationErrors.Length', { minLength, maxLength }));
       }
       if (!hasLowercase) {
-        errors.push("Пароль повинен містити принаймні одну малу літеру (a-z)");
+        errors.push(`${t('PasswordInput.ValidationErrors.Lowercase')} (a-z)`);
       }
       if (!hasUppercase) {
-        errors.push("Пароль повинен містити принаймні одну велику літеру (A-Z)");
+        errors.push(`${t('PasswordInput.ValidationErrors.Uppercase')} (A-Z)`);
       }
       if (!hasDigit) {
-        errors.push("Пароль повинен містити принаймні одну цифру (0-9)");
+        errors.push(`${t('PasswordInput.ValidationErrors.Digit')} (0-9)`);
       }
       if (!hasSpecial) {
-        errors.push("Пароль повинен містити принаймні один спеціальний символ (!@#$%^&*()_+-=[]{};:'\"\\|,.<>/?)");
+        errors.push(`${t('PasswordInput.ValidationErrors.Special')} (!@#$%^&*()_+-=[]{};:'"\\|,.<>/?)`);
       }
       if (!allowedChars) {
-        errors.push("Пароль містить недопустимі символи. Дозволені лише літери, цифри та спеціальні символи (!@#$%^&*()_+-=[]{};:'\"\\|,.<>/?)");
+        errors.push(`${t('PasswordInput.ValidationErrors.AllowedChars')} (!@#$%^&*()_+-=[]{};:'"\\|,.<>/?)`);
       }
     }
     return errors;
@@ -118,7 +120,7 @@ const PasswordInput = ({
         type={isVisible ? "text" : "password"}
         name={name}
         value={value}
-        placeholder={placeholder}
+        placeholder={placeholder || t('PasswordInput.Placeholder')}
         onChange={onChange}
         onBlur={handleBlur}
         onFocus={handleFocus}

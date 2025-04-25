@@ -3,8 +3,10 @@ import { Link } from 'react-router-dom';
 import Dropdown from './Dropdown';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import { useTranslation } from 'react-i18next';
 
 const CourseJoinModal = ({ isOpen, onClose, courses, userFrom, teacher, user }) => {
+    const { t } = useTranslation();
     const [stage, setStage] = useState(1);
     const [formData, setFormData] = useState({
         course: '',
@@ -19,11 +21,20 @@ const CourseJoinModal = ({ isOpen, onClose, courses, userFrom, teacher, user }) 
     useEffect(() => {
         const fetchEnrolledGroups = async () => {
             try {
+                const token = sessionStorage.getItem("token");
                 if (userFrom?.UserId) {
-                    const studentResponse = await axios.get(`http://localhost:4000/api/students/${userFrom.UserId}/info`);
+                    const studentResponse = await axios.get(`${process.env.REACT_APP_BASE_API_URL}/api/students/${userFrom.UserId}/info`, {
+                        headers: {
+                            Authorization: `Bearer ${token}`
+                        }
+                    });
                     const studentId = studentResponse.data.student.StudentId;
 
-                    const enrolledGroupsResponse = await axios.get(`http://localhost:4000/api/students/${studentId}/groups`);
+                    const enrolledGroupsResponse = await axios.get(`${process.env.REACT_APP_BASE_API_URL}/api/students/${studentId}/groups`, {
+                        headers: {
+                            Authorization: `Bearer ${token}`
+                        }
+                    });
                     const enrolledGroups = enrolledGroupsResponse.data.groups;
 
                     const enrolledCourseIds = new Set();
@@ -37,14 +48,14 @@ const CourseJoinModal = ({ isOpen, onClose, courses, userFrom, teacher, user }) 
                     setEnrolledGroups(enrolledGroupIds);
                 }
             } catch (err) {
-                toast.error('Не вдалося завантажити інформацію про ваші групи. Спробуйте ще раз.');
+                toast.error(t('CourseJoinModal.Messages.FetchGroupsError'));
             }
         };
 
         if (isOpen) {
             fetchEnrolledGroups();
         }
-    }, [isOpen, userFrom]);
+    }, [isOpen, userFrom, t]);
 
     useEffect(() => {
         const filteredCourses = courses.filter(course => !enrolledCourses.has(course.CourseId));
@@ -70,7 +81,7 @@ const CourseJoinModal = ({ isOpen, onClose, courses, userFrom, teacher, user }) 
     const handleCourseSelect = (course) => {
         setFormData((prev) => ({
             ...prev,
-            course: course === 'Усі курси' ? '' : course,
+            course: course === t('CourseJoinModal.Dropdown.AllCourses') ? '' : course,
             group: '',
         }));
     };
@@ -78,7 +89,7 @@ const CourseJoinModal = ({ isOpen, onClose, courses, userFrom, teacher, user }) 
     const handleGroupSelect = (group) => {
         setFormData((prev) => ({
             ...prev,
-            group: group === 'Усі групи' ? '' : group,
+            group: group === t('CourseJoinModal.Dropdown.AllGroups') ? '' : group,
         }));
     };
 
@@ -110,12 +121,17 @@ const CourseJoinModal = ({ isOpen, onClose, courses, userFrom, teacher, user }) 
                 date: currentDate,
             };
             try {
-                const response = await axios.post('http://localhost:4000/api/notifications/join', requestData);
-                toast.success('Запит надіслано!');
+                const token = sessionStorage.getItem("token");
+                const response = await axios.post(`${process.env.REACT_APP_BASE_API_URL}/api/notifications/join`, requestData, {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                });
+                toast.success(t('CourseJoinModal.Messages.RequestSuccess'));
                 setStage(3);
             } catch (err) {
-                toast.error('Не вдалося надіслати запит. Спробуйте ще раз!');
-                setError('Не вдалося надіслати запит. Спробуйте ще раз.');
+                toast.error(t('CourseJoinModal.Messages.RequestError'));
+                setError(t('CourseJoinModal.Messages.RequestError'));
             }
         }
     };
@@ -154,26 +170,25 @@ const CourseJoinModal = ({ isOpen, onClose, courses, userFrom, teacher, user }) 
                     <div className="flex flex-col h-full">
                         <div className="text-center mb-8">
                             <h2 className="text-[#8A48E6] text-2xl font-bold font-['Nunito']">
-                                Запис на курс
+                                {t('CourseJoinModal.Stage1.Title')}
                             </h2>
                         </div>
     
                         <div className="space-y-6 flex-grow">
                             <div className="space-y-2">
                                 <label className="text-[#120C38] text-base font-bold font-['Nunito'] block">
-                                    Оберіть курс
+                                    {t('CourseJoinModal.Stage1.SelectCourseLabel')}
                                 </label>
                                 <div className="w-full">
                                     <Dropdown
-                                        textAll="Усі курси"
+                                        textAll={t('CourseJoinModal.Dropdown.AllCourses')}
                                         options={availableCourses.map((course) => ({ SubjectName: course.CourseName }))}
                                         onSelectSubject={handleCourseSelect}
                                         disabled={availableCourses.length === 0}
-                                        
                                     />
                                     {availableCourses.length === 0 && (
                                         <div className="mt-2 text-[#a6a6a8] text-xs font-['Nunito']">
-                                            На жаль, немає доступних курсів для запису. Ви вже записані на всі доступні курси.
+                                            {t('CourseJoinModal.Stage1.NoCoursesAvailable')}
                                         </div>
                                     )}
                                 </div>
@@ -181,18 +196,18 @@ const CourseJoinModal = ({ isOpen, onClose, courses, userFrom, teacher, user }) 
     
                             <div className="space-y-2">
                                 <label className="text-[#120C38] text-base font-bold font-['Nunito'] block">
-                                    Оберіть групу
+                                    {t('CourseJoinModal.Stage1.SelectGroupLabel')}
                                 </label>
                                 <div className="w-full">
                                     <Dropdown
-                                        textAll="Усі групи"
+                                        textAll={t('CourseJoinModal.Dropdown.AllGroups')}
                                         options={availableGroups}
                                         onSelectSubject={handleGroupSelect}
                                         disabled={!formData.course || availableGroups.length === 0}
                                     />
                                     {formData.course && availableGroups.length === 0 && (
                                         <div className="mt-2 text-[#a6a6a8] text-xs font-['Nunito']">
-                                            На жаль, немає доступних груп для цього курсу. Ви вже записані на всі доступні групи.
+                                            {t('CourseJoinModal.Stage1.NoGroupsAvailable')}
                                         </div>
                                     )}
                                 </div>
@@ -211,7 +226,7 @@ const CourseJoinModal = ({ isOpen, onClose, courses, userFrom, teacher, user }) 
                                 className="w-full h-12 px-10 py-2 bg-[#8A4AE6] rounded-2xl flex justify-center items-center text-white text-xl font-medium font-['Nunito'] disabled:bg-gray-400 transition-colors"
                                 disabled={!formData.course || !formData.group}
                             >
-                                Далі
+                                {t('CourseJoinModal.Stage1.NextButton')}
                             </button>
                         </div>
                     </div>
@@ -221,37 +236,37 @@ const CourseJoinModal = ({ isOpen, onClose, courses, userFrom, teacher, user }) 
                     <div className="flex flex-col h-full">
                         <div className="text-center mb-8">
                             <h2 className="text-[#8A48E6] text-2xl font-bold font-['Nunito']">
-                                Запис на курс
+                                {t('CourseJoinModal.Stage2.Title')}
                             </h2>
                         </div>
     
                         <div className="flex flex-col space-y-6 flex-grow">
                             <div className="text-center">
-                                <span className="text-[#120C38] text-base font-bold font-['Nunito']">Вчитель: </span>
+                                <span className="text-[#120C38] text-base font-bold font-['Nunito']">{t('CourseJoinModal.Stage2.TeacherLabel')}: </span>
                                 <span className="text-[#827EAD] text-base font-bold font-['Nunito']">{user?.FirstName} {user?.LastName}</span>
                             </div>
                             
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div>
-                                    <span className="text-[#120C38] text-base font-bold font-['Nunito']">Курс: </span>
+                                    <span className="text-[#120C38] text-base font-bold font-['Nunito']">{t('CourseJoinModal.Stage2.CourseLabel')}: </span>
                                     <span className="text-[#827EAD] text-base font-bold font-['Nunito']">{formData.course}</span>
                                 </div>
                                 <div className="md:text-right">
-                                    <span className="text-[#120C38] text-base font-bold font-['Nunito']">Група: </span>
+                                    <span className="text-[#120C38] text-base font-bold font-['Nunito']">{t('CourseJoinModal.Stage2.GroupLabel')}: </span>
                                     <span className="text-[#827EAD] text-base font-bold font-['Nunito']">{formData.group}</span>
                                 </div>
                                 <div>
-                                    <span className="text-[#120C38] text-base font-bold font-['Nunito']">Вид: </span>
-                                    <span className="text-[#827EAD] text-base font-bold font-['Nunito']">{selectedGroup?.Type || 'Не вказано'}</span>
+                                    <span class registrar="text-[#120C38] text-base font-bold font-['Nunito']">{t('CourseJoinModal.Stage2.TypeLabel')}: </span>
+                                    <span className="text-[#827EAD] text-base font-bold font-['Nunito']">{selectedGroup?.Type || t('CourseJoinModal.Stage2.NotSpecified')}</span>
                                 </div>
                                 <div className="md:text-right">
-                                    <span className="text-[#120C38] text-base font-bold font-['Nunito']">Формат: </span>
-                                    <span className="text-[#827EAD] text-base font-bold font-['Nunito']">{selectedGroup?.Format || 'Не вказано'}</span>
+                                    <span className="text-[#120C38] text-base font-bold font-['Nunito']">{t('CourseJoinModal.Stage2.FormatLabel')}: </span>
+                                    <span className="text-[#827EAD] text-base font-bold font-['Nunito']">{selectedGroup?.Format || t('CourseJoinModal.Stage2.NotSpecified')}</span>
                                 </div>
                             </div>
                             
                             <div className="text-center mt-4">
-                                <span className="text-[#120C38] text-base font-bold font-['Nunito']">Ціна за заняття: </span>
+                                <span className="text-[#120C38] text-base font-bold font-['Nunito']">{t('CourseJoinModal.Stage2.PriceLabel')}: </span>
                                 <span className="text-[#8A48E6] text-base font-bold font-['Nunito']">{selectedGroup?.GroupPrice || '0'}грн</span>
                             </div>
     
@@ -267,34 +282,33 @@ const CourseJoinModal = ({ isOpen, onClose, courses, userFrom, teacher, user }) 
                                 onClick={handleNext}
                                 className="w-full h-12 px-10 py-2 bg-[#8A4AE6] rounded-2xl flex justify-center items-center text-white text-xl font-medium font-['Nunito'] transition-colors hover:bg-[#7A3BD6]"
                             >
-                                Надіслати запит
+                                {t('CourseJoinModal.Stage2.SubmitButton')}
                             </button>
                         </div>
                     </div>
                 )}
     
-                {/* Stage 3: Success Message */}
                 {stage === 3 && (
                     <div className="flex flex-col md:flex-row items-center h-full">
                         <div className="md:w-1/2 space-y-4">
                             <h2 className="text-black text-2xl font-bold font-['Nunito']">
-                                Запит надіслано!
+                                {t('CourseJoinModal.Stage3.Title')}
                             </h2>
                             <p className="text-[#827EAD] text-base font-normal font-['Mulish']">
-                                Незабаром викладач додасть вас до курсу. Чекайте на сповіщення в повідомленнях
+                                {t('CourseJoinModal.Stage3.Description')}
                             </p>
                             <Link
                                 to={"/student/home"}
                                 className="w-full h-12 px-10 py-2 bg-[#8A4AE6] rounded-2xl flex justify-center items-center text-white text-xl font-medium font-['Nunito'] transition-colors hover:bg-[#7A3BD6]"
                             >
-                                На головну
+                                {t('CourseJoinModal.Stage3.HomeButton')}
                             </Link>
                         </div>
                         <div className="md:w-1/2 flex justify-center mt-4 md:mt-0">
                             <svg className="w-32 h-auto md:w-40" viewBox="0 0 165 175" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <g clipPath="url(#clip0_726_2190)">
                                     <path d="M0.384988 211.087C0.477866 211.75 0.630746 212.404 0.841747 213.04C2.14922 217.014 4.97093 220.311 8.6947 222.218C9.79734 222.797 10.9372 223.302 12.1066 223.731C21.6655 227.39 33.3707 226.834 42.4893 221.816C44.5994 220.65 46.4971 219.136 48.1025 217.337C51.2998 208.451 50.2653 198.586 49.7865 189.315C49.3077 179.895 48.4822 170.47 48.042 161.028C47.5852 151.338 44.7401 111.629 44.2779 101.934C42.1225 102.474 39.9353 102.879 37.7291 103.144C37.8832 108.333 40.3817 143.558 40.4807 148.752C40.6733 156.736 41.1521 164.709 41.3612 172.67C41.5923 180.544 42.2032 188.896 39.7488 196.478C37.3935 203.681 32.2591 208.182 26.3212 209.046C24.2479 209.354 22.1329 209.223 20.1137 208.66C17.8739 208.05 14.9462 206.878 13.9117 204.259C13.8613 204.174 13.8224 204.084 13.7961 203.989C13.1027 201.843 13.9667 199.373 15.1333 197.458C17.3016 193.892 20.0201 192.401 23.1789 190.448C25.4407 189.05 26.8605 184.682 22.9313 184.874C19.6294 185.028 15.9808 185.122 12.8551 186.619C7.43448 189.199 3.14205 196.038 1.24898 202.283C0.401497 205.111 -0.077274 208.176 0.384988 211.087Z" fill="#5224AA" />
-                                    <path d="M128.222 211.087C128.127 211.751 127.972 212.404 127.76 213.04C126.454 217.015 123.632 220.313 119.907 222.218C118.805 222.799 117.665 223.305 116.495 223.731C106.936 227.39 95.2361 226.834 86.1175 221.816C84.0061 220.65 82.1081 219.133 80.5043 217.332C77.3015 208.446 78.3361 198.58 78.8148 189.309C79.2936 179.889 80.1191 170.464 80.5593 161.022C81.0216 151.333 83.8612 111.623 84.3234 101.928C86.4807 102.469 88.6697 102.873 90.8777 103.139C90.7236 108.328 88.2252 143.553 88.1261 148.747C87.9335 156.73 87.4547 164.703 87.2456 172.665C87.0145 180.539 86.3981 188.891 88.8525 196.473C91.2079 203.675 96.3423 208.176 102.28 209.04C104.353 209.349 106.468 209.218 108.488 208.655C110.727 208.044 113.661 206.872 114.695 204.253C114.744 204.168 114.782 204.077 114.811 203.983C115.499 201.838 114.635 199.367 113.468 197.452C111.305 193.887 108.581 192.396 105.422 190.443C103.161 189.045 101.746 184.676 105.67 184.869C108.972 185.023 112.626 185.116 115.746 186.613C121.167 189.194 125.459 196.033 127.358 202.278C128.222 205.111 128.69 208.176 128.222 211.087Z" fill="#5224AA" />
+                                    <path d="M128.222 211.087C128.127 211.751 127.972 212.404 127.76 213.04C126.454 217.015 123.632 220.313 119.907 222.218C118.805 222.799 117.665 223.305 116.495 223.731C106.936 227.39 95.2361 226.834 86.1175 221.816C84.0061 220.65 82.1081 219.133 80.5043 217.332C77.3015 208.446 78.3361 198.58 78.8148 189.309C79.2936 179.889 80.1191 170.464 80.5593 161.022C81.0216 151.333 83.8612 111.623 84.3234 101.928C86.4807 102.469 88.6697 102.873 90.8777 103.139C90.7236 108.328 88.2252 143.553 88.1261 148.747C87.9335 156.73 87.4547 164.703 87.2456 172.665C87.0145 180.539 86.3981 188.891 88.8525 196.473C91.2079 203.675 96.3423 208.176 102.28 209.04C104.353 209.349 106.468 209.218 108.488 208.655C110.727 208.044 113.661 206.872 114.695 204.253C114.744 204.168 114.782 204.077 114.811 203.983C115.499 201.838 114.635 199.367 113.468 197.452C111.305 193.887 Walid 108.581 192.396 105.422 190.443C103.161 189.045 101.746 184.676 105.67 184.869C108.972 185.023 112.626 185.116 115.746 186.613C121.167 189.194 125.459 196.033 127.358 202.278C128.222 205.111 128.69 208.176 128.222 211.087Z" fill="#5224AA" />
                                     <path d="M119.33 1.73338C95.6662 -3.76883 61.7945 3.93426 50.238 23.3681C21.6933 26.1467 0 46.846 0 67.1272C0 89.3451 26.0793 109.104 58.5917 109.104C58.9604 109.104 59.3181 109.071 59.6923 109.065C80.2135 109.065 86.7732 115.8 105.368 117.599C128.421 119.838 149.217 118.969 161.445 84.4426C174.102 48.6727 151.374 9.18337 119.33 1.73338Z" fill="#8A48E6" />
                                     <path d="M60.9916 237.696C59.7184 240.781 57.8653 243.594 55.5325 245.982C55.2541 246.316 54.9506 246.629 54.6245 246.917C53.5482 247.932 52.3864 248.853 51.152 249.668C50.6017 250.048 50.0129 250.4 49.4295 250.769C48.3691 251.353 47.2779 251.881 46.1607 252.348C45.814 252.491 45.4893 252.64 45.1371 252.755C44.2644 253.113 43.3692 253.412 42.4571 253.652C38.2522 254.82 33.8757 255.244 29.5248 254.906C29.3762 254.906 29.2606 254.879 29.1175 254.879C26.4472 254.681 23.7993 254.25 21.204 253.591C13.8519 251.787 7.07754 248.018 3.19784 241.162C-7.04896 223.126 10.5225 190.035 33.0578 196.688C33.2954 196.75 33.5289 196.827 33.7567 196.919C33.7567 196.919 33.8172 196.952 33.8447 196.952C34.4249 197.157 34.9345 197.524 35.314 198.008C35.3526 198.058 35.4131 198.091 35.4516 198.146C35.5122 198.245 35.6167 198.305 35.6662 198.415C36.3927 199.994 35.0224 201.684 33.6521 202.762C29.5083 206.03 24.2968 208.105 20.8959 212.16C16.752 217.035 16.0201 224.65 19.4926 230.02C25.5955 239.418 38.5554 237.2 43.2826 227.918C47.8777 218.911 46.3973 207.708 46.777 197.959C47.0687 190.371 46.777 182.756 46.5129 175.196C46.0176 159.933 45.0546 144.703 43.8549 129.467C43.1542 120.359 42.3562 111.255 41.461 102.154L64.3155 94.9462V205.232C64.3155 215.879 65.251 227.549 60.9916 237.696Z" fill="#8A48E6" />
                                     <path d="M64.3096 94.9407V205.233C64.3096 215.874 63.3685 227.566 67.6114 237.696C72.9219 250.395 85.8763 255.814 99.0783 254.873C109.32 254.142 120.056 250.532 125.405 241.145C135.669 223.104 118.103 190.013 95.5398 196.655C94.5107 196.957 93.4045 197.43 92.9533 198.404C92.2214 199.972 93.5972 201.706 94.9619 202.762C99.1278 206.063 104.317 208.11 107.74 212.149C111.884 217.029 112.61 224.644 109.127 230.014C103.03 239.401 90.0752 237.206 85.3425 227.924C80.7419 218.911 82.2277 207.686 81.848 197.931C81.5563 190.366 81.848 182.745 82.0956 175.179C82.6019 159.922 83.5595 144.681 84.7426 129.462C85.4525 120.344 86.2285 111.227 87.1585 102.127L64.3096 94.9407Z" fill="#8A48E6" />

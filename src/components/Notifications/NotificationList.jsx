@@ -8,6 +8,7 @@ const NotificationList = ({ onClose, userId, Role = null }) => {
     const [notifications, setNotifications] = useState([]);
     const [error, setError] = useState(null);
       const { t } = useTranslation();
+      const token = sessionStorage.getItem("token");
 
     // Fetch notifications based on role
     useEffect(() => {
@@ -15,7 +16,11 @@ const NotificationList = ({ onClose, userId, Role = null }) => {
             try {
                 let response;
                 if (Role === 'Teacher') {
-                    response = await axios.get(`http://localhost:4000/api/notifications/teacher/${userId}`);
+                    response = await axios.get(`${process.env.REACT_APP_BASE_API_URL}/api/notifications/teacher/${userId}`, {
+                        headers: {
+                            Authorization: `Bearer ${token}`
+                        }
+                    });
                     const joinNotifications = response.data.notifications.map((notification) => ({
                         key: notification.key,
                         type: 'join',
@@ -30,7 +35,11 @@ const NotificationList = ({ onClose, userId, Role = null }) => {
                     }));
                     setNotifications(joinNotifications);
                 } else if (Role === 'Student') {
-                    response = await axios.get(`http://localhost:4000/api/notifications/student/${userId}`);
+                    response = await axios.get(`${process.env.REACT_APP_BASE_API_URL}/api/notifications/student/${userId}`, {
+                        headers: {
+                            Authorization: `Bearer ${token}`
+                        }
+                    });
                     const textNotifications = response.data.notifications.map((notification) => ({
                         key: notification.key,
                         type: 'text',
@@ -55,7 +64,7 @@ const NotificationList = ({ onClose, userId, Role = null }) => {
         try {
             const { studentId, groupId, timestamp, teacherId } = notification;
             await axios.post(
-                `http://localhost:4000/api/notifications/accept/${studentId}/${groupId}/${timestamp}`,
+                `${process.env.REACT_APP_BASE_API_URL}/api/notifications/accept/${studentId}/${groupId}/${timestamp}`,
                 { teacherId }
             );
             setNotifications(notifications.filter((n) => n.key !== notification.key));
@@ -71,7 +80,7 @@ const NotificationList = ({ onClose, userId, Role = null }) => {
         try {
             const { studentId, groupId, timestamp, teacherId } = notification;
             await axios.delete(
-                `http://localhost:4000/api/notifications/join/${studentId}/${groupId}/${timestamp}`,
+                `${process.env.REACT_APP_BASE_API_URL}/api/notifications/join/${studentId}/${groupId}/${timestamp}`,
                 { params: { teacherId } }
             );
             setNotifications(notifications.filter((n) => n.key !== notification.key));
@@ -87,7 +96,11 @@ const NotificationList = ({ onClose, userId, Role = null }) => {
             if (Role === 'Student') {
                 // Encode the notificationKey to handle special characters like ':'
                 const encodedNotificationKey = encodeURIComponent(notificationKey);
-                await axios.delete(`http://localhost:4000/api/notifications/student/${userId}/${encodedNotificationKey}`);
+                await axios.delete(`${process.env.REACT_APP_BASE_API_URL}/api/notifications/student/${userId}/${encodedNotificationKey}`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                });
             }
             // Update the state to remove the notification from the list
             setNotifications(notifications.filter((n) => n.key !== notificationKey));

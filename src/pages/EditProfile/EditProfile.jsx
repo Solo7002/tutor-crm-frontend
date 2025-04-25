@@ -28,7 +28,7 @@ export default function EditProfile() {
         if (token) {
             try {
                 const decoded = jwtDecode(token);
-                axios.get(`http://localhost:4000/api/users/${decoded.id}/profile`)
+                axios.get(`${process.env.REACT_APP_BASE_API_URL}/api/users/${decoded.id}/profile`)
                     .then(res => {
                         const user = res.data;
                         const initialData = {
@@ -144,7 +144,7 @@ export default function EditProfile() {
         const formData = new FormData();
         formData.append('file', imageFile);
         try {
-            const response = await axios.post('http://localhost:4000/api/files/uploadAndReturnLink', formData, {
+            const response = await axios.post(`${process.env.REACT_APP_BASE_API_URL}/api/files/uploadAndReturnLink`, formData, {
                 headers: { 'Content-Type': 'multipart/form-data' }
             });
             return response.data.fileUrl;
@@ -200,7 +200,7 @@ export default function EditProfile() {
                 phone: formData.PhoneNumber ? { PhoneNumber: formData.PhoneNumber } : null
             };
 
-            await axios.put(`http://localhost:4000/api/users/${decoded.id}/profile`, updateData);
+            await axios.put(`${process.env.REACT_APP_BASE_API_URL}/api/users/${decoded.id}/profile`, updateData);
 
             const changes = detectChanges();
             if (changes.length > 0) {

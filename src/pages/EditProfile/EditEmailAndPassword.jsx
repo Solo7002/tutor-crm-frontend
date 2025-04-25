@@ -30,7 +30,7 @@ export default function EditEmailAndPassword() {
         if (token) {
             try {
                 const decoded = jwtDecode(token);
-                axios.get(`http://localhost:4000/api/users/${decoded.id}/credentials`).then(res => {
+                axios.get(`${process.env.REACT_APP_BASE_API_URL}/api/users/${decoded.id}/credentials`).then(res => {
                     setUserId(decoded.id);
                     setFormData({ NewEmail: res.data.Email });
                     setInitialEmail(res.data.Email);
@@ -151,7 +151,7 @@ export default function EditEmailAndPassword() {
                     NewEmail: formData.NewEmail || null,
                     NewPassword: formData.NewPassword || null,
                 };
-                await axios.post('http://localhost:4000/api/users/send-update-credentials-code', sendData);
+                await axios.post(`${process.env.REACT_APP_BASE_API_URL}/api/users/send-update-credentials-code`, sendData);
                 setEmailAlreadySent(true);
                 setStep(2);
                 toast.success(t('EditEmailAndPassword.Messages.CodeSent'));
@@ -165,7 +165,7 @@ export default function EditEmailAndPassword() {
         if (isLoading) return;
         setIsLoading(true);
         try {
-            const response = await axios.post('http://localhost:4000/api/users/confirm-update-credentials', {
+            const response = await axios.post(`${process.env.REACT_APP_BASE_API_URL}/api/users/confirm-update-credentials`, {
                 UserId: userId,
                 Code: code,
             });
