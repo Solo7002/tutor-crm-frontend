@@ -18,10 +18,19 @@ const UKFlag = () => (
   </svg>
 );
 
-const SpainFlag = () => (
-  <svg width="20" height="15" viewBox="0 0 20 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <rect width="20" height="15" fill="#C60B1E" />
-    <rect y="3.75" width="20" height="7.5" fill="#FFC400" />
+const SlovakFlag = () => (
+  <svg width="20" height="15" viewBox="0 0 20 15" xmlns="http://www.w3.org/2000/svg">
+    <rect width="20" height="5" y="0" fill="white" />
+    <rect width="20" height="5" y="5" fill="#0B4EA2" />
+    <rect width="20" height="5" y="10" fill="#EE1C25" />
+
+    <g transform="translate(2.5, 3) scale(0.4)">
+      <path d="M10 0C6.5 0 4 2.5 4 6.5C4 11 10 14 10 14C10 14 16 11 16 6.5C16 2.5 13.5 0 10 0Z" fill="#EE1C25" stroke="white" strokeWidth="1.2"/>
+      
+      <path d="M9.5 3H10.5V6H12V7H10.5V10H9.5V7H8V6H9.5V3Z" fill="white"/>
+      
+      <path d="M6 11C7.2 10 8.2 10.3 9 11.5C9.8 10.3 10.8 10 12 11C11 9.5 9 9.5 9 9.5C9 9.5 7 9.5 6 11Z" fill="#0B4EA2"/>
+    </g>
   </svg>
 );
 
@@ -40,32 +49,6 @@ const GermanyFlag = () => (
   </svg>
 );
 
-const FranceFlag = () => (
-  <svg width="20" height="15" viewBox="0 0 20 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <rect width="6.67" height="15" fill="#0055A4" />
-    <rect x="6.67" width="6.67" height="15" fill="#FFFFFF" />
-    <rect x="13.33" width="6.67" height="15" fill="#EF4135" />
-  </svg>
-);
-
-const ItalyFlag = () => (
-  <svg width="20" height="15" viewBox="0 0 20 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <rect width="6.67" height="15" fill="#009246" />
-    <rect x="6.67" width="6.67" height="15" fill="#FFFFFF" />
-    <rect x="13.33" width="6.67" height="15" fill="#CE2B37" />
-  </svg>
-);
-
-const ChinaFlag = () => (
-  <svg width="20" height="15" viewBox="0 0 20 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <rect width="20" height="15" fill="#DE2910" />
-    <path d="M2 2L3 4.5L1 3H3L1 4.5L2 2Z" fill="#FFDE00" />
-    <path d="M4 1L5 3.5L3 2H5L3 3.5L4 1Z" fill="#FFDE00" />
-    <path d="M6 2L7 4.5L5 3H7L5 4.5L6 2Z" fill="#FFDE00" />
-    <path d="M4 5L5 7.5L3 6H5L3 7.5L4 5Z" fill="#FFDE00" />
-  </svg>
-);
-
 const LanguageSwitcher = () => {
   const { i18n } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
@@ -74,12 +57,9 @@ const LanguageSwitcher = () => {
   const languages = [
     { code: 'ua', name: 'Українська', Flag: UkraineFlag },
     { code: 'en', name: 'English', Flag: UKFlag },
-    { code: 'es', name: 'Español', Flag: SpainFlag },
-    { code: 'ja', name: '日本語', Flag: JapanFlag },
+    { code: 'sk', name: 'Slovenčina', Flag: SlovakFlag },
     { code: 'de', name: 'Deutsch', Flag: GermanyFlag },
-    // { code: 'fr', name: 'Français', Flag: FranceFlag },
-    // { code: 'it', name: 'Italiano', Flag: ItalyFlag },
-    // { code: 'zh', name: '中文', Flag: ChinaFlag },
+    { code: 'ja', name: '日本語', Flag: JapanFlag },
   ];
 
   const currentLanguage = languages.find(lang => lang.code === i18n.language) || languages[0];

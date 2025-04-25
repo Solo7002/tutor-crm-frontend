@@ -1,0 +1,1216 @@
+{
+    "HomeStudent": {
+        "errorNoToken": "Token nebol nájdený v úložisku relácie!",
+        "errorTokenDecode": "Chyba pri dešifrovaní tokenu!",
+        "errorNoUserId": "ID používateľa nebolo nájdené v tokene!",
+        "errorNoStudent": "Študent nebol nájdený pre tohto používateľa!",
+        "errorFetchData": "Chyba pri načítavaní údajov študenta!",
+        "Greetings": {
+            "greeting": "Ahoj",
+            "description": "Učenie je každodenná cesta plná výziev a víťazstiev. OctoCRM bude tvojím spoľahlivým pomocníkom: pomôže ti nezmeškať dôležité úlohy, udržať si prehľad o rozvrhu a byť vždy v kontakte s učiteľmi. Organizuj svoje učenie rozumne a s istotou!"
+        },
+        "Graphic": {
+            "title": "Výkonnosť",
+            "homework": "– Domáca úloha",
+            "classwork": "– Práca v triede",
+            "gradeTooltip": "Známka:",
+            "months": {
+                "january": "január",
+                "february": "február",
+                "march": "marec",
+                "april": "apríl",
+                "may": "máj",
+                "june": "jún",
+                "july": "júl",
+                "august": "august",
+                "september": "september",
+                "october": "október",
+                "november": "november",
+                "december": "december"
+            }
+        },
+        "Leaderboard": {
+            "title": "Rebríček",
+            "all_subjects": "Všetky predmety",
+            "no_data": "Žiadne informácie",
+            "profile_alt": "Profil používateľa"
+        },
+        "Map": {
+            "all_subjects": "Všetky predmety",
+            "format": "Formát",
+            "lesson_type": "Typ výučby",
+            "current_location": "Vaša aktuálna poloha",
+            "error_location": "Chyba pri získavaní polohy!"
+        },
+        "MarkHistory": {
+            "title": "História známok",
+            "no_data": "Žiadne informácie",
+            "types": {
+                "Classwork": "Práca v triede",
+                "Homework": "Domáca úloha",
+                "Test": "Test"
+            }
+        },
+        "NearestEvents": {
+            "title": "Najbližšie udalosti",
+            "no_data": "Žiadne informácie",
+            "go_to": "Prejsť",
+            "event_alt": "Avatar udalosti"
+        },
+        "Schedule": {
+            "title": "{{month}} {{year}}",
+            "months": {
+                "0": "Január",
+                "1": "Február",
+                "2": "Marec",
+                "3": "Apríl",
+                "4": "Máj",
+                "5": "Jún",
+                "6": "Júl",
+                "7": "August",
+                "8": "September",
+                "9": "Október",
+                "10": "November",
+                "11": "December"
+            },
+            "weekdays": {
+                "sun": "Ne",
+                "mon": "Po",
+                "tue": "Ut",
+                "wed": "St",
+                "thu": "Št",
+                "fri": "Pi",
+                "sat": "So"
+            }
+        }
+    },
+    "HomeTeacher": {
+        "errorNoToken": "Token nebol nájdený v úložisku relácie!",
+        "errorTokenDecode": "Chyba pri dešifrovaní tokenu!",
+        "errorNoUserId": "ID používateľa nebolo nájdené v tokene!",
+        "errorNoTeacher": "Učiteľ nebol nájdený pre tohto používateľa!",
+        "errorFetchData": "Chyba pri načítavaní údajov učiteľa!",
+        "Greetings": {
+            "greeting": "Ahoj",
+            "description": "Ste majster výučby! OctoCRM vám pomôže jednoducho spravovať hodiny, rozvrh a študentov.",
+            "defaultName": "Učiteľ"
+        },
+        "Graphic": {
+            "title": "Výkonnosť študentov",
+            "homework": "Domáca úloha",
+            "classwork": "Práca v triede",
+            "test": "Testy",
+            "all_groups": "Všetky skupiny",
+            "grades": "Známky",
+            "average": "Priemer",
+            "no_data": "Žiadne údaje",
+            "months": {
+                "0": "január",
+                "1": "február",
+                "2": "marec",
+                "3": "apríl",
+                "4": "máj",
+                "5": "jún",
+                "6": "júl",
+                "7": "august",
+                "8": "september",
+                "9": "október",
+                "10": "november",
+                "11": "december"
+            },
+            "types": {
+                "Homework": "Domáca úloha",
+                "Classwork": "Práca v triede",
+                "Test": "Test"
+            }
+        },
+        "Leaderboard": {
+            "title": "Rebríček",
+            "all_groups": "Všetky skupiny",
+            "no_data": "Žiadne informácie",
+            "profile_alt": "Profil študenta"
+        },
+        "LatestActivity": {
+            "title": "Najnovšie aktivity",
+            "no_data": "Žiadne informácie",
+            "activity_alt": "Avatar aktivity",
+            "types": {
+                "Lesson": "Hodina uskutočnená",
+                "AssignmentChecked": "Úloha skontrolovaná",
+                "Test": "Test odovzdaný",
+                "Hometask": "Domáca úloha"
+            }
+        },
+        "NearestEvents": {
+            "title": "Najbližšie udalosti",
+            "no_data": "Žiadne informácie",
+            "go_to": "Prejsť",
+            "event_alt": "Avatar udalosti"
+        },
+        "Schedule": {
+            "title": "{{month}} {{year}}",
+            "no_data": "Žiadne údaje",
+            "months": {
+                "0": "Január",
+                "1": "Február",
+                "2": "Marec",
+                "3": "Apríl",
+                "4": "Máj",
+                "5": "Jún",
+                "6": "Júl",
+                "7": "August",
+                "8": "September",
+                "9": "Október",
+                "10": "November",
+                "11": "December"
+            },
+            "weekdays": {
+                "0": "Ne",
+                "1": "Po",
+                "2": "Ut",
+                "3": "St",
+                "4": "Št",
+                "5": "Pi",
+                "6": "So"
+            }
+        },
+        "Productivity": {
+            "title": "Produktivita",
+            "rating": "Hodnotenie",
+            "tasks_checked": "Skontrolované úlohy",
+            "lessons_conducted": "Uskutočnené hodiny",
+            "new_clients": "Noví študenti",
+            "reviews_received": "Prijaté recenzie",
+            "no_change": "—",
+            "no_change_text": "(-)",
+            "periods": {
+                "all_time": "Za celý čas",
+                "year": "Za rok",
+                "half_year": "Za pol roka",
+                "three_months": "Za 3 mesiace",
+                "month": "Za mesiac",
+                "week": "Za týždeň",
+                "day": "Za deň"
+            }
+        }
+    },
+    "SearchTeachers": {
+        "searchPlaceholder": "Hľadať",
+        "bannerTitle": "Váš kľúč k úspechu vo vzdelávaní!",
+        "bannerText": "Zlepšite svoje vedomosti s najlepšími učiteľmi!",
+        "priceLabel": "Cena výučby",
+        "priceMin": "Minimálna",
+        "priceMax": "Maximálna",
+        "ratingLabel": "Hodnotenie",
+        "ratingDesc": "Od vyššieho po nižšie",
+        "ratingAsc": "Od nižšieho po vyššie",
+        "formatLabel": "Formát",
+        "formatOnline": "Online",
+        "formatOffline": "Offline",
+        "resetButton": "Resetovať",
+        "viewButton": "Zobraziť",
+        "loadMoreButton": "Zobraziť viac",
+        "loading": "Načítavanie...",
+        "noTeachers": "Žiadni dostupní učitelia",
+        "from": "Od",
+        "currency": "€",
+        "defaultTeacherName": "Nadežda Volková",
+        "defaultSubject": "Matematika",
+        "defaultDescription": "Ahoj! Som Nadežda Volková, učiteľka matematiky a fyziky. Mám vlastnú metodiku výučby a vytvorila som autorské materiály, ktoré zaručujú kvalitné osvojenie nových vedomostí.",
+        "errorLoading": "Nepodarilo sa načítať učiteľov.",
+        "errorLoadingMore": "Nepodarilo sa načítať viac učiteľov.",
+        "priceSort": "Podľa ceny",
+        "lessonType": "Typ hodiny",
+        "lessonTypeGroup": "Skupinová",
+        "lessonTypeSolo": "Individuálna",
+        "priceSortDesc": "Od vyššej",
+        "priceSortAsc": "Od nižšej",
+        "profile_alt": "Profil učiteľa"
+    },
+    "HomeTaskTeacher": {
+        "components": {
+            "page": {
+                "AtFirstNew": "Najskôr nové",
+                "AtFirstOld": "Najskôr staré",
+                "ByAlphabet": "Podľa abecedy",
+                "TaskVerification": "Kontrola úloh",
+                "TaskManager": "Správca úloh",
+                "AddTask": "Pridať úlohu",
+                "RecentTasks": "Nedávne úlohy",
+                "More": "Viac",
+                "ToCheck": "Na kontrolu",
+                "Checked": "Skontrolované",
+                "NotSubmitted": "Neodovzdané",
+                "NoTasksYet": "Zatiaľ žiadne úlohy",
+                "GeneralError": "Vyskytla sa chyba, skúste to znova"
+            },
+            "UserCard": {
+                "Check": "Skontrolovať",
+                "NotCompleted": "Nevykonané",
+                "NotSubmitted": "Neodovzdané",
+                "InvalidDate": "Nesprávny dátum",
+                "NameNotSpecified": "Meno nie je uvedené"
+            },
+            "EvaluateAIModal": {
+                "PleaseWaitAIChecking": "Prosím, počkajte, umelá inteligencia kontroluje prácu. Môže to trvať niekoľko minút.",
+                "AIEvaluation": "Hodnotenie pomocou umelej inteligencie",
+                "EvaluateManually": "Hodnotiť manuálne",
+                "StartCheck": "Spustiť kontrolu",
+                "Evaluate": "Hodnotiť",
+                "Response": "Odpoveď:",
+                "WaitForAICompletion": "Prosím, počkajte na dokončenie kontroly umelou inteligenciou.",
+                "ErrorUpdatingGrade": "Pri aktualizácii známky sa vyskytla chyba.",
+                "TaskSuccessfullyEvaluated": "Úloha bola úspešne ohodnotená",
+                "ErrorOccurred": "Vyskytla sa chyba"
+            },
+            "EvaluateModal": {
+                "ManualEvaluation": "Manuálne hodnotenie práce",
+                "CheckWorkFasterWithAI": "Kontrolujte prácu rýchlejšie s našou AI kontrolou",
+                "GoToAI": "Prejsť",
+                "AdditionalcommentOptional": "Dodatočný komentár (voliteľné)",
+                "EvaluateWork": "Hodnotiť prácu",
+                "EnterValidGrade": "Prosím, zadajte platnú známku.",
+                "TaskSuccessfullyEvaluated": "Úloha bola úspešne ohodnotená",
+                "ErrorOccurred": "Vyskytla sa chyba"
+            },
+            "HomeTaskCheckModal": {
+                "GroupLabel": "skupina",
+                "Issued": "Vydané",
+                "Deadline": "Urobiť do",
+                "Completed": "Dokončené",
+                "MaxScore": "Maximálne skóre",
+                "Status": "Stav",
+                "PendingReview": "Na kontrolu",
+                "Task": "Úloha",
+                "AttachedFiles": "Priložené súbory",
+                "TaskBy": "Úloha od: ",
+                "AutoEvaluation": "Automatické hodnotenie",
+                "ManualEvaluation": "Hodnotiť manuálne"
+            },
+            "HomeTaskCreateModal": {
+                "GroupLabel": "skupina",
+                "Issued": "Vydané",
+                "Deadline": "Urobiť do",
+                "Completed": "Dokončené",
+                "MaxScore": "Maximálne skóre",
+                "Status": "Stav",
+                "Editing": "Úprava",
+                "Creating": "Vytváranie",
+                "Task": "Úloha",
+                "AttachedFiles": "Priložené súbory",
+                "NoFiles": "Žiadne priložené súbory",
+                "AddFiles": "Pridať súbory",
+                "Submit": "Odoslať",
+                "Save": "Uložiť",
+                "TaskPlaceholder": "Úloha",
+                "DescriptionPlaceholder": "Popis",
+                "FileUploadError": "Súbor sa nepodarilo nahrať",
+                "CoverUploadError": "Obal sa nepodarilo nahrať",
+                "TaskCreatedSuccess": "Úloha bola úspešne vytvorená",
+                "TaskCreationError": "Chyba pri vytváraní domácej úlohy",
+                "TaskEditedSuccess": "Úloha bola úspešne upravená",
+                "TaskEditError": "Chyba pri úprave domácej úlohy"
+            },
+            "ImageSelectionModal": {
+                "Title": "Vyberte obal",
+                "UploadFromComputer": "Nahrať z počítača",
+                "SelectImage": "Vybrať obrázok",
+                "LastUsedImage": "Posledný použitý obrázok",
+                "LastUsedImageAlt": "Posledný obrázok",
+                "StandardCovers": "Štandardné obaly",
+                "StandardCoverAlt": "Štandardný obal",
+                "Select": "Vybrať",
+                "Loading": "Načítavanie...",
+                "FetchLastImageError": "Chyba pri načítaní posledného obrázka",
+                "FileUploadError": "Súbor sa nepodarilo nahrať"
+            },
+            "SearchButton": {
+                "SearchPlaceholder": "Hľadať"
+            },
+            "StandartInput": {
+                "Placeholder": {
+                    "Default": "Zadajte hodnotu",
+                    "AdditionalCommentOptional": "Dodatočný komentár (voliteľné)"
+                },
+                "Errors": {
+                    "required": "Pole je povinné",
+                    "invalidEmail": "Neplatný formát emailu",
+                    "minLength": "Príliš krátka hodnota",
+                    "maxLength": "Príliš dlhá hodnota"
+                }
+            },
+            "TaskCardBlock": {
+                "Issued": "Vydané:",
+                "Due": "Urobiť do:",
+                "Edit": "Upraviť",
+                "BookCoverAlt": "Obal úlohy",
+                "DeleteSuccess": "Úloha bola úspešne odstránená",
+                "DeleteError": "Domácu úlohu sa nepodarilo odstrániť"
+            },
+            "TaskCardBlock2": {
+                "Issued": "Vydané:",
+                "Due": "Urobiť do:",
+                "TaskPreviewAlt": "Náhľad úlohy"
+            },
+            "TaskCardTile": {
+                "Issued": "Vydané:",
+                "Due": "Urobiť do:",
+                "Delete": "Odstrániť",
+                "Edit": "Upraviť",
+                "DeleteSuccess": "Úloha bola úspešne odstránená",
+                "DeleteError": "Domácu úlohu sa nepodarilo odstrániť"
+            }
+        }
+    },
+    "HometaskStudent": {
+        "components": {
+            "page": {
+                "Tabs": {
+                    "ToDo": "Na vykonanie",
+                    "Pending": "Na kontrole",
+                    "Done": "Dokončené"
+                },
+                "Filters": {
+                    "AllSubjects": "Všetky predmety"
+                },
+                "Loading": "Načítavanie...",
+                "NoTasks": "Nič tu nie je",
+                "SortOptions": {
+                    "NewestFirst": "Najnovšie najskôr",
+                    "OldestFirst": "Najstaršie najskôr",
+                    "Alphabetical": "Podľa abecedy"
+                },
+                "Messages": {
+                    "SendSuccess": "Domáca úloha bola úspešne odoslaná!",
+                    "SendSuccessTitle": "Názov: {{title}}",
+                    "SendError": "Nepodarilo sa odoslať domácu úlohu. Skúste to znova.",
+                    "CancelSuccess": "Odoslanie domácej úlohy bolo zrušené!",
+                    "CancelSuccessTitle": "Názov: {{title}}",
+                    "CancelError": "Nepodarilo sa zrušiť odoslanie. Skúste to znova."
+                },
+                "Errors": {
+                    "TokenDecode": "Chyba pri dešifrovaní tokenu",
+                    "FetchStudentId": "Chyba pri získavaní studentId",
+                    "FetchInitialData": "Chyba pri načítavaní počiatočných údajov",
+                    "FetchSubjects": "Chyba pri získavaní predmetov",
+                    "FetchTasks": "Chyba pri získavaní údajov",
+                    "FetchTeacher": "Chyba pri získavaní údajov o učiteľovi (ID: {{id}})",
+                    "FetchSubject": "Chyba pri získavaní údajov o predmete (ID: {{id}})",
+                    "FetchHometask": "Chyba pri získavaní údajov o domácej úlohe (ID: {{id}})",
+                    "ParseData": "Chyba pri spracovaní údajov na serveri",
+                    "RefreshTasks": "Chyba pri obnovení úloh",
+                    "UploadFile": "Chyba pri nahrávaní súboru: {{fileName}}",
+                    "IncompleteUpload": "Nie všetky súbory boli nahrané. Skúste to znova."
+                }
+            },
+            "Dropdown": {
+                "AllSubjects": "Všetky predmety",
+                "Errors": {
+                    "NoOptions": "Žiadne dostupné predmety"
+                }
+            },
+            "HometaskCard": {
+                "StatusButton": {
+                    "Send": "Odoslať",
+                    "Cancel": "Vrátiť",
+                    "Default": "Tlačidlo"
+                },
+                "Issued": "Vydané:",
+                "Done": "Dokončené",
+                "Due": "Urobiť do",
+                "ImageAlt": "Obrázok úlohy"
+            },
+            "HometaskModal": {
+                "TitlePrefix": "Úloha",
+                "Issued": "Vydané",
+                "Due": "Urobiť do",
+                "Done": "Dokončené",
+                "MaxMark": "Maximálna známka",
+                "Status": "Stav",
+                "Task": "Úloha",
+                "AttachedFiles": "Priložené súbory",
+                "Choose": "Vybrať",
+                "ImageAlt": "Obrázok úlohy",
+                "StatusText": {
+                    "Pending": "Na kontrole",
+                    "Done": "Dokončené",
+                    "Default": "Na vykonanie"
+                },
+                "Mark": "Známka:",
+                "Messages": {
+                    "NoFilesSelected": "Vyberte aspoň jeden súbor.",
+                    "FileError": "Chyba pri spracovaní súboru"
+                }
+            }
+        }
+    },
+    "CalendarTeacher": {
+        "components": {
+            "Messages": {
+                "FetchError": "Chyba pri získavaní údajov",
+                "WindowWidth": "Šírka okna: {{width}} pixelov"
+            },
+            "AddDayModal": {
+                "UI": {
+                    "Title": "Pridať udalosť",
+                    "SubjectLabel": "Predmet:",
+                    "DateLabel": "Dátum:",
+                    "TimeLabel": "Začiatok a koniec hodiny:",
+                    "From": "Od",
+                    "To": "Do",
+                    "GroupLabel": "Skupina:",
+                    "FormatLabel": "Formát výučby:",
+                    "Offline": "Offline",
+                    "Online": "Online",
+                    "SubjectPlaceholder": "Predmet",
+                    "MeetingLinkPlaceholder": "Odkaz na stretnutie",
+                    "AddressPlaceholder": "Adresa",
+                    "SelectGroup": "Vyberte skupinu",
+                    "LoadingGroups": "Načítavanie skupín...",
+                    "OneTime": "Jednorazová udalosť",
+                    "Weekly": "Opakovať každý týždeň",
+                    "Biweekly": "Opakovať každé 2 týždne",
+                    "AddToSchedule": "Pridať do rozvrhu"
+                },
+                "Messages": {
+                    "FetchGroupsError": "Chyba pri získavaní skupín",
+                    "GroupsLoadError": "Nepodarilo sa načítať zoznam skupín",
+                    "SelectGroupError": "Vyberte skupinu",
+                    "SubjectEmptyError": "Predmet nemôže byť prázdny",
+                    "DateEmptyError": "Dátum nemôže byť prázdny",
+                    "DatePastError": "Dátum nemôže byť skorší ako dnešný",
+                    "StartHourError": "Zadajte platný čas začiatku (0-23)",
+                    "StartMinuteError": "Zadajte platné minúty začiatku (0-59)",
+                    "EndHourError": "Zadajte platný čas konca (0-23)",
+                    "EndMinuteError": "Zadajte platné minúty konca (0-59)",
+                    "TimeOrderError": "Čas konca musí byť neskorší ako čas začiatku",
+                    "LinkEmptyError": "Odkaz nemôže byť prázdny",
+                    "LinkInvalidError": "Zadajte platný odkaz",
+                    "AddressEmptyError": "Adresa nemôže byť prázdna",
+                    "FormValidationError": "Opravte chyby vo formulári",
+                    "SaveEventError": "Nepodarilo sa uložiť udalosť. Skúste to znova.",
+                    "SaveEventSuccess": "Všetky hodiny boli úspešne naplánované!"
+                }
+            },
+            "ChangeDayModal": {
+                "UI": {
+                    "Title": "Upraviť udalosť",
+                    "SubjectLabel": "Predmet:",
+                    "DateLabel": "Dátum:",
+                    "TimeLabel": "Začiatok a koniec hodiny:",
+                    "From": "Od",
+                    "To": "Do",
+                    "GroupLabel": "Skupina:",
+                    "FormatLabel": "Formát výučby:",
+                    "Offline": "Offline",
+                    "Online": "Online",
+                    "SubjectPlaceholder": "Predmet",
+                    "MeetingLinkPlaceholder": "Odkaz na stretnutie",
+                    "AddressPlaceholder": "Adresa",
+                    "SelectGroup": "Vyberte skupinu",
+                    "LoadingGroups": "Načítavanie skupín...",
+                    "SaveChanges": "Uložiť zmeny",
+                    "DatesLabel": "Dátum:",
+                    "TimeRangeLabel": "Čas:",
+                    "FormatLabelSuccess": "Formát:"
+                },
+                "Messages": {
+                    "FetchGroupsError": "Chyba pri získavaní skupín",
+                    "GroupsLoadError": "Nepodarilo sa načítať zoznam skupín",
+                    "SelectGroupError": "Vyberte skupinu",
+                    "SubjectEmptyError": "Predmet nemôže byť prázdny",
+                    "DateEmptyError": "Dátum nemôže byť prázdny",
+                    "DatePastError": "Dátum nemôže byť skorší ako dnešný",
+                    "StartHourError": "Zadajte platný čas začiatku (0-23)",
+                    "StartMinuteError": "Zadajte platné minúty začiatku (0-59)",
+                    "EndHourError": "Zadajte platný čas konca (0-23)",
+                    "EndMinuteError": "Zadajte platné minúty konca (0-59)",
+                    "TimeOrderError": "Čas konca musí byť neskorší ako čas začiatku",
+                    "LinkEmptyError": "Odkaz nemôže byť prázdny",
+                    "LinkInvalidError": "Zadajte platný odkaz",
+                    "AddressEmptyError": "Adresa nemôže byť prázdna",
+                    "FormValidationError": "Opravte chyby vo formulári",
+                    "UpdateEventError": "Nepodarilo sa aktualizovať udalosť. Skúste to znova.",
+                    "UpdateEventSuccess": "Hodina bola úspešne aktualizovaná!"
+                }
+            },
+            "ItemLesson": {
+                "UI": {
+                    "GroupLabel": "Skupina:",
+                    "LocationLabel": "Miesto:",
+                    "LinkText": "Odkaz",
+                    "NoLinkText": "Žiadny odkaz",
+                    "NoAddressText": "Žiadna adresa",
+                    "DeleteButton": "Odstrániť",
+                    "EditButton": "Upraviť",
+                    "NoTitleText": "Bez názvu",
+                    "UnknownGroupText": "Neznáma skupina",
+                    "SubjectLabel": "Predmet:",
+                    "DateLabel": "Dátum:",
+                    "TimeLabel": "Čas:"
+                },
+                "Messages": {
+                    "DeleteLessonError": "Chyba pri odstraňovaní hodiny",
+                    "DeleteLessonFailed": "Nepodarilo sa odstrániť hodinu. Skúste to znova.",
+                    "DeleteLessonSuccess": "Hodina bola úspešne odstránená!"
+                }
+            },
+            "Panel": {
+                "UI": {
+                    "Title": "Plánuj vo veľkom!",
+                    "Subtitle": "Pridávaj kurzy do svojho Google Kalendára, plánuj svoj čas vo veľkom.",
+                    "ButtonText": "Pridať",
+                    "SoonLabel": "Čoskoro"
+                }
+            },
+            "PanelLessons": {
+                "UI": {
+                    "SortToday": "Na dnes",
+                    "SortWeek": "Na týždeň",
+                    "SortMonth": "Na mesiac",
+                    "SortSelectedPrefix": "Za"
+                }
+            }
+        }
+    },
+    "CalendarStudent": {
+        "components": {
+            "page": {
+                "TokenDecodeError": "Chyba dekódovania tokenu",
+                "UserIdNotFoundError": "Identifikátor používateľa nebol nájdený v tokene",
+                "FetchLessonsError": "Chyba pri získavaní hodín"
+            },
+            "ItemLesson": {
+                "UI": {
+                    "NoTitleText": "Bez názvu",
+                    "TeacherLabel": "Učiteľ:",
+                    "LocationLabel": "Miesto:",
+                    "LinkText": "Odkaz",
+                    "NoLinkText": "Žiadny odkaz",
+                    "NoAddressText": "Žiadna adresa"
+                }
+            },
+            "PanelLessons": {
+                "UI": {
+                    "SortToday": "Na dnes",
+                    "SortWeek": "Na týždeň",
+                    "SortMonth": "Na mesiac",
+                    "SortSelectedPrefix": "Za"
+                }
+            }
+        }
+    },
+    "Navbar": {
+        "Labels": {
+            "home": "Domov",
+            "hometasks": "Domáce úlohy",
+            "tests": "Testy",
+            "calendar": "Kalendár",
+            "materials": "Materiály",
+            "search": "Hľadať",
+            "settings": "Nastavenia",
+            "info": "Informácie",
+            "menu": "Menu",
+            "soon": "Čoskoro",
+            "balance": "Zostatok",
+            "profile": "Profil"
+        },
+        "NotificationList": {
+            "List": "Zoznam notifikácií",
+            "NoNew": "Žiadne nové notifikácie",
+            "NotificationItem": {
+                "WantsToJoin": "Chce sa pripojiť ku kurzu",
+                "Group": "skupina"
+            }
+        },
+        "Errors": {
+            "TokenDecode": "Chyba pri dešifrovaní tokenu!",
+            "UserData": "Chyba pri získavaní údajov používateľa alebo zostatku!",
+            "Notifications": "Nepodarilo sa načítať notifikácie. Skúste to znova.",
+            "Request": "Nepodarilo sa prijať požiadavku. Skúste to znova.",
+            "Declining": "Nepodarilo sa odmietnuť požiadavku. Skúste to znova.",
+            "Deleting": "Nepodarilo sa odstrániť notifikáciu. Skúste to znova."
+        }
+    },
+    "EditProfile": {
+        "Validation": {
+            "ChooseImage": "Vyberte, prosím, súbor s obrázkom",
+            "LastName": "Priezvisko je povinné",
+            "FirstName": "Meno je povinné",
+            "PhoneNumber": "Telefónne číslo musí obsahovať minimálne 10 číslic",
+            "UploadImage": "Chyba pri nahrávaní obrázka",
+            "initialImageFile": "Pôvodný obrázok",
+            "imageFile": "Nový obrázok nahraný",
+            "noImage": "Bez obrázka"
+        },
+        "ChangedFields": "Zmenené polia",
+        "ChangedFrom": "Zmenené z",
+        "ChangedTo": "na",
+        "NoChanges": "Neboli vykonané žiadne zmeny.",
+        "Info": "Osobné informácie",
+        "Change": "Zmeniť",
+        "Placeholders": {
+            "LastName": "Priezvisko",
+            "FirstName": "Meno"
+        },
+        "Buttons": {
+            "Credentials": "Zmeniť heslo a/alebo email",
+            "Save": "Uložiť zmeny",
+            "Saving": "Ukladanie..."
+        },
+        "Errors": {
+            "ProfileUpdate": "Chyba pri aktualizácii profilu"
+        }
+    },
+    "EditEmailAndPassword": {
+        "Validation": {
+            "PasswordLength": "Heslo musí obsahovať od 8 do 128 znakov",
+            "PasswordLowercase": "Heslo musí obsahovať aspoň jedno malé písmeno",
+            "PasswordUppercase": "Heslo musí obsahovať aspoň jedno veľké písmeno",
+            "PasswordDigit": "Heslo musí obsahovať aspoň jednu číslicu",
+            "PasswordSpecial": "Heslo musí obsahovať aspoň jeden špeciálny znak",
+            "PasswordInvalidChars": "Heslo obsahuje nepovolené znaky. Povolené sú iba písmená, číslice a špeciálne znaky",
+            "EmailRequired": "Email je povinný",
+            "EmailInvalid": "Neplatný formát emailu",
+            "PasswordsMismatch": "Heslá sa nezhodujú"
+        },
+        "Messages": {
+            "NoChanges": "Neboli vykonané žiadne zmeny",
+            "CodeSent": "Overovací kód bol odoslaný na váš email",
+            "SendCodeError": "Chyba pri odosielaní kódu",
+            "InvalidCode": "Neplatný overovací kód alebo jeho lehota vypršala",
+            "ConfirmError": "Chyba pri potvrdení",
+            "UpdateSuccess": "Údaje boli úspešne aktualizované"
+        },
+        "Placeholders": {
+            "Email": "Email",
+            "NewPassword": "Nové heslo",
+            "ConfirmPassword": "Potvrdenie hesla"
+        },
+        "Buttons": {
+            "Save": "Uložiť zmeny",
+            "Saving": "Ukladanie"
+        },
+        "Content": {
+            "Title": "Zmena emailu a hesla",
+            "CodeSentMessage": "Overovací kód bol odoslaný na váš email",
+            "EnterCode": "Zadajte overovací kód",
+            "InvalidCodeMessage": "Overovací kód je neplatný alebo jeho lehota vypršala"
+        }
+    },
+    "ProfileStudent": {
+        "Messages": {
+            "TokenDecodeError": "Chyba pri dešifrovaní tokenu"
+        },
+        "Buttons": {
+            "EditProfile": "Upraviť profil",
+            "LearnMore": "Viac informácií"
+        },
+        "Content": {
+            "RegisteredUser": "Registrovaný používateľ",
+            "LearnFull": "Uč sa naplno",
+            "SubscriptionPrompt": "Vytvor si predplatné pre rozšírenie možností"
+        },
+        "Stats": {
+            "Courses": "Kurzy",
+            "Rating": "Hodnotenie",
+            "ByTrophies": "podľa trofejí",
+            "Trophies": "Trofeje"
+        },
+        "GroupList": {
+            "Title": "Moje skupiny",
+            "TableHeaders": {
+                "Number": "Č.",
+                "GroupNumber": "Č. skupiny",
+                "GroupName": "Názov skupiny",
+                "CourseName": "Názov kurzu",
+                "Teacher": "Učiteľ",
+                "Price": "Cena"
+            },
+            "DefaultGroups": {
+                "MathName": "Matematika",
+                "MathFormat": "Offline",
+                "MathType": "Individuálne",
+                "MathTeacher": "Oktávia",
+                "PhysicsName": "Fyzika",
+                "PhysicsFormat": "Online",
+                "PhysicsType": "Skupinový",
+                "PhysicsTeacher": "Ivanov"
+            }
+        },
+        "Reviews": {
+            "Messages": {
+                "FetchReviewsError": "Chyba pri získavaní recenzií"
+            },
+            "Title": {
+                "HasReviews": "Recenzie študentov",
+                "NoReviews": "Žiadne recenzie"
+            },
+            "Buttons": {
+                "LoadMore": "Čítať viac komentárov",
+                "AddComment": "Pridať komentár"
+            }
+        }
+    },
+    "ProfileTeacher": {
+        "Messages": {
+            "TokenDecodeError": "Chyba pri dešifrovaní tokenu"
+        },
+        "Buttons": {
+            "EditProfile": "Upraviť profil",
+            "LearnMore": "Viac informácií"
+        },
+        "Content": {
+            "RegisteredUser": "Registrovaný používateľ",
+            "Subject": "Predmet",
+            "From": "od",
+            "LessonPrice": "Cena za hodinu",
+            "LearnFull": "Uč sa naplno",
+            "SubscriptionPrompt": "Vytvor si predplatné pre rozšírenie možností"
+        },
+        "Stats": {
+            "Students": "Študenti",
+            "Rating": "Hodnotenie",
+            "Materials": "Autorské učebné materiály"
+        },
+        "CourseList": {
+            "Title": "Kurzy",
+            "TableHeaders": {
+                "GroupNumber": "Č. skupiny",
+                "GroupName": "Názov skupiny",
+                "StudentsCount": "Počet študentov",
+                "Price": "Cena"
+            },
+            "Buttons": {
+                "EditCourses": "Upraviť kurzy",
+                "JoinCourse": "Zapísať sa na kurz"
+            },
+            "DefaultCourses": {
+                "Math": "Matematika",
+                "Physics": "Fyzika"
+            }
+        },
+        "AddReviewModal": {
+            "Messages": {
+                "ReviewSent": "Recenzia odoslaná",
+                "ReviewError": "Chyba pri odosielaní recenzie"
+            },
+            "Title": "Komentár učiteľovi",
+            "Placeholder": "Zadajte text sem",
+            "Button": {
+                "Submit": "Odoslať"
+            }
+        },
+        "Comment": {
+            "Content": {
+                "Course": "Kurz"
+            },
+            "Button": {
+                "ShowLess": "Menej",
+                "ShowMore": "Viac"
+            }
+        }
+    },
+    "ProfileTeacher_forStudent": {
+        "Messages": {
+            "TokenError": "Chyba pri dešifrovaní tokenu"
+        },
+        "Info": {
+            "Subject": "Predmet",
+            "PricePerLesson": "Cena za hodinu",
+            "RegisteredUser": "Registrovaný používateľ",
+            "PriceFrom": "od"
+        },
+        "Subscription": {
+            "Title": "Uč sa naplno",
+            "Description": "Vytvor si predplatné pre rozšírenie možností"
+        },
+        "Stats": {
+            "Students": "Študenti",
+            "Rating": "Hodnotenie",
+            "Materials": "Autorské učebné materiály"
+        }
+    },
+    "CourseJoinModal": {
+        "Messages": {
+            "FetchGroupsError": "Nepodarilo sa načítať informácie o vašich skupinách. Skúste to znova",
+            "RequestSuccess": "Požiadavka odoslaná",
+            "RequestError": "Nepodarilo sa odoslať požiadavku. Skúste to znova"
+        },
+        "Stage1": {
+            "Title": "Zápis na kurz",
+            "SelectCourseLabel": "Vyberte kurz",
+            "NoCoursesAvailable": "Bohužiaľ, nie sú dostupné žiadne kurzy na zápis. Už ste zapísaní na všetky dostupné kurzy",
+            "SelectGroupLabel": "Vyberte skupinu",
+            "NoGroupsAvailable": "Bohužiaľ, nie sú dostupné žiadne skupiny pre tento kurz. Už ste zapísaní na všetky dostupné skupiny",
+            "NextButton": "Ďalej"
+        },
+        "Stage2": {
+            "Title": "Zápis na kurz",
+            "TeacherLabel": "Učiteľ",
+            "CourseLabel": "Kurz",
+            "GroupLabel": "Skupina",
+            "TypeLabel": "Typ",
+            "FormatLabel": "Formát",
+            "PriceLabel": "Cena za hodinu",
+            "SubmitButton": "Odoslať požiadavku",
+            "NotSpecified": "Nie je uvedené"
+        },
+        "Stage3": {
+            "Title": "Požiadavka odoslaná",
+            "Description": "Učiteľ vás čoskoro pridá do kurzu. Sledujte notifikácie v správach",
+            "HomeButton": "Na domovskú stránku"
+        },
+        "Dropdown": {
+            "AllCourses": "Všetky kurzy",
+            "AllGroups": "Všetky skupiny"
+        }
+    },
+    "PasswordInput": {
+        "Placeholder": "Heslo",
+        "ValidationErrors": {
+            "EmptyField": "Toto pole nemôže byť prázdne",
+            "Length": "Heslo musí obsahovať od {minLength} do {maxLength} znakov",
+            "Lowercase": "Heslo musí obsahovať aspoň jedno malé písmeno",
+            "Uppercase": "Heslo musí obsahovať aspoň jedno veľké písmeno",
+            "Digit": "Heslo musí obsahovať aspoň jednu číslicu",
+            "Special": "Heslo musí obsahovať aspoň jeden špeciálny znak",
+            "AllowedChars": "Heslo obsahuje nepovolené znaky. Povolené sú iba písmená, číslice a špeciálne znaky"
+        }
+    },
+    "MaterialsStudent": {
+        "archive": "Archív",
+        "soon": "Čoskoro",
+        "shop": "Obchod",
+        "searchError": "Vyskytla sa chyba, skúste to znova",
+        "noMaterials": "Zatiaľ vám žiadny učiteľ neposkytol prístup k svojim materiálom :(",
+        "sortOptions": {
+            "alphabetical": "Podľa abecedy",
+            "newest": "Najnovšie najskôr",
+            "oldest": "Najstaršie najskôr"
+        },
+        "fileCategories": {
+            "allFormats": "Všetky formáty",
+            "presentations": "Prezentácie",
+            "documents": "Dokumenty",
+            "textFiles": "Textové súbory",
+            "spreadsheets": "Tabuľky",
+            "pdf": "PDF",
+            "images": "Obrázky"
+        }
+    },
+    "MaterialsTeacher": {
+        "archive": "Archív",
+        "store": "Obchod",
+        "soon": "Čoskoro",
+        "searchPlaceholder": "Hľadať",
+        "addFile": "Pridať súbor",
+        "createFolder": "Vytvoriť priečinok",
+        "sortAlphabetically": "Podľa abecedy",
+        "sortNewest": "Najnovšie najskôr",
+        "sortOldest": "Najstaršie najskôr",
+        "errorMessage": "Vyskytla sa chyba, skúste to znova",
+        "allFormats": "Všetky formáty",
+        "presentations": "Prezentácie",
+        "documents": "Dokumenty",
+        "textFiles": "Textové súbory",
+        "spreadsheets": "Tabuľky",
+        "pdf": "PDF",
+        "images": "Obrázky"
+    },
+    "MaterialComponents": {
+        "AccessManagementModal": {
+            "title": "Správa prístupu k učebným materiálom",
+            "saveButton": "Uložiť",
+            "noCourses": "Žiadne dostupné kurzy",
+            "accessUpdated": "Prístup k materiálu bol aktualizovaný",
+            "errorMessage": "Vyskytla sa chyba, skúste to znova"
+        },
+        "AddMaterialModal": {
+            "title": "Pridať súbor",
+            "selectFromComputer": "Vybrať súbor z počítača",
+            "or": "alebo",
+            "dragAndDropText": "Presuňte súbory z počítača do tejto oblasti",
+            "restrictions": "Obmedzenia: max. 49MB, bez TXT alebo BAT súborov",
+            "addFilesButton": "Pridať súbor(y)",
+            "uploading": "Nahrávanie...",
+            "successMessage": "Materiály boli úspešne pridané",
+            "errorMessage": "Vyskytla sa chyba, skúste to znova",
+            "fileSizeError": "Súbor \"{{fileName}}\" presahuje maximálnu veľkosť (49MB)",
+            "fileTypeError": "Súbor \"{{fileName}}\" má zakázaný formát ({{extension}})"
+        },
+        "FolderBlock": {
+            "folder": "Priečinok",
+            "delete": "Odstrániť",
+            "editName": "Zmeniť názov",
+            "manageAccess": "Správa prístupu",
+            "enterNewName": "Zadajte nový názov",
+            "toast": {
+                "folderNameChanged": "Názov priečinka bol zmenený",
+                "newName": "Nový názov: {{name}}",
+                "confirmDelete": "Ste si istí, že chcete odstrániť tento priečinok?",
+                "deleteButton": "Odstrániť",
+                "cancelButton": "Zrušiť",
+                "folderDeleted": "Priečinok bol úspešne odstránený!",
+                "deletedName": "Názov: {{name}}"
+            }
+        },
+        "MaterialBlock": {
+            "materialNameChanged": "Názov materiálu bol zmenený",
+            "newName": "Nový názov: {{newName}}",
+            "confirmDelete": "Ste si istí, že chcete odstrániť tento materiál?",
+            "delete": "Odstrániť",
+            "cancel": "Zrušiť",
+            "materialDeleted": "Materiál bol úspešne odstránený!",
+            "name": "Názov: {{name}}",
+            "enterNewName": "Zadajte nový názov",
+            "changeName": "Zmeniť názov",
+            "accessManagement": "Správa prístupu"
+        },
+        "FolderCreateBlock": {
+            "placeholder": "Zadajte názov",
+            "label": "Priečinok",
+            "successMessage": "Nový priečinok bol vytvorený",
+            "errorMessage": "Vyskytla sa chyba, skúste to znova"
+        },
+        "FolderCreateList": {
+            "placeholder": "Zadajte názov",
+            "label": "Priečinok",
+            "successMessage": "Nový priečinok bol vytvorený",
+            "errorMessage": "Vyskytla sa chyba, skúste to znova"
+        },
+        "FolderList": {
+            "folderTypeLabel": "Priečinok",
+            "folderNameChanged": "Názov priečinka bol zmenený",
+            "newName": "Nový názov: {{name}}",
+            "deleteConfirmation": "Ste si istí, že chcete odstrániť tento priečinok?",
+            "deleteButton": "Odstrániť",
+            "cancelButton": "Zrušiť",
+            "deletedSuccessfully": "Priečinok bol úspešne odstránený!",
+            "nameLabel": "Názov: {{name}}",
+            "inputPlaceholder": "Zadajte nový názov",
+            "menuDelete": "Odstrániť",
+            "menuRename": "Zmeniť názov",
+            "menuAccessManagement": "Správa prístupu"
+        },
+        "MaterialList": {
+            "nameChanged": "Názov materiálu bol zmenený",
+            "newName": "Nový názov",
+            "deleteConfirmation": "Ste si istí, že chcete odstrániť tento materiál?",
+            "delete": "Odstrániť",
+            "cancel": "Zrušiť",
+            "deleteSuccess": "Materiál bol úspešne odstránený!",
+            "name": "Názov",
+            "enterNewName": "Zadajte nový názov",
+            "changeName": "Zmeniť názov",
+            "manageAccess": "Správa prístupu"
+        },
+        "FolderUpBlock": {
+            "back": "Späť"
+        }
+    },
+    "Tests": {
+        "DoneTestStudent": {
+            "error": "Chyba:",
+            "loading": "Načítavanie...",
+            "testTitle": "Test |",
+            "topic": "Téma:",
+            "score": "Skóre",
+            "result": "Výsledok:",
+            "questionsCount": "Počet otázok",
+            "correctAnswers": "Správne odpovede",
+            "incorrectAnswers": "Nesprávne odpovede",
+            "timeSpent": "Strávený čas",
+            "attemptsUsed": "Využité pokusy:",
+            "nextAttempt": "Ďalší pokus",
+            "returnToTests": "Vrátiť sa na testy",
+            "yourAnswer": "Vaša odpoveď",
+            "correctAnswer": "Správna odpoveď"
+        },
+        "RunTestStudent": {
+            "errorFetchingTest": "Chyba pri získavaní testov!",
+            "errorSubmittingTest": "Chyba pri odosielaní testu!",
+            "timeExpired": "Čas vypršal",
+            "loading": "Načítavanie...",
+            "testCompleted": "Test dokončený. Ďakujeme!",
+            "pleaseSelectAnswer": "Vyberte, prosím, odpoveď",
+            "imageAlt": "Ilustrácia k otázke",
+            "nextButton": "Ďalej"
+        },
+        "TestStudent": {
+            "toComplete": "Na dokončenie",
+            "completed": "Dokončené",
+            "sortNewest": "Najnovšie najskôr",
+            "sortOldest": "Najstaršie najskôr",
+            "sortAlphabetical": "Podľa abecedy",
+            "errors": {
+                "tokenDecode": "Chyba pri dešifrovaní tokenu!",
+                "studentIdGet": "Chyba pri získavaní studentId!",
+                "testsGet": "Chyba pri získavaní testov!"
+            }
+        },
+        "TestStudentComponents": {
+            "TestCard": {
+                "issued": "Vydané:",
+                "completeBy": "Dokončiť do:",
+                "completed": "Dokončené:",
+                "completeButton": "Dokončiť"
+            },
+            "TestModal": {
+                "issued": "Vydané",
+                "score": "Skóre",
+                "completeBy": "Dokončiť do",
+                "completed": "Dokončené",
+                "maxScore": "Maximálne skóre",
+                "status": "Stav",
+                "statusDone": "Dokončené",
+                "statusToDo": "Na dokončenie",
+                "attemptsCount": "Počet pokusov",
+                "attemptsUsed": "Využité pokusy",
+                "timeToComplete": "Čas na dokončenie",
+                "minutesShort": "min",
+                "questionsCount": "Počet otázok",
+                "resultButton": "Výsledok",
+                "startButton": "Na dokončenie",
+                "retryButton": "Skúsiť znova",
+                "createTestError": "Chyba pri vytváraní testu!"
+            }
+        },
+        "TestsTeacher": {
+            "allGroups": "Všetky skupiny",
+            "allCourses": "Všetky kurzy",
+            "assigned": "Priradené",
+            "loading": "Načítavanie testov...",
+            "error": "Chyba:",
+            "noTests": "Žiadne testy",
+            "sadFace": ":(",
+            "course": "Kurz:",
+            "create": "Vytvoriť"
+        },
+        "TestResults": {
+            "loading": "Načítavanie...",
+            "error": "Chyba:",
+            "resultsTitle": "Výsledky testu:",
+            "course": "Kurz:",
+            "notAvailable": "Není k dispozícii",
+            "group": "Skupina:",
+            "issued": "Vydané:",
+            "deadline": "Termín do:",
+            "studentsDone": "Dokončilo študentov",
+            "studentsNotDone": "Nedokončilo študentov",
+            "deleteTest": "Odstrániť test",
+            "noTestDetails": "Detaily testu chýbajú.",
+            "errorMessage": "Vyskytla sa chyba, skúste to znova",
+            "testDeletedSuccess": "Test bol úspešne odstránený!",
+            "title": "Názov:",
+            "unknown": "Neznámy",
+            "deleteFailure": "Nepodarilo sa odstrániť test. Skúste to znova."
+        },
+        "CreateTestAi": {
+            "decryptError": "Vyskytla sa chyba, skúste to znova",
+            "fixFormErrors": "Opravte, prosím, chyby vo formulári",
+            "generateBeforeSubmit": "Pred vytvorením vygenerujte test.",
+            "generateSuccess": "Test bol úspešne vygenerovaný! Počet otázok: {{count}}",
+            "abortInfo": "Generovanie bolo zrušené",
+            "generateError": "Chyba pri generovaní, skúste to znova",
+            "generateFail": "Nepodarilo sa vygenerovať test: {{message}}",
+            "apiAuthError": "Chyba autentifikácie API. Kontaktujte, prosím, administrátora.",
+            "testIdError": "Nepodarilo sa získať TestId",
+            "imageUploadError": "Nepodarilo sa nahrať obrázok: {{message}}",
+            "testQuestionIdError": "Nepodarilo sa získať TestQuestionId",
+            "testCreated": "Test bol úspešne vytvorený!",
+            "testName": "Názov",
+            "createError": "Chyba pri vytváraní testu",
+            "generate": "Vygenerovať",
+            "regenerate": "Vygenerovať znova",
+            "create": "Vytvoriť",
+            "generating": "Generuje sa...",
+            "saving": "Ukladá sa..."
+        },
+        "CreateTest": {
+            "errorDecryptGroup": "Vyskytla sa chyba, skúste to znova",
+            "errorEmptySubject": "Téma testu nemôže byť prázdna.",
+            "errorNumAttempts": "Počet pokusov musí byť číslo >= 1.",
+            "errorTimeFormat": "Neplatný formát času. Použite číslo (minúty), MM:SS alebo HH:MM:SS.",
+            "errorNegativeTime": "Čas dokončenia nemôže byť záporný.",
+            "errorMaxScore": "Maximálne skóre musí byť číslo >= 0.",
+            "errorPastDeadline": "Termín nemôže byť skorší ako dnešný dátum.",
+            "errorEmptyDeadline": "Vyberte, prosím, termín.",
+            "errorNoQuestions": "Pridajte aspoň jednu vyplnenú otázku.",
+            "errorEmptyQuestion": "Vyplňte, prosím, text otázky pre úlohu {{number}}.",
+            "errorNotEnoughOptions": "Otázka {{number}} musí mať aspoň 2 odpovede.",
+            "errorEmptyOption": "Odpoveď {{index}} nemôže byť prázdna.",
+            "errorNoCorrectAnswer": "Vyberte, prosím, správnu odpoveď pre otázku {{number}}.",
+            "errorFixForm": "Opravte, prosím, chyby vo formulári",
+            "errorMissingTestId": "Nepodarilo sa získať TestId",
+            "errorImageUpload": "Nepodarilo sa nahrať obrázok: {{error}}",
+            "errorMissingQuestionId": "Nepodarilo sa získať TestQuestionId",
+            "errorCreatingTest": "Chyba pri vytváraní testu",
+            "success": "Test bol úspešne vytvorený!",
+            "testName": "Názov",
+            "group": "Skupina",
+            "addQuestion": "Pridať ďalšiu otázku",
+            "create": "Vytvoriť",
+            "saving": "Ukladá sa..."
+        },
+        "TestTeacherComponents": {
+            "CreateModal": {
+                "errorMessage": "Vyskytla sa chyba, skúste to znova",
+                "loadingCourses": "Načítavanie kurzov...",
+                "loadingGroups": "Načítavanie skupín...",
+                "selectCourse": "Vyberte kurz",
+                "selectGroup": "Vyberte skupinu",
+                "modalTitle": "Vytvorenie testu",
+                "manualTestButton": "Vytvoriť test manuálne",
+                "aiTestButton": "Test od umelej inteligencie"
+            },
+            "AddQuestion": {
+                "addImage": "Pridať obrázok",
+                "deleteImage": "Odstrániť obrázok",
+                "enterAnswer": "Zadajte odpoveď",
+                "enterOptions": "Zadajte {{count}} odpovedí a označte správnu odpoveď.",
+                "enterTask": "Zadajte úlohu",
+                "imageFileType": "Vyberte, prosím, súbor s obrázkom (JPEG, PNG atď.).",
+                "noImageSelected": "Nebol vybraný žiadny obrázok.",
+                "questionPreview": "Náhľad otázky"
+            },
+            "TestForm": {
+                "subjectLabel": "Téma:",
+                "subjectPlaceholder": "Zadajte text sem",
+                "maxScoreLabel": "Maximálne skóre",
+                "maxScorePlaceholder": "12",
+                "descriptionLabel": "Popis:",
+                "descriptionPlaceholder": "Zadajte text sem",
+                "numQuestionsLabel": "Počet otázok",
+                "numAttemptsLabel": "Počet pokusov",
+                "numAttemptsPlaceholder": "1",
+                "timeLabel": "Čas na dokončenie",
+                "timePlaceholder": "00:10:00",
+                "deadlineLabel": "Termín",
+                "showAnswersAfterTestLabel": "Ukázať študentovi všetky odpovede po teste.",
+                "validation": {
+                    "subjectEmpty": "Téma testu nemôže byť prázdna.",
+                    "descriptionEmpty": "Popis testu nemôže byť prázdny.",
+                    "numQuestionsInvalid": "Počet otázok musí byť číslo >= 1.",
+                    "numAttemptsInvalid": "Počet pokusov musí byť číslo >= 1.",
+                    "timeEmpty": "Čas dokončenia nemôže byť prázdny.",
+                    "timeFormatInvalid": "Neplatný formát času. Použite číslo (minúty), MM:SS alebo HH:MM:SS.",
+                    "timeNegative": "Čas dokončenia nemôže byť záporný.",
+                    "maxScoreInvalid": "Maximálne skóre musí byť číslo >= 0.",
+                    "deadlineEmpty": "Vyberte, prosím, termín.",
+                    "deadlinePast": "Termín nemôže byť skorší ako dnešný dátum."
+                }
+            },
+            "TestItem": {
+                "issued": "Vydané:",
+                "completeBy": "Dokončiť do:",
+                "results": "Výsledky"
+            },
+            "WaitModal": {
+                "title": "Počkajte, prosím, test sa generuje podľa vašej požiadavky",
+                "description": "Po vytvorení testu skontrolujte jeho obsah, v prípade potreby ho upravte alebo spustite generovanie znova.",
+                "buttonText": "Zastaviť generovanie"
+            }
+        }
+    }
+}

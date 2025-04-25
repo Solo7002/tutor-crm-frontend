@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import StandartInput from "../../components/Inputs/StandartInput/StandartInput";
 import PasswordInput from "../../components/Inputs/PasswordInput/PasswordInput";
@@ -12,6 +12,20 @@ const Login = () => {
   const [Email, setEmail] = useState("");
   const [Password, setPassword] = useState("");
   const [errorLogin, setErrorLogin] = useState(false);
+
+  const { tokenServer, isTeacher } = useParams();
+
+  useEffect(() => {
+    if (tokenServer) {
+      sessionStorage.setItem('token', tokenServer);
+
+      if (isTeacher) {
+        navigate("/teacher/home");
+      } else {
+        navigate("/student/home");
+      }
+    }
+  }, [tokenServer, isTeacher]);
 
   useEffect(() => {
     const savedEmail = sessionStorage.getItem("email");

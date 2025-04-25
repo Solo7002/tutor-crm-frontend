@@ -9,7 +9,7 @@ import Schedule from './components/Schedule';
 import Graphic from './components/Graphic';
 import SearchTeachers from './components/SearchTeacher';
 import { jwtDecode } from 'jwt-decode';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
 
@@ -23,11 +23,14 @@ export default function HomeStudent() {
   const [studentId, setStudentId] = useState(null);
 
   const location = useLocation();
-  const searchParams = new URLSearchParams(location.search);
-  const tokenServer = searchParams.get('token');
-  if (tokenServer) {
-    sessionStorage.setItem('token', tokenServer);
-  }
+    const { tokenServer } = useParams();
+
+    useEffect(() => {
+        console.log("tokenServer: ", tokenServer);
+        if (tokenServer) {
+            sessionStorage.setItem('token', tokenServer);
+        }
+    }, [tokenServer]);
 
   useEffect(() => {
     const fetchStudentData = async () => {

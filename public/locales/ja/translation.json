@@ -1,0 +1,1216 @@
+{
+    "HomeStudent": {
+        "errorNoToken": "セッションストレージにトークンが見つかりません！",
+        "errorTokenDecode": "トークンのデコード中にエラーが発生しました！",
+        "errorNoUserId": "トークンにユーザーIDが見つかりません！",
+        "errorNoStudent": "このユーザーの学生データが見つかりません！",
+        "errorFetchData": "学生データの取得中にエラーが発生しました！",
+        "Greetings": {
+            "greeting": "こんにちは",
+            "description": "学習は挑戦と勝利の毎日の旅です。OctoCRMはあなたの信頼できるパートナーとして、重要なタスクを見逃さず、スケジュールを管理し、教師と常に連絡を取り合うのを助けます。学習プロセスを賢く、自信を持って整理しましょう！"
+        },
+        "Graphic": {
+            "title": "成績",
+            "homework": "– 宿題",
+            "classwork": "– 授業での作業",
+            "gradeTooltip": "評価：",
+            "months": {
+                "january": "1月",
+                "february": "2月",
+                "march": "3月",
+                "april": "4月",
+                "may": "5月",
+                "june": "6月",
+                "july": "7月",
+                "august": "8月",
+                "september": "9月",
+                "october": "10月",
+                "november": "11月",
+                "december": "12月"
+            }
+        },
+        "Leaderboard": {
+            "title": "リーダーボード",
+            "all_subjects": "すべての科目",
+            "no_data": "情報がありません",
+            "profile_alt": "ユーザープロフィール"
+        },
+        "Map": {
+            "all_subjects": "すべての科目",
+            "format": "形式",
+            "lesson_type": "学習の種類",
+            "current_location": "現在地",
+            "error_location": "位置情報の取得中にエラーが発生しました！"
+        },
+        "MarkHistory": {
+            "title": "評価の履歴",
+            "no_data": "情報がありません",
+            "types": {
+                "Classwork": "授業での作業",
+                "Homework": "宿題",
+                "Test": "テスト"
+            }
+        },
+        "NearestEvents": {
+            "title": "近日中のイベント",
+            "no_data": "情報がありません",
+            "go_to": "移動",
+            "event_alt": "イベントのアバター"
+        },
+        "Schedule": {
+            "title": "{{month}} {{year}}",
+            "months": {
+                "0": "1月",
+                "1": "2月",
+                "2": "3月",
+                "3": "4月",
+                "4": "5月",
+                "5": "6月",
+                "6": "7月",
+                "7": "8月",
+                "8": "9月",
+                "9": "10月",
+                "10": "11月",
+                "11": "12月"
+            },
+            "weekdays": {
+                "sun": "日",
+                "mon": "月",
+                "tue": "火",
+                "wed": "水",
+                "thu": "木",
+                "fri": "金",
+                "sat": "土"
+            }
+        }
+    },
+    "HomeTeacher": {
+        "errorNoToken": "セッションストレージにトークンが見つかりません！",
+        "errorTokenDecode": "トークンのデコード中にエラーが発生しました！",
+        "errorNoUserId": "トークンにユーザーIDが見つかりません！",
+        "errorNoTeacher": "このユーザーの教師データが見つかりません！",
+        "errorFetchData": "教師データの取得中にエラーが発生しました！",
+        "Greetings": {
+            "greeting": "こんにちは",
+            "description": "あなたは教育の達人です！OctoCRMは、授業、スケジュール、生徒の管理を簡単にサポートします。",
+            "defaultName": "教師"
+        },
+        "Graphic": {
+            "title": "生徒の成績",
+            "homework": "宿題",
+            "classwork": "授業での作業",
+            "test": "テスト",
+            "all_groups": "すべてのグループ",
+            "grades": "評価",
+            "average": "平均",
+            "no_data": "データがありません",
+            "months": {
+                "0": "1月",
+                "1": "2月",
+                "2": "3月",
+                "3": "4月",
+                "4": "5月",
+                "5": "6月",
+                "6": "7月",
+                "7": "8月",
+                "8": "9月",
+                "9": "10月",
+                "10": "11月",
+                "11": "12月"
+            },
+            "types": {
+                "Homework": "宿題",
+                "Classwork": "授業での作業",
+                "Test": "テスト"
+            }
+        },
+        "Leaderboard": {
+            "title": "リーダーボード",
+            "all_groups": "すべてのグループ",
+            "no_data": "情報がありません",
+            "profile_alt": "生徒のプロフィール"
+        },
+        "LatestActivity": {
+            "title": "最近のアクティビティ",
+            "no_data": "情報がありません",
+            "activity_alt": "アクティビティのアバター",
+            "types": {
+                "Lesson": "授業実施",
+                "AssignmentChecked": "課題確認済み",
+                "Test": "テスト受験",
+                "Hometask": "宿題"
+            }
+        },
+        "NearestEvents": {
+            "title": "近日中のイベント",
+            "no_data": "情報がありません",
+            "go_to": "移動",
+            "event_alt": "イベントのアバター"
+        },
+        "Schedule": {
+            "title": "{{month}} {{year}}",
+            "no_data": "データがありません",
+            "months": {
+                "0": "1月",
+                "1": "2月",
+                "2": "3月",
+                "3": "4月",
+                "4": "5月",
+                "5": "6月",
+                "6": "7月",
+                "7": "8月",
+                "8": "9月",
+                "9": "10月",
+                "10": "11月",
+                "11": "12月"
+            },
+            "weekdays": {
+                "0": "日",
+                "1": "月",
+                "2": "火",
+                "3": "水",
+                "4": "木",
+                "5": "金",
+                "6": "土"
+            }
+        },
+        "Productivity": {
+            "title": "生産性",
+            "rating": "評価",
+            "tasks_checked": "確認済みの課題",
+            "lessons_conducted": "実施した授業",
+            "new_clients": "新規生徒",
+            "reviews_received": "受け取ったレビュー",
+            "no_change": "—",
+            "no_change_text": "(-)",
+            "periods": {
+                "all_time": "全期間",
+                "year": "1年間",
+                "half_year": "半年間",
+                "three_months": "3か月間",
+                "month": "1か月間",
+                "week": "1週間",
+                "day": "1日"
+            }
+        }
+    },
+    "SearchTeachers": {
+        "searchPlaceholder": "検索",
+        "bannerTitle": "学習成功への鍵！",
+        "bannerText": "最高のチューターで知識を強化しましょう！",
+        "priceLabel": "授業料",
+        "priceMin": "最小",
+        "priceMax": "最大",
+        "ratingLabel": "評価",
+        "ratingDesc": "高い順",
+        "ratingAsc": "低い順",
+        "formatLabel": "形式",
+        "formatOnline": "オンライン",
+        "formatOffline": "オフライン",
+        "resetButton": "リセット",
+        "viewButton": "表示",
+        "loadMoreButton": "さらに表示",
+        "loading": "読み込み中...",
+        "noTeachers": "利用可能な教師がいません",
+        "from": "から",
+        "currency": "円",
+        "defaultTeacherName": "ナディア・ヴォルコヴァ",
+        "defaultSubject": "数学",
+        "defaultDescription": "こんにちは！私は数学と物理の教師、ナディア・ヴォルコヴァです。独自の指導法とオリジナル教材を開発し、質の高い知識習得を保証します。",
+        "errorLoading": "教師の読み込みに失敗しました。",
+        "errorLoadingMore": "さらに教師の読み込みに失敗しました。",
+        "priceSort": "価格順",
+        "lessonType": "授業の種類",
+        "lessonTypeGroup": "グループ",
+        "lessonTypeSolo": "個人",
+        "priceSortDesc": "高い順",
+        "priceSortAsc": "低い順",
+        "profile_alt": "教師のプロフィール"
+    },
+    "HomeTaskTeacher": {
+        "components": {
+            "page": {
+                "AtFirstNew": "最初に新しいもの",
+                "AtFirstOld": "最初に古いもの",
+                "ByAlphabet": "アルファベット順",
+                "TaskVerification": "課題の確認",
+                "TaskManager": "課題マネージャー",
+                "AddTask": "課題を追加",
+                "RecentTasks": "最近の課題",
+                "More": "もっと見る",
+                "ToCheck": "確認待ち",
+                "Checked": "確認済み",
+                "NotSubmitted": "未提出",
+                "NoTasksYet": "まだ課題がありません",
+                "GeneralError": "エラーが発生しました。もう一度お試しください"
+            },
+            "UserCard": {
+                "Check": "確認",
+                "NotCompleted": "未完了",
+                "NotSubmitted": "未提出",
+                "InvalidDate": "無効な日付",
+                "NameNotSpecified": "名前が指定されていません"
+            },
+            "EvaluateAIModal": {
+                "PleaseWaitAIChecking": "お待ちください、AIが作業をチェックしています。これには数分かかる場合があります。",
+                "AIEvaluation": "AIによる評価",
+                "EvaluateManually": "手動で評価",
+                "StartCheck": "チェックを開始",
+                "Evaluate": "評価",
+                "Response": "回答：",
+                "WaitForAICompletion": "AIのチェックが完了するまでお待ちください。",
+                "ErrorUpdatingGrade": "成績の更新中にエラーが発生しました。",
+                "TaskSuccessfullyEvaluated": "課題が正常に評価されました",
+                "ErrorOccurred": "エラーが発生しました"
+            },
+            "EvaluateModal": {
+                "ManualEvaluation": "手動での作業評価",
+                "CheckWorkFasterWithAI": "AIチェックで作業をより早く確認",
+                "GoToAI": "AIに移動",
+                "AdditionalcommentOptional": "追加コメント（任意）",
+                "EvaluateWork": "作業を評価",
+                "EnterValidGrade": "有効な成績を入力してください。",
+                "TaskSuccessfullyEvaluated": "課題が正常に評価されました",
+                "ErrorOccurred": "エラーが発生しました"
+            },
+            "HomeTaskCheckModal": {
+                "GroupLabel": "グループ",
+                "Issued": "発行日",
+                "Deadline": "期限",
+                "Completed": "完了",
+                "MaxScore": "最高点",
+                "Status": "ステータス",
+                "PendingReview": "確認待ち",
+                "Task": "課題",
+                "AttachedFiles": "添付ファイル",
+                "TaskBy": "課題提供者：",
+                "AutoEvaluation": "自動評価",
+                "ManualEvaluation": "手動で評価"
+            },
+            "HomeTaskCreateModal": {
+                "GroupLabel": "グループ",
+                "Issued": "発行日",
+                "Deadline": "期限",
+                "Completed": "完了",
+                "MaxScore": "最高点",
+                "Status": "ステータス",
+                "Editing": "編集",
+                "Creating": "作成",
+                "Task": "課題",
+                "AttachedFiles": "添付ファイル",
+                "NoFiles": "添付ファイルがありません",
+                "AddFiles": "ファイルを追加",
+                "Submit": "送信",
+                "Save": "保存",
+                "TaskPlaceholder": "課題",
+                "DescriptionPlaceholder": "説明",
+                "FileUploadError": "ファイルのアップロードに失敗しました",
+                "CoverUploadError": "カバーのアップロードに失敗しました",
+                "TaskCreatedSuccess": "課題が正常に作成されました",
+                "TaskCreationError": "課題の作成中にエラーが発生しました",
+                "TaskEditedSuccess": "課題が正常に編集されました",
+                "TaskEditError": "課題の編集中にエラーが発生しました"
+            },
+            "ImageSelectionModal": {
+                "Title": "カバーを選択",
+                "UploadFromComputer": "コンピュータからアップロード",
+                "SelectImage": "画像を選択",
+                "LastUsedImage": "最後に使用した画像",
+                "LastUsedImageAlt": "最後の画像",
+                "StandardCovers": "標準カバー",
+                "StandardCoverAlt": "標準カバー",
+                "Select": "選択",
+                "Loading": "読み込み中...",
+                "FetchLastImageError": "最後の画像の取得中にエラーが発生しました",
+                "FileUploadError": "ファイルのアップロードに失敗しました"
+            },
+            "SearchButton": {
+                "SearchPlaceholder": "検索"
+            },
+            "StandartInput": {
+                "Placeholder": {
+                    "Default": "値を入力",
+                    "AdditionalCommentOptional": "追加コメント（任意）"
+                },
+                "Errors": {
+                    "required": "必須フィールド",
+                    "invalidEmail": "無効なメール形式",
+                    "minLength": "値が短すぎます",
+                    "maxLength": "値が長すぎます"
+                }
+            },
+            "TaskCardBlock": {
+                "Issued": "発行日：",
+                "Due": "期限：",
+                "Edit": "編集",
+                "BookCoverAlt": "課題のカバー",
+                "DeleteSuccess": "課題が正常に削除されました",
+                "DeleteError": "課題の削除に失敗しました"
+            },
+            "TaskCardBlock2": {
+                "Issued": "発行日：",
+                "Due": "期限：",
+                "TaskPreviewAlt": "課題のプレビュー"
+            },
+            "TaskCardTile": {
+                "Issued": "発行日：",
+                "Due": "期限：",
+                "Delete": "削除",
+                "Edit": "編集",
+                "DeleteSuccess": "課題が正常に削除されました",
+                "DeleteError": "課題の削除に失敗しました"
+            }
+        }
+    },
+    "HometaskStudent": {
+        "components": {
+            "page": {
+                "Tabs": {
+                    "ToDo": "未完了",
+                    "Pending": "確認待ち",
+                    "Done": "完了"
+                },
+                "Filters": {
+                    "AllSubjects": "すべての科目"
+                },
+                "Loading": "読み込み中...",
+                "NoTasks": "何もありません",
+                "SortOptions": {
+                    "NewestFirst": "新しい順",
+                    "OldestFirst": "古い順",
+                    "Alphabetical": "アルファベット順"
+                },
+                "Messages": {
+                    "SendSuccess": "宿題が正常に送信されました！",
+                    "SendSuccessTitle": "タイトル：{{title}}",
+                    "SendError": "宿題の送信に失敗しました。もう一度お試しください。",
+                    "CancelSuccess": "宿題の送信がキャンセルになりました！",
+                    "CancelSuccessTitle": "タイトル：{{title}}",
+                    "CancelError": "送信のキャンセルに失敗しました。もう一度お試しください。"
+                },
+                "Errors": {
+                    "TokenDecode": "トークンのデコード中にエラーが発生しました",
+                    "FetchStudentId": "studentIdの取得中にエラーが発生しました",
+                    "FetchInitialData": "初期データの読み込み中にエラーが発生しました",
+                    "FetchSubjects": "科目の取得中にエラーが発生しました",
+                    "FetchTasks": "データの取得中にエラーが発生しました",
+                    "FetchTeacher": "教師データ（ID：{{id}}）の取得中にエラーが発生しました",
+                    "FetchSubject": "科目データ（ID：{{id}}）の取得中にエラーが発生しました",
+                    "FetchHometask": "宿題データ（ID：{{id}}）の取得中にエラーが発生しました",
+                    "ParseData": "サーバーでのデータ処理中にエラーが発生しました",
+                    "RefreshTasks": "課題の更新中にエラーが発生しました",
+                    "UploadFile": "ファイルのアップロードエラー：{{fileName}}",
+                    "IncompleteUpload": "すべてのファイルがアップロードされませんでした。もう一度お試しください。"
+                }
+            },
+            "Dropdown": {
+                "AllSubjects": "すべての科目",
+                "Errors": {
+                    "NoOptions": "利用可能な科目がありません"
+                }
+            },
+            "HometaskCard": {
+                "StatusButton": {
+                    "Send": "送信",
+                    "Cancel": "キャンセル",
+                    "Default": "ボタン"
+                },
+                "Issued": "発行日：",
+                "Done": "完了",
+                "Due": "期限",
+                "ImageAlt": "課題の画像"
+            },
+            "HometaskModal": {
+                "TitlePrefix": "課題",
+                "Issued": "発行日",
+                "Due": "期限",
+                "Done": "完了",
+                "MaxMark": "最大点数",
+                "Status": "ステータス",
+                "Task": "課題",
+                "AttachedFiles": "添付ファイル",
+                "Choose": "選択",
+                "ImageAlt": "課題の画像",
+                "StatusText": {
+                    "Pending": "確認待ち",
+                    "Done": "完了",
+                    "Default": "未完了"
+                },
+                "Mark": "評価：",
+                "Messages": {
+                    "NoFilesSelected": "少なくとも1つのファイルを選択してください。",
+                    "FileError": "ファイル処理中にエラーが発生しました"
+                }
+            }
+        }
+    },
+    "CalendarTeacher": {
+        "components": {
+            "Messages": {
+                "FetchError": "データの取得中にエラーが発生しました",
+                "WindowWidth": "ウィンドウ幅：{{width}}ピクセル"
+            },
+            "AddDayModal": {
+                "UI": {
+                    "Title": "イベントを追加",
+                    "SubjectLabel": "科目：",
+                    "DateLabel": "日付：",
+                    "TimeLabel": "授業の開始と終了：",
+                    "From": "から",
+                    "To": "まで",
+                    "GroupLabel": "グループ：",
+                    "FormatLabel": "授業の形式：",
+                    "Offline": "オフライン",
+                    "Online": "オンライン",
+                    "SubjectPlaceholder": "科目",
+                    "MeetingLinkPlaceholder": "ミーティングリンク",
+                    "AddressPlaceholder": "住所",
+                    "SelectGroup": "グループを選択",
+                    "LoadingGroups": "グループを読み込み中...",
+                    "OneTime": "単発イベント",
+                    "Weekly": "毎週繰り返す",
+                    "Biweekly": "2週間ごとに繰り返す",
+                    "AddToSchedule": "スケジュールに追加"
+                },
+                "Messages": {
+                    "FetchGroupsError": "グループの取得中にエラーが発生しました",
+                    "GroupsLoadError": "グループリストの読み込みに失敗しました",
+                    "SelectGroupError": "グループを選択してください",
+                    "SubjectEmptyError": "科目は空にできません",
+                    "DateEmptyError": "日付は空にできません",
+                    "DatePastError": "日付は今日より前にはできません",
+                    "StartHourError": "正しい開始時間（0-23）を入力してください",
+                    "StartMinuteError": "正しい開始分（0-59）を入力してください",
+                    "EndHourError": "正しい終了時間（0-23）を入力してください",
+                    "EndMinuteError": "正しい終了分（0-59）を入力してください",
+                    "TimeOrderError": "終了時間は開始時間より後でなければなりません",
+                    "LinkEmptyError": "リンクは空にできません",
+                    "LinkInvalidError": "正しいリンクを入力してください",
+                    "AddressEmptyError": "住所は空にできません",
+                    "FormValidationError": "フォームのエラーを修正してください",
+                    "SaveEventError": "イベントの保存に失敗しました。もう一度お試しください。",
+                    "SaveEventSuccess": "すべての授業が正常にスケジュールされました！"
+                }
+            },
+            "ChangeDayModal": {
+                "UI": {
+                    "Title": "イベントを編集",
+                    "SubjectLabel": "科目：",
+                    "DateLabel": "日付：",
+                    "TimeLabel": "授業の開始と終了：",
+                    "From": "から",
+                    "To": "まで",
+                    "GroupLabel": "グループ：",
+                    "FormatLabel": "授業の形式：",
+                    "Offline": "オフライン",
+                    "Online": "オンライン",
+                    "SubjectPlaceholder": "科目",
+                    "MeetingLinkPlaceholder": "ミーティングリンク",
+                    "AddressPlaceholder": "住所",
+                    "SelectGroup": "グループを選択",
+                    "LoadingGroups": "グループを読み込み中...",
+                    "SaveChanges": "変更を保存",
+                    "DatesLabel": "日付：",
+                    "TimeRangeLabel": "時間：",
+                    "FormatLabelSuccess": "形式："
+                },
+                "Messages": {
+                    "FetchGroupsError": "グループの取得中にエラーが発生しました",
+                    "GroupsLoadError": "グループリストの読み込みに失敗しました",
+                    "SelectGroupError": "グループを選択してください",
+                    "SubjectEmptyError": "科目は空にできません",
+                    "DateEmptyError": "日付は空にできません",
+                    "DatePastError": "日付は今日より前にはできません",
+                    "StartHourError": "正しい開始時間（0-23）を入力してください",
+                    "StartMinuteError": "正しい開始分（0-59）を入力してください",
+                    "EndHourError": "正しい終了時間（0-23）を入力してください",
+                    "EndMinuteError": "正しい終了分（0-59）を入力してください",
+                    "TimeOrderError": "終了時間は開始時間より後でなければなりません",
+                    "LinkEmptyError": "リンクは空にできません",
+                    "LinkInvalidError": "正しいリンクを入力してください",
+                    "AddressEmptyError": "住所は空にできません",
+                    "FormValidationError": "フォームのエラーを修正してください",
+                    "UpdateEventError": "イベントの更新に失敗しました。もう一度お試しください。",
+                    "UpdateEventSuccess": "授業が正常に更新されました！"
+                }
+            },
+            "ItemLesson": {
+                "UI": {
+                    "GroupLabel": "グループ：",
+                    "LocationLabel": "場所：",
+                    "LinkText": "リンク",
+                    "NoLinkText": "リンクがありません",
+                    "NoAddressText": "住所がありません",
+                    "DeleteButton": "削除",
+                    "EditButton": "編集",
+                    "NoTitleText": "タイトルなし",
+                    "UnknownGroupText": "不明なグループ",
+                    "SubjectLabel": "科目：",
+                    "DateLabel": "日付：",
+                    "TimeLabel": "時間："
+                },
+                "Messages": {
+                    "DeleteLessonError": "授業の削除中にエラーが発生しました",
+                    "DeleteLessonFailed": "授業の削除に失敗しました。もう一度お試しください。",
+                    "DeleteLessonSuccess": "授業が正常に削除されました！"
+                }
+            },
+            "Panel": {
+                "UI": {
+                    "Title": "大胆に計画を立てよう！",
+                    "Subtitle": "コースをGoogleカレンダーに追加し、時間を大胆に計画しましょう。",
+                    "ButtonText": "追加",
+                    "SoonLabel": "近日中"
+                }
+            },
+            "PanelLessons": {
+                "UI": {
+                    "SortToday": "今日",
+                    "SortWeek": "今週",
+                    "SortMonth": "今月",
+                    "SortSelectedPrefix": "選択期間："
+                }
+            }
+        }
+    },
+    "CalendarStudent": {
+        "components": {
+            "page": {
+                "TokenDecodeError": "トークンのデコード中にエラーが発生しました",
+                "UserIdNotFoundError": "トークンにユーザーIDが見つかりません",
+                "FetchLessonsError": "授業の取得中にエラーが発生しました"
+            },
+            "ItemLesson": {
+                "UI": {
+                    "NoTitleText": "タイトルなし",
+                    "TeacherLabel": "教師：",
+                    "LocationLabel": "場所：",
+                    "LinkText": "リンク",
+                    "NoLinkText": "リンクがありません",
+                    "NoAddressText": "住所がありません"
+                }
+            },
+            "PanelLessons": {
+                "UI": {
+                    "SortToday": "今日",
+                    "SortWeek": "今週",
+                    "SortMonth": "今月",
+                    "SortSelectedPrefix": "選択期間："
+                }
+            }
+        }
+    },
+    "Navbar": {
+        "Labels": {
+            "home": "ホーム",
+            "hometasks": "宿題",
+            "tests": "テスト",
+            "calendar": "カレンダー",
+            "materials": "教材",
+            "search": "検索",
+            "settings": "設定",
+            "info": "情報",
+            "menu": "メニュー",
+            "soon": "近日中",
+            "balance": "残高",
+            "profile": "プロフィール"
+        },
+        "NotificationList": {
+            "List": "通知リスト",
+            "NoNew": "新しい通知はありません",
+            "NotificationItem": {
+                "WantsToJoin": "コースに参加したい",
+                "Group": "グループ"
+            }
+        },
+        "Errors": {
+            "TokenDecode": "トークンのデコード中にエラーが発生しました！",
+            "UserData": "ユーザーまたは残高データの取得中にエラーが発生しました！",
+            "Notifications": "通知の読み込みに失敗しました。もう一度お試しください。",
+            "Request": "リクエストの承認に失敗しました。もう一度お試しください。",
+            "Declining": "リクエストの拒否に失敗しました。もう一度お試しください。",
+            "Deleting": "通知の削除に失敗しました。もう一度お試しください。"
+        }
+    },
+    "EditProfile": {
+        "Validation": {
+            "ChooseImage": "画像ファイルを選択してください",
+            "LastName": "姓は必須です",
+            "FirstName": "名は必須です",
+            "PhoneNumber": "電話番号は10桁以上でなければなりません",
+            "UploadImage": "画像のアップロード中にエラーが発生しました",
+            "initialImageFile": "以前の画像",
+            "imageFile": "新しい画像がアップロードされました",
+            "noImage": "画像なし"
+        },
+        "ChangedFields": "変更された項目",
+        "ChangedFrom": "変更前",
+        "ChangedTo": "変更後",
+        "NoChanges": "変更はありません。",
+        "Info": "個人情報",
+        "Change": "変更",
+        "Placeholders": {
+            "LastName": "姓",
+            "FirstName": "名"
+        },
+        "Buttons": {
+            "Credentials": "パスワードまたはメールを変更",
+            "Save": "変更を保存",
+            "Saving": "保存中..."
+        },
+        "Errors": {
+            "ProfileUpdate": "プロフィールの更新中にエラーが発生しました"
+        }
+    },
+    "EditEmailAndPassword": {
+        "Validation": {
+            "PasswordLength": "パスワードは8～128文字でなければなりません",
+            "PasswordLowercase": "パスワードには少なくとも1つの小文字が必要です",
+            "PasswordUppercase": "パスワードには少なくとも1つの大文字が必要です",
+            "PasswordDigit": "パスワードには少なくとも1つの数字が必要です",
+            "PasswordSpecial": "パスワードには少なくとも1つの特殊文字が必要です",
+            "PasswordInvalidChars": "パスワードに無効な文字が含まれています。文字、数字、特殊文字のみ使用可能です",
+            "EmailRequired": "メールは必須です",
+            "EmailInvalid": "無効なメール形式です",
+            "PasswordsMismatch": "パスワードが一致しません"
+        },
+        "Messages": {
+            "NoChanges": "変更はありません",
+            "CodeSent": "確認コードがあなたのメールに送信されました",
+            "SendCodeError": "コードの送信中にエラーが発生しました",
+            "InvalidCode": "確認コードが無効または期限切れです",
+            "ConfirmError": "確認中にエラーが発生しました",
+            "UpdateSuccess": "データが正常に更新されました"
+        },
+        "Placeholders": {
+            "Email": "メール",
+            "NewPassword": "新しいパスワード",
+            "ConfirmPassword": "パスワードの確認"
+        },
+        "Buttons": {
+            "Save": "変更を保存",
+            "Saving": "保存中"
+        },
+        "Content": {
+            "Title": "メールとパスワードの変更",
+            "CodeSentMessage": "確認コードがあなたのメールに送信されました",
+            "EnterCode": "確認コードを入力してください",
+            "InvalidCodeMessage": "確認コードが無効または期限切れです"
+        }
+    },
+    "ProfileStudent": {
+        "Messages": {
+            "TokenDecodeError": "トークンのデコード中にエラーが発生しました"
+        },
+        "Buttons": {
+            "EditProfile": "プロフィールを編集",
+            "LearnMore": "詳細"
+        },
+        "Content": {
+            "RegisteredUser": "登録ユーザー",
+            "LearnFull": "全力で学ぶ",
+            "SubscriptionPrompt": "機能を拡張するためにサブスクリプションを登録"
+        },
+        "Stats": {
+            "Courses": "コース",
+            "Rating": "評価",
+            "ByTrophies": "トロフィーによる",
+            "Trophies": "トロフィー"
+        },
+        "GroupList": {
+            "Title": "私のグループ",
+            "TableHeaders": {
+                "Number": "番号",
+                "GroupNumber": "グループ番号",
+                "GroupName": "グループ名",
+                "CourseName": "コース名",
+                "Teacher": "教師",
+                "Price": "価格"
+            },
+            "DefaultGroups": {
+                "MathName": "数学",
+                "MathFormat": "オフライン",
+                "MathType": "個人",
+                "MathTeacher": "オクトメンコ",
+                "PhysicsName": "物理",
+                "PhysicsFormat": "オンライン",
+                "PhysicsType": "グループ",
+                "PhysicsTeacher": "イワノフ"
+            }
+        },
+        "Reviews": {
+            "Messages": {
+                "FetchReviewsError": "レビューの取得中にエラーが発生しました"
+            },
+            "Title": {
+                "HasReviews": "生徒のレビュー",
+                "NoReviews": "レビューがありません"
+            },
+            "Buttons": {
+                "LoadMore": "さらにコメントを読む",
+                "AddComment": "コメントを追加"
+            }
+        }
+    },
+    "ProfileTeacher": {
+        "Messages": {
+            "TokenDecodeError": "トークンのデコード中にエラーが発生しました"
+        },
+        "Buttons": {
+            "EditProfile": "プロフィールを編集",
+            "LearnMore": "詳細"
+        },
+        "Content": {
+            "RegisteredUser": "登録ユーザー",
+            "Subject": "科目",
+            "From": "から",
+            "LessonPrice": "授業料",
+            "LearnFull": "全力で教える",
+            "SubscriptionPrompt": "機能を拡張するためにサブスクリプションを登録"
+        },
+        "Stats": {
+            "Students": "生徒",
+            "Rating": "評価",
+            "Materials": "オリジナル教材"
+        },
+        "CourseList": {
+            "Title": "コース",
+            "TableHeaders": {
+                "GroupNumber": "グループ番号",
+                "GroupName": "グループ名",
+                "StudentsCount": "生徒数",
+                "Price": "価格"
+            },
+            "Buttons": {
+                "EditCourses": "コースを編集",
+                "JoinCourse": "コースに参加"
+            },
+            "DefaultCourses": {
+                "Math": "数学",
+                "Physics": "物理"
+            }
+        },
+        "AddReviewModal": {
+            "Messages": {
+                "ReviewSent": "レビューが送信されました",
+                "ReviewError": "レビューの送信中にエラーが発生しました"
+            },
+            "Title": "教師へのコメント",
+            "Placeholder": "ここにテキストを入力",
+            "Button": {
+                "Submit": "送信"
+            }
+        },
+        "Comment": {
+            "Content": {
+                "Course": "コース"
+            },
+            "Button": {
+                "ShowLess": "少なく表示",
+                "ShowMore": "さらに表示"
+            }
+        }
+    },
+    "ProfileTeacher_forStudent": {
+        "Messages": {
+            "TokenError": "トークンのデコード中にエラーが発生しました"
+        },
+        "Info": {
+            "Subject": "科目",
+            "PricePerLesson": "授業料",
+            "RegisteredUser": "登録ユーザー",
+            "PriceFrom": "から"
+        },
+        "Subscription": {
+            "Title": "全力で学ぶ",
+            "Description": "機能を拡張するためにサブスクリプションを登録"
+        },
+        "Stats": {
+            "Students": "生徒",
+            "Rating": "評価",
+            "Materials": "オリジナル教材"
+        }
+    },
+    "CourseJoinModal": {
+        "Messages": {
+            "FetchGroupsError": "グループ情報の読み込みに失敗しました。もう一度お試しください",
+            "RequestSuccess": "リクエストが送信されました",
+            "RequestError": "リクエストの送信に失敗しました。もう一度お試しください"
+        },
+        "Stage1": {
+            "Title": "コースへの登録",
+            "SelectCourseLabel": "コースを選択",
+            "NoCoursesAvailable": "残念ながら、登録可能なコースはありません。すでにすべてのコースに登録されています",
+            "SelectGroupLabel": "グループを選択",
+            "NoGroupsAvailable": "残念ながら、このコースに登録可能なグループはありません。すでにすべてのグループに登録されています",
+            "NextButton": "次へ"
+        },
+        "Stage2": {
+            "Title": "コースへの登録",
+            "TeacherLabel": "教師",
+            "CourseLabel": "コース",
+	"GroupLabel": "グループ",
+            "TypeLabel": "種類",
+            "FormatLabel": "形式",
+            "PriceLabel": "授業料",
+            "SubmitButton": "リクエストを送信",
+            "NotSpecified": "未指定"
+        },
+        "Stage3": {
+            "Title": "リクエストが送信されました",
+            "Description": "近日中に教師があなたをコースに追加します。通知で確認してください",
+            "HomeButton": "ホームへ"
+        },
+        "Dropdown": {
+            "AllCourses": "すべてのコース",
+            "AllGroups": "すべてのグループ"
+        }
+    },
+    "PasswordInput": {
+        "Placeholder": "パスワード",
+        "ValidationErrors": {
+            "EmptyField": "このフィールドは空にできません",
+            "Length": "パスワードは{minLength}～{maxLength}文字でなければなりません",
+            "Lowercase": "パスワードには少なくとも1つの小文字が必要です",
+            "Uppercase": "パスワードには少なくとも1つの大文字が必要です",
+            "Digit": "パスワードには少なくとも1つの数字が必要です",
+            "Special": "パスワードには少なくとも1つの特殊文字が必要です",
+            "AllowedChars": "パスワードに無効な文字が含まれています。文字、数字、特殊文字のみ使用可能です"
+        }
+    },
+    "MaterialsStudent": {
+        "archive": "アーカイブ",
+        "soon": "近日中",
+        "shop": "ショップ",
+        "searchError": "エラーが発生しました。もう一度お試しください",
+        "noMaterials": "まだどの教師も教材へのアクセスを提供していません :(",
+        "sortOptions": {
+            "alphabetical": "アルファベット順",
+            "newest": "新しい順",
+            "oldest": "古い順"
+        },
+        "fileCategories": {
+            "allFormats": "すべての形式",
+            "presentations": "プレゼンテーション",
+            "documents": "ドキュメント",
+            "textFiles": "テキストファイル",
+            "spreadsheets": "スプレッドシート",
+            "pdf": "PDF",
+            "images": "画像"
+        }
+    },
+    "MaterialsTeacher": {
+        "archive": "アーカイブ",
+        "store": "ストア",
+        "soon": "近日中",
+        "searchPlaceholder": "検索",
+        "addFile": "ファイルを追加",
+        "createFolder": "フォルダを作成",
+        "sortAlphabetically": "アルファベット順",
+        "sortNewest": "新しい順",
+        "sortOldest": "古い順",
+        "errorMessage": "エラーが発生しました。もう一度お試しください",
+        "allFormats": "すべての形式",
+        "presentations": "プレゼンテーション",
+        "documents": "ドキュメント",
+        "textFiles": "テキストファイル",
+        "spreadsheets": "スプレッドシート",
+        "pdf": "PDF",
+        "images": "画像"
+    },
+    "MaterialComponents": {
+        "AccessManagementModal": {
+            "title": "教材へのアクセス管理",
+            "saveButton": "保存",
+            "noCourses": "利用可能なコースがありません",
+            "accessUpdated": "教材へのアクセスが更新されました",
+            "errorMessage": "エラーが発生しました。もう一度お試しください"
+        },
+        "AddMaterialModal": {
+            "title": "ファイルを追加",
+            "selectFromComputer": "コンピュータからファイルを選択",
+            "or": "または",
+            "dragAndDropText": "ファイルをこのエリアにドラッグ＆ドロップ",
+            "restrictions": "制限：最大49MB、TXTまたはBATファイルは不可",
+            "addFilesButton": "ファイル追加",
+            "uploading": "アップロード中...",
+            "successMessage": "教材が正常に追加されました",
+            "errorMessage": "エラーが発生しました。もう一度お試しください",
+            "fileSizeError": "ファイル「{{fileName}}」が最大サイズ（49MB）を超えています",
+            "fileTypeError": "ファイル「{{fileName}}」は禁止された形式（{{extension}}）です"
+        },
+        "FolderBlock": {
+            "folder": "フォルダ",
+            "delete": "削除",
+            "editName": "名前を変更",
+            "manageAccess": "アクセス管理",
+            "enterNewName": "新しい名前を入力",
+            "toast": {
+                "folderNameChanged": "フォルダ名が変更されました",
+                "newName": "新しい名前：{{name}}",
+                "confirmDelete": "このフォルダを削除してもよろしいですか？",
+                "deleteButton": "削除",
+                "cancelButton": "キャンセル",
+                "folderDeleted": "フォルダが正常に削除されました！",
+                "deletedName": "名前：{{name}}"
+            }
+        },
+        "MaterialBlock": {
+            "materialNameChanged": "教材名が変更されました",
+            "newName": "新しい名前：{{newName}}",
+            "confirmDelete": "この教材を削除してもよろしいですか？",
+            "delete": "削除",
+            "cancel": "キャンセル",
+            "materialDeleted": "教材が正常に削除されました！",
+            "name": "名前：{{name}}",
+            "enterNewName": "新しい名前を入力",
+            "changeName": "名前を変更",
+            "accessManagement": "アクセス管理"
+        },
+        "FolderCreateBlock": {
+            "placeholder": "名前を入力",
+            "label": "フォルダ",
+            "successMessage": "新しいフォルダが作成されました",
+            "errorMessage": "エラーが発生しました。もう一度お試しください"
+        },
+        "FolderCreateList": {
+            "placeholder": "名前を入力",
+            "label": "フォルダ",
+            "successMessage": "新しいフォルダが作成されました",
+            "errorMessage": "エラーが発生しました。もう一度お試しください"
+        },
+        "FolderList": {
+            "folderTypeLabel": "フォルダ",
+            "folderNameChanged": "フォルダ名が変更されました",
+            "newName": "新しい名前：{{name}}",
+            "deleteConfirmation": "このフォルダを削除してもよろしいですか？",
+            "deleteButton": "削除",
+            "cancelButton": "キャンセル",
+            "deletedSuccessfully": "フォルダが正常に削除されました！",
+            "nameLabel": "名前：{{name}}",
+            "inputPlaceholder": "新しい名前を入力",
+            "menuDelete": "削除",
+            "menuRename": "名前を変更",
+            "menuAccessManagement": "アクセス管理"
+        },
+        "MaterialList": {
+            "nameChanged": "教材名が変更されました",
+            "newName": "新しい名前",
+            "deleteConfirmation": "この教材を削除してもよろしいですか？",
+            "delete": "削除",
+            "cancel": "キャンセル",
+            "deleteSuccess": "教材が正常に削除されました！",
+            "name": "名前",
+            "enterNewName": "新しい名前を入力",
+            "changeName": "名前を変更",
+            "manageAccess": "アクセス管理"
+        },
+        "FolderUpBlock": {
+            "back": "戻る"
+        }
+    },
+    "Tests": {
+        "DoneTestStudent": {
+            "error": "エラー：",
+            "loading": "読み込み中...",
+            "testTitle": "テスト |",
+            "topic": "トピック：",
+            "score": "点数",
+            "result": "結果：",
+            "questionsCount": "質問数",
+            "correctAnswers": "正解",
+            "incorrectAnswers": "不正解",
+            "timeSpent": "所要時間",
+            "attemptsUsed": "使用した試行：",
+            "nextAttempt": "次の試行",
+            "returnToTests": "テストに戻る",
+            "yourAnswer": "あなたの回答",
+            "correctAnswer": "正しい回答"
+        },
+        "RunTestStudent": {
+            "errorFetchingTest": "テストの取得中にエラーが発生しました！",
+            "errorSubmittingTest": "テストの送信中にエラーが発生しました！",
+            "timeExpired": "時間が終了しました",
+            "loading": "読み込み中...",
+            "testCompleted": "テストが完了しました。ありがとう！",
+            "pleaseSelectAnswer": "回答を選択してください",
+            "imageAlt": "質問のイラスト",
+            "nextButton": "次へ"
+        },
+        "TestStudent": {
+            "toComplete": "未完了",
+            "completed": "完了",
+            "sortNewest": "新しい順",
+            "sortOldest": "古い順",
+            "sortAlphabetical": "アルファベット順",
+            "errors": {
+                "tokenDecode": "トークンのデコード中にエラーが発生しました！",
+                "studentIdGet": "studentIdの取得中にエラーが発生しました！",
+                "testsGet": "テストの取得中にエラーが発生しました！"
+            }
+        },
+        "TestStudentComponents": {
+            "TestCard": {
+                "issued": "発行日：",
+                "completeBy": "期限：",
+                "completed": "完了：",
+                "completeButton": "実行"
+            },
+            "TestModal": {
+                "issued": "発行日",
+                "score": "点数",
+                "completeBy": "期限",
+                "completed": "完了",
+                "maxScore": "最大点数",
+                "status": "ステータス",
+                "statusDone": "完了",
+                "statusToDo": "未完了",
+                "attemptsCount": "試行回数",
+                "attemptsUsed": "使用した試行",
+                "timeToComplete": "実行時間",
+                "minutesShort": "分",
+                "questionsCount": "質問数",
+                "resultButton": "結果",
+                "startButton": "実行",
+                "retryButton": "再試行",
+                "createTestError": "テストの作成中にエラーが発生しました！"
+            }
+        },
+        "TestsTeacher": {
+            "allGroups": "すべてのグループ",
+            "allCourses": "すべてのコース",
+            "assigned": "割り当て済み",
+            "loading": "テストを読み込み中...",
+            "error": "エラー：",
+            "noTests": "テストがありません",
+            "sadFace": ":(",
+            "course": "コース：",
+            "create": "作成"
+        },
+        "TestResults": {
+            "loading": "読み込み中...",
+            "error": "エラー：",
+            "resultsTitle": "テスト結果：",
+            "course": "コース：",
+            "notAvailable": "N/A",
+            "group": "グループ：",
+            "issued": "発行日：",
+            "deadline": "期限：",
+            "studentsDone": "完了した生徒",
+            "studentsNotDone": "未完了の生徒",
+            "deleteTest": "テストを削除",
+            "noTestDetails": "テストの詳細がありません。",
+            "errorMessage": "エラーが発生しました。もう一度お試しください",
+            "testDeletedSuccess": "テストが正常に削除されました！",
+            "title": "タイトル：",
+            "unknown": "不明",
+            "deleteFailure": "テストの削除に失敗しました。もう一度お試しください。"
+        },
+        "CreateTestAi": {
+            "decryptError": "エラーが発生しました。もう一度お試しください",
+            "fixFormErrors": "フォームのエラーを修正してください",
+            "generateBeforeSubmit": "作成前にテストを生成してください。",
+            "generateSuccess": "テストが正常に生成されました！質問数：{{count}}",
+            "abortInfo": "生成がキャンセルされました",
+            "generateError": "生成中にエラーが発生しました。もう一度お試しください",
+            "generateFail": "テストの生成に失敗しました：{{message}}",
+            "apiAuthError": "API認証エラー。管理者にお問い合わせください。",
+            "testIdError": "TestIdの取得に失敗しました",
+            "imageUploadError": "画像のアップロードに失敗しました：{{message}}",
+            "testQuestionIdError": "TestQuestionIdの取得に失敗しました",
+            "testCreated": "テストが正常に作成されました！",
+            "testName": "タイトル",
+            "createError": "テストの作成中にエラーが発生しました",
+            "generate": "生成",
+            "regenerate": "再生成",
+            "create": "作成",
+            "generating": "生成中...",
+            "saving": "保存中..."
+        },
+        "CreateTest": {
+            "errorDecryptGroup": "エラーが発生しました。もう一度お試しください",
+            "errorEmptySubject": "テストのトピックは空にできません。",
+            "errorNumAttempts": "試行回数は1以上の数値でなければなりません。",
+            "errorTimeFormat": "無効な時間形式です。数字（分）、MM:SS、またはHH:MM:SSを使用してください。",
+            "errorNegativeTime": "実行時間は負の値にできません。",
+            "errorMaxScore": "最大点数は0以上の数値でなければなりません。",
+            "errorPastDeadline": "期限は今日より前にはできません。",
+            "errorEmptyDeadline": "期限を選択してください。",
+            "errorNoQuestions": "少なくとも1つの質問を追加してください。",
+            "errorEmptyQuestion": "質問{{number}}のテキストを入力してください。",
+            "errorNotEnoughOptions": "質問{{number}}には少なくとも2つの回答が必要です。",
+            "errorEmptyOption": "回答{{index}}は空にできません。",
+            "errorNoCorrectAnswer": "質問{{number}}の正しい回答を選択してください。",
+            "errorFixForm": "フォームのエラーを修正してください",
+            "errorMissingTestId": "TestIdの取得に失敗しました",
+            "errorImageUpload": "画像のアップロードに失敗しました：{{error}}",
+            "errorMissingQuestionId": "TestQuestionIdの取得に失敗しました",
+            "errorCreatingTest": "テストの作成中にエラーが発生しました",
+            "success": "テストが正常に作成されました！",
+            "testName": "タイトル",
+            "group": "グループ",
+            "addQuestion": "質問を追加",
+            "create": "作成",
+            "saving": "保存中..."
+        },
+        "TestTeacherComponents": {
+            "CreateModal": {
+                "errorMessage": "エラーが発生しました。もう一度お試しください",
+                "loadingCourses": "コースを読み込み中...",
+                "loadingGroups": "グループを読み込み中...",
+                "selectCourse": "コースを選択",
+                "selectGroup": "グループを選択",
+                "modalTitle": "テストの作成",
+                "manualTestButton": "テストを手動で作成",
+                "aiTestButton": "AIによるテスト"
+            },
+            "AddQuestion": {
+                "addImage": "画像を追加",
+                "deleteImage": "画像を削除",
+                "enterAnswer": "回答を入力",
+                "enterOptions": "{{count}}つの選択肢を入力し、正しい回答をマークしてください。",
+                "enterTask": "タスクを入力",
+                "imageFileType": "画像ファイル（JPEG、PNGなど）を選択してください。",
+                "noImageSelected": "画像が選択されていません。",
+                "questionPreview": "質問のプレビュー"
+            },
+            "TestForm": {
+                "subjectLabel": "トピック：",
+                "subjectPlaceholder": "ここにテキストを入力",
+                "maxScoreLabel": "最大点数",
+                "maxScorePlaceholder": "12",
+                "descriptionLabel": "説明：",
+                "descriptionPlaceholder": "ここにテキストを入力",
+                "numQuestionsLabel": "質問数",
+                "numAttemptsLabel": "試行回数",
+                "numAttemptsPlaceholder": "1",
+                "timeLabel": "実行時間",
+                "timePlaceholder": "00:10:00",
+                "deadlineLabel": "期限",
+                "showAnswersAfterTestLabel": "テスト後に生徒にすべての回答を表示。",
+                "validation": {
+                    "subjectEmpty": "テストのトピックは空にできません。",
+                    "descriptionEmpty": "テストの説明は空にできません。",
+                    "numQuestionsInvalid": "質問数は1以上の数値でなければなりません。",
+                    "numAttemptsInvalid": "試行回数は1以上の数値でなければなりません。",
+                    "timeEmpty": "実行時間は空にできません。",
+                    "timeFormatInvalid": "無効な時間形式です。数字（分）、MM:SS、またはHH:MM:SSを使用してください。",
+                    "timeNegative": "実行時間は負の値にできません。",
+                    "maxScoreInvalid": "最大点数は0以上の数値でなければなりません。",
+                    "deadlineEmpty": "期限を選択してください。",
+                    "deadlinePast": "期限は今日より前にはできません。"
+                }
+            },
+            "TestItem": {
+                "issued": "発行日：",
+                "completeBy": "期限：",
+                "results": "結果"
+            },
+            "WaitModal": {
+                "title": "テスト生成中です。しばらくお待ちください。",
+                "description": "テスト作成後、内容を確認し、必要に応じて編集または再生成してください。",
+                "buttonText": "生成を停止"
+            }
+        }
+    }
+}

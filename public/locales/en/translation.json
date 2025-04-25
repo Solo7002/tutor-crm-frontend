@@ -1,13 +1,889 @@
 {
     "HomeStudent": {
-        "testText": "Hello"
+        "errorNoToken": "Token not found in session storage!",
+        "errorTokenDecode": "Error decoding token!",
+        "errorNoUserId": "User ID not found in token!",
+        "errorNoStudent": "Student not found for this user!",
+        "errorFetchData": "Error fetching student data!",
+        "Greetings": {
+            "greeting": "Hello",
+            "description": "Learning is a daily journey with challenges and victories. OctoCRM will be your reliable assistant: it helps you stay on top of important tasks, manage your schedule, and stay connected with teachers. Organize your learning process smartly and confidently!"
+        },
+        "Graphic": {
+            "title": "Performance",
+            "homework": "– Homework",
+            "classwork": "– Classwork",
+            "gradeTooltip": "Grade:",
+            "months": {
+                "january": "January",
+                "february": "February",
+                "march": "March",
+                "april": "April",
+                "may": "May",
+                "june": "June",
+                "july": "July",
+                "august": "August",
+                "september": "September",
+                "october": "October",
+                "november": "November",
+                "december": "December"
+            }
+        },
+        "Leaderboard": {
+            "title": "Leaderboard",
+            "all_subjects": "All subjects",
+            "no_data": "No information available",
+            "profile_alt": "User profile"
+        },
+        "Map": {
+            "all_subjects": "All subjects",
+            "format": "Format",
+            "lesson_type": "Lesson type",
+            "current_location": "Your current location",
+            "error_location": "Error retrieving location!"
+        },
+        "MarkHistory": {
+            "title": "Grade history",
+            "no_data": "No information available",
+            "types": {
+                "Classwork": "Classwork",
+                "Homework": "Homework",
+                "Test": "Test"
+            }
+        },
+        "NearestEvents": {
+            "title": "Upcoming events",
+            "no_data": "No information available",
+            "go_to": "Go to",
+            "event_alt": "Event avatar"
+        },
+        "Schedule": {
+            "title": "{{month}} {{year}}",
+            "months": {
+                "0": "January",
+                "1": "February",
+                "2": "March",
+                "3": "April",
+                "4": "May",
+                "5": "June",
+                "6": "July",
+                "7": "August",
+                "8": "September",
+                "9": "October",
+                "10": "November",
+                "11": "December"
+            },
+            "weekdays": {
+                "sun": "Sun",
+                "mon": "Mon",
+                "tue": "Tue",
+                "wed": "Wed",
+                "thu": "Thu",
+                "fri": "Fri",
+                "sat": "Sat"
+            }
+        }
+    },
+    "HomeTeacher": {
+        "errorNoToken": "Token not found in session storage!",
+        "errorTokenDecode": "Error decoding token!",
+        "errorNoUserId": "User ID not found in token!",
+        "errorNoTeacher": "Teacher not found for this user!",
+        "errorFetchData": "Error fetching teacher data!",
+        "Greetings": {
+            "greeting": "Hello",
+            "description": "You are a master of teaching! OctoCRM will help you manage lessons, schedules, and students with ease.",
+            "defaultName": "Teacher"
+        },
+        "Graphic": {
+            "title": "Student performance",
+            "homework": "Homework",
+            "classwork": "Classwork",
+            "test": "Tests",
+            "all_groups": "All groups",
+            "grades": "Grades",
+            "average": "Average",
+            "no_data": "No data available",
+            "months": {
+                "0": "January",
+                "1": "February",
+                "2": "March",
+                "3": "April",
+                "4": "May",
+                "5": "June",
+                "6": "July",
+                "7": "August",
+                "8": "September",
+                "9": "October",
+                "10": "November",
+                "11": "December"
+            },
+            "types": {
+                "Homework": "Homework",
+                "Classwork": "Classwork",
+                "Test": "Test"
+            }
+        },
+        "Leaderboard": {
+            "title": "Leaderboard",
+            "all_groups": "All groups",
+            "no_data": "No information available",
+            "profile_alt": "Student profile"
+        },
+        "LatestActivity": {
+            "title": "Recent activity",
+            "no_data": "No information available",
+            "activity_alt": "Activity avatar",
+            "types": {
+                "Lesson": "Lesson conducted",
+                "AssignmentChecked": "Assignment checked",
+                "Test": "Test completed",
+                "Hometask": "Homework"
+            }
+        },
+        "NearestEvents": {
+            "title": "Upcoming events",
+            "no_data": "No information available",
+            "go_to": "Go to",
+            "event_alt": "Event avatar"
+        },
+        "Schedule": {
+            "title": "{{month}} {{year}}",
+            "no_data": "No data available",
+            "months": {
+                "0": "January",
+                "1": "February",
+                "2": "March",
+                "3": "April",
+                "4": "May",
+                "5": "June",
+                "6": "July",
+                "7": "August",
+                "8": "September",
+                "9": "October",
+                "10": "November",
+                "11": "December"
+            },
+            "weekdays": {
+                "0": "Sun",
+                "1": "Mon",
+                "2": "Tue",
+                "3": "Wed",
+                "4": "Thu",
+                "5": "Fri",
+                "6": "Sat"
+            }
+        },
+        "Productivity": {
+            "title": "Productivity",
+            "rating": "Rating",
+            "tasks_checked": "Tasks checked",
+            "lessons_conducted": "Lessons conducted",
+            "new_clients": "New students",
+            "reviews_received": "Reviews received",
+            "no_change": "—",
+            "no_change_text": "(-)",
+            "periods": {
+                "all_time": "All time",
+                "year": "Year",
+                "half_year": "Half year",
+                "three_months": "Three months",
+                "month": "Month",
+                "week": "Week",
+                "day": "Day"
+            }
+        }
+    },
+    "SearchTeachers": {
+        "searchPlaceholder": "Search",
+        "bannerTitle": "Your key to success in learning!",
+        "bannerText": "Boost your knowledge with the best tutors!",
+        "priceLabel": "Lesson price",
+        "priceMin": "Minimum",
+        "priceMax": "Maximum",
+        "ratingLabel": "Rating",
+        "ratingDesc": "High to low",
+        "ratingAsc": "Low to high",
+        "formatLabel": "Format",
+        "formatOnline": "Online",
+        "formatOffline": "Offline",
+        "resetButton": "Reset",
+        "viewButton": "View",
+        "loadMoreButton": "Load more",
+        "loading": "Loading...",
+        "noTeachers": "No teachers available",
+        "from": "From",
+        "currency": "UAH",
+        "defaultTeacherName": "Nadiia Volkova",
+        "defaultSubject": "Mathematics",
+        "defaultDescription": "Hello! I’m Nadiia Volkova, a teacher of mathematics and physics. I have my own teaching methodology and have developed original materials to ensure high-quality learning.",
+        "errorLoading": "Failed to load teachers.",
+        "errorLoadingMore": "Failed to load more teachers.",
+        "priceSort": "By price",
+        "lessonType": "Lesson type",
+        "lessonTypeGroup": "Group",
+        "lessonTypeSolo": "Individual",
+        "priceSortDesc": "High to low",
+        "priceSortAsc": "Low to high",
+        "profile_alt": "Teacher profile"
+    },
+    "HomeTaskTeacher": {
+        "components": {
+            "page": {
+                "AtFirstNew": "Newest first",
+                "AtFirstOld": "Oldest first",
+                "ByAlphabet": "Alphabetically",
+                "TaskVerification": "Task verification",
+                "TaskManager": "Task manager",
+                "AddTask": "Add task",
+                "RecentTasks": "Recent tasks",
+                "More": "More",
+                "ToCheck": "To check",
+                "Checked": "Checked",
+                "NotSubmitted": "Not submitted",
+                "NoTasksYet": "No tasks yet",
+                "GeneralError": "An error occurred, please try again"
+            },
+            "UserCard": {
+                "Check": "Check",
+                "NotCompleted": "Not completed",
+                "NotSubmitted": "Not submitted",
+                "InvalidDate": "Invalid date",
+                "NameNotSpecified": "Name not specified"
+            },
+            "EvaluateAIModal": {
+                "PleaseWaitAIChecking": "Please wait, AI is checking the work. This may take a few minutes.",
+                "AIEvaluation": "AI evaluation",
+                "EvaluateManually": "Evaluate manually",
+                "StartCheck": "Start check",
+                "Evaluate": "Evaluate",
+                "Response": "Response:",
+                "WaitForAICompletion": "Please wait for the AI check to complete.",
+                "ErrorUpdatingGrade": "An error occurred while updating the grade.",
+                "TaskSuccessfullyEvaluated": "Task successfully evaluated",
+                "ErrorOccurred": "An error occurred"
+            },
+            "EvaluateModal": {
+                "ManualEvaluation": "Manual work evaluation",
+                "CheckWorkFasterWithAI": "Check work faster with our AI evaluation",
+                "GoToAI": "Go to AI",
+                "AdditionalcommentOptional": "Additional comment (optional)",
+                "EvaluateWork": "Evaluate work",
+                "EnterValidGrade": "Please enter a valid grade.",
+                "TaskSuccessfullyEvaluated": "Task successfully evaluated",
+                "ErrorOccurred": "An error occurred"
+            },
+            "HomeTaskCheckModal": {
+                "GroupLabel": "group",
+                "Issued": "Issued",
+                "Deadline": "Due by",
+                "Completed": "Completed",
+                "MaxScore": "Maximum score",
+                "Status": "Status",
+                "PendingReview": "Pending review",
+                "Task": "Task",
+                "AttachedFiles": "Attached files",
+                "TaskBy": "Task by: ",
+                "AutoEvaluation": "Automatic evaluation",
+                "ManualEvaluation": "Evaluate manually"
+            },
+            "HomeTaskCreateModal": {
+                "GroupLabel": "group",
+                "Issued": "Issued",
+                "Deadline": "Due by",
+                "Completed": "Completed",
+                "MaxScore": "Maximum score",
+                "Status": "Status",
+                "Editing": "Editing",
+                "Creating": "Creating",
+                "Task": "Task",
+                "AttachedFiles": "Attached files",
+                "NoFiles": "No attached files",
+                "AddFiles": "Add files",
+                "Submit": "Submit",
+                "Save": "Save",
+                "TaskPlaceholder": "Task",
+                "DescriptionPlaceholder": "Description",
+                "FileUploadError": "Failed to upload file",
+                "CoverUploadError": "Failed to upload cover",
+                "TaskCreatedSuccess": "Task was successfully created",
+                "TaskCreationError": "Error creating homework task",
+                "TaskEditedSuccess": "Task was successfully edited",
+                "TaskEditError": "Error editing homework task"
+            },
+            "ImageSelectionModal": {
+                "Title": "Select cover",
+                "UploadFromComputer": "Upload from computer",
+                "SelectImage": "Select image",
+                "LastUsedImage": "Last used image",
+                "LastUsedImageAlt": "Last image",
+                "StandardCovers": "Standard covers",
+                "StandardCoverAlt": "Standard cover",
+                "Select": "Select",
+                "Loading": "Loading...",
+                "FetchLastImageError": "Error fetching last image",
+                "FileUploadError": "Failed to upload file"
+            },
+            "SearchButton": {
+                "SearchPlaceholder": "Search"
+            },
+            "StandartInput": {
+                "Placeholder": {
+                    "Default": "Enter value",
+                    "AdditionalCommentOptional": "Additional comment (optional)"
+                },
+                "Errors": {
+                    "required": "Field is required",
+                    "invalidEmail": "Invalid email format",
+                    "minLength": "Value is too short",
+                    "maxLength": "Value is too long"
+                }
+            },
+            "TaskCardBlock": {
+                "Issued": "Issued:",
+                "Due": "Due by:",
+                "Edit": "Edit",
+                "BookCoverAlt": "Task cover",
+                "DeleteSuccess": "Task was successfully deleted",
+                "DeleteError": "Failed to delete homework task"
+            },
+            "TaskCardBlock2": {
+                "Issued": "Issued:",
+                "Due": "Due by:",
+                "TaskPreviewAlt": "Task preview"
+            },
+            "TaskCardTile": {
+                "Issued": "Issued:",
+                "Due": "Due by:",
+                "Delete": "Delete",
+                "Edit": "Edit",
+                "DeleteSuccess": "Task was successfully deleted",
+                "DeleteError": "Failed to delete homework task"
+            }
+        }
+    },
+    "HometaskStudent": {
+        "components": {
+            "page": {
+                "Tabs": {
+                    "ToDo": "To do",
+                    "Pending": "Pending",
+                    "Done": "Done"
+                },
+                "Filters": {
+                    "AllSubjects": "All subjects"
+                },
+                "Loading": "Loading...",
+                "NoTasks": "Nothing here",
+                "SortOptions": {
+                    "NewestFirst": "Newest first",
+                    "OldestFirst": "Oldest first",
+                    "Alphabetical": "Alphabetically"
+                },
+                "Messages": {
+                    "SendSuccess": "Homework successfully submitted!",
+                    "SendSuccessTitle": "Title: {{title}}",
+                    "SendError": "Failed to submit homework. Try again.",
+                    "CancelSuccess": "Homework submission canceled!",
+                    "CancelSuccessTitle": "Title: {{title}}",
+                    "CancelError": "Failed to cancel submission. Try again."
+                },
+                "Errors": {
+                    "TokenDecode": "Error decoding token",
+                    "FetchStudentId": "Error fetching studentId",
+                    "FetchInitialData": "Error fetching initial data",
+                    "FetchSubjects": "Error fetching subjects",
+                    "FetchTasks": "Error fetching data",
+                    "FetchTeacher": "Error fetching teacher data (ID: {{id}})",
+                    "FetchSubject": "Error fetching subject data (ID: {{id}})",
+                    "FetchHometask": "Error fetching homework data (ID: {{id}})",
+                    "ParseData": "Error processing server data",
+                    "RefreshTasks": "Error refreshing tasks",
+                    "UploadFile": "Error uploading file: {{fileName}}",
+                    "IncompleteUpload": "Not all files were uploaded. Try again."
+                }
+            },
+            "Dropdown": {
+                "AllSubjects": "All subjects",
+                "Errors": {
+                    "NoOptions": "No subjects available"
+                }
+            },
+            "HometaskCard": {
+                "StatusButton": {
+                    "Send": "Submit",
+                    "Cancel": "Revert",
+                    "Default": "Button"
+                },
+                "Issued": "Issued:",
+                "Done": "Completed",
+                "Due": "Due by",
+                "ImageAlt": "Task image"
+            },
+            "HometaskModal": {
+                "TitlePrefix": "Task",
+                "Issued": "Issued",
+                "Due": "Due by",
+                "Done": "Completed",
+                "MaxMark": "Maximum score",
+                "Status": "Status",
+                "Task": "Task",
+                "AttachedFiles": "Attached files",
+                "Choose": "Choose",
+                "ImageAlt": "Task image",
+                "StatusText": {
+                    "Pending": "Pending",
+                    "Done": "Completed",
+                    "Default": "To do"
+                },
+                "Mark": "Grade:",
+                "Messages": {
+                    "NoFilesSelected": "Please select at least one file.",
+                    "FileError": "Error processing file"
+                }
+            }
+        }
+    },
+    "CalendarTeacher": {
+        "components": {
+            "Messages": {
+                "FetchError": "Error fetching data",
+                "WindowWidth": "Window width: {{width}} pixels"
+            },
+            "AddDayModal": {
+                "UI": {
+                    "Title": "Add event",
+                    "SubjectLabel": "Subject:",
+                    "DateLabel": "Date:",
+                    "TimeLabel": "Lesson start and end time:",
+                    "From": "From",
+                    "To": "To",
+                    "GroupLabel": "Group:",
+                    "FormatLabel": "Lesson format:",
+                    "Offline": "Offline",
+                    "Online": "Online",
+                    "SubjectPlaceholder": "Subject",
+                    "MeetingLinkPlaceholder": "Meeting link",
+                    "AddressPlaceholder": "Address",
+                    "SelectGroup": "Select group",
+                    "LoadingGroups": "Loading groups...",
+                    "OneTime": "One-time event",
+                    "Weekly": "Repeat weekly",
+                    "Biweekly": "Repeat every 2 weeks",
+                    "AddToSchedule": "Add to schedule"
+                },
+                "Messages": {
+                    "FetchGroupsError": "Error fetching groups",
+                    "GroupsLoadError": "Failed to load group list",
+                    "SelectGroupError": "Select a group",
+                    "SubjectEmptyError": "Subject cannot be empty",
+                    "DateEmptyError": "Date cannot be empty",
+                    "DatePastError": "Date cannot be earlier than today",
+                    "StartHourError": "Enter a valid start hour (0-23)",
+                    "StartMinuteError": "Enter valid start minutes (0-59)",
+                    "EndHourError": "Enter a valid end hour (0-23)",
+                    "EndMinuteError": "Enter valid end minutes (0-59)",
+                    "TimeOrderError": "End time must be later than start time",
+                    "LinkEmptyError": "Link cannot be empty",
+                    "LinkInvalidError": "Enter a valid link",
+                    "AddressEmptyError": "Address cannot be empty",
+                    "FormValidationError": "Please fix errors in the form",
+                    "SaveEventError": "Failed to save event. Try again.",
+                    "SaveEventSuccess": "All lessons successfully scheduled!"
+                }
+            },
+            "ChangeDayModal": {
+                "UI": {
+                    "Title": "Edit event",
+                    "SubjectLabel": "Subject:",
+                    "DateLabel": "Date:",
+                    "TimeLabel": "Lesson start and end time:",
+                    "From": "From",
+                    "To": "To",
+                    "GroupLabel": "Group:",
+                    "FormatLabel": "Lesson format:",
+                    "Offline": "Offline",
+                    "Online": "Online",
+                    "SubjectPlaceholder": "Subject",
+                    "MeetingLinkPlaceholder": "Meeting link",
+                    "AddressPlaceholder": "Address",
+                    "SelectGroup": "Select group",
+                    "LoadingGroups": "Loading groups...",
+                    "SaveChanges": "Save changes",
+                    "DatesLabel": "Date:",
+                    "TimeRangeLabel": "Time:",
+                    "FormatLabelSuccess": "Format:"
+                },
+                "Messages": {
+                    "FetchGroupsError": "Error fetching groups",
+                    "GroupsLoadError": "Failed to load group list",
+                    "SelectGroupError": "Select a group",
+                    "SubjectEmptyError": "Subject cannot be empty",
+                    "DateEmptyError": "Date cannot be empty",
+                    "DatePastError": "Date cannot be earlier than today",
+                    "StartHourError": "Enter a valid start hour (0-23)",
+                    "StartMinuteError": "Enter valid start minutes (0-59)",
+                    "EndHourError": "Enter a valid end hour (0-23)",
+                    "EndMinuteError": "Enter valid end minutes (0-59)",
+                    "TimeOrderError": "End time must be later than start time",
+                    "LinkEmptyError": "Link cannot be empty",
+                    "LinkInvalidError": "Enter a valid link",
+                    "AddressEmptyError": "Address cannot be empty",
+                    "FormValidationError": "Please fix errors in the form",
+                    "UpdateEventError": "Failed to update event. Try again.",
+                    "UpdateEventSuccess": "Lesson successfully updated!"
+                }
+            },
+            "ItemLesson": {
+                "UI": {
+                    "GroupLabel": "Group:",
+                    "LocationLabel": "Location:",
+                    "LinkText": "Link",
+                    "NoLinkText": "No link",
+                    "NoAddressText": "No address",
+                    "DeleteButton": "Delete",
+                    "EditButton": "Edit",
+                    "NoTitleText": "No title",
+                    "UnknownGroupText": "Unknown group",
+                    "SubjectLabel": "Subject:",
+                    "DateLabel": "Date:",
+                    "TimeLabel": "Time:"
+                },
+                "Messages": {
+                    "DeleteLessonError": "Error deleting lesson",
+                    "DeleteLessonFailed": "Failed to delete lesson. Try again.",
+                    "DeleteLessonSuccess": "Lesson successfully deleted!"
+                }
+            },
+            "Panel": {
+                "UI": {
+                    "Title": "Plan big!",
+                    "Subtitle": "Add courses to your Google Calendar, plan your time big.",
+                    "ButtonText": "Add",
+                    "SoonLabel": "Soon"
+                }
+            },
+            "PanelLessons": {
+                "UI": {
+                    "SortToday": "Today",
+                    "SortWeek": "Week",
+                    "SortMonth": "Month " ,
+                    "SortSelectedPrefix": "For"
+                }
+            }
+        }
+    },
+    "CalendarStudent": {
+        "components": {
+            "page": {
+                "TokenDecodeError": "Error decoding token",
+                "UserIdNotFoundError": "User ID not found in token",
+                "FetchLessonsError": "Error fetching lessons"
+            },
+            "ItemLesson": {
+                "UI": {
+                    "NoTitleText": "No title",
+                    "TeacherLabel": "Teacher:",
+                    "LocationLabel": "Location:",
+                    "LinkText": "Link",
+                    "NoLinkText": "No link",
+                    "NoAddressText": "No address"
+                }
+            },
+            "PanelLessons": {
+                "UI": {
+                    "SortToday": "Today",
+                    "SortWeek": "Week",
+                    "SortMonth": "Month",
+                    "SortSelectedPrefix": "For"
+                }
+            }
+        }
+    },
+    "Navbar": {
+        "Labels": {
+            "home": "Home",
+            "hometasks": "Homework",
+            "tests": "Tests",
+            "calendar": "Calendar",
+            "materials": "Materials",
+            "search": "Search",
+            "settings": "Settings",
+            "info": "Info",
+            "menu": "Menu",
+            "soon": "Soon",
+            "balance": "Balance",
+            "profile": "Profile"
+        },
+        "NotificationList": {
+            "List": "Notification list",
+            "NoNew": "No new notifications",
+            "NotificationItem": {
+                "WantsToJoin": "Wants to join the course",
+                "Group": "group"
+            }
+        },
+        "Errors": {
+            "TokenDecode": "Error decoding token!",
+            "UserData": "Error fetching user data or balance!",
+            "Notifications": "Failed to load notifications. Try again.",
+            "Request": "Failed to accept request. Try again.",
+            "Declining": "Failed to decline request. Try again.",
+            "Deleting": "Failed to delete notification. Try again."
+        }
+    },
+    "EditProfile": {
+        "Validation": {
+            "ChooseImage": "Please select an image file",
+            "LastName": "Last name is required",
+            "FirstName": "First name is required",
+            "PhoneNumber": "Phone number must contain at least 10 digits",
+            "UploadImage": "Error uploading image",
+            "initialImageFile": "Previous image",
+            "imageFile": "New image uploaded",
+            "noImage": "No image"
+        },
+        "ChangedFields": "Changed fields",
+        "ChangedFrom": "Changed from",
+        "ChangedTo": "to",
+        "NoChanges": "No changes made.",
+        "Info": "Personal information",
+        "Change": "Change",
+        "Placeholders": {
+            "LastName": "Last name",
+            "FirstName": "First name"
+        },
+        "Buttons": {
+            "Credentials": "Change password and/or email",
+            "Save": "Save changes",
+            "Saving": "Saving..."
+        },
+        "Errors": {
+            "ProfileUpdate": "Error updating profile"
+        }
+    },
+    "EditEmailAndPassword": {
+        "Validation": {
+            "PasswordLength": "Password must be between 8 and 128 characters",
+            "PasswordLowercase": "Password must contain at least one lowercase letter",
+            "PasswordUppercase": "Password must contain at least one uppercase letter",
+            "PasswordDigit": "Password must contain at least one digit",
+            "PasswordSpecial": "Password must contain at least one special character",
+            "PasswordInvalidChars": "Password contains invalid characters. Only letters, digits, and special characters are allowed",
+            "EmailRequired": "Email is required",
+            "EmailInvalid": "Invalid email format",
+            "PasswordsMismatch": "Passwords do not match"
+        },
+        "Messages": {
+            "NoChanges": "No changes made",
+            "CodeSent": "Verification code sent to your email",
+            "SendCodeError": "Error sending code",
+            "InvalidCode": "Invalid verification code or it has expired",
+            "ConfirmError": "Error confirming",
+            "UpdateSuccess": "Data successfully updated"
+        },
+        "Placeholders": {
+            "Email": "Email",
+            "NewPassword": "New password",
+            "ConfirmPassword": "Confirm password"
+        },
+        "Buttons": {
+            "Save": "Save changes",
+            "Saving": "Saving"
+        },
+        "Content": {
+            "Title": "Change email and password",
+            "CodeSentMessage": "Verification code sent to your email",
+            "EnterCode": "Enter verification code",
+            "InvalidCodeMessage": "Verification code is invalid or has expired"
+        }
+    },
+    "ProfileStudent": {
+        "Messages": {
+            "TokenDecodeError": "Error decoding token"
+        },
+        "Buttons": {
+            "EditProfile": "Edit profile",
+            "LearnMore": "Learn more"
+        },
+        "Content": {
+            "RegisteredUser": "Registered user",
+            "LearnFull": "Learn to the fullest",
+            "SubscriptionPrompt": "Subscribe to unlock more features"
+        },
+        "Stats": {
+            "Courses": "Courses",
+            "Rating": "Rating",
+            "ByTrophies": "by trophies",
+            "Trophies": "Trophies"
+        },
+        "GroupList": {
+            "Title": "My groups",
+            "TableHeaders": {
+                "Number": "№",
+                "GroupNumber": "Group №",
+                "GroupName": "Group name",
+                "CourseName": "Course name",
+                "Teacher": "Teacher",
+                "Price": "Price"
+            },
+            "DefaultGroups": {
+                "MathName": "Mathematics",
+                "MathFormat": "Offline",
+                "MathType": "Individual",
+                "MathTeacher": "Vosmenko",
+                "PhysicsName": "Physics",
+                "PhysicsFormat": "Online",
+                "PhysicsType": "Group",
+                "PhysicsTeacher": "Ivanov"
+            }
+        },
+        "Reviews": {
+            "Messages": {
+                "FetchReviewsError": "Error fetching reviews"
+            },
+            "Title": {
+                "HasReviews": "Student reviews",
+                "NoReviews": "No reviews"
+            },
+            "Buttons": {
+                "LoadMore": "Read more comments",
+                "AddComment": "Add comment"
+            }
+        }
+    },
+    "ProfileTeacher": {
+        "Messages": {
+            "TokenDecodeError": "Error decoding token"
+        },
+        "Buttons": {
+            "EditProfile": "Edit profile",
+            "LearnMore": "Learn more"
+        },
+        "Content": {
+            "RegisteredUser": "Registered user",
+            "Subject": "Subject",
+            "From": "from",
+            "LessonPrice": "Lesson price",
+            "LearnFull": "Teach to the fullest",
+            "SubscriptionPrompt": "Subscribe to unlock more features"
+        },
+        "Stats": {
+            "Students": "Students",
+            "Rating": "Rating",
+            "Materials": "Original learning materials"
+        },
+        "CourseList": {
+            "Title": "Courses",
+            "TableHeaders": {
+                "GroupNumber": "Group №",
+                "GroupName": "Group name",
+                "StudentsCount": "Number of students",
+                "Price": "Price"
+            },
+            "Buttons": {
+                "EditCourses": "Edit courses",
+                "JoinCourse": "Join course"
+            },
+            "DefaultCourses": {
+                "Math": "Mathematics",
+                "Physics": "Physics"
+            }
+        },
+        "AddReviewModal": {
+            "Messages": {
+                "ReviewSent": "Review submitted",
+                "ReviewError": "Error submitting review"
+            },
+            "Title": "Comment for teacher",
+            "Placeholder": "Enter text here",
+            "Button": {
+                "Submit": "Submit"
+            }
+        },
+        "Comment": {
+            "Content": {
+                "Course": "Course"
+            },
+            "Button": {
+                "ShowLess": "Show less",
+                "ShowMore": "Show more"
+            }
+        }
+    },
+    "ProfileTeacher_forStudent": {
+        "Messages": {
+            "TokenError": "Error decoding token"
+        },
+        "Info": {
+            "Subject": "Subject",
+            "PricePerLesson": "Price per lesson",
+            "RegisteredUser": "Registered user",
+            "PriceFrom": "from"
+        },
+        "Subscription": {
+            "Title": "Learn to the fullest",
+            "Description": "Subscribe to unlock more features"
+        },
+        "Stats": {
+            "Students": "Students",
+            "Rating": "Rating",
+            "Materials": "Original learning materials"
+        }
+    },
+    "CourseJoinModal": {
+        "Messages": {
+            "FetchGroupsError": "Failed to load group information. Try again.",
+            "RequestSuccess": "Request sent",
+            "RequestError": "Failed to send request. Try again."
+        },
+        "Stage1": {
+            "Title": "Join course",
+            "SelectCourseLabel": "Select course",
+            "NoCoursesAvailable": "Sorry, no courses are available to join. You are already enrolled in all available courses.",
+            "SelectGroupLabel": "Select group",
+            "NoGroupsAvailable": "Sorry, no groups are available for this course. You are already enrolled in all available groups.",
+            "NextButton": "Next"
+        },
+        "Stage2": {
+            "Title": "Join course",
+            "TeacherLabel": "Teacher",
+            "CourseLabel": "Course",
+            "GroupLabel": "Group",
+            "TypeLabel": "Type",
+            "FormatLabel": "Format",
+            "PriceLabel": "Price per lesson",
+            "SubmitButton": "Send request",
+            "NotSpecified": "Not specified"
+        },
+        "Stage3": {
+            "Title": "Request sent",
+            "Description": "The teacher will add you to the course soon. Check your notifications for updates.",
+            "HomeButton": "Go to home"
+        },
+        "Dropdown": {
+            "AllCourses": "All courses",
+            "AllGroups": "All groups"
+        }
+    },
+    "PasswordInput": {
+        "Placeholder": "Password",
+        "ValidationErrors": {
+            "EmptyField": "This field cannot be empty",
+            "Length": "Password must be between {minLength} and {maxLength} characters",
+            "Lowercase": "Password must contain at least one lowercase letter",
+            "Uppercase": "Password must contain at least one uppercase letter",
+            "Digit": "Password must contain at least one digit",
+            "Special": "Password must contain at least one special character",
+            "AllowedChars": "Password contains invalid characters. Only letters, digits, and special characters are allowed"
+        }
     },
     "MaterialsStudent": {
         "archive": "Archive",
         "soon": "Soon",
-        "shop": "Shop",
+        "shop": "Store",
         "searchError": "An error occurred, please try again",
-        "noMaterials": "No teacher has provided you access to their materials yet :(",
+        "noMaterials": "No teacher has granted you access to their materials yet :(",
         "sortOptions": {
             "alphabetical": "Alphabetically",
             "newest": "Newest first",
@@ -60,7 +936,7 @@
             "uploading": "Uploading...",
             "successMessage": "Materials successfully added",
             "errorMessage": "An error occurred, please try again",
-            "fileSizeError": "File \"{{fileName}}\" exceeds the maximum size (49MB)",
+            "fileSizeError": "File \"{{fileName}}\" exceeds maximum size (49MB)",
             "fileTypeError": "File \"{{fileName}}\" has a forbidden format ({{extension}})"
         },
         "FolderBlock": {
@@ -158,7 +1034,7 @@
             "loading": "Loading...",
             "testCompleted": "Test completed. Thank you!",
             "pleaseSelectAnswer": "Please select an answer",
-            "imageAlt": "Illustration for the question",
+            "imageAlt": "Question illustration",
             "nextButton": "Next"
         },
         "TestStudent": {
@@ -169,8 +1045,8 @@
             "sortAlphabetical": "Alphabetically",
             "errors": {
                 "tokenDecode": "Error decoding token!",
-                "studentIdGet": "Error getting studentId!",
-                "testsGet": "Error getting tests!"
+                "studentIdGet": "Error fetching studentId!",
+                "testsGet": "Error fetching tests!"
             }
         },
         "TestStudentComponents": {
@@ -223,28 +1099,28 @@
             "studentsDone": "Students completed",
             "studentsNotDone": "Students not completed",
             "deleteTest": "Delete test",
-            "noTestDetails": "Test details not available.",
+            "noTestDetails": "Test details unavailable.",
             "errorMessage": "An error occurred, please try again",
-            "testDeletedSuccess isotopes": "Test successfully deleted!",
+            "testDeletedSuccess": "Test successfully deleted!",
             "title": "Title:",
             "unknown": "Unknown",
-            "deleteFailure": "Failed to delete test. Please try again."
+            "deleteFailure": "Failed to delete test. Try again."
         },
         "CreateTestAi": {
             "decryptError": "An error occurred, please try again",
-            "fixFormErrors": "Please fix the errors in the form",
+            "fixFormErrors": "Please fix errors in the form",
             "generateBeforeSubmit": "Please generate the test before submitting.",
             "generateSuccess": "Test successfully generated! Number of questions: {{count}}",
             "abortInfo": "Generation was canceled",
-            "generateError": "An error occurred during generation, please try again",
+            "generateError": "Error generating test, please try again",
             "generateFail": "Failed to generate test: {{message}}",
             "apiAuthError": "API authentication error. Please contact the administrator.",
-            "testIdError": "Failed to obtain TestId",
+            "testIdError": "Failed to retrieve TestId",
             "imageUploadError": "Failed to upload image: {{message}}",
-            "testQuestionIdError": "Failed to obtain TestQuestionId",
+            "testQuestionIdError": "Failed to retrieve TestQuestionId",
             "testCreated": "Test successfully created!",
             "testName": "Title",
-            "createError": "An error occurred while creating the test",
+            "createError": "Error creating test",
             "generate": "Generate",
             "regenerate": "Regenerate",
             "create": "Create",
@@ -253,7 +1129,7 @@
         },
         "CreateTest": {
             "errorDecryptGroup": "An error occurred, please try again",
-            "errorEmptySubject": "Test subject cannot be empty.",
+            "errorEmptySubject": "Test topic cannot be empty.",
             "errorNumAttempts": "Number of attempts must be a number >= 1.",
             "errorTimeFormat": "Invalid time format. Use a number (minutes), MM:SS, or HH:MM:SS.",
             "errorNegativeTime": "Completion time cannot be negative.",
@@ -264,12 +1140,12 @@
             "errorEmptyQuestion": "Please fill in the question text for task {{number}}.",
             "errorNotEnoughOptions": "Question {{number}} must have at least 2 answers.",
             "errorEmptyOption": "Answer {{index}} cannot be empty.",
-            "errorNoCorrectAnswer": "Please select the correct answer for question {{number}}.",
-            "errorFixForm": "Please fix the errors in the form",
-            "errorMissingTestId": "Failed to obtain TestId",
+            "errorNoCorrectAnswer": "Please select a correct answer for question {{number}}.",
+            "errorFixForm": "Please fix errors in the form",
+            "errorMissingTestId": "Failed to retrieve TestId",
             "errorImageUpload": "Failed to upload image: {{error}}",
-            "errorMissingQuestionId": "Failed to obtain TestQuestionId",
-            "errorCreatingTest": "An error occurred while creating the test",
+            "errorMissingQuestionId": "Failed to retrieve TestQuestionId",
+            "errorCreatingTest": "Error creating test",
             "success": "Test successfully created!",
             "testName": "Title",
             "group": "Group",
@@ -292,14 +1168,14 @@
                 "addImage": "Add image",
                 "deleteImage": "Delete image",
                 "enterAnswer": "Enter answer",
-                "enterOptions": "Enter {{count}} answer options and mark the correct answer.",
+                "enterOptions": "Enter {{count}} answer options and mark the correct one.",
                 "enterTask": "Enter task",
                 "imageFileType": "Please select an image file (JPEG, PNG, etc.).",
                 "noImageSelected": "No image selected.",
                 "questionPreview": "Question preview"
             },
             "TestForm": {
-                "subjectLabel": "Subject:",
+                "subjectLabel": "Topic:",
                 "subjectPlaceholder": "Enter text here",
                 "maxScoreLabel": "Maximum score",
                 "maxScorePlaceholder": "12",
@@ -308,12 +1184,12 @@
                 "numQuestionsLabel": "Number of questions",
                 "numAttemptsLabel": "Number of attempts",
                 "numAttemptsPlaceholder": "1",
-                "timeLabel": "Completion time",
+                "timeLabel": "Time to complete",
                 "timePlaceholder": "00:10:00",
                 "deadlineLabel": "Deadline",
                 "showAnswersAfterTestLabel": "Show all answers to the student after the test.",
                 "validation": {
-                    "subjectEmpty": "Test subject cannot be empty.",
+                    "subjectEmpty": "Test topic cannot be empty.",
                     "descriptionEmpty": "Test description cannot be empty.",
                     "numQuestionsInvalid": "Number of questions must be a number >= 1.",
                     "numAttemptsInvalid": "Number of attempts must be a number >= 1.",
@@ -332,7 +1208,7 @@
             },
             "WaitModal": {
                 "title": "Please wait, the test is being generated based on your request",
-                "description": "After the test is created, review its content, edit if necessary, or restart the generation.",
+                "description": "After the test is created, review its content, edit if necessary, or restart generation.",
                 "buttonText": "Stop generation"
             }
         }

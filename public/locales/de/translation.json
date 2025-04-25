@@ -1,0 +1,1216 @@
+{
+    "HomeStudent": {
+        "errorNoToken": "Token nicht in der Sitzung gefunden!",
+        "errorTokenDecode": "Fehler beim Entschlüsseln des Tokens!",
+        "errorNoUserId": "Benutzer-ID im Token nicht gefunden!",
+        "errorNoStudent": "Kein Student für diesen Benutzer gefunden!",
+        "errorFetchData": "Fehler beim Abrufen der Studentendaten!",
+        "Greetings": {
+            "greeting": "Hallo",
+            "description": "Lernen ist eine tägliche Reise voller Herausforderungen und Erfolge. OctoCRM wird dein verlässlicher Helfer sein: Es hilft dir, wichtige Aufgaben nicht zu verpassen, deinen Stundenplan im Griff zu behalten und stets in Kontakt mit deinen Lehrern zu bleiben. Organisiere deinen Lernprozess klug und selbstbewusst!"
+        },
+        "Graphic": {
+            "title": "Leistungen",
+            "homework": "– Hausaufgaben",
+            "classwork": "– Klassenarbeit",
+            "gradeTooltip": "Note:",
+            "months": {
+                "january": "Januar",
+                "february": "Februar",
+                "march": "März",
+                "april": "April",
+                "may": "Mai",
+                "june": "Juni",
+                "july": "Juli",
+                "august": "August",
+                "september": "September",
+                "october": "Oktober",
+                "november": "November",
+                "december": "Dezember"
+            }
+        },
+        "Leaderboard": {
+            "title": "Rangliste",
+            "all_subjects": "Alle Fächer",
+            "no_data": "Keine Informationen",
+            "profile_alt": "Benutzerprofil"
+        },
+        "Map": {
+            "all_subjects": "Alle Fächer",
+            "format": "Format",
+            "lesson_type": "Unterrichtsart",
+            "current_location": "Dein aktueller Standort",
+            "error_location": "Fehler beim Abrufen des Standorts!"
+        },
+        "MarkHistory": {
+            "title": "Notenverlauf",
+            "no_data": "Keine Informationen",
+            "types": {
+                "Classwork": "Klassenarbeit",
+                "Homework": "Hausaufgaben",
+                "Test": "Test"
+            }
+        },
+        "NearestEvents": {
+            "title": "Nächste Veranstaltungen",
+            "no_data": "Keine Informationen",
+            "go_to": "Gehe zu",
+            "event_alt": "Veranstaltungsavatar"
+        },
+        "Schedule": {
+            "title": "{{month}} {{year}}",
+            "months": {
+                "0": "Januar",
+                "1": "Februar",
+                "2": "März",
+                "3": "April",
+                "4": "Mai",
+                "5": "Juni",
+                "6": "Juli",
+                "7": "August",
+                "8": "September",
+                "9": "Oktober",
+                "10": "November",
+                "11": "Dezember"
+            },
+            "weekdays": {
+                "sun": "So",
+                "mon": "Mo",
+                "tue": "Di",
+                "wed": "Mi",
+                "thu": "Do",
+                "fri": "Fr",
+                "sat": "Sa"
+            }
+        }
+    },
+    "HomeTeacher": {
+        "errorNoToken": "Token nicht in der Sitzung gefunden!",
+        "errorTokenDecode": "Fehler beim Entschlüsseln des Tokens!",
+        "errorNoUserId": "Benutzer-ID im Token nicht gefunden!",
+        "errorNoTeacher": "Kein Lehrer für diesen Benutzer gefunden!",
+        "errorFetchData": "Fehler beim Abrufen der Lehrerdaten!",
+        "Greetings": {
+            "greeting": "Hallo",
+            "description": "Du bist ein Meister des Unterrichts! OctoCRM hilft dir, Unterrichtsstunden, Stundenpläne und Schüler mühelos zu verwalten.",
+            "defaultName": "Lehrer"
+        },
+        "Graphic": {
+            "title": "Schülerleistungen",
+            "homework": "Hausaufgaben",
+            "classwork": "Klassenarbeit",
+            "test": "Tests",
+            "all_groups": "Alle Gruppen",
+            "grades": "Noten",
+            "average": "Durchschnitt",
+            "no_data": "Keine Daten",
+            "months": {
+                "0": "Januar",
+                "1": "Februar",
+                "2": "März",
+                "3": "April",
+                "4": "Mai",
+                "5": "Juni",
+                "6": "Juli",
+                "7": "August",
+                "8": "September",
+                "9": "Oktober",
+                "10": "November",
+                "11": "Dezember"
+            },
+            "types": {
+                "Homework": "Hausaufgaben",
+                "Classwork": "Klassenarbeit",
+                "Test": "Test"
+            }
+        },
+        "Leaderboard": {
+            "title": "Rangliste",
+            "all_groups": "Alle Gruppen",
+            "no_data": "Keine Informationen",
+            "profile_alt": "Schülerprofil"
+        },
+        "LatestActivity": {
+            "title": "Letzte Aktivitäten",
+            "no_data": "Keine Informationen",
+            "activity_alt": "Aktivitätsavatar",
+            "types": {
+                "Lesson": "Unterricht gehalten",
+                "AssignmentChecked": "Aufgabe überprüft",
+                "Test": "Test abgelegt",
+                "Hometask": "Hausaufgaben"
+            }
+        },
+        "NearestEvents": {
+            "title": "Nächste Veranstaltungen",
+            "no_data": "Keine Informationen",
+            "go_to": "Gehe zu",
+            "event_alt": "Veranstaltungsavatar"
+        },
+        "Schedule": {
+            "title": "{{month}} {{year}}",
+            "no_data": "Keine Daten",
+            "months": {
+                "0": "Januar",
+                "1": "Februar",
+                "2": "März",
+                "3": "April",
+                "4": "Mai",
+                "5": "Juni",
+                "6": "Juli",
+                "7": "August",
+                "8": "September",
+                "9": "Oktober",
+                "10": "November",
+                "11": "Dezember"
+            },
+            "weekdays": {
+                "0": "So",
+                "1": "Mo",
+                "2": "Di",
+                "3": "Mi",
+                "4": "Do",
+                "5": "Fr",
+                "6": "Sa"
+            }
+        },
+        "Productivity": {
+            "title": "Produktivität",
+            "rating": "Bewertung",
+            "tasks_checked": "Überprüfte Aufgaben",
+            "lessons_conducted": "Gehaltene Unterrichtsstunden",
+            "new_clients": "Neue Schüler",
+            "reviews_received": "Erhaltene Bewertungen",
+            "no_change": "—",
+            "no_change_text": "(-)",
+            "periods": {
+                "all_time": "Gesamte Zeit",
+                "year": "Letztes Jahr",
+                "half_year": "Letzte sechs Monate",
+                "three_months": "Letzte drei Monate",
+                "month": "Letzter Monat",
+                "week": "Letzte Woche",
+                "day": "Letzter Tag"
+            }
+        }
+    },
+    "SearchTeachers": {
+        "searchPlaceholder": "Suchen",
+        "bannerTitle": "Dein Schlüssel zum Lernerfolg!",
+        "bannerText": "Verbessere dein Wissen mit den besten Tutoren!",
+        "priceLabel": "Unterrichtskosten",
+        "priceMin": "Minimum",
+        "priceMax": "Maximum",
+        "ratingLabel": "Bewertung",
+        "ratingDesc": "Von hoch nach niedrig",
+        "ratingAsc": "Von niedrig nach hoch",
+        "formatLabel": "Format",
+        "formatOnline": "Online",
+        "formatOffline": "Offline",
+        "resetButton": "Zurücksetzen",
+        "viewButton": "Ansehen",
+        "loadMoreButton": "Mehr laden",
+        "loading": "Lädt...",
+        "noTeachers": "Keine Lehrer verfügbar",
+        "from": "Ab",
+        "currency": "EUR",
+        "defaultTeacherName": "Nadia Volkova",
+        "defaultSubject": "Mathematik",
+        "defaultDescription": "Hallo! Ich bin Nadia Volkova, Lehrerin für Mathematik und Physik. Ich habe meine eigene Lehrmethode entwickelt und autordidaktische Materialien erstellt, die eine qualitativ hochwertige Wissensaufnahme garantieren.",
+        "errorLoading": "Lehrer konnten nicht geladen werden.",
+        "errorLoadingMore": "Weitere Lehrer konnten nicht geladen werden.",
+        "priceSort": "Nach Preis",
+        "lessonType": "Unterrichtsart",
+        "lessonTypeGroup": "Gruppenunterricht",
+        "lessonTypeSolo": "Einzelunterricht",
+        "priceSortDesc": "Absteigend",
+        "priceSortAsc": "Aufsteigend",
+        "profile_alt": "Lehrerprofil"
+    },
+    "HomeTaskTeacher": {
+        "components": {
+            "page": {
+                "AtFirstNew": "Zuerst neu",
+                "AtFirstOld": "Zuerst alt",
+                "ByAlphabet": "Alphabetisch",
+                "TaskVerification": "Aufgabenprüfung",
+                "TaskManager": "Aufgabenmanager",
+                "AddTask": "Aufgabe hinzufügen",
+                "RecentTasks": "Letzte Aufgaben",
+                "More": "Mehr",
+                "ToCheck": "Zu prüfen",
+                "Checked": "Geprüft",
+                "NotSubmitted": "Nicht eingereicht",
+                "NoTasksYet": "Noch keine Aufgaben",
+                "GeneralError": "Ein Fehler ist aufgetreten, bitte versuchen Sie es erneut"
+            },
+            "UserCard": {
+                "Check": "Prüfen",
+                "NotCompleted": "Nicht erledigt",
+                "NotSubmitted": "Nicht eingereicht",
+                "InvalidDate": "Ungültiges Datum",
+                "NameNotSpecified": "Name nicht angegeben"
+            },
+            "EvaluateAIModal": {
+                "PleaseWaitAIChecking": "Bitte warten Sie, die KI überprüft die Arbeit. Dies kann einige Minuten dauern.",
+                "AIEvaluation": "Bewertung mit KI",
+                "EvaluateManually": "Manuell bewerten",
+                "StartCheck": "Prüfung starten",
+                "Evaluate": "Bewerten",
+                "Response": "Antwort:",
+                "WaitForAICompletion": "Bitte warten Sie, bis die KI-Prüfung abgeschlossen ist.",
+                "ErrorUpdatingGrade": "Fehler beim Aktualisieren der Note.",
+                "TaskSuccessfullyEvaluated": "Aufgabe erfolgreich bewertet",
+                "ErrorOccurred": "Ein Fehler ist aufgetreten"
+            },
+            "EvaluateModal": {
+                "ManualEvaluation": "Manuelle Bewertung der Arbeit",
+                "CheckWorkFasterWithAI": "Überprüfen Sie die Arbeit schneller mit unserer KI-Prüfung",
+                "GoToAI": "Wechseln",
+                "AdditionalcommentOptional": "Zusätzlicher Kommentar (optional)",
+                "EvaluateWork": "Arbeit bewerten",
+                "EnterValidGrade": "Bitte geben Sie eine gültige Note ein.",
+                "TaskSuccessfullyEvaluated": "Aufgabe erfolgreich bewertet",
+                "ErrorOccurred": "Ein Fehler ist aufgetreten"
+            },
+            "HomeTaskCheckModal": {
+                "GroupLabel": "Gruppe",
+                "Issued": "Ausgestellt",
+                "Deadline": "Fällig bis",
+                "Completed": "Abgeschlossen",
+                "MaxScore": "Maximale Punktzahl",
+                "Status": "Status",
+                "PendingReview": "Zu prüfen",
+                "Task": "Aufgabe",
+                "AttachedFiles": "Angehängte Dateien",
+                "TaskBy": "Aufgabe von: ",
+                "AutoEvaluation": "Automatische Bewertung",
+                "ManualEvaluation": "Manuell bewerten"
+            },
+            "HomeTaskCreateModal": {
+                "GroupLabel": "Gruppe",
+                "Issued": "Ausgestellt",
+                "Deadline": "Fällig bis",
+                "Completed": "Abgeschlossen",
+                "MaxScore": "Maximale Punktzahl",
+                "Status": "Status",
+                "Editing": "Bearbeitung",
+                "Creating": "Erstellung",
+                "Task": "Aufgabe",
+                "AttachedFiles": "Angehängte Dateien",
+                "NoFiles": "Keine angehängten Dateien",
+                "AddFiles": "Dateien hinzufügen",
+                "Submit": "Einreichen",
+                "Save": "Speichern",
+                "TaskPlaceholder": "Aufgabe",
+                "DescriptionPlaceholder": "Beschreibung",
+                "FileUploadError": "Datei konnte nicht hochgeladen werden",
+                "CoverUploadError": "Titelbild konnte nicht hochgeladen werden",
+                "TaskCreatedSuccess": "Aufgabe wurde erfolgreich erstellt",
+                "TaskCreationError": "Fehler beim Erstellen der Hausaufgabe",
+                "TaskEditedSuccess": "Aufgabe wurde erfolgreich bearbeitet",
+                "TaskEditError": "Fehler beim Bearbeiten der Hausaufgabe"
+            },
+            "ImageSelectionModal": {
+                "Title": "Titelbild auswählen",
+                "UploadFromComputer": "Vom Computer hochladen",
+                "SelectImage": "Bild auswählen",
+                "LastUsedImage": "Zuletzt verwendetes Bild",
+                "LastUsedImageAlt": "Letztes Bild",
+                "StandardCovers": "Standard-Titelbilder",
+                "StandardCoverAlt": "Standard-Titelbild",
+                "Select": "Auswählen",
+                "Loading": "Laden...",
+                "FetchLastImageError": "Fehler beim Abrufen des letzten Bildes",
+                "FileUploadError": "Datei konnte nicht hochgeladen werden"
+            },
+            "SearchButton": {
+                "SearchPlaceholder": "Suchen"
+            },
+            "StandartInput": {
+                "Placeholder": {
+                    "Default": "Wert eingeben",
+                    "AdditionalCommentOptional": "Zusätzlicher Kommentar (optional)"
+                },
+                "Errors": {
+                    "required": "Feld ist erforderlich",
+                    "invalidEmail": "Ungültiges E-Mail-Format",
+                    "minLength": "Wert zu kurz",
+                    "maxLength": "Wert zu lang"
+                }
+            },
+            "TaskCardBlock": {
+                "Issued": "Ausgestellt:",
+                "Due": "Fällig bis:",
+                "Edit": "Bearbeiten",
+                "BookCoverAlt": "Titelbild der Aufgabe",
+                "DeleteSuccess": "Aufgabe wurde erfolgreich gelöscht",
+                "DeleteError": "Hausaufgabe konnte nicht gelöscht werden"
+            },
+            "TaskCardBlock2": {
+                "Issued": "Ausgestellt:",
+                "Due": "Fällig bis:",
+                "TaskPreviewAlt": "Vorschau der Aufgabe"
+            },
+            "TaskCardTile": {
+                "Issued": "Ausgestellt:",
+                "Due": "Fällig bis:",
+                "Delete": "Löschen",
+                "Edit": "Bearbeiten",
+                "DeleteSuccess": "Aufgabe wurde erfolgreich gelöscht",
+                "DeleteError": "Hausaufgabe konnte nicht gelöscht werden"
+            }
+        }
+    },
+    "HometaskStudent": {
+        "components": {
+            "page": {
+                "Tabs": {
+                    "ToDo": "Zu erledigen",
+                    "Pending": "In Überprüfung",
+                    "Done": "Erledigt"
+                },
+                "Filters": {
+                    "AllSubjects": "Alle Fächer"
+                },
+                "Loading": "Lädt...",
+                "NoTasks": "Nichts vorhanden",
+                "SortOptions": {
+                    "NewestFirst": "Zuerst neue",
+                    "OldestFirst": "Zuerst alte",
+                    "Alphabetical": "Alphabetisch"
+                },
+                "Messages": {
+                    "SendSuccess": "Hausaufgabe erfolgreich eingereicht!",
+                    "SendSuccessTitle": "Titel: {{title}}",
+                    "SendError": "Hausaufgabe konnte nicht eingereicht werden. Bitte versuche es erneut.",
+                    "CancelSuccess": "Einreichung der Hausaufgabe abgebrochen!",
+                    "CancelSuccessTitle": "Titel: {{title}}",
+                    "CancelError": "Abbruch der Einreichung fehlgeschlagen. Bitte versuche es erneut."
+                },
+                "Errors": {
+                    "TokenDecode": "Fehler beim Entschlüsseln des Tokens",
+                    "FetchStudentId": "Fehler beim Abrufen der studentId",
+                    "FetchInitialData": "Fehler beim initialen Laden der Daten",
+                    "FetchSubjects": "Fehler beim Abrufen der Fächer",
+                    "FetchTasks": "Fehler beim Abrufen der Daten",
+                    "FetchTeacher": "Fehler beim Abrufen der Lehrer-Daten (ID: {{id}})",
+                    "FetchSubject": "Fehler beim Abrufen der Fach-Daten (ID: {{id}})",
+                    "FetchHometask": "Fehler beim Abrufen der Hausaufgaben-Daten (ID: {{id}})",
+                    "ParseData": "Fehler beim Verarbeiten der Server-Daten",
+                    "RefreshTasks": "Fehler beim Aktualisieren der Aufgaben",
+                    "UploadFile": "Fehler beim Hochladen der Datei: {{fileName}}",
+                    "IncompleteUpload": "Nicht alle Dateien wurden hochgeladen. Bitte versuche es erneut."
+                }
+            },
+            "Dropdown": {
+                "AllSubjects": "Alle Fächer",
+                "Errors": {
+                    "NoOptions": "Keine Fächer verfügbar"
+                }
+            },
+            "HometaskCard": {
+                "StatusButton": {
+                    "Send": "Einreichen",
+                    "Cancel": "Zurückziehen",
+                    "Default": "Schaltfläche"
+                },
+                "Issued": "Ausgegeben:",
+                "Done": "Erledigt",
+                "Due": "Fällig bis",
+                "ImageAlt": "Aufgabenbild"
+            },
+            "HometaskModal": {
+                "TitlePrefix": "Aufgabe",
+                "Issued": "Ausgegeben",
+                "Due": "Fällig bis",
+                "Done": "Erledigt",
+                "MaxMark": "Maximale Punktzahl",
+                "Status": "Status",
+                "Task": "Aufgabe",
+                "AttachedFiles": "Angehängte Dateien",
+                "Choose": "Auswählen",
+                "ImageAlt": "Aufgabenbild",
+                "StatusText": {
+                    "Pending": "In Überprüfung",
+                    "Done": "Erledigt",
+                    "Default": "Zu erledigen"
+                },
+                "Mark": "Note:",
+                "Messages": {
+                    "NoFilesSelected": "Bitte wähle mindestens eine Datei aus.",
+                    "FileError": "Fehler beim Verarbeiten der Datei"
+                }
+            }
+        }
+    },
+    "CalendarTeacher": {
+        "components": {
+            "Messages": {
+                "FetchError": "Fehler beim Abrufen der Daten",
+                "WindowWidth": "Fensterbreite: {{width}} Pixel"
+            },
+            "AddDayModal": {
+                "UI": {
+                    "Title": "Veranstaltung hinzufügen",
+                    "SubjectLabel": "Fach:",
+                    "DateLabel": "Datum:",
+                    "TimeLabel": "Beginn und Ende der Unterrichtsstunde:",
+                    "From": "Von",
+                    "To": "Bis",
+                    "GroupLabel": "Gruppe:",
+                    "FormatLabel": "Unterrichtsformat:",
+                    "Offline": "Offline",
+                    "Online": "Online",
+                    "SubjectPlaceholder": "Fach",
+                    "MeetingLinkPlaceholder": "Meeting-Link",
+                    "AddressPlaceholder": "Adresse",
+                    "SelectGroup": "Gruppe auswählen",
+                    "LoadingGroups": "Gruppen werden geladen...",
+                    "OneTime": "Einmalige Veranstaltung",
+                    "Weekly": "Wöchentlich wiederholen",
+                    "Biweekly": "Alle zwei Wochen wiederholen",
+                    "AddToSchedule": "Zum Stundenplan hinzufügen"
+                },
+                "Messages": {
+                    "FetchGroupsError": "Fehler beim Abrufen der Gruppen",
+                    "GroupsLoadError": "Gruppenliste konnte nicht geladen werden",
+                    "SelectGroupError": "Bitte wähle eine Gruppe aus",
+                    "SubjectEmptyError": "Fach darf nicht leer sein",
+                    "DateEmptyError": "Datum darf nicht leer sein",
+                    "DatePastError": "Datum darf nicht in der Vergangenheit liegen",
+                    "StartHourError": "Gib eine gültige Startzeit ein (0-23)",
+                    "StartMinuteError": "Gib gültige Startminuten ein (0-59)",
+                    "EndHourError": "Gib eine gültige Endzeit ein (0-23)",
+                    "EndMinuteError": "Gib gültige Endminuten ein (0-59)",
+                    "TimeOrderError": "Endzeit muss nach der Startzeit liegen",
+                    "LinkEmptyError": "Link darf nicht leer sein",
+                    "LinkInvalidError": "Gib einen gültigen Link ein",
+                    "AddressEmptyError": "Adresse darf nicht leer sein",
+                    "FormValidationError": "Bitte korrigiere die Fehler im Formular",
+                    "SaveEventError": "Veranstaltung konnte nicht gespeichert werden. Bitte versuche es erneut.",
+                    "SaveEventSuccess": "Alle Unterrichtsstunden erfolgreich geplant!"
+                }
+            },
+            "ChangeDayModal": {
+                "UI": {
+                    "Title": "Veranstaltung bearbeiten",
+                    "SubjectLabel": "Fach:",
+                    "DateLabel": "Datum:",
+                    "TimeLabel": "Beginn und Ende der Unterrichtsstunde:",
+                    "From": "Von",
+                    "To": "Bis",
+                    "GroupLabel": "Gruppe:",
+                    "FormatLabel": "Unterrichtsformat:",
+                    "Offline": "Offline",
+                    "Online": "Online",
+                    "SubjectPlaceholder": "Fach",
+                    "MeetingLinkPlaceholder": "Meeting-Link",
+                    "AddressPlaceholder": "Adresse",
+                    "SelectGroup": "Gruppe auswählen",
+                    "LoadingGroups": "Gruppen werden geladen...",
+                    "SaveChanges": "Änderungen speichern",
+                    "DatesLabel": "Datum:",
+                    "TimeRangeLabel": "Zeit:",
+                    "FormatLabelSuccess": "Format:"
+                },
+                "Messages": {
+                    "FetchGroupsError": "Fehler beim Abrufen der Gruppen",
+                    "GroupsLoadError": "Gruppenliste konnte nicht geladen werden",
+                    "SelectGroupError": "Bitte wähle eine Gruppe aus",
+                    "SubjectEmptyError": "Fach darf nicht leer sein",
+                    "DateEmptyError": "Datum darf nicht leer sein",
+                    "DatePastError": "Datum darf nicht in der Vergangenheit liegen",
+                    "StartHourError": "Gib eine gültige Startzeit ein (0-23)",
+                    "StartMinuteError": "Gib gültige Startminuten ein (0-59)",
+                    "EndHourError": "Gib eine gültige Endzeit ein (0-23)",
+                    "EndMinuteError": "Gib gültige Endminuten ein (0-59)",
+                    "TimeOrderError": "Endzeit muss nach der Startzeit liegen",
+                    "LinkEmptyError": "Link darf nicht leer sein",
+                    "LinkInvalidError": "Gib einen gültigen Link ein",
+                    "AddressEmptyError": "Adresse darf nicht leer sein",
+                    "FormValidationError": "Bitte korrigiere die Fehler im Formular",
+                    "UpdateEventError": "Veranstaltung konnte nicht aktualisiert werden. Bitte versuche es erneut.",
+                    "UpdateEventSuccess": "Unterrichtsstunde erfolgreich aktualisiert!"
+                }
+            },
+            "ItemLesson": {
+                "UI": {
+                    "GroupLabel": "Gruppe:",
+                    "LocationLabel": "Ort:",
+                    "LinkText": "Link",
+                    "NoLinkText": "Kein Link",
+                    "NoAddressText": "Keine Adresse",
+                    "DeleteButton": "Löschen",
+                    "EditButton": "Bearbeiten",
+                    "NoTitleText": "Ohne Titel",
+                    "UnknownGroupText": "Unbekannte Gruppe",
+                    "SubjectLabel": "Fach:",
+                    "DateLabel": "Datum:",
+                    "TimeLabel": "Zeit:"
+                },
+                "Messages": {
+                    "DeleteLessonError": "Fehler beim Löschen der Unterrichtsstunde",
+                    "DeleteLessonFailed": "Unterrichtsstunde konnte nicht gelöscht werden. Bitte versuche es erneut.",
+                    "DeleteLessonSuccess": "Unterrichtsstunde erfolgreich gelöscht!"
+                }
+            },
+            "Panel": {
+                "UI": {
+                    "Title": "Plane groß!",
+                    "Subtitle": "Füge Kurse zu deinem Google Kalender hinzu und plane deine Zeit effektiv.",
+                    "ButtonText": "Hinzufügen",
+                    "SoonLabel": "Bald"
+                }
+            },
+            "PanelLessons": {
+                "UI": {
+                    "SortToday": "Für heute",
+                    "SortWeek": "Für die Woche",
+                    "SortMonth": "Für den Monat",
+                    "SortSelectedPrefix": "Für"
+                }
+            }
+        }
+    },
+    "CalendarStudent": {
+        "components": {
+            "page": {
+                "TokenDecodeError": "Fehler beim Entschlüsseln des Tokens",
+                "UserIdNotFoundError": "Benutzer-ID im Token nicht gefunden",
+                "FetchLessonsError": "Fehler beim Abrufen der Unterrichtsstunden"
+            },
+            "ItemLesson": {
+                "UI": {
+                    "NoTitleText": "Ohne Titel",
+                    "TeacherLabel": "Lehrer:",
+                    "LocationLabel": "Ort:",
+                    "LinkText": "Link",
+                    "NoLinkText": "Kein Link",
+                    "NoAddressText": "Keine Adresse"
+                }
+            },
+            "PanelLessons": {
+                "UI": {
+                    "SortToday": "Für heute",
+                    "SortWeek": "Für die Woche",
+                    "SortMonth": "Für den Monat",
+                    "SortSelectedPrefix": "Für"
+                }
+            }
+        }
+    },
+    "Navbar": {
+        "Labels": {
+            "home": "Startseite",
+            "hometasks": "Hausaufgaben",
+            "tests": "Tests",
+            "calendar": "Kalender",
+            "materials": "Materialien",
+            "search": "Suche",
+            "settings": "Einstellungen",
+            "info": "Informationen",
+            "menu": "Menü",
+            "soon": "Bald",
+            "balance": "Guthaben",
+            "profile": "Profil"
+        },
+        "NotificationList": {
+            "List": "Benachrichtigungsliste",
+            "NoNew": "Keine neuen Benachrichtigungen",
+            "NotificationItem": {
+                "WantsToJoin": "Möchte dem Kurs beitreten",
+                "Group": "Gruppe"
+            }
+        },
+        "Errors": {
+            "TokenDecode": "Fehler beim Entschlüsseln des Tokens!",
+            "UserData": "Fehler beim Abrufen der Benutzerdaten oder des Guthabens!",
+            "Notifications": "Benachrichtigungen konnten nicht geladen werden. Bitte versuche es erneut.",
+            "Request": "Anfrage konnte nicht angenommen werden. Bitte versuche es erneut.",
+            "Declining": "Anfrage konnte nicht abgelehnt werden. Bitte versuche es erneut.",
+            "Deleting": "Benachrichtigung konnte nicht gelöscht werden. Bitte versuche es erneut."
+        }
+    },
+    "EditProfile": {
+        "Validation": {
+            "ChooseImage": "Bitte wähle eine Bilddatei aus",
+            "LastName": "Nachname ist erforderlich",
+            "FirstName": "Vorname ist erforderlich",
+            "PhoneNumber": "Telefonnummer muss mindestens 10 Ziffern enthalten",
+            "UploadImage": "Fehler beim Hochladen des Bildes",
+            "initialImageFile": "Vorheriges Bild",
+            "imageFile": "Neues Bild hochgeladen",
+            "noImage": "Kein Bild"
+        },
+        "ChangedFields": "Geänderte Felder",
+        "ChangedFrom": "Geändert von",
+        "ChangedTo": "zu",
+        "NoChanges": "Keine Änderungen vorgenommen.",
+        "Info": "Persönliche Informationen",
+        "Change": "Ändern",
+        "Placeholders": {
+            "LastName": "Nachname",
+            "FirstName": "Vorname"
+        },
+        "Buttons": {
+            "Credentials": "Passwort und/oder E-Mail ändern",
+            "Save": "Änderungen speichern",
+            "Saving": "Speichert..."
+        },
+        "Errors": {
+            "ProfileUpdate": "Fehler beim Aktualisieren des Profils"
+        }
+    },
+    "EditEmailAndPassword": {
+        "Validation": {
+            "PasswordLength": "Passwort muss zwischen 8 und 128 Zeichen lang sein",
+            "PasswordLowercase": "Passwort muss mindestens einen Kleinbuchstaben enthalten",
+            "PasswordUppercase": "Passwort muss mindestens einen Großbuchstaben enthalten",
+            "PasswordDigit": "Passwort muss mindestens eine Ziffer enthalten",
+            "PasswordSpecial": "Passwort muss mindestens ein Sonderzeichen enthalten",
+            "PasswordInvalidChars": "Passwort enthält unzulässige Zeichen. Nur Buchstaben, Ziffern und Sonderzeichen sind erlaubt",
+            "EmailRequired": "E-Mail ist erforderlich",
+            "EmailInvalid": "Ungültiges E-Mail-Format",
+            "PasswordsMismatch": "Passwörter stimmen nicht überein"
+        },
+        "Messages": {
+            "NoChanges": "Keine Änderungen vorgenommen",
+            "CodeSent": "Bestätigungscode wurde an deine E-Mail gesendet",
+            "SendCodeError": "Fehler beim Senden des Codes",
+            "InvalidCode": "Ungültiger Bestätigungscode oder abgelaufener Code",
+            "ConfirmError": "Fehler bei der Bestätigung",
+            "UpdateSuccess": "Daten erfolgreich aktualisiert"
+        },
+        "Placeholders": {
+            "Email": "E-Mail",
+            "NewPassword": "Neues Passwort",
+            "ConfirmPassword": "Passwort bestätigen"
+        },
+        "Buttons": {
+            "Save": "Änderungen speichern",
+            "Saving": "Speichert"
+        },
+        "Content": {
+            "Title": "E-Mail und Passwort ändern",
+            "CodeSentMessage": "Bestätigungscode wurde an deine E-Mail gesendet",
+            "EnterCode": "Bestätigungscode eingeben",
+            "InvalidCodeMessage": "Bestätigungscode ist ungültig oder abgelaufen"
+        }
+    },
+    "ProfileStudent": {
+        "Messages": {
+            "TokenDecodeError": "Fehler beim Entschlüsseln des Tokens"
+        },
+        "Buttons": {
+            "EditProfile": "Profil bearbeiten",
+            "LearnMore": "Mehr erfahren"
+        },
+        "Content": {
+            "RegisteredUser": "Registrierter Benutzer",
+            "LearnFull": "Lerne mit vollem Einsatz",
+            "SubscriptionPrompt": "Schließe ein Abonnement ab, um erweiterte Funktionen zu nutzen"
+        },
+        "Stats": {
+            "Courses": "Kurse",
+            "Rating": "Bewertung",
+            "ByTrophies": "nach Trophäen",
+            "Trophies": "Trophäen"
+        },
+        "GroupList": {
+            "Title": "Meine Gruppen",
+            "TableHeaders": {
+                "Number": "Nr.",
+                "GroupNumber": "Gruppen-Nr.",
+                "GroupName": "Gruppenname",
+                "CourseName": "Kursname",
+                "Teacher": "Lehrer",
+                "Price": "Preis"
+            },
+            "DefaultGroups": {
+                "MathName": "Mathematik",
+                "MathFormat": "Offline",
+                "MathType": "Individuell",
+                "MathTeacher": "Vossmenko",
+                "PhysicsName": "Physik",
+                "PhysicsFormat": "Online",
+                "PhysicsType": "Gruppenunterricht",
+                "PhysicsTeacher": "Ivanov"
+            }
+        },
+        "Reviews": {
+            "Messages": {
+                "FetchReviewsError": "Fehler beim Abrufen der Bewertungen"
+            },
+            "Title": {
+                "HasReviews": "Schülerbewertungen",
+                "NoReviews": "Keine Bewertungen vorhanden"
+            },
+            "Buttons": {
+                "LoadMore": "Mehr Kommentare lesen",
+                "AddComment": "Kommentar hinzufügen"
+            }
+        }
+    },
+    "ProfileTeacher": {
+        "Messages": {
+            "TokenDecodeError": "Fehler beim Entschlüsseln des Tokens"
+        },
+        "Buttons": {
+            "EditProfile": "Profil bearbeiten",
+            "LearnMore": "Mehr erfahren"
+        },
+        "Content": {
+            "RegisteredUser": "Registrierter Benutzer",
+            "Subject": "Fach",
+            "From": "ab",
+            "LessonPrice": "Preis pro Unterrichtsstunde",
+            "LearnFull": "Lerne mit vollem Einsatz",
+            "SubscriptionPrompt": "Schließe ein Abonnement ab, um erweiterte Funktionen zu nutzen"
+        },
+        "Stats": {
+            "Students": "Schüler",
+            "Rating": "Bewertung",
+            "Materials": "Autordidaktische Lernmaterialien"
+        },
+        "CourseList": {
+            "Title": "Kurse",
+            "TableHeaders": {
+                "GroupNumber": "Gruppen-Nr.",
+                "GroupName": "Gruppenname",
+                "StudentsCount": "Anzahl der Schüler",
+                "Price": "Preis"
+            },
+            "Buttons": {
+                "EditCourses": "Kurse bearbeiten",
+                "JoinCourse": "Kurs beitreten"
+            },
+            "DefaultCourses": {
+                "Math": "Mathematik",
+                "Physics": "Physik"
+            }
+        },
+        "AddReviewModal": {
+            "Messages": {
+                "ReviewSent": "Bewertung gesendet",
+                "ReviewError": "Fehler beim Senden der Bewertung"
+            },
+            "Title": "Kommentar zum Lehrer",
+            "Placeholder": "Text hier eingeben",
+            "Button": {
+                "Submit": "Senden"
+            }
+        },
+        "Comment": {
+            "Content": {
+                "Course": "Kurs"
+            },
+            "Button": {
+                "ShowLess": "Weniger",
+                "ShowMore": "Mehr"
+            }
+        }
+    },
+    "ProfileTeacher_forStudent": {
+        "Messages": {
+            "TokenError": "Fehler beim Entschlüsseln des Tokens"
+        },
+        "Info": {
+            "Subject": "Fach",
+            "PricePerLesson": "Preis pro Unterrichtsstunde",
+            "RegisteredUser": "Registrierter Benutzer",
+            "PriceFrom": "ab"
+        },
+        "Subscription": {
+            "Title": "Lerne mit vollem Einsatz",
+            "Description": "Schließe ein Abonnement ab, um erweiterte Funktionen zu nutzen"
+        },
+        "Stats": {
+            "Students": "Schüler",
+            "Rating": "Bewertung",
+            "Materials": "Autordidaktische Lernmaterialien"
+        }
+    },
+    "CourseJoinModal": {
+        "Messages": {
+            "FetchGroupsError": "Gruppeninformationen konnten nicht geladen werden. Bitte versuche es erneut",
+            "RequestSuccess": "Anfrage gesendet",
+            "RequestError": "Anfrage konnte nicht gesendet werden. Bitte versuche es erneut"
+        },
+        "Stage1": {
+            "Title": "Kursanmeldung",
+            "SelectCourseLabel": "Kurs auswählen",
+            "NoCoursesAvailable": "Leider gibt es keine verfügbaren Kurse zur Anmeldung. Du bist bereits für alle verfügbaren Kurse angemeldet",
+            "SelectGroupLabel": "Gruppe auswählen",
+            "NoGroupsAvailable": "Leider gibt es für diesen Kurs keine verfügbaren Gruppen. Du bist bereits für alle verfügbaren Gruppen angemeldet",
+            "NextButton": "Weiter"
+        },
+        "Stage2": {
+            "Title": "Kursanmeldung",
+            "TeacherLabel": "Lehrer",
+            "CourseLabel": "Kurs",
+            "GroupLabel": "Gruppe",
+            "TypeLabel": "Art",
+            "FormatLabel": "Format",
+            "PriceLabel": "Preis pro Unterrichtsstunde",
+            "SubmitButton": "Anfrage senden",
+            "NotSpecified": "Nicht angegeben"
+        },
+        "Stage3": {
+            "Title": "Anfrage gesendet",
+            "Description": "Der Lehrer wird dich bald zum Kurs hinzufügen. Warte auf die Benachrichtigung in deinen Nachrichten",
+            "HomeButton": "Zur Startseite"
+        },
+        "Dropdown": {
+            "AllCourses": "Alle Kurse",
+            "AllGroups": "Alle Gruppen"
+        }
+    },
+    "PasswordInput": {
+        "Placeholder": "Passwort",
+        "ValidationErrors": {
+            "EmptyField": "Dieses Feld darf nicht leer sein",
+            "Length": "Passwort muss zwischen {minLength} und {maxLength} Zeichen lang sein",
+            "Lowercase": "Passwort muss mindestens einen Kleinbuchstaben enthalten",
+            "Uppercase": "Passwort muss mindestens einen Großbuchstaben enthalten",
+            "Digit": "Passwort muss mindestens eine Ziffer enthalten",
+            "Special": "Passwort muss mindestens ein Sonderzeichen enthalten",
+            "AllowedChars": "Passwort enthält unzulässige Zeichen. Nur Buchstaben, Ziffern und Sonderzeichen sind erlaubt"
+        }
+    },
+    "MaterialsStudent": {
+        "archive": "Archiv",
+        "soon": "Bald",
+        "shop": "Shop",
+        "searchError": "Ein Fehler ist aufgetreten, bitte versuche es erneut",
+        "noMaterials": "Kein Lehrer hat dir bisher Zugang zu seinen Materialien gegeben :(",
+        "sortOptions": {
+            "alphabetical": "Alphabetisch",
+            "newest": "Zuerst neue",
+            "oldest": "Zuerst alte"
+        },
+        "fileCategories": {
+            "allFormats": "Alle Formate",
+            "presentations": "Präsentationen",
+            "documents": "Dokumente",
+            "textFiles": "Textdateien",
+            "spreadsheets": "Tabellen",
+            "pdf": "PDF",
+            "images": "Bilder"
+        }
+    },
+    "MaterialsTeacher": {
+        "archive": "Archiv",
+        "store": "Shop",
+        "soon": "Bald",
+        "searchPlaceholder": "Suche",
+        "addFile": "Datei hinzufügen",
+        "createFolder": "Ordner erstellen",
+        "sortAlphabetically": "Alphabetisch",
+        "sortNewest": "Zuerst neue",
+        "sortOldest": "Zuerst alte",
+        "errorMessage": "Ein Fehler ist aufgetreten, bitte versuche es erneut",
+        "allFormats": "Alle Formate",
+        "presentations": "Präsentationen",
+        "documents": "Dokumente",
+        "textFiles": "Textdateien",
+        "spreadsheets": "Tabellen",
+        "pdf": "PDF",
+        "images": "Bilder"
+    },
+    "MaterialComponents": {
+        "AccessManagementModal": {
+            "title": "Zugriffsverwaltung für Lernmaterialien",
+            "saveButton": "Speichern",
+            "noCourses": "Keine Kurse verfügbar",
+            "accessUpdated": "Zugriff auf Material aktualisiert",
+            "errorMessage": "Ein Fehler ist aufgetreten, bitte versuche es erneut"
+        },
+        "AddMaterialModal": {
+            "title": "Datei hinzufügen",
+            "selectFromComputer": "Datei vom Computer auswählen",
+            "or": "oder",
+            "dragAndDropText": "Ziehe Dateien vom Computer in diesen Bereich",
+            "restrictions": "Einschränkungen: max. 49 MB, keine TXT- oder BAT-Dateien",
+            "addFilesButton": "Datei(en) hinzufügen",
+            "uploading": "Lädt...",
+            "successMessage": "Materialien erfolgreich hinzugefügt",
+            "errorMessage": "Ein Fehler ist aufgetreten, bitte versuche es erneut",
+            "fileSizeError": "Datei „{{fileName}}“ überschreitet die maximale Größe (49 MB)",
+            "fileTypeError": "Datei „{{fileName}}“ hat ein verbotenes Format ({{extension}})"
+        },
+        "FolderBlock": {
+            "folder": "Ordner",
+            "delete": "Löschen",
+            "editName": "Namen ändern",
+            "manageAccess": "Zugriffsverwaltung",
+            "enterNewName": "Neuen Namen eingeben",
+            "toast": {
+                "folderNameChanged": "Ordnername geändert",
+                "newName": "Neuer Name: {{name}}",
+                "confirmDelete": "Bist du sicher, dass du diesen Ordner löschen möchtest?",
+                "deleteButton": "Löschen",
+                "cancelButton": "Abbrechen",
+                "folderDeleted": "Ordner erfolgreich gelöscht!",
+                "deletedName": "Name: {{name}}"
+            }
+        },
+        "MaterialBlock": {
+            "materialNameChanged": "Materialname geändert",
+            "newName": "Neuer Name: {{newName}}",
+            "confirmDelete": "Bist du sicher, dass du dieses Material löschen möchtest?",
+            "delete": "Löschen",
+            "cancel": "Abbrechen",
+            "materialDeleted": "Material erfolgreich gelöscht!",
+            "name": "Name: {{name}}",
+            "enterNewName": "Neuen Namen eingeben",
+            "changeName": "Namen ändern",
+            "accessManagement": "Zugriffsverwaltung"
+        },
+        "FolderCreateBlock": {
+            "placeholder": "Namen eingeben",
+            "label": "Ordner",
+            "successMessage": "Neuer Ordner erstellt",
+            "errorMessage": "Ein Fehler ist aufgetreten, bitte versuche es erneut"
+        },
+        "FolderCreateList": {
+            "placeholder": "Namen eingeben",
+            "label": "Ordner",
+            "successMessage": "Neuer Ordner erstellt",
+            "errorMessage": "Ein Fehler ist aufgetreten, bitte versuche es erneut"
+        },
+        "FolderList": {
+            "folderTypeLabel": "Ordner",
+            "folderNameChanged": "Ordnername geändert",
+            "newName": "Neuer Name: {{name}}",
+            "deleteConfirmation": "Bist du sicher, dass du diesen Ordner löschen möchtest?",
+            "deleteButton": "Löschen",
+            "cancelButton": "Abbrechen",
+            "deletedSuccessfully": "Ordner erfolgreich gelöscht!",
+            "nameLabel": "Name: {{name}}",
+            "inputPlaceholder": "Neuen Namen eingeben",
+            "menuDelete": "Löschen",
+            "menuRename": "Namen ändern",
+            "menuAccessManagement": "Zugriffsverwaltung"
+        },
+        "MaterialList": {
+            "nameChanged": "Materialname geändert",
+            "newName": "Neuer Name",
+            "deleteConfirmation": "Bist du sicher, dass du dieses Material löschen möchtest?",
+            "delete": "Löschen",
+            "cancel": "Abbrechen",
+            "deleteSuccess": "Material erfolgreich gelöscht!",
+            "name": "Name",
+            "enterNewName": "Neuen Namen eingeben",
+            "changeName": "Namen ändern",
+            "manageAccess": "Zugriffsverwaltung"
+        },
+        "FolderUpBlock": {
+            "back": "Zurück"
+        }
+    },
+    "Tests": {
+        "DoneTestStudent": {
+            "error": "Fehler:",
+            "loading": "Lädt...",
+            "testTitle": "Test |",
+            "topic": "Thema:",
+            "score": "Punktzahl",
+            "result": "Ergebnis:",
+            "questionsCount": "Anzahl der Fragen",
+            "correctAnswers": "Richtige Antworten",
+            "incorrectAnswers": "Falsche Antworten",
+            "timeSpent": "Verbrauchte Zeit",
+            "attemptsUsed": "Genutzte Versuche:",
+            "nextAttempt": "Nächster Versuch",
+            "returnToTests": "Zu den Tests zurückkehren",
+            "yourAnswer": "Deine Antwort",
+            "correctAnswer": "Richtige Antwort"
+        },
+        "RunTestStudent": {
+            "errorFetchingTest": "Fehler beim Abrufen der Tests!",
+            "errorSubmittingTest": "Fehler beim Einreichen des Tests!",
+            "timeExpired": "Zeit abgelaufen",
+            "loading": "Lädt...",
+            "testCompleted": "Test abgeschlossen. Vielen Dank!",
+            "pleaseSelectAnswer": "Bitte wähle eine Antwort aus",
+            "imageAlt": "Illustration zur Frage",
+            "nextButton": "Weiter"
+        },
+        "TestStudent": {
+            "toComplete": "Zu erledigen",
+            "completed": "Abgeschlossen",
+            "sortNewest": "Zuerst neue",
+            "sortOldest": "Zuerst alte",
+            "sortAlphabetical": "Alphabetisch",
+            "errors": {
+                "tokenDecode": "Fehler beim Entschlüsseln des Tokens!",
+                "studentIdGet": "Fehler beim Abrufen der studentId!",
+                "testsGet": "Fehler beim Abrufen der Tests!"
+            }
+        },
+        "TestStudentComponents": {
+            "TestCard": {
+                "issued": "Ausgegeben:",
+                "completeBy": "Fällig bis:",
+                "completed": "Abgeschlossen:",
+                "completeButton": "Ausführen"
+            },
+            "TestModal": {
+                "issued": "Ausgegeben",
+                "score": "Punktzahl",
+                "completeBy": "Fällig bis",
+                "completed": "Abgeschlossen",
+                "maxScore": "Maximale Punktzahl",
+                "status": "Status",
+                "statusDone": "Abgeschlossen",
+                "statusToDo": "Zu erledigen",
+                "attemptsCount": "Anzahl der Versuche",
+                "attemptsUsed": "Genutzte Versuche",
+                "timeToComplete": "Zeit zur Durchführung",
+                "minutesShort": "Min",
+                "questionsCount": "Anzahl der Fragen",
+                "resultButton": "Ergebnis",
+                "startButton": "Zu erledigen",
+                "retryButton": "Wiederholen",
+                "createTestError": "Fehler beim Erstellen des Tests!"
+            }
+        },
+        "TestsTeacher": {
+            "allGroups": "Alle Gruppen",
+            "allCourses": "Alle Kurse",
+            "assigned": "Zugewiesen",
+            "loading": "Tests werden geladen...",
+            "error": "Fehler:",
+            "noTests": "Keine Tests",
+            "sadFace": ":(",
+            "course": "Kurs:",
+            "create": "Erstellen"
+        },
+        "TestResults": {
+            "loading": "Lädt...",
+            "error": "Fehler:",
+            "resultsTitle": "Testergebnisse:",
+            "course": "Kurs:",
+            "notAvailable": "N/A",
+            "group": "Gruppe:",
+            "issued": "Ausgegeben:",
+            "deadline": "Frist bis:",
+            "studentsDone": "Abgeschlossen von Schülern",
+            "studentsNotDone": "Nicht abgeschlossen von Schülern",
+            "deleteTest": "Test löschen",
+            "noTestDetails": "Testdetails fehlen.",
+            "errorMessage": "Ein Fehler ist aufgetreten, bitte versuche es erneut",
+            "testDeletedSuccess": "Test erfolgreich gelöscht!",
+            "title": "Titel:",
+            "unknown": "Unbekannt",
+            "deleteFailure": "Test konnte nicht gelöscht werden. Bitte versuche es erneut."
+        },
+        "CreateTestAi": {
+            "decryptError": "Ein Fehler ist aufgetreten, bitte versuche es erneut",
+            "fixFormErrors": "Bitte korrigiere die Fehler im Formular",
+            "generateBeforeSubmit": "Bitte generiere den Test vor dem Erstellen.",
+            "generateSuccess": "Test erfolgreich generiert! Anzahl der Fragen: {{count}}",
+            "abortInfo": "Generierung wurde abgebrochen",
+            "generateError": "Fehler bei der Generierung, bitte versuche es erneut",
+            "generateFail": "Test konnte nicht generiert werden: {{message}}",
+            "apiAuthError": "API-Authentifizierungsfehler. Bitte kontaktiere den Administrator.",
+            "testIdError": "TestId konnte nicht abgerufen werden",
+            "imageUploadError": "Bild konnte nicht hochgeladen werden: {{message}}",
+            "testQuestionIdError": "TestQuestionId konnte nicht abgerufen werden",
+            "testCreated": "Test erfolgreich erstellt!",
+            "testName": "Titel",
+            "createError": "Fehler beim Erstellen des Tests",
+            "generate": "Generieren",
+            "regenerate": "Neu generieren",
+            "create": "Erstellen",
+            "generating": "Wird generiert...",
+            "saving": "Wird gespeichert..."
+        },
+        "CreateTest": {
+            "errorDecryptGroup": "Ein Fehler ist aufgetreten, bitte versuche es erneut",
+            "errorEmptySubject": "Testthema darf nicht leer sein.",
+            "errorNumAttempts": "Anzahl der Versuche muss eine Zahl >= 1 sein.",
+            "errorTimeFormat": "Ungültiges Zeitformat. Verwende eine Zahl (Minuten), MM:SS oder HH:MM:SS.",
+            "errorNegativeTime": "Ausführungszeit darf nicht negativ sein.",
+            "errorMaxScore": "Maximale Punktzahl muss eine Zahl >= 0 sein.",
+            "errorPastDeadline": "Frist darf nicht vor dem heutigen Datum liegen.",
+            "errorEmptyDeadline": "Bitte wähle eine Frist.",
+            "errorNoQuestions": "Bitte füge mindestens eine ausgefüllte Frage hinzu.",
+            "errorEmptyQuestion": "Bitte fülle den Fragetext für Aufgabe {{number}} aus.",
+            "errorNotEnoughOptions": "Frage {{number}} muss mindestens 2 Antworten haben.",
+            "errorEmptyOption": "Antwort {{index}} darf nicht leer sein.",
+            "errorNoCorrectAnswer": "Bitte wähle die richtige Antwort für Frage {{number}} aus.",
+            "errorFixForm": "Bitte korrigiere die Fehler im Formular",
+            "errorMissingTestId": "TestId konnte nicht abgerufen werden",
+            "errorImageUpload": "Bild konnte nicht hochgeladen werden: {{error}}",
+            "errorMissingQuestionId": "TestQuestionId konnte nicht abgerufen werden",
+            "errorCreatingTest": "Fehler beim Erstellen des Tests",
+            "success": "Test erfolgreich erstellt!",
+            "testName": "Titel",
+            "group": "Gruppe",
+            "addQuestion": "Weitere Frage hinzufügen",
+            "create": "Erstellen",
+            "saving": "Wird gespeichert..."
+        },
+        "TestTeacherComponents": {
+            "CreateModal": {
+                "errorMessage": "Ein Fehler ist aufgetreten, bitte versuche es erneut",
+                "loadingCourses": "Kurse werden geladen...",
+                "loadingGroups": "Gruppen werden geladen...",
+                "selectCourse": "Kurs auswählen",
+                "selectGroup": "Gruppe auswählen",
+                "modalTitle": "Test erstellen",
+                "manualTestButton": "Test manuell erstellen",
+                "aiTestButton": "Test mit KI"
+            },
+            "AddQuestion": {
+                "addImage": "Bild hinzufügen",
+                "deleteImage": "Bild löschen",
+                "enterAnswer": "Antwort eingeben",
+                "enterOptions": "{{count}} Antwortmöglichkeiten eingeben und die richtige Antwort markieren.",
+                "enterTask": "Aufgabe eingeben",
+                "imageFileType": "Bitte wähle eine Bilddatei aus (JPEG, PNG usw.).",
+                "noImageSelected": "Kein Bild ausgewählt.",
+                "questionPreview": "Fragenvorschau"
+            },
+            "TestForm": {
+                "subjectLabel": "Thema:",
+                "subjectPlaceholder": "Text hier eingeben",
+                "maxScoreLabel": "Maximale Punktzahl",
+                "maxScorePlaceholder": "12",
+                "descriptionLabel": "Beschreibung:",
+                "descriptionPlaceholder": "Text hier eingeben",
+                "numQuestionsLabel": "Anzahl der Fragen",
+                "numAttemptsLabel": "Anzahl der Versuche",
+                "numAttemptsPlaceholder": "1",
+                "timeLabel": "Ausführungszeit",
+                "timePlaceholder": "00:10:00",
+                "deadlineLabel": "Frist",
+                "showAnswersAfterTestLabel": "Dem Schüler nach dem Test alle Antworten anzeigen.",
+                "validation": {
+                    "subjectEmpty": "Testthema darf nicht leer sein.",
+                    "descriptionEmpty": "Testbeschreibung darf nicht leer sein.",
+                    "numQuestionsInvalid": "Anzahl der Fragen muss eine Zahl >= 1 sein.",
+                    "numAttemptsInvalid": "Anzahl der Versuche muss eine Zahl >= 1 sein.",
+                    "timeEmpty": "Ausführungszeit darf nicht leer sein.",
+                    "timeFormatInvalid": "Ungültiges Zeitformat. Verwende eine Zahl (Minuten), MM:SS oder HH:MM:SS.",
+                    "timeNegative": "Ausführungszeit darf nicht negativ sein.",
+                    "maxScoreInvalid": "Maximale Punktzahl muss eine Zahl >= 0 sein.",
+                    "deadlineEmpty": "Bitte wähle eine Frist.",
+                    "deadlinePast": "Frist darf nicht vor dem heutigen Datum liegen."
+                }
+            },
+            "TestItem": {
+                "issued": "Ausgegeben:",
+                "completeBy": "Fällig bis:",
+                "results": "Ergebnisse"
+            },
+            "WaitModal": {
+                "title": "Bitte warte, der Test wird nach deiner Anfrage generiert",
+                "description": "Überprüfe nach der Erstellung den Inhalt des Tests, bearbeite ihn bei Bedarf oder starte die Generierung erneut.",
+                "buttonText": "Generierung stoppen"
+            }
+        }
+    }
+}

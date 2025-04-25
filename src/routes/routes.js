@@ -141,6 +141,7 @@ const AppRoutes = () => {
 
         <Route path="/auth" element={<AuthLayout />}>
           <Route path="login" element={<Login />} />
+          <Route path="login/:tokenServer/:isTeacher" element={<Login />} />
           <Route path="register" element={<Register />} />
           <Route path="forgot-password" element={<ForgotPassword />} />
         </Route>
@@ -171,6 +172,7 @@ const AppRoutes = () => {
           </ProtectedRoute>
         }>
           <Route path="home" element={<HomeTeacher />} />
+          <Route path="home/:tokenServer" element={<HomeTeacher />} />
           <Route path="hometasks" element={<HometaskTeacher />} />
           <Route path="materials" element={<MaterialsTeacher />} />
           <Route path="tests" element={<TestsTeacher />} />
