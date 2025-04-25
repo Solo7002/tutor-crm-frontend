@@ -5,9 +5,11 @@ import { jwtDecode } from "jwt-decode";
 import { PatternFormat } from 'react-number-format';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useTranslation } from 'react-i18next';
 
 export default function EditProfile() {
     const navigate = useNavigate();
+      const { t } = useTranslation();
     const [formData, setFormData] = useState({
         LastName: '',
         FirstName: '',
@@ -41,10 +43,10 @@ export default function EditProfile() {
                         setInitialImageFile(null);
                     })
                     .catch(error => {
-                        console.error('Error fetching user data:', error);
+                        toast.error(t('Navbar.Errors.UserData'));
                     });
             } catch (error) {
-                console.error("Error decoding token:", error);
+                toast.error(t('Navbar.Errors.TokenDecode'));
             }
         }
     }, []);
@@ -91,7 +93,7 @@ export default function EditProfile() {
         if (!validImageTypes.includes(file.type)) {
             return {
                 isValid: false,
-                error: 'Будь ласка, виберіть файл зображення (JPEG, PNG, GIF, BMP, WebP, SVG, ICO, TIFF)'
+                error: `${t('EditProfile.Validation.ChooseImage')} (JPEG, PNG, GIF, BMP, WebP, SVG, ICO, TIFF)`
             };
         }
         return { isValid: true, error: null };
@@ -100,12 +102,12 @@ export default function EditProfile() {
     const validateForm = () => {
         const newErrors = {};
 
-        if (!formData.LastName) newErrors.LastName = "Прізвище обов'язкове";
-        if (!formData.FirstName) newErrors.FirstName = "Ім'я обов'язкове";
+        if (!formData.LastName) newErrors.LastName = t('EditProfile.Validation.LastName');
+        if (!formData.FirstName) newErrors.FirstName = t('EditProfile.Validation.FirstName');
 
         const phoneDigits = formData.PhoneNumber.replace(/[^0-9]/g, '');
         if (phoneDigits.length > 0 && phoneDigits.length < 10) {
-            newErrors.PhoneNumber = "Номер телефону має містити мінімум 10 цифр";
+            newErrors.PhoneNumber = t('EditProfile.Validation.PhoneNumber');
         }
 
         if (imageFile) {
@@ -147,7 +149,7 @@ export default function EditProfile() {
             });
             return response.data.fileUrl;
         } catch (error) {
-            console.error('Error uploading image:', error);
+            toast.error(t('EditProfile.Validation.UploadImage'));
             return null;
         }
     };
@@ -168,8 +170,8 @@ export default function EditProfile() {
         if (imageFile !== initialImageFile) {
             changes.push({
                 field: 'Profile Image',
-                oldValue: initialImageFile ? 'Попереднє зображення' : 'Без зображення',
-                newValue: imageFile ? 'Нове зображення завантажено' : 'Без зображення'
+                oldValue: initialImageFile ? t('EditProfile.Validation.initialImageFile') : t('EditProfile.Validation.noImage'),
+                newValue: imageFile ? t('EditProfile.Validation.imageFile') : t('EditProfile.Validation.noImage')
             });
         }
 
@@ -204,11 +206,11 @@ export default function EditProfile() {
             if (changes.length > 0) {
                 const toastMessage = (
                     <div>
-                        <h3 className="font-bold">Змінені поля:</h3>
+                        <h3 className="font-bold">{t('EditProfile.ChangedFields')}:</h3>
                         <ul className="list-disc pl-5">
                             {changes.map((change, index) => (
                                 <li key={index}>
-                                    <strong>{change.field}:</strong> Змінено з "{change.oldValue}" на "{change.newValue}"
+                                    <strong>{change.field}:</strong> {t('EditProfile.ChangedFrom')} "{change.oldValue}" {t('EditProfile.ChangedTo')} "{change.newValue}"
                                 </li>
                             ))}
                         </ul>
@@ -225,7 +227,7 @@ export default function EditProfile() {
                 });
                 navigate(`/${role.toLowerCase()}/profile`);
             } else {
-                toast.info("Жодних змін не внесено.", {
+                toast.info(t('EditProfile.NoChanges'), {
                     position: "bottom-right",
                     autoClose: 3000,
                     hideProgressBar: false,
@@ -236,10 +238,10 @@ export default function EditProfile() {
                 });
             }
         } catch (error) {
-            console.error('Error updating profile:', error);
-            setErrors({ submit: 'Помилка при оновленні профілю: ' + (error.response?.data?.error || error.message) });
-            toast.error('Помилка при оновленні профілю!', {
-                position: "top-right",
+            // console.error('Error updating profile:', error);
+            setErrors({ submit: `${t('EditProfile.Errors.ProfileUpdate')}: ` + (error.response?.data?.error || error.message) });
+            toast.error(`${t('EditProfile.Errors.ProfileUpdate')}!`, {
+                position: "bottom-right",
                 autoClose: 3000,
                 hideProgressBar: false,
                 closeOnClick: true,
@@ -277,7 +279,7 @@ export default function EditProfile() {
                         {/* Title */}
                         <div className="w-full mb-4 md:mb-0">
                             <h2 className="text-black text-xl font-normal font-['Mulish']">
-                                Особиста інформація
+                                {t('EditProfile.Info')}
                             </h2>
                         </div>
                     </div>
@@ -295,7 +297,7 @@ export default function EditProfile() {
                                         className="hidden"
                                         onChange={handleImageChange}
                                     />
-                                    <span className="text-[#8a48e6] text-base font-bold font-['Nunito']">Змінити</span>
+                                    <span className="text-[#8a48e6] text-base font-bold font-['Nunito']">{t('EditProfile.Change')}</span>
                                 </label>
                                 {errors.image && <div className="text-red-500 text-sm mt-1 text-center">{errors.image}</div>}
                             </div>
@@ -311,7 +313,7 @@ export default function EditProfile() {
                                         value={formData.LastName}
                                         onChange={handleInputChange}
                                         className={`w-full h-14 p-4 bg-white rounded-2xl outline outline-1 ${errors.LastName ? 'outline-red-500' : 'outline-[#8a48e6]'} text-[#120c38] text-base font-normal font-['Mulish']`}
-                                        placeholder="Прізвище"
+                                        placeholder={t('EditProfile.Placeholders.LastName')}
                                     />
                                     {errors.LastName && <div className="text-red-500 text-sm mt-1">{errors.LastName}</div>}
                                 </div>
@@ -323,7 +325,7 @@ export default function EditProfile() {
                                         value={formData.FirstName}
                                         onChange={handleInputChange}
                                         className={`w-full h-14 p-4 bg-white rounded-2xl outline outline-1 ${errors.FirstName ? 'outline-red-500' : 'outline-[#8a48e6]'} text-[#120c38] text-base font-normal font-['Mulish']`}
-                                        placeholder="Ім'я"
+                                        placeholder={t('EditProfile.Placeholders.LastName')}
                                     />
                                     {errors.FirstName && <div className="text-red-500 text-sm mt-1">{errors.FirstName}</div>}
                                 </div>
@@ -353,7 +355,7 @@ export default function EditProfile() {
                         className="w-full md:w-96 h-12 px-10 py-2 bg-[#8a4ae6] rounded-2xl flex justify-center items-center gap-2.5 overflow-hidden hover:bg-[#632DAE] transition-colors"
                     >
                         <span className="text-center text-white text-xl font-medium font-['Nunito']">
-                            Змінити пароль та/або пошту
+                            {t('EditProfile.Buttons.Credentials')}
                         </span>
                     </button>
                     <button
@@ -362,7 +364,7 @@ export default function EditProfile() {
                         className="w-full md:w-96 h-12 px-10 py-2 bg-[#8a4ae6] rounded-2xl flex justify-center items-center gap-2.5 overflow-hidden hover:bg-[#632DAE] transition-colors"
                     >
                         <span className="text-center text-white text-xl font-medium font-['Nunito']">
-                            {isLoading ? 'Збереження...' : 'Зберегти зміни'}
+                            {isLoading ? t('EditProfile.Buttons.Saving') : t('EditProfile.Buttons.Save')}
                         </span>
                     </button>
                     {errors.submit && <div className="text-red-500 text-sm text-center mt-2">{errors.submit}</div>}

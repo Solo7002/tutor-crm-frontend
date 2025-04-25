@@ -2,6 +2,124 @@
     "HomeStudent": {
         "testText": "привiт"
     },
+    "Navbar": {
+        "Labels": {
+            "home": "Головна",
+            "hometask": "Домашні завдання",
+            "tests": "Тести",
+            "calendar": "Календар",
+            "materials": "Матеріали",
+            "search": "Пошук",
+            "settings": "Налаштування",
+            "info": "Інформація",
+            "menu": "Меню",
+            "soon": "Скоро",
+            "balance": "Баланс",
+            "profile": "Профіль"
+        },
+        "NotificationList": {
+            "List": "Список повідомлень",
+            "NoNew": "Немає нових повідомлень",
+            "NotificationItem": {
+                "WantsToJoin": "Хоче приєднатися до курсу",
+                "Group": "група"
+            }
+        },
+        "Errors":{
+            "TokenDecode": "Помилка при розшифровці токена!",
+            "UserData": "Помилка при отриманні даних користувача чи балансу!",
+            "Notifications": "Не вдалося завантажити повідомлення. Спробуйте ще раз.",
+            "Request": "Не вдалося прийняти запит. Спробуйте ще раз.",
+            "Declining": "Не вдалося відхилити запит. Спробуйте ще раз.",
+            "Deleting": "Не вдалося видалити повідомлення. Спробуйте ще раз."
+        }
+    },
+    "EditProfile": {
+        "Validation": {
+            "ChooseImage": "Будь ласка, виберіть файл зображення",
+            "LastName": "Прізвище обов'язкове",
+            "FirstName": "Ім'я обов'язкове",
+            "PhoneNumber": "Номер телефону має містити мінімум 10 цифр",
+            "UploadImage": "Помилка завантаження зображення",
+            "initialImageFile": "Попереднє зображення",
+            "imageFile": "Нове зображення завантажено",
+            "noImage": "Без зображення"
+        },
+        "ChangedFields": "Змінені поля",
+        "ChangedFrom": "Змінено з",
+        "ChangedTo": "на",
+        "NoChanges": "Жодних змін не внесено.",
+        "Info": "Особиста інформація",
+        "Change": "Змінити",
+        "Placeholders": {
+            "LastName": "Прізвище",
+            "FirstName": "Ім'я"
+        },
+        "Buttons": {
+            "Credentials": "Змінити пароль та/або пошту",
+            "Save": "Зберегти зміни",
+            "Saving": "Збереження..."
+        },
+        "Errors": {
+            "ProfileUpdate": "Помилка при оновленні профілю"
+        }
+    },
+    "EditEmailAndPassword": {
+        "Validation": {
+            "PasswordLength": "Пароль має містити від 8 до 128 символів",
+            "PasswordLowercase": "Пароль має містити хоча б одну малу літеру",
+            "PasswordUppercase": "Пароль має містити хоча б одну велику літеру",
+            "PasswordDigit": "Пароль має містити хоча б одну цифру",
+            "PasswordSpecial": "Пароль має містити хоча б один спеціальний символ",
+            "PasswordInvalidChars": "Пароль містить недопустимі символи. Дозволені лише букви, цифри та спеціальні символи",
+            "EmailRequired": "Email обов'язковий",
+            "EmailInvalid": "Невірний формат email",
+            "PasswordsMismatch": "Паролі не співпадають"
+        },
+        "Messages": {
+            "NoChanges": "Жодних змін не внесено",
+            "CodeSent": "Код підтвердження надіслано на вашу пошту",
+            "SendCodeError": "Помилка при відправці коду",
+            "InvalidCode": "Невірний код підтвердження або термін його дії закінчився",
+            "ConfirmError": "Помилка при підтвердженні",
+            "UpdateSuccess": "Дані успішно оновлено"
+        },
+        "Placeholders": {
+            "Email": "Email",
+            "NewPassword": "Новий пароль",
+            "ConfirmPassword": "Підтвердження пароля"
+        },
+        "Buttons": {
+            "Save": "Зберегти зміни",
+            "Saving": "Збереження"
+        },
+        "Content": {
+            "Title": "Зміна пошти та паролю",
+            "CodeSentMessage": "Код підтвердження надіслано на вашу пошту",
+            "EnterCode": "Введіть код підтвердження",
+            "InvalidCodeMessage": "Код підтвердження не вірний, або термін його дії закінчився"
+        }
+    },
+    "ProfileStudent": {
+        "Messages": {
+            "TokenDecodeError": "Помилка при розшифровці токена"
+        },
+        "Buttons": {
+            "EditProfile": "Редагувати профіль",
+            "LearnMore": "Детальніше"
+        },
+        "Content": {
+            "RegisteredUser": "Зареєстрований користувач",
+            "LearnFull": "Навчай на повну",
+            "SubscriptionPrompt": "Оформлюй підписку для розширення можливостей"
+        },
+        "Stats": {
+            "Courses": "Курси",
+            "Rating": "Рейтинг",
+            "ByTrophies": "по трофеях",
+            "Trophies": "Трофеїв"
+        }
+    },
     "MaterialsStudent": {
         "archive": "Архів",
         "soon": "Скоро",

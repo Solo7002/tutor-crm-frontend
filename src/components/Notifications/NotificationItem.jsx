@@ -1,6 +1,8 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 const NotificationItem = ({ type, studentName, course, group, date, text, onAccept, onDecline, onDelete, isMobile, role }) => {
+    const { t } = useTranslation();
     // Join notification (request to join a course)
     if (type === 'join') {
         return isMobile ? (
@@ -11,7 +13,7 @@ const NotificationItem = ({ type, studentName, course, group, date, text, onAcce
                             {studentName}
                         </p>
                         <p className="text-[#827EAD] text-sm font-normal font-['Mulish']">
-                            Хоче приєднатися до курсу: {course}, група: {group}
+                            {t('Navbar.NotificationList.NotificationItem.WantsToJoin')}: {course}, {t('Navbar.NotificationList.NotificationItem.Group')}: {group}
                         </p>
                         <p className="text-[#827EAD] text-xs font-normal font-['Mulish']">
                             {date}
@@ -41,7 +43,7 @@ const NotificationItem = ({ type, studentName, course, group, date, text, onAcce
                             {studentName}
                         </p>
                         <p className="text-[#827EAD] text-xs font-normal font-['Mulish']">
-                            Хоче приєднатися до курсу: {course}, група: {group}
+                            {t('Navbar.NotificationList.NotificationItem.WantsToJoin')}: {course}, {t('Navbar.NotificationList.NotificationItem.Group')}: {group}
                         </p>
                         <p className="text-[#827EAD] text-xs font-normal font-['Mulish']">
                             {date}

@@ -2,10 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { useMediaQuery } from 'react-responsive';
 import NotificationItem from './NotificationItem';
 import axios from 'axios';
+import { useTranslation } from 'react-i18next';
 
 const NotificationList = ({ onClose, userId, Role = null }) => {
     const [notifications, setNotifications] = useState([]);
     const [error, setError] = useState(null);
+      const { t } = useTranslation();
 
     // Fetch notifications based on role
     useEffect(() => {
@@ -38,8 +40,7 @@ const NotificationList = ({ onClose, userId, Role = null }) => {
                     setNotifications(textNotifications);
                 }
             } catch (err) {
-                console.error('Error fetching notifications:', err);
-                setError('Не вдалося завантажити повідомлення. Спробуйте ще раз.');
+                setError(t('Navbar.Errors.Notifications'));
             }
         };
 
@@ -60,7 +61,7 @@ const NotificationList = ({ onClose, userId, Role = null }) => {
             setNotifications(notifications.filter((n) => n.key !== notification.key));
         } catch (err) {
             console.error('Error accepting join request:', err);
-            setError('Не вдалося прийняти запит. Спробуйте ще раз.');
+            setError(t('Navbar.Errors.Request'));
         }
     };
 
@@ -76,7 +77,7 @@ const NotificationList = ({ onClose, userId, Role = null }) => {
             setNotifications(notifications.filter((n) => n.key !== notification.key));
         } catch (err) {
             console.error('Error declining join request:', err);
-            setError('Не вдалося відхилити запит. Спробуйте ще раз.');
+            setError(t('Navbar.Errors.Declining'));
         }
     };
 
@@ -92,7 +93,7 @@ const NotificationList = ({ onClose, userId, Role = null }) => {
             setNotifications(notifications.filter((n) => n.key !== notificationKey));
         } catch (err) {
             console.error('Error deleting notification:', err);
-            setError('Не вдалося видалити повідомлення. Спробуйте ще раз.');
+            setError(t('Navbar.Errors.Deleting'));
         }
     };
 
@@ -104,7 +105,7 @@ const NotificationList = ({ onClose, userId, Role = null }) => {
             {/* Header */}
             <div className="flex justify-between items-center mb-4 relative">
                 <h3 className="text-[#120C38] text-3xl font-bold font-['Nunito'] mt-4">
-                    Список повідомлень
+                    {t('Navbar.NotificationList.List')}
                 </h3>
                 <button onClick={onClose} className="w-6 h-6 flex border-0 items-center justify-center absolute right-1 top-1">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -137,7 +138,7 @@ const NotificationList = ({ onClose, userId, Role = null }) => {
                     ))
                 ) : (
                     <div className="text-[#120C38] text-xl font-normal font-['Mulish'] text-center">
-                        Немає нових повідомлень
+                        {t('Navbar.NotificationList.NoNew')}
                     </div>
                 )}
             </div>
@@ -148,7 +149,7 @@ const NotificationList = ({ onClose, userId, Role = null }) => {
             {/* Header */}
             <div className="flex justify-between items-center mb-2">
                 <h3 className="text-[#120C38] text-2xl font-bold font-['Nunito']">
-                    Список повідомлень
+                    {t('Navbar.NotificationList.List')}
                 </h3>
                 <button onClick={onClose} className="w-8 h-8 flex items-center justify-center">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -181,7 +182,7 @@ const NotificationList = ({ onClose, userId, Role = null }) => {
                     ))
                 ) : (
                     <div className="text-[#120C38] text-sm font-normal font-['Mulish'] text-center">
-                        Немає нових повідомлень
+                        {t('Navbar.NotificationList.NoNew')}
                     </div>
                 )}
             </div>
