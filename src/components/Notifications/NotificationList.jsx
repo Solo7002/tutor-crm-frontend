@@ -2,10 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { useMediaQuery } from 'react-responsive';
 import NotificationItem from './NotificationItem';
 import axios from 'axios';
+import { useTranslation } from 'react-i18next';
 
 const NotificationList = ({ onClose, userId, Role = null }) => {
     const [notifications, setNotifications] = useState([]);
     const [error, setError] = useState(null);
+      const { t } = useTranslation();
+      const token = sessionStorage.getItem("token");
 
     // Fetch notifications based on role
     useEffect(() => {
@@ -13,7 +16,11 @@ const NotificationList = ({ onClose, userId, Role = null }) => {
             try {
                 let response;
                 if (Role === 'Teacher') {
-                    response = await axios.get(`http://localhost:4000/api/notifications/teacher/${userId}`);
+                    response = await axios.get(`${process.env.REACT_APP_BASE_API_URL}/api/notifications/teacher/${userId}`, {
+                        headers: {
+                            Authorization: `Bearer ${token}`
+                        }
+                    });
                     const joinNotifications = response.data.notifications.map((notification) => ({
                         key: notification.key,
                         type: 'join',
@@ -28,7 +35,11 @@ const NotificationList = ({ onClose, userId, Role = null }) => {
                     }));
                     setNotifications(joinNotifications);
                 } else if (Role === 'Student') {
-                    response = await axios.get(`http://localhost:4000/api/notifications/student/${userId}`);
+                    response = await axios.get(`${process.env.REACT_APP_BASE_API_URL}/api/notifications/student/${userId}`, {
+                        headers: {
+                            Authorization: `Bearer ${token}`
+                        }
+                    });
                     const textNotifications = response.data.notifications.map((notification) => ({
                         key: notification.key,
                         type: 'text',
@@ -38,8 +49,7 @@ const NotificationList = ({ onClose, userId, Role = null }) => {
                     setNotifications(textNotifications);
                 }
             } catch (err) {
-                console.error('Error fetching notifications:', err);
-                setError('Не вдалося завантажити повідомлення. Спробуйте ще раз.');
+                setError(t('Navbar.Errors.Notifications'));
             }
         };
 
@@ -54,13 +64,13 @@ const NotificationList = ({ onClose, userId, Role = null }) => {
         try {
             const { studentId, groupId, timestamp, teacherId } = notification;
             await axios.post(
-                `http://localhost:4000/api/notifications/accept/${studentId}/${groupId}/${timestamp}`,
+                `${process.env.REACT_APP_BASE_API_URL}/api/notifications/accept/${studentId}/${groupId}/${timestamp}`,
                 { teacherId }
             );
             setNotifications(notifications.filter((n) => n.key !== notification.key));
         } catch (err) {
             console.error('Error accepting join request:', err);
-            setError('Не вдалося прийняти запит. Спробуйте ще раз.');
+            setError(t('Navbar.Errors.Request'));
         }
     };
 
@@ -70,13 +80,13 @@ const NotificationList = ({ onClose, userId, Role = null }) => {
         try {
             const { studentId, groupId, timestamp, teacherId } = notification;
             await axios.delete(
-                `http://localhost:4000/api/notifications/join/${studentId}/${groupId}/${timestamp}`,
+                `${process.env.REACT_APP_BASE_API_URL}/api/notifications/join/${studentId}/${groupId}/${timestamp}`,
                 { params: { teacherId } }
             );
             setNotifications(notifications.filter((n) => n.key !== notification.key));
         } catch (err) {
             console.error('Error declining join request:', err);
-            setError('Не вдалося відхилити запит. Спробуйте ще раз.');
+            setError(t('Navbar.Errors.Declining'));
         }
     };
 
@@ -86,13 +96,17 @@ const NotificationList = ({ onClose, userId, Role = null }) => {
             if (Role === 'Student') {
                 // Encode the notificationKey to handle special characters like ':'
                 const encodedNotificationKey = encodeURIComponent(notificationKey);
-                await axios.delete(`http://localhost:4000/api/notifications/student/${userId}/${encodedNotificationKey}`);
+                await axios.delete(`${process.env.REACT_APP_BASE_API_URL}/api/notifications/student/${userId}/${encodedNotificationKey}`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                });
             }
             // Update the state to remove the notification from the list
             setNotifications(notifications.filter((n) => n.key !== notificationKey));
         } catch (err) {
             console.error('Error deleting notification:', err);
-            setError('Не вдалося видалити повідомлення. Спробуйте ще раз.');
+            setError(t('Navbar.Errors.Deleting'));
         }
     };
 
@@ -104,7 +118,7 @@ const NotificationList = ({ onClose, userId, Role = null }) => {
             {/* Header */}
             <div className="flex justify-between items-center mb-4 relative">
                 <h3 className="text-[#120C38] text-3xl font-bold font-['Nunito'] mt-4">
-                    Список повідомлень
+                    {t('Navbar.NotificationList.List')}
                 </h3>
                 <button onClick={onClose} className="w-6 h-6 flex border-0 items-center justify-center absolute right-1 top-1">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -137,7 +151,7 @@ const NotificationList = ({ onClose, userId, Role = null }) => {
                     ))
                 ) : (
                     <div className="text-[#120C38] text-xl font-normal font-['Mulish'] text-center">
-                        Немає нових повідомлень
+                        {t('Navbar.NotificationList.NoNew')}
                     </div>
                 )}
             </div>
@@ -148,7 +162,7 @@ const NotificationList = ({ onClose, userId, Role = null }) => {
             {/* Header */}
             <div className="flex justify-between items-center mb-2">
                 <h3 className="text-[#120C38] text-2xl font-bold font-['Nunito']">
-                    Список повідомлень
+                    {t('Navbar.NotificationList.List')}
                 </h3>
                 <button onClick={onClose} className="w-8 h-8 flex items-center justify-center">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -181,7 +195,7 @@ const NotificationList = ({ onClose, userId, Role = null }) => {
                     ))
                 ) : (
                     <div className="text-[#120C38] text-sm font-normal font-['Mulish'] text-center">
-                        Немає нових повідомлень
+                        {t('Navbar.NotificationList.NoNew')}
                     </div>
                 )}
             </div>

@@ -8,6 +8,7 @@ import { ToastContainer, Bounce } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { useTranslation } from 'react-i18next';
 import "./Navbar.css";
 
 const Navbar = () => {
@@ -22,16 +23,17 @@ const Navbar = () => {
   const [lastname, setLastname] = useState("");
   const [firstname, setFirstname] = useState("");
   const [balance, setBalance] = useState(0);
+  const token = sessionStorage.getItem("token");
+  const { t } = useTranslation();
   const navigate = useNavigate();
 
   useLayoutEffect(() => {
-    const token = sessionStorage.getItem("token");
     if (token) {
       try {
         const decoded = jwtDecode(token);
         setUserId(decoded.id);
       } catch (error) {
-        toast.error('Ошибка при расшифровке токена!');
+        toast.error(t('Navbar.Errors.TokenDecode'));
       }
     }
   }, []);
@@ -39,7 +41,11 @@ const Navbar = () => {
   useLayoutEffect(() => {
     if (userId) {
       axios
-        .get(`http://localhost:4000/api/users/${userId}/balance`)
+        .get(`${process.env.REACT_APP_BASE_API_URL}/api/users/${userId}/balance`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
         .then((response) => {
           const { Role, LastName, FirstName, Username, Balance } = response.data;
           setUserRole(Role);
@@ -53,7 +59,11 @@ const Navbar = () => {
             setBalance(Balance.OctoCoins);
           }
 
-          return axios.get(`http://localhost:4000/api/users/${userId}`);
+          return axios.get(`${process.env.REACT_APP_BASE_API_URL}/api/users/${userId}`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
         })
         .then((userResponse) => {
           const { ImageFilePath, FirstName, LastName } = userResponse.data;
@@ -61,7 +71,7 @@ const Navbar = () => {
           setUserName(`${FirstName} ${LastName}`);
         })
         .catch((error) => {
-          toast.error('Ошибка при получении данных пользователя или баланса!');
+          toast.error(t('Navbar.Errors.UserData'));
         });
     }
   }, [userId]);
@@ -222,7 +232,7 @@ const Navbar = () => {
         {/* Скоро Badge for Disabled Button */}
         {isDisabled && (
           <div className="absolute -top-2 -right-[-20px] bg-white text-[#8A48E6] text-xs px-1.5 py-0.5 rounded-xl font-medium border border-[#8A48E6] h-auto">
-            Скоро
+            {t('Navbar.Labels.soon')}
           </div>
         )}
         {/* Icon */}
@@ -271,7 +281,7 @@ const Navbar = () => {
       return [
         {
           path: "/student/home",
-          label: "Головна",
+          label: t('Navbar.Labels.home'),
           key: "home",
           icon: (
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -281,31 +291,31 @@ const Navbar = () => {
           )
         },
         {
-          path: "/student/hometask", label: "Домашні завдання", key: "task", icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          path: "/student/hometask", label: t('Navbar.Labels.hometasks'), key: "task", icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M9 4V22M13 8H15M13 12H15M6 4H17C17.5304 4 18.0391 4.21071 18.4142 4.58579C18.7893 4.96086 19 5.46957 19 6V18C19 18.5304 18.7893 19.0391 18.4142 19.4142C18.0391 19.7893 17.5304 20 17 20H6C5.73478 20 5.48043 19.8946 5.29289 19.7071C5.10536 19.5196 5 19.2652 5 19V5C5 4.73478 5.10536 4.48043 5.29289 4.29289C5.48043 4.10536 5.73478 4 6 4Z" stroke="#827FAE" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
           </svg>
           )
         },
         {
-          path: "/student/tests", label: "Тести", key: "test", icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          path: "/student/tests", label: t('Navbar.Labels.tests'), key: "test", icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M11 6H20M11 12H20M12 18H20M4 16C4 15.4696 4.21071 14.9609 4.58579 14.5858C4.96086 14.2107 5.46957 14 6 14C6.53043 14 7.03914 14.2107 7.41421 14.5858C7.78929 14.9609 8 15.4696 8 16C8 16.591 7.5 17 7 17.5L4 20H8M6 10V4L4 6" stroke="#827FAE" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
           </svg>
           )
         },
         {
-          path: "/student/calendar", label: "Календар", key: "calendar", icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          path: "/student/calendar", label: t('Navbar.Labels.calendar'), key: "calendar", icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M16 3V7M8 3V7M4 11H20M7 14H7.013M10.01 14H10.015M13.01 14H13.015M16.015 14H16.02M13.015 17H13.02M7.01 17H7.015M10.01 17H10.015M4 7C4 6.46957 4.21071 5.96086 4.58579 5.58579C4.96086 5.21071 5.46957 5 6 5H18C18.5304 5 19.0391 5.21071 19.4142 5.58579C19.7893 5.96086 20 6.46957 20 7V19C20 19.5304 19.7893 20.0391 19.4142 20.4142C19.0391 20.7893 18.5304 21 18 21H6C5.46957 21 4.96086 20.7893 4.58579 20.4142C4.21071 20.0391 4 19.5304 4 19V7Z" stroke="#827FAE" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
           </svg>
           )
         },
         {
-          path: "/student/materials", label: "Матеріали", key: "library", icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          path: "/student/materials", label: t('Navbar.Labels.materials'), key: "library", icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M12 18.9997C10.6318 18.2098 9.07983 17.7939 7.5 17.7939C5.92017 17.7939 4.36817 18.2098 3 18.9997V5.99972C4.36817 5.2098 5.92017 4.79395 7.5 4.79395C9.07983 4.79395 10.6318 5.2098 12 5.99972M12 18.9997C13.3682 18.2098 14.9202 17.7939 16.5 17.7939C18.0798 17.7939 19.6318 18.2098 21 18.9997V5.99972C19.6318 5.2098 18.0798 4.79395 16.5 4.79395C14.9202 4.79395 13.3682 5.2098 12 5.99972M12 18.9997V5.99972" stroke="#827FAE" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
           </svg>
           )
         },
         {
-          path: "/student/search", label: "Пошук", key: "search", icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          path: "/student/search", label: t('Navbar.Labels.search'), key: "search", icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M21 21L15 15M3 10C3 10.9193 3.18106 11.8295 3.53284 12.6788C3.88463 13.5281 4.40024 14.2997 5.05025 14.9497C5.70026 15.5998 6.47194 16.1154 7.32122 16.4672C8.1705 16.8189 9.08075 17 10 17C10.9193 17 11.8295 16.8189 12.6788 16.4672C13.5281 16.1154 14.2997 15.5998 14.9497 14.9497C15.5998 14.2997 16.1154 13.5281 16.4672 12.6788C16.8189 11.8295 17 10.9193 17 10C17 9.08075 16.8189 8.1705 16.4672 7.32122C16.1154 6.47194 15.5998 5.70026 14.9497 5.05025C14.2997 4.40024 13.5281 3.88463 12.6788 3.53284C11.8295 3.18106 10.9193 3 10 3C9.08075 3 8.1705 3.18106 7.32122 3.53284C6.47194 3.88463 5.70026 4.40024 5.05025 5.05025C4.40024 5.70026 3.88463 6.47194 3.53284 7.32122C3.18106 8.1705 3 9.08075 3 10Z" stroke="#827FAE" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
           </svg>
           )
@@ -315,7 +325,7 @@ const Navbar = () => {
       return [
         {
           path: "/teacher/home",
-          label: "Головна",
+          label: t('Navbar.Labels.home'),
           key: "home",
           icon: (
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -325,25 +335,25 @@ const Navbar = () => {
           )
         },
         {
-          path: "/teacher/hometasks", label: "Завдання", key: "task", icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          path: "/teacher/hometasks", label: t('Navbar.Labels.hometasks'), key: "task", icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M9 4V22M13 8H15M13 12H15M6 4H17C17.5304 4 18.0391 4.21071 18.4142 4.58579C18.7893 4.96086 19 5.46957 19 6V18C19 18.5304 18.7893 19.0391 18.4142 19.4142C18.0391 19.7893 17.5304 20 17 20H6C5.73478 20 5.48043 19.8946 5.29289 19.7071C5.10536 19.5196 5 19.2652 5 19V5C5 4.73478 5.10536 4.48043 5.29289 4.29289C5.48043 4.10536 5.73478 4 6 4Z" stroke="#827FAE" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
           </svg>
           )
         },
         {
-          path: "/teacher/tests", label: "Тести", key: "test", icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          path: "/teacher/tests", label: t('Navbar.Labels.tests'), key: "test", icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M11 6H20M11 12H20M12 18H20M4 16C4 15.4696 4.21071 14.9609 4.58579 14.5858C4.96086 14.2107 5.46957 14 6 14C6.53043 14 7.03914 14.2107 7.41421 14.5858C7.78929 14.9609 8 15.4696 8 16C8 16.591 7.5 17 7 17.5L4 20H8M6 10V4L4 6" stroke="#827FAE" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
           </svg>
           )
         },
         {
-          path: "/teacher/calendar", label: "Календар", key: "calendar", icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          path: "/teacher/calendar", label: t('Navbar.Labels.calendar'), key: "calendar", icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M16 3V7M8 3V7M4 11H20M7 14H7.013M10.01 14H10.015M13.01 14H13.015M16.015 14H16.02M13.015 17H13.02M7.01 17H7.015M10.01 17H10.015M4 7C4 6.46957 4.21071 5.96086 4.58579 5.58579C4.96086 5.21071 5.46957 5 6 5H18C18.5304 5 19.0391 5.21071 19.4142 5.58579C19.7893 5.96086 20 6.46957 20 7V19C20 19.5304 19.7893 20.0391 19.4142 20.4142C19.0391 20.7893 18.5304 21 18 21H6C5.46957 21 4.96086 20.7893 4.58579 20.4142C4.21071 20.0391 4 19.5304 4 19V7Z" stroke="#827FAE" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
           </svg>
           )
         },
         {
-          path: "/teacher/materials", label: "Матеріали", key: "library", icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          path: "/teacher/materials", label: t('Navbar.Labels.materials'), key: "library", icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M12 18.9997C10.6318 18.2098 9.07983 17.7939 7.5 17.7939C5.92017 17.7939 4.36817 18.2098 3 18.9997V5.99972C4.36817 5.2098 5.92017 4.79395 7.5 4.79395C9.07983 4.79395 10.6318 5.2098 12 5.99972M12 18.9997C13.3682 18.2098 14.9202 17.7939 16.5 17.7939C18.0798 17.7939 19.6318 18.2098 21 18.9997V5.99972C19.6318 5.2098 18.0798 4.79395 16.5 4.79395C14.9202 4.79395 13.3682 5.2098 12 5.99972M12 18.9997V5.99972" stroke="#827FAE" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
           </svg>
           )
@@ -359,7 +369,7 @@ const Navbar = () => {
       return [
         {
           path: "/student/settings",
-          label: "Налаштування",
+          label: t('Navbar.Labels.settings'),
           key: "settings",
           isDisabled: true, // Mark settings as disabled
           icon: (
@@ -371,7 +381,7 @@ const Navbar = () => {
         },
         {
           path: "/student/info",
-          label: "Інформація",
+          label: t('Navbar.Labels.info'),
           key: "info",
           icon: (
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -384,7 +394,7 @@ const Navbar = () => {
       return [
         {
           path: "/teacher/settings",
-          label: "Налаштування",
+          label: t('Navbar.Labels.settings'),
           key: "settings",
           isDisabled: true, // Mark settings as disabled
           icon: (
@@ -396,7 +406,7 @@ const Navbar = () => {
         },
         {
           path: "/teacher/info",
-          label: "Інформація",
+          label: t('Navbar.Labels.info'),
           key: "info",
           icon: (
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -485,7 +495,7 @@ const Navbar = () => {
               <path d="M5 22.5C4.64584 22.5 4.34917 22.38 4.11 22.14C3.87084 21.9 3.75084 21.6033 3.75 21.25C3.74917 20.8967 3.86917 20.6 4.11 20.36C4.35084 20.12 4.6475 20 5 20H25C25.3542 20 25.6513 20.12 25.8913 20.36C26.1313 20.6 26.2508 20.8967 26.25 21.25C26.2492 21.6033 26.1292 21.9004 25.89 22.1413C25.6508 22.3821 25.3542 22.5017 25 22.5H5ZM5 16.25C4.64584 16.25 4.34917 16.13 4.11 15.89C3.87084 15.65 3.75084 15.3533 3.75 15C3.74917 14.6467 3.86917 14.35 4.11 14.11C4.35084 13.87 4.6475 13.75 5 13.75H25C25.3542 13.75 25.6513 13.87 25.8913 14.11C26.1313 14.35 26.2508 14.6467 26.25 15C26.2492 15.3533 26.1292 15.6504 25.89 15.8913C25.6508 16.1321 25.3542 16.2517 25 16.25H5ZM5 10C4.64584 10 4.34917 9.88 4.11 9.64C3.87084 9.4 3.75084 9.10333 3.75 8.75C3.74917 8.39667 3.86917 8.1 4.11 7.86C4.35084 7.62 4.6475 7.5 5 7.5H25C25.3542 7.5 25.6513 7.62 25.8913 7.86C26.1313 8.1 26.2508 8.39667 26.25 8.75C26.2492 9.10333 26.1292 9.40042 25.89 9.64125C25.6508 9.88208 25.3542 10.0017 25 10H5Z" fill="#120C38" />
             </svg>
             )}
-            text="Меню"
+            text={t('Navbar.Labels.menu')}
             isOpen={isSidebarOpen}
             onClick={() => setIsSidebarOpen(!isSidebarOpen)}
             noBorder
@@ -510,7 +520,7 @@ const Navbar = () => {
               cursor: "pointer",
               overflow: "hidden",
             }}
-            onClick={() => handleNavItemClick("profile", "Профіль")}
+            onClick={() => handleNavItemClick("profile", t('Navbar.Labels.profile'))}
           >
             <img
               src={imageUrl ? imageUrl : `https://ui-avatars.com/api/?name=${firstname + " " + lastname}&background=random&size=86`}
@@ -542,7 +552,7 @@ const Navbar = () => {
                 marginTop: "5px",
               }}
             >
-              Баланс: {balance}
+              {t('Navbar.Labels.balance')}: {balance}
             </div>
           </div></Link>
 

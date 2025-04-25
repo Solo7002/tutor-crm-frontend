@@ -1,15 +1,17 @@
 import React, { useState } from 'react';
 import CourseJoinModal from '../../../components/CourseJoin/CourseJoinModal';
 import '../ProfileTeacher.css';
+import { useTranslation } from 'react-i18next';
 
 const CourseList = ({ courses: initialCourses, userFrom = null, teacher = {}, user = {}, navigateToCourses=null }) => {
+    const { t } = useTranslation();
     const [expandedCourses, setExpandedCourses] = useState({});
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     // Используем переданные курсы или дефолтные с правильной структурой
     const courses = initialCourses?.length ? initialCourses : [
-        { CourseId: -1, CourseName: 'Математика', Groups: [] },
-        { CourseId: -2, CourseName: 'Фізика', Groups: [] },
+        { CourseId: -1, CourseName: t('ProfileTeacher.CourseList.DefaultCourses.Math'), Groups: [] },
+        { CourseId: -2, CourseName: t('ProfileTeacher.CourseList.DefaultCourses.Physics'), Groups: [] },
     ];
 
     const toggleExpand = (courseId) => {
@@ -23,10 +25,10 @@ const CourseList = ({ courses: initialCourses, userFrom = null, teacher = {}, us
     const DesktopTableView = ({ details }) => (
         <div className="hidden md:block w-full mt-4">
             <div className="grid grid-cols-4 gap-2 text-[#8a48e6] text-sm lg:text-[15px] font-bold font-['Nunito']">
-                <div>№ групи</div>
-                <div>Назва групи</div>
-                <div>Кількість учнів</div>
-                <div>Ціна</div>
+                <div>{t('ProfileTeacher.CourseList.TableHeaders.GroupNumber')}</div>
+                <div>{t('ProfileTeacher.CourseList.TableHeaders.GroupName')}</div>
+                <div>{t('ProfileTeacher.CourseList.TableHeaders.StudentsCount')}</div>
+                <div>{t('ProfileTeacher.CourseList.TableHeaders.Price')}</div>
             </div>
             <div className="mt-2 space-y-2">
                 {details.map((detail) => (
@@ -47,13 +49,13 @@ const CourseList = ({ courses: initialCourses, userFrom = null, teacher = {}, us
             {details.map((detail) => (
                 <div key={detail.GroupId} className="bg-[#f9f6ff] p-3 rounded-lg">
                     <div className="grid grid-cols-2 gap-y-2">
-                        <div className="text-[#8a48e6] text-sm font-bold">№ групи:</div>
+                        <div className="text-[#8a48e6] text-sm font-bold">{t('ProfileTeacher.CourseList.TableHeaders.GroupNumber')}:</div>
                         <div className="text-[#827ead] text-sm">{detail.GroupId}</div>
-                        <div className="text-[#8a48e6] text-sm font-bold">Назва групи:</div>
+                        <div className="text-[#8a48e6] text-sm font-bold">{t('ProfileTeacher.CourseList.TableHeaders.GroupName')}:</div>
                         <div className="text-[#827ead] text-sm">{detail.GroupName}</div>
-                        <div className="text-[#8a48e6] text-sm font-bold">Кількість учнів:</div>
+                        <div className="text-[#8a48e6] text-sm font-bold">{t('ProfileTeacher.CourseList.TableHeaders.StudentsCount')}:</div>
                         <div className="text-[#827ead] text-sm">{detail.GroupAmountOfStudents}</div>
-                        <div className="text-[#8a48e6] text-sm font-bold">Ціна:</div>
+                        <div className="text-[#8a48e6] text-sm font-bold">{t('ProfileTeacher.CourseList.TableHeaders.Price')}:</div>
                         <div className="text-[#827ead] text-sm">{detail.GroupPrice}</div>
                     </div>
                 </div>
@@ -63,7 +65,7 @@ const CourseList = ({ courses: initialCourses, userFrom = null, teacher = {}, us
 
     return (
         <div className="w-full col-span-3 bg-white rounded-[20px] flex flex-col items-center transition-all duration-300 min-h-[268px] p-2 sm:p-4">
-            <h2 className="text-[#120c38] text-xl sm:text-2xl font-bold font-['Nunito'] my-3 sm:my-5">Курси</h2>
+            <h2 className="text-[#120c38] text-xl sm:text-2xl font-bold font-['Nunito'] my-3 sm:my-5">{t('ProfileTeacher.CourseList.Title')}</h2>
 
             <div className="w-full sm:w-[95%] md:w-[90%] flex flex-col gap-3 sm:gap-4">
                 {courses.map((course) => (
@@ -103,22 +105,21 @@ const CourseList = ({ courses: initialCourses, userFrom = null, teacher = {}, us
                 ))}
             </div>
 
-            {
-                !userFrom ?
-                    (<button
-                        className="w-full max-w-[418px] h-10 sm:h-12 mt-3 mb-3 sm:my-5 bg-[#8a4ae6] hover:bg-purple-700 rounded-xl sm:rounded-2xl text-white text-base sm:text-xl font-medium font-['Nunito'] flex items-center justify-center"
-                        onClick={() => navigateToCourses()}
-                    >
-                        Редагувати курси
-                    </button>)
-                    :
-                    (<button
-                        className="w-full max-w-[418px] h-10 sm:h-12 mt-3 mb-3 sm:my-5 bg-[#8a4ae6] hover:bg-purple-700 rounded-xl sm:rounded-2xl text-white text-base sm:text-xl font-medium font-['Nunito'] flex items-center justify-center"
-                        onClick={() => setIsModalOpen(true)}
-                    >
-                        Записатися на курс
-                    </button>)
-            }
+            {!userFrom ? (
+                <button
+                    className="w-full max-w-[418px] h-10 sm:h-12 mt-3 mb-3 sm:my-5 bg-[#8a4ae6] hover:bg-purple-700 rounded-xl sm:rounded-2xl text-white text-base sm:text-xl font-medium font-['Nunito'] flex items-center justify-center"
+                    onClick={() => navigateToCourses()}
+                >
+                    {t('ProfileTeacher.CourseList.Buttons.EditCourses')}
+                </button>
+            ) : (
+                <button
+                    className="w-full max-w-[418px] h-10 sm:h-12 mt-3 mb-3 sm:my-5 bg-[#8a4ae6] hover:bg-purple-700 rounded-xl sm:rounded-2xl text-white text-base sm:text-xl font-medium font-['Nunito'] flex items-center justify-center"
+                    onClick={() => setIsModalOpen(true)}
+                >
+                    {t('ProfileTeacher.CourseList.Buttons.JoinCourse')}
+                </button>
+            )}
             <CourseJoinModal
                 isOpen={isModalOpen}
                 onClose={() => setIsModalOpen(false)}

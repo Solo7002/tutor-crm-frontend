@@ -1,13 +1,14 @@
 import React, { useLayoutEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import PasswordInput from '../../components/PasswordInput/PasswordInput';
 import axios from 'axios';
 import { jwtDecode } from 'jwt-decode';
 import { ToastContainer, toast } from 'react-toastify';
 import ConfirmCodeInput from '../../components/ConfirmCodeInput/ConfirmCodeInput';
 
-
 export default function EditEmailAndPassword() {
+    const { t } = useTranslation();
     const navigate = useNavigate();
     const [userId, setUserId] = useState();
     const [errors, setErrors] = useState({});
@@ -29,17 +30,16 @@ export default function EditEmailAndPassword() {
         if (token) {
             try {
                 const decoded = jwtDecode(token);
-                axios.get(`http://localhost:4000/api/users/${decoded.id}/credentials`).then(res => {
+                axios.get(`${process.env.REACT_APP_BASE_API_URL}/api/users/${decoded.id}/credentials`).then(res => {
                     setUserId(decoded.id);
-                    setFormData({ NewEmail: res.data.Email })
+                    setFormData({ NewEmail: res.data.Email });
                     setInitialEmail(res.data.Email);
-                })
-
+                });
             } catch (error) {
-                console.error("Ошибка при расшифровке токена:", error);
+                console.error("Error decoding token:", error);
             }
         }
-    }, [])
+    }, []);
 
     const validatePassword = (password) => {
         const minLength = 8;
@@ -53,38 +53,38 @@ export default function EditEmailAndPassword() {
         if (password.length < minLength || password.length > maxLength) {
             return {
                 isValid: false,
-                error: `Пароль має містити від ${minLength} до ${maxLength} символів`
+                error: `${t('EditEmailAndPassword.Validation.PasswordLength')}`
             };
         }
 
         if (!hasLowercase) {
             return {
                 isValid: false,
-                error: "Пароль має містити хоча б одну малу літеру (a-z)"
+                error: `${t('EditEmailAndPassword.Validation.PasswordLowercase')} (a-z)`
             };
         }
         if (!hasUppercase) {
             return {
                 isValid: false,
-                error: "Пароль має містити хоча б одну велику літеру (A-Z)"
+                error: `${t('EditEmailAndPassword.Validation.PasswordUppercase')} (A-Z)`
             };
         }
         if (!hasDigit) {
             return {
                 isValid: false,
-                error: "Пароль має містити хоча б одну цифру (0-9)"
+                error: `${t('EditEmailAndPassword.Validation.PasswordDigit')} (0-9)`
             };
         }
         if (!hasSpecial) {
             return {
                 isValid: false,
-                error: "Пароль має містити хоча б один спеціальний символ (!@#$%^&*()_+-=[]{};:'\"\\|,.<>/?)"
+                error: `${t('EditEmailAndPassword.Validation.PasswordSpecial')} (!@#$%^&*()_+-=[]{};:'"\\|,.<>/?)`
             };
         }
         if (!allowedChars) {
             return {
                 isValid: false,
-                error: "Пароль містить недопустимі символи. Дозволені лише букви, цифри та спеціальні символи: !@#$%^&*()_+-=[]{};:'\"\\|,.<>/?"
+                error: `${t('EditEmailAndPassword.Validation.PasswordInvalidChars')} (!@#$%^&*()_+-=[]{};:'"\\|,.<>/?)`
             };
         }
 
@@ -98,9 +98,9 @@ export default function EditEmailAndPassword() {
         const newErrors = {};
 
         if (!formData.NewEmail) {
-            newErrors.NewEmail = "Email обов'язковий";
+            newErrors.NewEmail = t('EditEmailAndPassword.Validation.EmailRequired');
         } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(formData.NewEmail)) {
-            newErrors.NewEmail = 'Невірний формат email';
+            newErrors.NewEmail = t('EditEmailAndPassword.Validation.EmailInvalid');
         }
 
         if (formData.NewPassword) {
@@ -109,7 +109,7 @@ export default function EditEmailAndPassword() {
                 newErrors.NewPassword = passwordValidation.error;
             }
             if (formData.ConfirmPassword !== formData.NewPassword) {
-                newErrors.ConfirmPassword = "Паролі не співпадають";
+                newErrors.ConfirmPassword = t('EditEmailAndPassword.Validation.PasswordsMismatch');
             }
         }
 
@@ -136,7 +136,7 @@ export default function EditEmailAndPassword() {
     const sendConfirmationCode = async () => {
         try {
             if (formData.NewEmail === initialEmail && (formData.NewPassword === undefined || formData.NewPassword === '')) {
-                toast.info("Жодних змін не внесено.", {
+                toast.info(t('EditEmailAndPassword.Messages.NoChanges'), {
                     position: "bottom-right",
                     autoClose: 3000,
                     hideProgressBar: false,
@@ -145,20 +145,19 @@ export default function EditEmailAndPassword() {
                     draggable: true,
                     progress: undefined,
                 });
-            }
-            else if (validateForm()) {
+            } else if (validateForm()) {
                 const sendData = {
                     UserId: userId,
                     NewEmail: formData.NewEmail || null,
                     NewPassword: formData.NewPassword || null,
                 };
-                await axios.post('http://localhost:4000/api/users/send-update-credentials-code', sendData);
+                await axios.post(`${process.env.REACT_APP_BASE_API_URL}/api/users/send-update-credentials-code`, sendData);
                 setEmailAlreadySent(true);
                 setStep(2);
-                toast.success('Код підтвердження надіслано на вашу пошту!');
+                toast.success(t('EditEmailAndPassword.Messages.CodeSent'));
             }
         } catch (error) {
-            toast.error(`Помилка при відправці коду: ${error.response?.data?.message}`);
+            toast.error(`${t('EditEmailAndPassword.Messages.SendCodeError')}: ${error.response?.data?.message}`);
         }
     };
 
@@ -166,34 +165,33 @@ export default function EditEmailAndPassword() {
         if (isLoading) return;
         setIsLoading(true);
         try {
-            const response = await axios.post('http://localhost:4000/api/users/confirm-update-credentials', {
+            const response = await axios.post(`${process.env.REACT_APP_BASE_API_URL}/api/users/confirm-update-credentials`, {
                 UserId: userId,
                 Code: code,
             });
             if (response.status === 200) {
-                toast.success('Дані успішно оновлено!');
-                setStep(1); // Можно перенаправить или сбросить форму
-                setFormData({ NewEmail: '', NewPassword: '' });
+                toast.success(t('EditEmailAndPassword.Messages.UpdateSuccess'));
+                setStep(1);
+                setFormData({ NewEmail: '', NewPassword: '', ConfirmPassword: '' });
                 setEmailAlreadySent(false);
             }
         } catch (error) {
             if (error.response?.status === 400) {
                 setConfirmError(true);
-                toast.error('Невірний код підтвердження або термін його дії закінчився');
+                toast.error(t('EditEmailAndPassword.Messages.InvalidCode'));
             } else {
-                toast.error(error.response?.data?.message || 'Помилка при підтвердженні');
+                toast.error(t('EditEmailAndPassword.Messages.ConfirmError'));
             }
         } finally {
             setIsLoading(false);
         }
     };
 
-
     return (
         <div className='w-full flex justify-center px-4 relative'>
             <ToastContainer />
-            <button onClick={() => navigate('/user/edit')} id="button-back" class="w-12 h-12 p-2 absolute left-[0px] top-[20px] bg-white rounded-[40px] outline outline-1 outline-offset-[-1px] outline-[#d7d7d7] hover:bg-[#d7d7d7] hidden xl:inline-flex justify-start items-center gap-2.5">
-                <div data-svg-wrapper data-fill="Off" data-plus="Off" data-property-1="Arrow" class="relative">
+            <button onClick={() => navigate('/user/edit')} id="button-back" className="w-12 h-12 p-2 absolute left-[0px] top-[20px] bg-white rounded-[40px] outline outline-1 outline-offset-[-1px] outline-[#d7d7d7] hover:bg-[#d7d7d7] hidden xl:inline-flex justify-start items-center gap-2.5">
+                <div data-svg-wrapper data-fill="Off" data-plus="Off" data-property-1="Arrow" className="relative">
                     <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M6.66699 16H25.3337M6.66699 16L14.667 24M6.66699 16L14.667 8" stroke="#120C38" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                     </svg>
@@ -205,7 +203,7 @@ export default function EditEmailAndPassword() {
                         {/* Form Container */}
                         <div className="w-full p-5 bg-white rounded-[20px] flex flex-col gap-5">
                             <div className="text-black text-xl font-normal font-['Mulish']">
-                                Зміна пошти та паролю
+                                {t('EditEmailAndPassword.Content.Title')}
                             </div>
 
                             <div className="w-full flex flex-col items-center gap-5 mt-2">
@@ -216,7 +214,7 @@ export default function EditEmailAndPassword() {
                                         value={formData.NewEmail}
                                         onChange={handleInputChange}
                                         className={`w-full h-14 p-4 bg-white rounded-2xl outline outline-1 ${errors.NewEmail ? 'outline-red-500' : 'outline-[#8a48e6]'} text-[#120c38] text-base font-normal font-['Mulish']`}
-                                        placeholder="Email"
+                                        placeholder={t('EditEmailAndPassword.Placeholders.Email')}
                                     />
                                     {errors.NewEmail && <div className="text-red-500 text-sm mt-1">{errors.NewEmail}</div>}
                                 </div>
@@ -226,7 +224,7 @@ export default function EditEmailAndPassword() {
                                         name="NewPassword"
                                         value={formData.NewPassword}
                                         onChange={handlePasswordInputChange}
-                                        placeholder="Новий пароль"
+                                        placeholder={t('EditEmailAndPassword.Placeholders.NewPassword')}
                                         className={errors.NewPassword ? 'outline-red-500' : 'outline-[#8a48e6]'}
                                     />
                                     {errors.NewPassword && <div className="text-red-500 text-sm mt-1">{errors.NewPassword}</div>}
@@ -237,7 +235,7 @@ export default function EditEmailAndPassword() {
                                         name="ConfirmPassword"
                                         value={formData.ConfirmPassword}
                                         onChange={handlePasswordInputChange}
-                                        placeholder="Підтвердження пароля"
+                                        placeholder={t('EditEmailAndPassword.Placeholders.ConfirmPassword')}
                                         className={errors.ConfirmPassword ? 'outline-red-500' : 'outline-[#8a48e6]'}
                                     />
                                     {errors.ConfirmPassword && <div className="text-red-500 text-sm mt-1">{errors.ConfirmPassword}</div>}
@@ -253,7 +251,7 @@ export default function EditEmailAndPassword() {
                                 className="w-full md:w-96 h-12 px-10 py-2 bg-[#8a4ae6] rounded-2xl flex justify-center items-center gap-2.5 overflow-hidden hover:bg-[#632DAE] transition-colors"
                             >
                                 <span className="text-center text-white text-xl font-medium font-['Nunito']">
-                                    {isLoading ? 'Збереження...' : 'Зберегти зміни'}
+                                    {isLoading ? t('EditEmailAndPassword.Buttons.Saving') : t('EditEmailAndPassword.Buttons.Save')}
                                 </span>
                             </button>
                             {errors.submit && <div className="text-red-500 text-sm text-center mt-2">{errors.submit}</div>}
@@ -264,10 +262,10 @@ export default function EditEmailAndPassword() {
                 {step === 2 && (
                     <div className="confirm-code w-full p-5 bg-white rounded-[20px] flex flex-col gap-5">
                         <h1 className="text-center text-lg">
-                            Код підтвердження надіслано на адресу <b>{formData.NewEmail || 'ваш поточний email'}</b>
+                            {t('EditEmailAndPassword.Content.CodeSentMessage')}
                         </h1>
                         <h1 className="text-lg mt-8 text-center">
-                            <b>Введіть код підтвердження</b>
+                            <b>{t('EditEmailAndPassword.Content.EnterCode')}</b>
                         </h1>
                         <div className="w-full flex justify-center mt-3">
                             <ConfirmCodeInput isLoading={isLoading} callback={handleConfirmCode} />
@@ -276,7 +274,7 @@ export default function EditEmailAndPassword() {
                             <h2
                                 className={`text-md ${confirmError ? 'text-red-600' : 'text-white'} mt-2`}
                             >
-                                Код підтвердження не вірний, або термін його дії закінчився
+                                {t('EditEmailAndPassword.Content.InvalidCodeMessage')}
                             </h2>
                         </div>
                     </div>

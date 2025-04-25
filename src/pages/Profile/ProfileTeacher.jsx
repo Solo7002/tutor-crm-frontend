@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { jwtDecode } from "jwt-decode";
 import { PatternFormat } from 'react-number-format';
 import { toast } from 'react-toastify';
+import { useTranslation } from 'react-i18next';
 
 const FilledStar = () => (
     <svg width="34" height="33" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -40,6 +41,7 @@ const StarRating = ({ rating }) => {
 
 export default function ProfileTeacher() {
     const navigate = useNavigate();
+    const { t } = useTranslation();
     const [user, setUser] = useState({UserPhones: []});
     const [teacher, setTeacher] = useState({});
     const [courses, setCourses] = useState([]);
@@ -49,17 +51,20 @@ export default function ProfileTeacher() {
         if (token) {
             try {
                 const decoded = jwtDecode(token);
-                axios.get(`http://localhost:4000/api/teachers/${decoded.id}/info`).then(res => {
+                axios.get(`${process.env.REACT_APP_BASE_API_URL}/api/teachers/${decoded.id}/info`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                }).then(res => {
                     setTeacher(res.data.teacher);
                     setUser(res.data.user);
                     setCourses(res.data.courses);
-                })
-
+                });
             } catch (error) {
-                toast.error("Ошибка при расшифровке токена!");
+                toast.error(t('ProfileTeacher.Messages.TokenDecodeError'));
             }
         }
-    }, [])
+    }, []);
 
     return (
         <div className='main-block w-full h-full px-4 md:px-6 lg:pr-8 mt-4 md:mt-[35px]'>
@@ -93,19 +98,19 @@ export default function ProfileTeacher() {
                                         className="px-4 py-2 rounded-[40px] outline outline-1 outline-[#8a48e6] flex justify-center hover:bg-[#632DAE] hover:text-white items-center text-[#8a48e6] text-xs md:text-[15px] font-bold font-['Nunito'] transition-colors"
                                         onClick={() => navigate("/user/edit")}
                                     >
-                                        Редагувати профіль
+                                        {t('ProfileTeacher.Buttons.EditProfile')}
                                     </button>
                                 </div>
 
                                 <div className="w-full mt-3">
                                     <div className="w-full">
                                         <div className="w-full flex justify-between my-[2px]">
-                                            <div className="text-black text-xs md:text-[15px] font-normal font-['Mulish']">Предмет:</div>
+                                            <div className="text-black text-xs md:text-[15px] font-normal font-['Mulish']">{t('ProfileTeacher.Content.Subject')}:</div>
                                             <div className="text-right text-black text-xs md:text-[15px] font-normal font-['Mulish']">{teacher.SubjectNames}</div>
                                         </div>
                                         <div className="w-full flex justify-between my-[2px]">
-                                            <div className="text-black text-xs md:text-[15px] font-normal font-['Mulish']">Ціна за урок:</div>
-                                            <div className="text-right text-black text-xs md:text-[15px] font-normal font-['Mulish']">від {teacher.minPrice}грн</div>
+                                            <div className="text-black text-xs md:text-[15px] font-normal font-['Mulish']">{t('ProfileTeacher.Content.LessonPrice')}:</div>
+                                            <div className="text-right text-black text-xs md:text-[15px] font-normal font-['Mulish']">{t('ProfileTeacher.Content.From')} {teacher.minPrice} грн</div>
                                         </div>
                                     </div>
                                     <div className="w-full my-1 text-[#827ead] text-xs font-normal font-['Mulish'] line-clamp-3 md:line-clamp-none">
@@ -122,7 +127,7 @@ export default function ProfileTeacher() {
                                         </svg>
                                     </div>
                                     <div className="text-[#827ead] text-[10px] font-normal font-['Mulish'] mt-1">
-                                        Зареєстрований користувач: 12.10.2023
+                                        {t('ProfileTeacher.Content.RegisteredUser')}: 12.10.2023
                                     </div>
                                 </div>
                             </div>
@@ -135,12 +140,11 @@ export default function ProfileTeacher() {
 
                             <div className="space-y-2 md:space-y-4 relative z-10">
                                 <div className="text-white text-xl md:text-[32px] font-bold font-['Nunito']">
-                                    Навчай на повну!
+                                    {t('ProfileTeacher.Content.LearnFull')}
                                 </div>
                                 <div className="text-[#827ead] text-sm md:text-[15px] font-normal font-['Mulish']">
-                                    Оформлюй підписку для розширення можливостей
+                                    {t('ProfileTeacher.Content.SubscriptionPrompt')}
                                 </div>
-
 
                                 <div className="absolute top-[76px] left-1/2 hidden md:block" data-svg-wrapper>
                                     <svg width="177" height="212" viewBox="0 0 177 212" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -171,11 +175,10 @@ export default function ProfileTeacher() {
                                         <path d="M57.136 10.7083C43.8304 -3.48311 12.168 -0.545647 -2 2.697L-0.768 28.4475C17.712 22.1529 52.824 18.0023 52.824 38.1754C52.824 61.0647 58.552 68.3845 62 72.5192C64.9935 76.1088 75 77.0872 75 73.6538C75 70.2205 67.608 69.6482 64.528 61.0647C61.448 52.4813 73.768 28.4475 57.136 10.7083Z" fill="#8A48E6" />
                                         <path fill-rule="evenodd" clip-rule="evenodd" d="M74.2473 75.0489C74.3608 74.7052 74.4265 74.384 74.4265 74.1122C74.4265 73.4402 73.3229 73.3703 71.7898 73.2731C69.9004 73.1534 67.3587 72.9923 65.4265 71.6122C61.9265 69.1122 57.9998 56.1314 57.9998 49.6122C57.9998 42.0192 57.63 34.0191 53.4265 25.6123C49.634 18.0273 32.9621 14.1208 10 25.5758C28.7577 21.5381 52.7505 21.5929 52.7505 38.2686C52.7505 61.1579 58.4785 68.4777 61.9265 72.6124C64.4481 75.6362 71.9461 76.8071 74.2473 75.0489Z" fill="#AB85E5" />
                                     </svg>
-
                                 </div>
                                 <div className="w-full flex justify-center mt-24 md:absolute md:-bottom-[150px] md:-left-0 md:w-auto md:mt-0">
                                     <a href='https://tutoct.great-site.net/price/' className="w-auto px-4 py-2 bg-[#8a48e6] hover:bg-[#632DAE] rounded-[40px] flex justify-center items-center text-white text-sm md:text-[15px] font-bold font-['Nunito']">
-                                        Детальніше
+                                        {t('ProfileTeacher.Buttons.LearnMore')}
                                     </a>
                                 </div>
                             </div>
@@ -188,33 +191,27 @@ export default function ProfileTeacher() {
                         <div className='uchni w-full h-[140px] md:h-[180px] flex items-center'>
                             <div className="w-full h-full bg-white rounded-[20px] flex justify-center items-center flex-col">
                                 <div className="text-center text-[#8a48e6] text-2xl md:text-[32px] font-bold font-['Nunito']">{teacher.StudentsAmount}</div>
-                                <div className="text-center text-[#120c38] text-lg md:text-2xl font-bold font-['Nunito']">Учнів</div>
+                                <div className="text-center text-[#120c38] text-lg md:text-2xl font-bold font-['Nunito']">{t('ProfileTeacher.Stats.Students')}</div>
                             </div>
                         </div>
 
                         <div className='rating w-full h-[140px] md:h-[180px] flex items-center'>
                             <div className="w-full h-full bg-white rounded-[20px] flex justify-center items-center flex-col">
-                                <div className="text-center text-[#120c38] text-lg md:text-2xl font-bold font-['Nunito'] mb-2">Рейтинг</div>
-
+                                <div className="text-center text-[#120c38] text-lg md:text-2xl font-bold font-['Nunito'] mb-2">{t('ProfileTeacher.Stats.Rating')}</div>
                                 <StarRating rating={teacher.Rating} />
-
                                 <div className="text-center text-[#8a48e6] text-lg md:text-2xl font-bold font-['Nunito'] mt-2">{teacher.Rating}</div>
                             </div>
                         </div>
 
-                        {/* Stats Block 3 */}
                         <div className='w-full h-[140px] md:h-[180px] flex items-center'>
                             <div className="w-full h-full bg-white rounded-[20px] flex justify-center items-center flex-col p-2">
                                 <div className="text-center text-[#8a48e6] text-2xl md:text-[32px] font-bold font-['Nunito']">{teacher.MaterialsAmount}</div>
-                                <div className="text-center text-[#120c38] text-sm md:text-lg lg:text-2xl font-bold font-['Nunito']">Авторських навчальних матеріалів</div>
+                                <div className="text-center text-[#120c38] text-sm md:text-lg lg:text-2xl font-bold font-['Nunito']">{t('ProfileTeacher.Stats.Materials')}</div>
                             </div>
                         </div>
                     </div>
 
-                    {/* Course list component */}
-                    <CourseList courses={courses} navigateToCourses={() => {navigate("/teacher/courses")}}/>
-
-                    {/* Reviews component */}
+                    <CourseList courses={courses} navigateToCourses={() => navigate("/teacher/courses")} />
                     <Reviews userId={user.UserId} />
                 </div>
             </div>

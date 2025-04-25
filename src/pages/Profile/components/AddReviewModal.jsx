@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import { useTranslation } from 'react-i18next';
 
 const AddReviewModal = ({ isOpened, onClose, userIdFor, userIdFrom, onRefreshReviews }) => {
+  const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(isOpened);
   const [reviewText, setReviewText] = useState('');
   const [rating, setRating] = useState(1);
   const [hoverRating, setHoverRating] = useState(0);
+  const token = sessionStorage.getItem("token");
 
   useEffect(() => {
     setIsOpen(isOpened);
@@ -30,12 +33,16 @@ const AddReviewModal = ({ isOpened, onClose, userIdFor, userIdFrom, onRefreshRev
         UserIdFor: userIdFor,
       };
 
-      await axios.post('http://localhost:4000/api/userReviews', reviewData);
+      await axios.post(`${process.env.REACT_APP_BASE_API_URL}/api/userReviews`, {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    }, reviewData);
       onClose();
       onRefreshReviews();
-      toast.success('Відгук відправлено!');
+      toast.success(t('ProfileTeacher.AddReviewModal.Messages.ReviewSent'));
     } catch (error) {
-      toast.error('Помилка при відправці відгуку!');
+      toast.error(t('ProfileTeacher.AddReviewModal.Messages.ReviewError'));
     }
   };
 
@@ -49,7 +56,7 @@ const AddReviewModal = ({ isOpened, onClose, userIdFor, userIdFrom, onRefreshRev
         <div className="w-full max-w-md relative pointer-events-auto">
           <div className="w-full bg-white rounded-2xl p-6">
             <div className="text-center text-[#8a48e6] text-2xl font-bold font-['Nunito'] mb-3">
-              Коментар викладачу
+              {t('ProfileTeacher.AddReviewModal.Title')}
             </div>
 
             <div
@@ -89,7 +96,7 @@ const AddReviewModal = ({ isOpened, onClose, userIdFor, userIdFrom, onRefreshRev
             <div className="w-full mb-6">
               <textarea
                 className="w-full p-4 min-h-[120px] bg-white rounded-2xl outline outline-1 outline-offset-[-1px] outline-[#dfdfdf] text-[#827ead] text-[15px] font-normal font-['Mulish'] resize-none"
-                placeholder="Введіть текст тут"
+                placeholder={t('ProfileTeacher.AddReviewModal.Placeholder')}
                 value={reviewText}
                 onChange={handleTextChange}
               />
@@ -99,7 +106,7 @@ const AddReviewModal = ({ isOpened, onClose, userIdFor, userIdFrom, onRefreshRev
               className="w-full py-3 px-4 bg-[#8a4ae6] hover:bg-purple-700 rounded-2xl text-center text-white text-xl font-medium font-['Nunito']"
               onClick={handleSubmit}
             >
-              Відправити
+              {t('ProfileTeacher.AddReviewModal.Button.Submit')}
             </button>
           </div>
         </div>

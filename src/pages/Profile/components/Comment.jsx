@@ -1,6 +1,8 @@
 import React, { useState } from "react";
+import { useTranslation } from 'react-i18next';
 
 const Comment = ({ review }) => {
+    const { t } = useTranslation();
     const [expanded, setExpanded] = useState(false);
     const maxLength = 100;
     const shouldTruncate = review.ReviewText.length > maxLength;
@@ -45,7 +47,7 @@ const Comment = ({ review }) => {
                                 {review.UserFrom.FirstName} {review.UserFrom.LastName}
                             </div>
                             <div className="text-[#827ead] text-xs font-normal font-['Mulish'] mt-0.5 sm:mt-1">
-                                Курс: {review.UserFrom.CourseName}
+                                {t('ProfileTeacher.Comment.Content.Course')}: {review.UserFrom.CourseName}
                             </div>
                         </div>
                         <div className="flex mt-1 mr-5 sm:mt-0">
@@ -66,7 +68,7 @@ const Comment = ({ review }) => {
                         className="text-[#8a48e6] text-xs sm:text-[13px] font-normal font-['Mulish'] mt-1 sm:mt-2"
                         onClick={() => setExpanded(!expanded)}
                     >
-                        {expanded ? "Менше" : "Більше >"}
+                        {expanded ? t('ProfileTeacher.Comment.Button.ShowLess') : t('ProfileTeacher.Comment.Button.ShowMore') + " >"}
                     </button>
                 )}
             </div>

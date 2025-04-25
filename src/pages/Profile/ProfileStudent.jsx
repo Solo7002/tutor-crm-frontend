@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './ProfileStudent.css';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { jwtDecode } from "jwt-decode";
 import Reviews from './Reviews/Reviews';
 import GroupList from './components/GroupList';
@@ -9,6 +10,7 @@ import { PatternFormat } from 'react-number-format';
 import { toast } from 'react-toastify';
 
 export default function ProfileStudent() {
+    const { t } = useTranslation();
     const navigate = useNavigate();
     const [user, setUser] = useState({UserPhones: []});
     const [student, setStudent] = useState({});
@@ -20,17 +22,21 @@ export default function ProfileStudent() {
             try {
                 const decoded = jwtDecode(token);
                 
-                axios.get(`http://localhost:4000/api/students/${decoded.id}/info`).then(res => {
+                axios.get(`${process.env.REACT_APP_BASE_API_URL}/api/students/${decoded.id}/info`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                }).then(res => {
                     setStudent(res.data.student);
                     setUser(res.data.user);
                     setGroups(res.data.groups);
-                })
+                });
                 
             } catch (error) {
-                toast.error("Ошибка при расшифровке токена!");
+                toast.error(t('ProfileStudent.Messages.TokenDecodeError'));
             }
         }
-    }, [])
+    }, []);
 
     return (
         <div className='main-block w-full h-full px-4 md:px-6 lg:pr-8 mt-4 md:mt-[35px]'>
@@ -64,12 +70,12 @@ export default function ProfileStudent() {
                                         className="px-4 py-2 rounded-[40px] outline outline-1 outline-[#8a48e6] flex justify-center hover:bg-[#632DAE] hover:text-white items-center text-[#8a48e6] text-xs md:text-[15px] font-bold font-['Nunito'] transition-colors"
                                         onClick={() => navigate("/user/edit")}
                                     >
-                                        Редагувати профіль
+                                        {t('ProfileStudent.Buttons.EditProfile')}
                                     </button>
                                 </div>
                                 <div className="w-full flex flex-col items-center mt-2">
                                     <div className="text-[#827ead] text-[10px] font-normal font-['Mulish'] mt-1">
-                                        Зареєстрований користувач: {new Date(user.CreateDate).toLocaleDateString('ua-UA')}
+                                        {t('ProfileStudent.Content.RegisteredUser')}: {new Date(user.CreateDate).toLocaleDateString('ua-UA')}
                                     </div>
                                 </div>
                             </div>
@@ -82,12 +88,11 @@ export default function ProfileStudent() {
 
                             <div className="space-y-2 md:space-y-4 relative z-10">
                                 <div className="text-white text-xl md:text-[32px] font-bold font-['Nunito']">
-                                    Навчай на повну!
+                                    {t('ProfileStudent.Content.LearnFull')}
                                 </div>
                                 <div className="text-[#827ead] text-sm md:text-[15px] font-normal font-['Mulish']">
-                                    Оформлюй підписку для розширення можливостей
+                                    {t('ProfileStudent.Content.SubscriptionPrompt')}
                                 </div>
-
 
                                 <div className="absolute top-[76px] left-1/2 hidden md:block" data-svg-wrapper>
                                     <svg width="177" height="212" viewBox="0 0 177 212" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -118,11 +123,10 @@ export default function ProfileStudent() {
                                         <path d="M57.136 10.7083C43.8304 -3.48311 12.168 -0.545647 -2 2.697L-0.768 28.4475C17.712 22.1529 52.824 18.0023 52.824 38.1754C52.824 61.0647 58.552 68.3845 62 72.5192C64.9935 76.1088 75 77.0872 75 73.6538C75 70.2205 67.608 69.6482 64.528 61.0647C61.448 52.4813 73.768 28.4475 57.136 10.7083Z" fill="#8A48E6" />
                                         <path fill-rule="evenodd" clip-rule="evenodd" d="M74.2473 75.0489C74.3608 74.7052 74.4265 74.384 74.4265 74.1122C74.4265 73.4402 73.3229 73.3703 71.7898 73.2731C69.9004 73.1534 67.3587 72.9923 65.4265 71.6122C61.9265 69.1122 57.9998 56.1314 57.9998 49.6122C57.9998 42.0192 57.63 34.0191 53.4265 25.6123C49.634 18.0273 32.9621 14.1208 10 25.5758C28.7577 21.5381 52.7505 21.5929 52.7505 38.2686C52.7505 61.1579 58.4785 68.4777 61.9265 72.6124C64.4481 75.6362 71.9461 76.8071 74.2473 75.0489Z" fill="#AB85E5" />
                                     </svg>
-
                                 </div>
                                 <div className="w-full flex justify-center mt-24 md:absolute md:-bottom-[150px] md:-left-0 md:w-auto md:mt-0">
                                     <a href='https://tutoct.great-site.net/price/' className="w-auto px-4 py-2 bg-[#8a48e6] hover:bg-[#632DAE] rounded-[40px] flex justify-center items-center text-white text-sm md:text-[15px] font-bold font-['Nunito']">
-                                        Детальніше
+                                        {t('ProfileStudent.Buttons.LearnMore')}
                                     </a>
                                 </div>
                             </div>
@@ -135,31 +139,27 @@ export default function ProfileStudent() {
                         <div className='uchni w-full h-[140px] md:h-[180px] flex items-center'>
                             <div className="w-full h-full bg-white rounded-[20px] flex justify-center items-center flex-col">
                                 <div className="text-center text-[#8a48e6] text-2xl md:text-[32px] font-bold font-['Nunito']">{student && student.CourseCount ? student.CourseCount : "0"}</div>
-                                <div className="text-center text-[#120c38] text-lg md:text-2xl font-bold font-['Nunito']">Курси</div>
+                                <div className="text-center text-[#120c38] text-lg md:text-2xl font-bold font-['Nunito']">{t('ProfileStudent.Stats.Courses')}</div>
                             </div>
                         </div>
 
                         <div className='rating w-full h-[140px] md:h-[180px] flex items-center'>
                             <div className="w-full h-full bg-white rounded-[20px] flex justify-center items-center flex-col">
-                                <div className="text-center text-[#120c38] text-lg md:text-2xl font-bold font-['Nunito'] mb-2">Рейтинг</div>
-
+                                <div className="text-center text-[#120c38] text-lg md:text-2xl font-bold font-['Nunito'] mb-2">{t('ProfileStudent.Stats.Rating')}</div>
                                 <div className="text-center text-[#8a48e6] text-lg md:text-2xl font-bold font-['Nunito']">{student && student.Rating ? student.Rating : "0"}</div>
-                                <div className="text-center text-[#120c38] text-lg md:text-2xl font-bold font-['Nunito'] mb-2">по трофеях</div>
+                                <div className="text-center text-[#120c38] text-lg md:text-2xl font-bold font-['Nunito'] mb-2">{t('ProfileStudent.Stats.ByTrophies')}</div>
                             </div>
                         </div>
 
-                        {/* Stats Block 3 */}
                         <div className='w-full h-[140px] md:h-[180px] flex items-center'>
                             <div className="w-full h-full bg-white rounded-[20px] flex justify-center items-center flex-col p-2">
                                 <div className="text-center text-[#8a48e6] text-2xl md:text-[32px] font-bold font-['Nunito']">{student && student.Balance ? student.Balance : "0"}</div>
-                                <div className="text-center text-[#120c38] text-sm md:text-lg lg:text-2xl font-bold font-['Nunito']">Трофеїв</div>
+                                <div className="text-center text-[#120c38] text-sm md:text-lg lg:text-2xl font-bold font-['Nunito']">{t('ProfileStudent.Stats.Trophies')}</div>
                             </div>
                         </div>
                     </div>
 
-                    {/* Course list component */}
                     <GroupList groups={groups}/>
-                    {/* Reviews component */}
                     <Reviews userId={user.UserId}/>
                 </div>
             </div>
