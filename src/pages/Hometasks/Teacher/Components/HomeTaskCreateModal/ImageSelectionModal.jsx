@@ -1,11 +1,18 @@
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
+import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
+
 
 const ImageSelectionModal = ({ isOpen, onClose, onSelectImage, groupId }) => {
+  const { t } = useTranslation();
   const [lastUsedImage, setLastUsedImage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
   const fileInputRef = useRef(null);
+
+  
+  const token = sessionStorage.getItem('token');
 
   const standardCovers = [
     'https://blobstorage226122007.blob.core.windows.net/blob-storage-container/hometask13042025_cover_1.png',
@@ -25,10 +32,23 @@ const ImageSelectionModal = ({ isOpen, onClose, onSelectImage, groupId }) => {
   const fetchLastUsedImage = async () => {
     setIsLoading(true);
     try {
-      const response = await axios.get(`http://localhost:4000/api/hometasks/getLastImageByGroupId/${groupId}`);
+      const response = await axios.get(`${process.env.REACT_APP_BASE_API_URL}/api/hometasks/getLastImageByGroupId/${groupId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       setLastUsedImage(response.data.imagePath);
     } catch (error) {
-      console.error('Ошибка при получении последнего изображения:', error);
+      
+      toast.error(t('HomeTaskTeacher.components.ImageSelectionModal.FetchLastImageError'), {
+        position: 'bottom-right',
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
     } finally {
       setIsLoading(false);
     }
@@ -47,22 +67,27 @@ const ImageSelectionModal = ({ isOpen, onClose, onSelectImage, groupId }) => {
     formData.append('file', file);
 
     try {
-      const response = await axios.post(
-        'http://localhost:4000/api/files/uploadAndReturnLink',
-        formData,
-        {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-        }
-      );
+      const response = await axios.post(`${process.env.REACT_APP_BASE_API_URL}/api/files/uploadAndReturnLink`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          Authorization: `Bearer ${token}`,
+        },
+      });
       const { fileUrl } = response.data;
       setSelectedImage(fileUrl);
       onSelectImage(fileUrl);
       onClose();
     } catch (error) {
-      console.error('Помилка при завантаженні файлу:', error);
-      alert('Не вдалося завантажити файл');
+ 
+      toast.error(t('HomeTaskTeacher.components.ImageSelectionModal.FileUploadError'), {
+        position: 'bottom-right',
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
     } finally {
       setIsLoading(false);
     }
@@ -98,7 +123,7 @@ const ImageSelectionModal = ({ isOpen, onClose, onSelectImage, groupId }) => {
             </svg>
           </button>
           <h2 className="flex-1 text-center text-[#120c38] text-[15px] font-bold font-['Nunito'] truncate px-2">
-            Виберіть обкладинку
+            {t('HomeTaskTeacher.components.ImageSelectionModal.Title')}
           </h2>
           <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center"></div>
         </div>
@@ -106,7 +131,7 @@ const ImageSelectionModal = ({ isOpen, onClose, onSelectImage, groupId }) => {
         <div className="p-4">
           <div className="mb-6">
             <h3 className="text-[#8a48e6] text-[15px] font-bold font-['Nunito'] mb-3 ml-1">
-              Завантажити з комп'ютера
+              {t('HomeTaskTeacher.components.ImageSelectionModal.UploadFromComputer')}
             </h3>
             <button
               onClick={() => fileInputRef.current.click()}
@@ -131,7 +156,7 @@ const ImageSelectionModal = ({ isOpen, onClose, onSelectImage, groupId }) => {
                 <path d="M5.75 30.6668L15.3333 21.0835C17.112 19.3719 19.3047 19.3719 21.0833 21.0835L30.6667 30.6668" stroke="#827FAE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                 <path d="M26.833 26.8332L28.7497 24.9165C30.5283 23.2049 32.721 23.2049 34.4997 24.9165L40.2497 30.6665" stroke="#827FAE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
               </svg>
-              <span className="text-[#827FAE] text-sm">Обрати зображення</span>
+              <span className="text-[#827FAE] text-sm">{t('HomeTaskTeacher.components.ImageSelectionModal.SelectImage')}</span>
               <input
                 type="file"
                 ref={fileInputRef}
@@ -145,7 +170,7 @@ const ImageSelectionModal = ({ isOpen, onClose, onSelectImage, groupId }) => {
           {lastUsedImage && (
             <div className="mb-6">
               <h3 className="text-[#8a48e6] text-[15px] font-bold font-['Nunito'] mb-3 ml-1">
-                Останнє використане зображення
+                {t('HomeTaskTeacher.components.ImageSelectionModal.LastUsedImage')}
               </h3>
               <div className="w-[173px] mx-auto grid grid-cols-1 gap-4">
                 <div 
@@ -164,7 +189,7 @@ const ImageSelectionModal = ({ isOpen, onClose, onSelectImage, groupId }) => {
                 >
                   <img 
                     src={lastUsedImage} 
-                    alt="Останнє зображення" 
+                    alt={t('HomeTaskTeacher.components.ImageSelectionModal.LastUsedImageAlt')} 
                     className="w-full h-full object-cover"
                   />
                   <div 
@@ -182,7 +207,7 @@ const ImageSelectionModal = ({ isOpen, onClose, onSelectImage, groupId }) => {
                       justify-center
                     "
                   >
-                    <span className="text-white font-bold">Обрати</span>
+                    <span className="text-white font-bold">{t('HomeTaskTeacher.components.ImageSelectionModal.Select')}</span>
                   </div>
                 </div>
               </div>
@@ -191,7 +216,7 @@ const ImageSelectionModal = ({ isOpen, onClose, onSelectImage, groupId }) => {
 
           <div>
             <h3 className="text-[#8a48e6] text-[15px] font-bold font-['Nunito'] mb-3 ml-1">
-              Стандартні обкладинки
+              {t('HomeTaskTeacher.components.ImageSelectionModal.StandardCovers')}
             </h3>
             <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
               {standardCovers.map((cover, index) => (
@@ -212,7 +237,7 @@ const ImageSelectionModal = ({ isOpen, onClose, onSelectImage, groupId }) => {
                 >
                   <img 
                     src={cover} 
-                    alt={`Стандартна обкладинка ${index + 1}`} 
+                    alt={`${t('HomeTaskTeacher.components.ImageSelectionModal.StandardCoverAlt')} ${index + 1}`} 
                     className="w-full h-full object-cover"
                   />
                   <div 
@@ -230,7 +255,7 @@ const ImageSelectionModal = ({ isOpen, onClose, onSelectImage, groupId }) => {
                       justify-center
                     "
                   >
-                    <span className="text-white font-bold">Обрати</span>
+                    <span className="text-white font-bold">{t('HomeTaskTeacher.components.ImageSelectionModal.Select')}</span>
                   </div>
                 </div>
               ))}
@@ -242,7 +267,7 @@ const ImageSelectionModal = ({ isOpen, onClose, onSelectImage, groupId }) => {
           <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50">
             <div className="bg-white p-4 rounded-xl flex items-center gap-3">
               <div className="w-6 h-6 border-4 border-[#8a48e6] border-t-transparent rounded-full animate-spin"></div>
-              <span>Завантаження...</span>
+              <span>{t('HomeTaskTeacher.components.ImageSelectionModal.Loading')}</span>
             </div>
           </div>
         )}

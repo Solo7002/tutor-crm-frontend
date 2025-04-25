@@ -1,11 +1,13 @@
 import { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import axios from "axios";
 import "./AddDayModal.css";
 import moment from "moment";
 import Dropdown from "../../../../../components/Dropdown/Dropdown";
 import { toast } from "react-toastify";
 
-const AddDayModal = ({ isOpen, onClose, token, teacherId,onRefresh }) => {
+const AddDayModal = ({ isOpen, onClose, token, teacherId, onRefresh }) => {
+  const { t } = useTranslation();
   const [eventType, setEventType] = useState("one-time");
   const [format, setFormat] = useState("online");
   const [subject, setSubject] = useState("");
@@ -46,7 +48,7 @@ const AddDayModal = ({ isOpen, onClose, token, teacherId,onRefresh }) => {
     try {
       setIsLoading(true);
       const response = await axios.get(
-        `http://localhost:4000/api/groups/groups-by-teacher/${teacherId}`,
+        `${process.env.REACT_APP_BASE_API_URL}/api/groups/groups-by-teacher/${teacherId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -55,11 +57,17 @@ const AddDayModal = ({ isOpen, onClose, token, teacherId,onRefresh }) => {
       );
       setGroups(response.data);
     } catch (error) {
-      console.error("Error fetching groups:", error);
-      toast.error("Не вдалося завантажити список груп");
+      toast.error(t("CalendarTeacher.components.AddDayModal.Messages.FetchGroupsError"), {
+        position: "bottom-right",
+        autoClose: 5000,
+      });
+      toast.error(t("CalendarTeacher.components.AddDayModal.Messages.GroupsLoadError"), {
+        position: "bottom-right",
+        autoClose: 5000,
+      });
       setErrors((prev) => ({
         ...prev,
-        server: "Не вдалося завантажити список груп",
+        server: t("CalendarTeacher.components.AddDayModal.Messages.GroupsLoadError"),
       }));
     } finally {
       setIsLoading(false);
@@ -73,46 +81,46 @@ const AddDayModal = ({ isOpen, onClose, token, teacherId,onRefresh }) => {
     setTouched((prev) => ({ ...prev, group: true }));
     setErrors((prev) => ({
       ...prev,
-      group: groupId ? "" : "Виберіть групу",
+      group: groupId ? "" : t("CalendarTeacher.components.AddDayModal.Messages.SelectGroupError"),
     }));
   };
 
   const validateSubject = (value) => {
-    return !value.trim() ? "Предмет не може бути порожнім" : "";
+    return !value.trim() ? t("CalendarTeacher.components.AddDayModal.Messages.SubjectEmptyError") : "";
   };
 
   const validateDate = (value) => {
-    if (!value) return "Дата не може бути порожньою";
+    if (!value) return t("CalendarTeacher.components.AddDayModal.Messages.DateEmptyError");
     const selectedDate = new Date(value);
     const today = new Date();
     today.setHours(0, 0, 0, 0);
-    return selectedDate < today ? "Дата не може бути раніше сьогоднішньої" : "";
+    return selectedDate < today ? t("CalendarTeacher.components.AddDayModal.Messages.DatePastError") : "";
   };
 
   const validateTime = (sHour, sMinute, eHour, eMinute) => {
     if (!sHour || sHour === "" || isNaN(parseInt(sHour)) || parseInt(sHour) < 0 || parseInt(sHour) > 23) {
-      return "Введіть коректний час початку (0-23)";
+      return t("CalendarTeacher.components.AddDayModal.Messages.StartHourError");
     }
     if (isNaN(parseInt(sMinute)) || parseInt(sMinute) < 0 || parseInt(sMinute) > 59) {
-      return "Введіть коректні хвилини початку (0-59)";
+      return t("CalendarTeacher.components.AddDayModal.Messages.StartMinuteError");
     }
     if (!eHour || eHour === "" || isNaN(parseInt(eHour)) || parseInt(eHour) < 0 || parseInt(eHour) > 23) {
-      return "Введіть коректний час закінчення (0-23)";
+      return t("CalendarTeacher.components.AddDayModal.Messages.EndHourError");
     }
     if (isNaN(parseInt(eMinute)) || parseInt(eMinute) < 0 || parseInt(eMinute) > 59) {
-      return "Введіть коректні хвилини закінчення (0-59)";
+      return t("CalendarTeacher.components.AddDayModal.Messages.EndMinuteError");
     }
     const startTime = parseInt(sHour) * 60 + parseInt(sMinute);
     const endTime = parseInt(eHour) * 60 + parseInt(eMinute);
-    return startTime >= endTime ? "Час закінчення має бути пізніше часу початку" : "";
+    return startTime >= endTime ? t("CalendarTeacher.components.AddDayModal.Messages.TimeOrderError") : "";
   };
 
   const validateLinkOrAddress = (value, format) => {
     if (format === "online") {
-      if (!value) return "Посилання не може бути порожнім";
-      return /^(ftp|http|https):\/\/[^ "]+$/.test(value) ? "" : "Введіть коректне посилання";
+      if (!value) return t("CalendarTeacher.components.AddDayModal.Messages.LinkEmptyError");
+      return /^(ftp|http|https):\/\/[^ "]+$/.test(value) ? "" : t("CalendarTeacher.components.AddDayModal.Messages.LinkInvalidError");
     } else if (format === "offline") {
-      return !value ? "Адреса не може бути порожньою" : "";
+      return !value ? t("CalendarTeacher.components.AddDayModal.Messages.AddressEmptyError") : "";
     }
     return "";
   };
@@ -144,7 +152,7 @@ const AddDayModal = ({ isOpen, onClose, token, teacherId,onRefresh }) => {
       subject: validateSubject(subject),
       date: validateDate(date),
       time: validateTime(startHour, startMinute, endHour, endMinute),
-      group: selectedGroupId ? "" : "Виберіть групу",
+      group: selectedGroupId ? "" : t("CalendarTeacher.components.AddDayModal.Messages.SelectGroupError"),
       linkOrAddress: validateLinkOrAddress(linkOrAddress, format),
     };
     setErrors((prev) => ({ ...prev, ...newErrors }));
@@ -153,7 +161,10 @@ const AddDayModal = ({ isOpen, onClose, token, teacherId,onRefresh }) => {
 
   const handleSubmit = async () => {
     if (!validateForm()) {
-      toast.error("Будь ласка, виправте помилки у формі");
+      toast.error(t("CalendarTeacher.components.AddDayModal.Messages.FormValidationError"), {
+        position: "bottom-right",
+        autoClose: 5000,
+      });
       return;
     }
     try {
@@ -163,7 +174,7 @@ const AddDayModal = ({ isOpen, onClose, token, teacherId,onRefresh }) => {
       const baseDate = new Date(date).toISOString().split("T")[0];
       const startMoment = moment(`${baseDate}T${startTime}`);
       const endMoment = moment(`${baseDate}T${endTime}`);
-      
+
       const lessonDates = [];
       const endOfMonth = moment(baseDate).endOf("month").startOf("day");
       let currentDate = startMoment.clone();
@@ -187,7 +198,7 @@ const AddDayModal = ({ isOpen, onClose, token, teacherId,onRefresh }) => {
           LessonHeader: subject,
           StartLessonTime: moment(lessonDate.start).format("YYYY-MM-DDTHH:mm:ss"),
           EndLessonTime: moment(lessonDate.end).format("YYYY-MM-DDTHH:mm:ss"),
-          LessonDate: moment(lessonDate.start).format("YYYY-MM-DD"),          
+          LessonDate: moment(lessonDate.start).format("YYYY-MM-DD"),
           LessonType: format,
           GroupId: selectedGroupId,
           TeacherId: teacherId,
@@ -196,8 +207,8 @@ const AddDayModal = ({ isOpen, onClose, token, teacherId,onRefresh }) => {
         if (format === "offline" && linkOrAddress) lessonData.LessonAddress = linkOrAddress;
         if (format === "online" && linkOrAddress) lessonData.LessonLink = linkOrAddress;
 
-        const response = await axios.post(
-          "http://localhost:4000/api/plannedLessons",
+        await axios.post(
+          `${process.env.REACT_APP_BASE_API_URL}/api/plannedLessons`,
           lessonData,
           {
             headers: {
@@ -206,21 +217,16 @@ const AddDayModal = ({ isOpen, onClose, token, teacherId,onRefresh }) => {
             },
           }
         );
-     
-       
-       
-        
-      
       }
-      const groupName = groups.find(group => group.GroupId === selectedGroupId)?.GroupName;
-        
+      const groupName = groups.find((group) => group.GroupId === selectedGroupId)?.GroupName;
+
       toast.success(
         <div>
-          <p>Усі заняття успішно заплановано!</p>
-          <p>Предмет: {subject}</p>
-          <p>Група: {groupName}</p>
+          <p>{t("CalendarTeacher.components.AddDayModal.Messages.SaveEventSuccess")}</p>
+          <p>{t("CalendarTeacher.components.AddDayModal.UI.SubjectLabel")} {subject}</p>
+          <p>{t("CalendarTeacher.components.AddDayModal.UI.GroupLabel")} {groupName}</p>
           <p>
-            Дати:{" "}
+            {t("CalendarTeacher.components.AddDayModal.UI.DatesLabel")}{" "}
             {lessonDates.map((lesson, index) => (
               <span key={index}>
                 {moment(lesson.start).format("DD.MM.YYYY")}
@@ -228,22 +234,31 @@ const AddDayModal = ({ isOpen, onClose, token, teacherId,onRefresh }) => {
               </span>
             ))}
           </p>
-          <p>Кількість занять: {lessonDates.length}</p>
-          <p>Формат: {format === "online" ? "Онлайн" : "Офлайн"}</p>
+          <p>{t("CalendarTeacher.components.AddDayModal.UI.LessonCountLabel")} {lessonDates.length}</p>
+          <p>
+            {t("CalendarTeacher.components.AddDayModal.UI.FormatLabel")}{" "}
+            {format === "online"
+              ? t("CalendarTeacher.components.AddDayModal.UI.Online")
+              : t("CalendarTeacher.components.AddDayModal.UI.Offline")}
+          </p>
         </div>,
         { toastId: `summary-${moment().format("YYYY-MM-DD-HH-mm-ss")}`, autoClose: 4000 }
       );
       onClose();
       resetForm();
       onRefresh();
-     
     } catch (error) {
-      console.error("Error creating lesson:", error.response?.data || error.message);
-      const errorMessage = error.response?.data?.message || error.message || "Не вдалося зберегти подію. Спробуйте ще раз.";
-      toast.error(errorMessage);
+      const errorMessage =
+        error.response?.data?.message ||
+        error.message ||
+        t("CalendarTeacher.components.AddDayModal.Messages.SaveEventError");
+      toast.error(errorMessage, {
+        position: "bottom-right",
+        autoClose: 5000,
+      });
       setErrors((prev) => ({
         ...prev,
-        server: "Не вдалося зберегти подію. Спробуйте ще раз.",
+        server: t("CalendarTeacher.components.AddDayModal.Messages.SaveEventError"),
       }));
     }
   };
@@ -254,7 +269,7 @@ const AddDayModal = ({ isOpen, onClose, token, teacherId,onRefresh }) => {
     <div className="AddDayModal" onClick={onClose}>
       <div className="event-form-container" onClick={(e) => e.stopPropagation()}>
         <div className="event-form-header">
-          <h2 className="event-form-title">Додати подію</h2>
+          <h2 className="event-form-title">{t("CalendarTeacher.components.AddDayModal.UI.Title")}</h2>
           <button className="close-button" onClick={onClose}>
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path
@@ -269,10 +284,10 @@ const AddDayModal = ({ isOpen, onClose, token, teacherId,onRefresh }) => {
         </div>
 
         <div className="form-content">
-          <label className="label">Предмет:</label>
+          <label className="label">{t("CalendarTeacher.components.AddDayModal.UI.SubjectLabel")}</label>
           <input
             type="text"
-            placeholder="Предмет"
+            placeholder={t("CalendarTeacher.components.AddDayModal.UI.SubjectPlaceholder")}
             className={`input-field ${errors.subject && touched.subject ? "error-border" : ""}`}
             value={subject}
             onChange={(e) => setSubject(e.target.value)}
@@ -280,7 +295,7 @@ const AddDayModal = ({ isOpen, onClose, token, teacherId,onRefresh }) => {
           />
           {touched.subject && errors.subject && <span className="error-text">{errors.subject}</span>}
 
-          <label className="label">Дата:</label>
+          <label className="label">{t("CalendarTeacher.components.AddDayModal.UI.DateLabel")}</label>
           <input
             type="date"
             className={`input-field ${errors.date && touched.date ? "error-border" : ""}`}
@@ -290,11 +305,11 @@ const AddDayModal = ({ isOpen, onClose, token, teacherId,onRefresh }) => {
           />
           {touched.date && errors.date && <span className="error-text">{errors.date}</span>}
 
-          <label className="label">Початок та кінець заняття:</label>
+          <label className="label">{t("CalendarTeacher.components.AddDayModal.UI.TimeLabel")}</label>
           <div className="time-block">
             <div className="time-input-wrapper">
               <div className="time-input-group">
-                <span className="time-label">З   </span>
+                <span className="time-label">{t("CalendarTeacher.components.AddDayModal.UI.From")}</span>
                 <input
                   type="number"
                   className={`time-input ${errors.time && touched.time ? "error-border" : ""}`}
@@ -319,7 +334,7 @@ const AddDayModal = ({ isOpen, onClose, token, teacherId,onRefresh }) => {
                 />
               </div>
               <div className="time-input-group">
-                <span className="time-label">До</span>
+                <span className="time-label">{t("CalendarTeacher.components.AddDayModal.UI.To")}</span>
                 <input
                   type="number"
                   className={`time-input ${errors.time && touched.time ? "error-border" : ""}`}
@@ -347,13 +362,13 @@ const AddDayModal = ({ isOpen, onClose, token, teacherId,onRefresh }) => {
           </div>
           {touched.time && errors.time && <span className="error-text">{errors.time}</span>}
 
-          <label className="label">Група:</label>
+          <label className="label">{t("CalendarTeacher.components.AddDayModal.UI.GroupLabel")}</label>
           <div className="dropdown-wrapper">
             {isLoading ? (
-              <p>Завантаження груп...</p>
+              <p>{t("CalendarTeacher.components.AddDayModal.UI.LoadingGroups")}</p>
             ) : (
               <Dropdown
-                textAll="Виберіть групу"
+                textAll={t("CalendarTeacher.components.AddDayModal.UI.SelectGroup")}
                 options={groups.map((group) => ({ SubjectName: group.GroupName }))}
                 onSelectSubject={handleGroupSelect}
               />
@@ -361,7 +376,7 @@ const AddDayModal = ({ isOpen, onClose, token, teacherId,onRefresh }) => {
           </div>
           {touched.group && errors.group && <span className="error-text">{errors.group}</span>}
 
-          <label className="label">Формат проведення заняття:</label>
+          <label className="label">{t("CalendarTeacher.components.AddDayModal.UI.FormatLabel")}</label>
           <div className="radio-group">
             <label className="radio-label">
               <input
@@ -374,7 +389,7 @@ const AddDayModal = ({ isOpen, onClose, token, teacherId,onRefresh }) => {
                 }}
                 className="radio-input"
               />
-              <span className="radio-text">Офлайн</span>
+              <span className="radio-text">{t("CalendarTeacher.components.AddDayModal.UI.Offline")}</span>
             </label>
             <label className="radio-label">
               <input
@@ -387,12 +402,16 @@ const AddDayModal = ({ isOpen, onClose, token, teacherId,onRefresh }) => {
                 }}
                 className="radio-input"
               />
-              <span className="radio-text">Онлайн</span>
+              <span className="radio-text">{t("CalendarTeacher.components.AddDayModal.UI.Online")}</span>
             </label>
           </div>
 
           <textarea
-            placeholder={format === "online" ? "Посилання на зустріч" : "Адреса"}
+            placeholder={
+              format === "online"
+                ? t("CalendarTeacher.components.AddDayModal.UI.MeetingLinkPlaceholder")
+                : t("CalendarTeacher.components.AddDayModal.UI.AddressPlaceholder")
+            }
             className={`textarea-field ${errors.linkOrAddress && touched.linkOrAddress ? "error-border" : ""}`}
             rows={3}
             value={linkOrAddress}
@@ -413,7 +432,7 @@ const AddDayModal = ({ isOpen, onClose, token, teacherId,onRefresh }) => {
                   onChange={(e) => setEventType(e.target.value)}
                   className="radio-input"
                 />
-                <span className="radio-text">Разова подія</span>
+                <span className="radio-text">{t("CalendarTeacher.components.AddDayModal.UI.OneTime")}</span>
               </label>
             </div>
             <div>
@@ -425,7 +444,7 @@ const AddDayModal = ({ isOpen, onClose, token, teacherId,onRefresh }) => {
                   onChange={(e) => setEventType(e.target.value)}
                   className="radio-input"
                 />
-                <span className="radio-text">Повторювати кожен тиждень</span>
+                <span className="radio-text">{t("CalendarTeacher.components.AddDayModal.UI.Weekly")}</span>
               </label>
             </div>
             <div>
@@ -437,7 +456,7 @@ const AddDayModal = ({ isOpen, onClose, token, teacherId,onRefresh }) => {
                   onChange={(e) => setEventType(e.target.value)}
                   className="radio-input"
                 />
-                <span className="radio-text">Повторювати кожні 2 тижні</span>
+                <span className="radio-text">{t("CalendarTeacher.components.AddDayModal.UI.Biweekly")}</span>
               </label>
             </div>
           </div>
@@ -446,7 +465,7 @@ const AddDayModal = ({ isOpen, onClose, token, teacherId,onRefresh }) => {
         </div>
 
         <button className="submit-button" onClick={handleSubmit}>
-          Додати до розкладу
+          {t("CalendarTeacher.components.AddDayModal.UI.AddToSchedule")}
         </button>
       </div>
     </div>

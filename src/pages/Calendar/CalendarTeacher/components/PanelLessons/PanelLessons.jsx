@@ -1,18 +1,20 @@
 import React, { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import ItemLesson from "../ItemLesson/ItemLesson";
 import AddDayModal from "../AddDayModal/AddDayModal";
 import Dropdown from "../../../../Materials/components/Dropdown";
 import "./PanelLessons.css";
 import moment from "moment";
 
-const PanelLessons = ({ token, teacherId, lessons: initialLessons, selectedDate, onResetDate,onRefresh}) => {
+const PanelLessons = ({ token, teacherId, lessons: initialLessons, selectedDate, onResetDate, onRefresh }) => {
+  const { t } = useTranslation();
   const [lessons, setLessons] = useState(initialLessons);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
-  const [sortType, setSortType] = useState("today"); 
+  const [sortType, setSortType] = useState("today");
   const [date, setDate] = useState(moment().format("DD.MM.YYYY"));
 
   useEffect(() => {
-    sortLessons(selectedDate ? "selected" : sortType); 
+    sortLessons(selectedDate ? "selected" : sortType);
   }, [initialLessons, sortType, selectedDate]);
 
   const onAddClose = () => {
@@ -28,12 +30,11 @@ const PanelLessons = ({ token, teacherId, lessons: initialLessons, selectedDate,
     const today = moment().startOf("day");
 
     if (type === "selected" && selectedDate) {
-    
       sortedLessons = sortedLessons.filter((lesson) =>
         moment(lesson.LessonDate).isSame(moment(selectedDate), "day")
       );
       setDate(moment(selectedDate).format("DD.MM.YYYY"));
-      setSortType("selected"); 
+      setSortType("selected");
     } else {
       switch (type) {
         case "date":
@@ -79,27 +80,32 @@ const PanelLessons = ({ token, teacherId, lessons: initialLessons, selectedDate,
     setLessons(sortedLessons);
   };
 
- 
   const sortOptions = {
-    "За сьогодні": ["today"],
-    "За тиждень": ["week"],
-    "За місяць": ["month"],
+    [t("CalendarTeacher.components.PanelLessons.UI.SortToday")]: ["today"],
+    [t("CalendarTeacher.components.PanelLessons.UI.SortWeek")]: ["week"],
+    [t("CalendarTeacher.components.PanelLessons.UI.SortMonth")]: ["month"],
     ...(selectedDate && {
-      [`За ${moment(selectedDate).format("DD.MM.YYYY")}`]: ["selected"],
-    }), 
+      [`${t("CalendarTeacher.components.PanelLessons.UI.SortSelectedPrefix")} ${moment(selectedDate).format("DD.MM.YYYY")}`]: ["selected"],
+    }),
   };
 
   const handleSortSelect = (selectedLabel) => {
     const selectedType = sortOptions[selectedLabel][0];
     if (selectedType !== "selected" && onResetDate) {
-      onResetDate(); 
+      onResetDate();
     }
     sortLessons(selectedType);
   };
 
   return (
     <div className="panel">
-      <AddDayModal token={token} teacherId={teacherId} onClose={onAddClose} isOpen={isAddModalOpen} onRefresh={onRefresh} />
+      <AddDayModal
+        token={token}
+        teacherId={teacherId}
+        onClose={onAddClose}
+        isOpen={isAddModalOpen}
+        onRefresh={onRefresh}
+      />
       <div className="panel-header">
         <div className="panel-date-dropdown">
           <Dropdown onSelect={handleSortSelect} categories={sortOptions} />
@@ -109,7 +115,13 @@ const PanelLessons = ({ token, teacherId, lessons: initialLessons, selectedDate,
 
       <div className="panel-lessons">
         {lessons.map((lesson) => (
-          <ItemLesson key={lesson.PlannedLessonId} lesson={lesson} token={token} onRefresh={onRefresh} />
+          <ItemLesson
+            key={lesson.PlannedLessonId}
+            lesson={lesson}
+            token={token}
+            teacherId={teacherId}
+            onRefresh={onRefresh}
+          />
         ))}
       </div>
 

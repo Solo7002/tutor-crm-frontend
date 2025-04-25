@@ -13,7 +13,7 @@ const MyCalendar = ({ events, onDateSelect }) => {
     const startDate = moment(`${event.LessonDate}T${event.StartLessonTime}`).toDate();
     const endDate = moment(`${event.LessonDate}T${event.EndLessonTime}`).toDate();
     return {
-      title: event.LessonHeader || "Без назви",
+      title: event.LessonHeader || "null",
       start: startDate,
       end: endDate,
       PlannedLessonId: event.PlannedLessonId,

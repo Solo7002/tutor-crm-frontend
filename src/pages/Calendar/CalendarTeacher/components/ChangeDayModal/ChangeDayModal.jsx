@@ -1,11 +1,13 @@
 import { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import axios from "axios";
 import "./ChangeDayModal.css";
 import moment from "moment";
 import Dropdown from "../../../../../components/Dropdown/Dropdown";
 import { toast } from "react-toastify";
 
-const ChangeDayModal = ({ isOpen, onClose, token, initialData, teacherId,onRefresh }) => {
+const ChangeDayModal = ({ isOpen, onClose, token, initialData, teacherId, onRefresh }) => {
+  const { t } = useTranslation();
   const [format, setFormat] = useState(initialData?.LessonType || "online");
   const [subject, setSubject] = useState(initialData?.LessonHeader || "");
   const [selectedGroupId, setSelectedGroupId] = useState(initialData?.GroupId?.toString() || null);
@@ -48,7 +50,7 @@ const ChangeDayModal = ({ isOpen, onClose, token, initialData, teacherId,onRefre
     try {
       setIsLoading(true);
       const response = await axios.get(
-        `http://localhost:4000/api/groups/groups-by-teacher/${teacherId}`,
+        `${process.env.REACT_APP_BASE_API_URL}/api/groups/groups-by-teacher/${teacherId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -57,11 +59,17 @@ const ChangeDayModal = ({ isOpen, onClose, token, initialData, teacherId,onRefre
       );
       setGroups(response.data);
     } catch (error) {
-      console.error("Error fetching groups:", error);
-      toast.error("Не вдалося завантажити список груп");
+      toast.error(t("CalendarTeacher.components.ChangeDayModal.Messages.FetchGroupsError"), {
+        position: "bottom-right",
+        autoClose: 5000,
+      });
+      toast.error(t("CalendarTeacher.components.ChangeDayModal.Messages.GroupsLoadError"), {
+        position: "bottom-right",
+        autoClose: 5000,
+      });
       setErrors((prev) => ({
         ...prev,
-        server: "Не вдалося завантажити список груп",
+        server: t("CalendarTeacher.components.ChangeDayModal.Messages.GroupsLoadError"),
       }));
     } finally {
       setIsLoading(false);
@@ -75,46 +83,48 @@ const ChangeDayModal = ({ isOpen, onClose, token, initialData, teacherId,onRefre
     setTouched((prev) => ({ ...prev, group: true }));
     setErrors((prev) => ({
       ...prev,
-      group: groupId ? "" : "Виберіть групу",
+      group: groupId ? "" : t("CalendarTeacher.components.ChangeDayModal.Messages.SelectGroupError"),
     }));
   };
 
   const validateSubject = (value) => {
-    return !value.trim() ? "Предмет не може бути порожнім" : "";
+    return !value.trim() ? t("CalendarTeacher.components.ChangeDayModal.Messages.SubjectEmptyError") : "";
   };
 
   const validateDate = (value) => {
-    if (!value) return "Дата не може бути порожньою";
+    if (!value) return t("CalendarTeacher.components.ChangeDayModal.Messages.DateEmptyError");
     const selectedDate = new Date(value);
     const today = new Date();
     today.setHours(0, 0, 0, 0);
-    return selectedDate < today ? "Дата не може бути раніше сьогоднішньої" : "";
+    return selectedDate < today ? t("CalendarTeacher.components.ChangeDayModal.Messages.DatePastError") : "";
   };
 
   const validateTime = (sHour, sMinute, eHour, eMinute) => {
     if (!sHour || sHour === "" || isNaN(parseInt(sHour)) || parseInt(sHour) < 0 || parseInt(sHour) > 23) {
-      return "Введіть коректний час початку (0-23)";
+      return t("CalendarTeacher.components.ChangeDayModal.Messages.StartHourError");
     }
     if (isNaN(parseInt(sMinute)) || parseInt(sMinute) < 0 || parseInt(sMinute) > 59) {
-      return "Введіть коректні хвилини початку (0-59)";
+      return t("CalendarTeacher.components.ChangeDayModal.Messages.StartMinuteError");
     }
     if (!eHour || eHour === "" || isNaN(parseInt(eHour)) || parseInt(eHour) < 0 || parseInt(eHour) > 23) {
-      return "Введіть коректний час закінчення (0-23)";
+      return t("CalendarTeacher.components.ChangeDayModal.Messages.EndHourError");
     }
     if (isNaN(parseInt(eMinute)) || parseInt(eMinute) < 0 || parseInt(eMinute) > 59) {
-      return "Введіть коректні хвилини закінчення (0-59)";
+      return t("CalendarTeacher.components.ChangeDayModal.Messages.EndMinuteError");
     }
     const startTime = parseInt(sHour) * 60 + parseInt(sMinute);
     const endTime = parseInt(eHour) * 60 + parseInt(eMinute);
-    return startTime >= endTime ? "Час закінчення має бути пізніше часу початку" : "";
+    return startTime >= endTime ? t("CalendarTeacher.components.ChangeDayModal.Messages.TimeOrderError") : "";
   };
 
   const validateLinkOrAddress = (value, format) => {
     if (format === "online") {
-      if (!value) return "Посилання не може бути порожнім";
-      return /^(ftp|http|https):\/\/[^ "]+$/.test(value) ? "" : "Введіть коректне посилання";
+      if (!value) return t("CalendarTeacher.components.ChangeDayModal.Messages.LinkEmptyError");
+      return /^(ftp|http|https):\/\/[^ "]+$/.test(value)
+        ? ""
+        : t("CalendarTeacher.components.ChangeDayModal.Messages.LinkInvalidError");
     } else if (format === "offline") {
-      return !value ? "Адреса не може бути порожньою" : "";
+      return !value ? t("CalendarTeacher.components.ChangeDayModal.Messages.AddressEmptyError") : "";
     }
     return "";
   };
@@ -146,7 +156,7 @@ const ChangeDayModal = ({ isOpen, onClose, token, initialData, teacherId,onRefre
       subject: validateSubject(subject),
       date: validateDate(date),
       time: validateTime(startHour, startMinute, endHour, endMinute),
-      group: selectedGroupId ? "" : "Виберіть групу",
+      group: selectedGroupId ? "" : t("CalendarTeacher.components.ChangeDayModal.Messages.SelectGroupError"),
       linkOrAddress: validateLinkOrAddress(linkOrAddress, format),
     };
     setErrors((prev) => ({ ...prev, ...newErrors }));
@@ -155,7 +165,10 @@ const ChangeDayModal = ({ isOpen, onClose, token, initialData, teacherId,onRefre
 
   const handleSubmit = async () => {
     if (!validateForm()) {
-      toast.error("Будь ласка, виправте помилки у формі");
+      toast.error(t("CalendarTeacher.components.ChangeDayModal.Messages.FormValidationError"), {
+        position: "bottom-right",
+        autoClose: 5000,
+      });
       return;
     }
 
@@ -177,7 +190,7 @@ const ChangeDayModal = ({ isOpen, onClose, token, initialData, teacherId,onRefre
       };
 
       await axios.put(
-        `http://localhost:4000/api/plannedLessons/${id}`,
+        `${process.env.REACT_APP_BASE_API_URL}/api/plannedLessons/${id}`,
         lessonData,
         {
           headers: {
@@ -187,15 +200,25 @@ const ChangeDayModal = ({ isOpen, onClose, token, initialData, teacherId,onRefre
         }
       );
 
-      const groupName = groups.find(group => group.GroupId.toString() === selectedGroupId)?.GroupName;
+      const groupName = groups.find((group) => group.GroupId.toString() === selectedGroupId)?.GroupName;
       toast.success(
         <div>
-          <p>Заняття успішно оновлено!</p>
-          <p>Предмет: {subject}</p>
-          <p>Група: {groupName}</p>
-          <p>Дата: {moment(lessonDate).format("DD.MM.YYYY")}</p>
-          <p>Час: {startTime} - {endTime}</p>
-          <p>Формат: {format === "online" ? "Онлайн" : "Офлайн"}</p>
+          <p>{t("CalendarTeacher.components.ChangeDayModal.Messages.UpdateEventSuccess")}</p>
+          <p>{t("CalendarTeacher.components.ChangeDayModal.UI.SubjectLabel")} {subject}</p>
+          <p>{t("CalendarTeacher.components.ChangeDayModal.UI.GroupLabel")} {groupName}</p>
+          <p>
+            {t("CalendarTeacher.components.ChangeDayModal.UI.DatesLabel")}{" "}
+            {moment(lessonDate).format("DD.MM.YYYY")}
+          </p>
+          <p>
+            {t("CalendarTeacher.components.ChangeDayModal.UI.TimeRangeLabel")} {startTime} - {endTime}
+          </p>
+          <p>
+            {t("CalendarTeacher.components.ChangeDayModal.UI.FormatLabelSuccess")}{" "}
+            {format === "online"
+              ? t("CalendarTeacher.components.ChangeDayModal.UI.Online")
+              : t("CalendarTeacher.components.ChangeDayModal.UI.Offline")}
+          </p>
         </div>,
         { autoClose: 5000 }
       );
@@ -203,8 +226,14 @@ const ChangeDayModal = ({ isOpen, onClose, token, initialData, teacherId,onRefre
       onClose();
       onRefresh();
     } catch (error) {
-      const errorMessage = error.response?.data?.message || error.message || "Не вдалося оновити подію. Спробуйте ще раз.";
-      toast.error(errorMessage);
+      const errorMessage =
+        error.response?.data?.message ||
+        error.message ||
+        t("CalendarTeacher.components.ChangeDayModal.Messages.UpdateEventError");
+      toast.error(errorMessage, {
+        position: "bottom-right",
+        autoClose: 5000,
+      });
       setErrors((prev) => ({
         ...prev,
         server: errorMessage,
@@ -218,7 +247,7 @@ const ChangeDayModal = ({ isOpen, onClose, token, initialData, teacherId,onRefre
     <div className="ChangeDayModal" onClick={onClose}>
       <div className="event-form-container" onClick={(e) => e.stopPropagation()}>
         <div className="event-form-header">
-          <h2 className="event-form-title">Редагувати подію</h2>
+          <h2 className="event-form-title">{t("CalendarTeacher.components.ChangeDayModal.UI.Title")}</h2>
           <button className="close-button" onClick={onClose}>
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path
@@ -233,10 +262,10 @@ const ChangeDayModal = ({ isOpen, onClose, token, initialData, teacherId,onRefre
         </div>
 
         <div className="form-content">
-          <label className="label">Предмет:</label>
+          <label className="label">{t("CalendarTeacher.components.ChangeDayModal.UI.SubjectLabel")}</label>
           <input
             type="text"
-            placeholder="Предмет"
+            placeholder={t("CalendarTeacher.components.ChangeDayModal.UI.SubjectPlaceholder")}
             className={`input-field ${errors.subject && touched.subject ? "error-border" : ""}`}
             value={subject}
             onChange={(e) => setSubject(e.target.value)}
@@ -244,7 +273,7 @@ const ChangeDayModal = ({ isOpen, onClose, token, initialData, teacherId,onRefre
           />
           {touched.subject && errors.subject && <span className="error-text">{errors.subject}</span>}
 
-          <label className="label">Дата:</label>
+          <label className="label">{t("CalendarTeacher.components.ChangeDayModal.UI.DateLabel")}</label>
           <input
             type="date"
             className={`input-field ${errors.date && touched.date ? "error-border" : ""}`}
@@ -254,11 +283,11 @@ const ChangeDayModal = ({ isOpen, onClose, token, initialData, teacherId,onRefre
           />
           {touched.date && errors.date && <span className="error-text">{errors.date}</span>}
 
-          <label className="label">Початок та кінець заняття:</label>
+          <label className="label">{t("CalendarTeacher.components.ChangeDayModal.UI.TimeLabel")}</label>
           <div className="time-block">
             <div className="time-input-wrapper">
               <div className="time-input-group">
-                <span className="time-label">З   </span>
+                <span className="time-label">{t("CalendarTeacher.components.ChangeDayModal.UI.From")}</span>
                 <input
                   type="number"
                   className={`time-input ${errors.time && touched.time ? "error-border" : ""}`}
@@ -283,7 +312,7 @@ const ChangeDayModal = ({ isOpen, onClose, token, initialData, teacherId,onRefre
                 />
               </div>
               <div className="time-input-group">
-                <span className="time-label">До</span>
+                <span className="time-label">{t("CalendarTeacher.components.ChangeDayModal.UI.To")}</span>
                 <input
                   type="number"
                   className={`time-input ${errors.time && touched.time ? "error-border" : ""}`}
@@ -311,22 +340,25 @@ const ChangeDayModal = ({ isOpen, onClose, token, initialData, teacherId,onRefre
           </div>
           {touched.time && errors.time && <span className="error-text">{errors.time}</span>}
 
-          <label className="label">Група:</label>
+          <label className="label">{t("CalendarTeacher.components.ChangeDayModal.UI.GroupLabel")}</label>
           <div className="dropdown-wrapper">
             {isLoading ? (
-              <p>Завантаження груп...</p>
+              <p>{t("CalendarTeacher.components.ChangeDayModal.UI.LoadingGroups")}</p>
             ) : (
               <Dropdown
-                textAll="Виберіть групу"
+                textAll={t("CalendarTeacher.components.ChangeDayModal.UI.SelectGroup")}
                 options={groups.map((group) => ({ SubjectName: group.GroupName }))}
                 onSelectSubject={handleGroupSelect}
-                selectedSubject={groups.find((group) => group.GroupId.toString() === selectedGroupId)?.GroupName || "Виберіть групу"}
+                selectedSubject={
+                  groups.find((group) => group.GroupId.toString() === selectedGroupId)?.GroupName ||
+                  t("CalendarTeacher.components.ChangeDayModal.UI.SelectGroup")
+                }
               />
             )}
           </div>
           {touched.group && errors.group && <span className="error-text">{errors.group}</span>}
 
-          <label className="label">Формат проведення заняття:</label>
+          <label className="label">{t("CalendarTeacher.components.ChangeDayModal.UI.FormatLabel")}</label>
           <div className="radio-group">
             <label className="radio-label">
               <input
@@ -339,7 +371,7 @@ const ChangeDayModal = ({ isOpen, onClose, token, initialData, teacherId,onRefre
                 }}
                 className="radio-input"
               />
-              <span className="radio-text">Офлайн</span>
+              <span className="radio-text">{t("CalendarTeacher.components.ChangeDayModal.UI.Offline")}</span>
             </label>
             <label className="radio-label">
               <input
@@ -352,12 +384,16 @@ const ChangeDayModal = ({ isOpen, onClose, token, initialData, teacherId,onRefre
                 }}
                 className="radio-input"
               />
-              <span className="radio-text">Онлайн</span>
+              <span className="radio-text">{t("CalendarTeacher.components.ChangeDayModal.UI.Online")}</span>
             </label>
           </div>
 
           <textarea
-            placeholder={format === "online" ? "Посилання на зустріч" : "Адреса"}
+            placeholder={
+              format === "online"
+                ? t("CalendarTeacher.components.ChangeDayModal.UI.MeetingLinkPlaceholder")
+                : t("CalendarTeacher.components.ChangeDayModal.UI.AddressPlaceholder")
+            }
             className={`textarea-field ${errors.linkOrAddress && touched.linkOrAddress ? "error-border" : ""}`}
             rows={3}
             value={linkOrAddress}
@@ -372,7 +408,7 @@ const ChangeDayModal = ({ isOpen, onClose, token, initialData, teacherId,onRefre
         </div>
 
         <button className="submit-button" onClick={handleSubmit}>
-          Зберегти зміни
+          {t("CalendarTeacher.components.ChangeDayModal.UI.SaveChanges")}
         </button>
       </div>
     </div>

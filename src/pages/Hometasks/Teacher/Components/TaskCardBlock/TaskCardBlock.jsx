@@ -1,26 +1,32 @@
 import React from "react";
 import axios from 'axios';
+import { useTranslation } from 'react-i18next';
 import { formatDate } from "../../../../../functions/formatDate";
 import { toast } from "react-toastify";
 
 const TaskCardBlock = ({ hometask, onEdit, setRefreshTrigger }) => {
+    const { t } = useTranslation();
+    const token = sessionStorage.getItem('token');
+
     const handleDelete = async () => {
         try {
-            await axios.delete(`http://localhost:4000/api/hometasks/${hometask.HometaskId}`);
+            await axios.delete(`${process.env.REACT_APP_BASE_API_URL}/api/hometasks/${hometask.HometaskId}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
             setRefreshTrigger();
-                  toast.success("Завдання було успішно видалено", {
-                      position: "bottom-right",
-                      autoClose: 3000,
-                      hideProgressBar: false,
-                      closeOnClick: true,
-                      pauseOnHover: true,
-                      draggable: true,
-                      progress: undefined,
-                  });
+            toast.success(t('HomeTaskTeacher.components.TaskCardBlock.DeleteSuccess'), {
+                position: "bottom-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
         } catch (error) {
-            console.error("Помилка при видаленні домашнього завдання:", error);
-            alert("Не вдалося видалити домашнє завдання");
-            toast.error("Не вдалося видалити домашнє завдання", {
+            toast.error(t('HomeTaskTeacher.components.TaskCardBlock.DeleteError'), {
                 position: "bottom-right",
                 autoClose: 3000,
                 hideProgressBar: false,
@@ -52,7 +58,9 @@ const TaskCardBlock = ({ hometask, onEdit, setRefreshTrigger }) => {
                             </svg>
                         </div>
                         <div className="flex-col">
-                            <div style={{ fontFamily: "Nunito", fontWeight: 700, fontSize: "15px", color: "#827fae" }}>Видано:</div>
+                            <div style={{ fontFamily: "Nunito", fontWeight: 700, fontSize: "15px", color: "#827fae" }}>
+                                {t('HomeTaskTeacher.components.TaskCardBlock.Issued')}
+                            </div>
                             <div style={{ fontFamily: "Mulish", fontWeight: 800, fontSize: "15px", color: "#8a48e6" }}>
                                 {formatDate(hometask.HometaskStartDate)}
                             </div>
@@ -65,7 +73,9 @@ const TaskCardBlock = ({ hometask, onEdit, setRefreshTrigger }) => {
                             </svg>
                         </div>
                         <div className="flex-col">
-                            <div style={{ fontFamily: "Nunito", fontWeight: 700, fontSize: "15px", color: "#827fae" }}>Виконати до:</div>
+                            <div style={{ fontFamily: "Nunito", fontWeight: 700, fontSize: "15px", color: "#827fae" }}>
+                                {t('HomeTaskTeacher.components.TaskCardBlock.Due')}
+                            </div>
                             <div style={{ fontFamily: "Mulish", fontWeight: 800, fontSize: "15px" }}>
                                 {formatDate(hometask.HometaskDeadlineDate)}
                             </div>
@@ -77,7 +87,7 @@ const TaskCardBlock = ({ hometask, onEdit, setRefreshTrigger }) => {
                 <img
                     className="h-40 sm:h-[65%] w-full object-cover rounded-md"
                     src={hometask.HometaskCover || "https://via.placeholder.com/150"}
-                    alt="Book Cover"
+                    alt={t('HomeTaskTeacher.components.TaskCardBlock.BookCoverAlt')}
                 />
                 <div className="flex w-full sm:h-[30%] items-center justify-center sm:justify-start gap-2 sm:gap-4">
                     <div className="inline-flex w-full sm:w-auto">
@@ -134,7 +144,9 @@ const TaskCardBlock = ({ hometask, onEdit, setRefreshTrigger }) => {
                                 fontSize: "15px",
                                 textAlign: "center",
                                 verticalAlign: "middle"
-                            }}>Змінити</span>
+                            }}>
+                                {t('HomeTaskTeacher.components.TaskCardBlock.Edit')}
+                            </span>
                             <svg
                                 width="20"
                                 height="20"

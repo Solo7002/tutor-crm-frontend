@@ -1,15 +1,15 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import axios from "axios";
 import "./ItemLesson.css";
 
 const ItemLesson = ({ lesson }) => {
+  const { t } = useTranslation();
   const [isCollapsed, setIsCollapsed] = useState(true);
-
 
   const toggleCollapse = () => {
     setIsCollapsed(!isCollapsed);
   };
-
 
   const formatTimeRange = (start, end) => {
     const format = (time) => {
@@ -18,11 +18,10 @@ const ItemLesson = ({ lesson }) => {
       const minutes = String(date.getUTCMinutes()).padStart(2, "0");
       return `${hours}:${minutes}`;
     };
-  
+
     return `${format(start)}-${format(end)}`;
   };
 
-   
   const formatDate = (date) => {
     return new Date(date).toLocaleDateString("uk-UA", {
       day: "numeric",
@@ -32,11 +31,12 @@ const ItemLesson = ({ lesson }) => {
 
   return (
     <div className="item-lesson-container">
-          
       <div className="item-lesson-header">
         <div className="item-lesson-circle" />
         <div>
-          <div className="item-lesson-title">{lesson.LessonHeader || "Без назви"}</div>
+          <div className="item-lesson-title">
+            {lesson.LessonHeader || t("CalendarStudent.components.ItemLesson.UI.NoTitleText")}
+          </div>
           <div className="item-lesson-subtitle">
             {formatDate(lesson.LessonDate)} {formatTimeRange(lesson.StartLessonTime, lesson.EndLessonTime)}
           </div>
@@ -61,32 +61,29 @@ const ItemLesson = ({ lesson }) => {
         </div>
       </div>
 
-     
       <div className={`item-lesson-collapsible ${isCollapsed ? "collapsed" : "expanded"}`}>
         <div className="item-lesson-content">
           <div className="item-lesson-info">
-            <span>Вчитель:</span>
+            <span>{t("CalendarStudent.components.ItemLesson.UI.TeacherLabel")}</span>
             <span className="item-lesson-info-value">{`${lesson.TeacherFirstName} ${lesson.TeacherLastName}`}</span>
           </div>
           <div className="item-lesson-info mt-2">
-            <span>Місце:</span>
+            <span>{t("CalendarStudent.components.ItemLesson.UI.LocationLabel")}</span>
             <span className="item-lesson-info-link">
               {lesson.LessonType === "online" ? (
                 lesson.LessonLink ? (
                   <a href={lesson.LessonLink} target="_blank" rel="noopener noreferrer">
-                    Посилання
+                    {t("CalendarStudent.components.ItemLesson.UI.LinkText")}
                   </a>
                 ) : (
-                  "Немає посилання"
+                  t("CalendarStudent.components.ItemLesson.UI.NoLinkText")
                 )
               ) : (
-                lesson.LessonAddress || "Немає адреси"
+                lesson.LessonAddress || t("CalendarStudent.components.ItemLesson.UI.NoAddressText")
               )}
             </span>
           </div>
         </div>
-
-       
       </div>
     </div>
   );

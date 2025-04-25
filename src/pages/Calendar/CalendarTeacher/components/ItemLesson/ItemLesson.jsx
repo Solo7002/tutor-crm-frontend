@@ -1,15 +1,17 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import axios from "axios";
 import "./ItemLesson.css";
 import ChangeDayModal from "../ChangeDayModal/ChangeDayModal";
 import { toast } from "react-toastify";
 
-const ItemLesson = ({ token, lesson, teacherId , onRefresh}) => {
+const ItemLesson = ({ token, lesson, teacherId, onRefresh }) => {
+  const { t } = useTranslation();
   const [isCollapsed, setIsCollapsed] = useState(true);
-  const [isOpenModal, setIsOpenModel] = useState(false);
+  const [isOpenModal, setIsOpenModal] = useState(false);
 
   const onClose = () => {
-    setIsOpenModel(!isOpenModal);
+    setIsOpenModal(!isOpenModal);
   };
 
   const toggleCollapse = () => {
@@ -19,7 +21,7 @@ const ItemLesson = ({ token, lesson, teacherId , onRefresh}) => {
   const handleDelete = async () => {
     const lessonId = lesson.PlannedLessonId;
     try {
-      await axios.delete(`http://localhost:4000/api/plannedLessons/${lessonId}`, {
+      await axios.delete(`${process.env.REACT_APP_BASE_API_URL}/api/plannedLessons/${lessonId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -27,20 +29,45 @@ const ItemLesson = ({ token, lesson, teacherId , onRefresh}) => {
 
       toast.success(
         <div>
-          <p>Заняття успішно видалено!</p>
-          <p>Предмет: {lesson.LessonHeader || "Без назви"}</p>
-          <p>Група: {lesson.GroupName || "Невідома група"}</p>
-          <p>Дата: {new Date(lesson.LessonDate).toLocaleDateString("uk-UA", { day: "numeric", month: "long", year: "numeric" })}</p>
-          <p>Час: {formatTimeRange(lesson.StartLessonTime, lesson.EndLessonTime)}</p>
+          <p>{t("CalendarTeacher.components.ItemLesson.Messages.DeleteLessonSuccess")}</p>
+          <p>
+            {t("CalendarTeacher.components.ItemLesson.UI.SubjectLabel")}{" "}
+            {lesson.LessonHeader || t("CalendarTeacher.components.ItemLesson.UI.NoTitleText")}
+          </p>
+          <p>
+            {t("CalendarTeacher.components.ItemLesson.UI.GroupLabel")}{" "}
+            {lesson.GroupName || t("CalendarTeacher.components.ItemLesson.UI.UnknownGroupText")}
+          </p>
+          <p>
+            {t("CalendarTeacher.components.ItemLesson.UI.DateLabel")}{" "}
+            {new Date(lesson.LessonDate).toLocaleDateString("uk-UA", {
+              day: "numeric",
+              month: "long",
+              year: "numeric",
+            })}
+          </p>
+          <p>
+            {t("CalendarTeacher.components.ItemLesson.UI.TimeLabel")}{" "}
+            {formatTimeRange(lesson.StartLessonTime, lesson.EndLessonTime)}
+          </p>
         </div>,
         { autoClose: 5000 }
       );
 
       onRefresh();
     } catch (error) {
-      console.error("Error deleting lesson:", error);
-      const errorMessage = error.response?.data?.message || error.message || "Не вдалося видалити заняття. Спробуйте ще раз.";
-      toast.error(errorMessage);
+      toast.error(t("CalendarTeacher.components.ItemLesson.Messages.DeleteLessonError"), {
+        position: "bottom-right",
+        autoClose: 5000,
+      });
+      const errorMessage =
+        error.response?.data?.message ||
+        error.message ||
+        t("CalendarTeacher.components.ItemLesson.Messages.DeleteLessonFailed");
+      toast.error(errorMessage, {
+        position: "bottom-right",
+        autoClose: 5000,
+      });
     }
   };
 
@@ -64,12 +91,21 @@ const ItemLesson = ({ token, lesson, teacherId , onRefresh}) => {
 
   return (
     <div className="item-lesson-container">
-      <ChangeDayModal initialData={lesson} teacherId={teacherId} token={token} isOpen={isOpenModal} onClose={onClose} onRefresh={onRefresh} />
+      <ChangeDayModal
+        initialData={lesson}
+        teacherId={teacherId}
+        token={token}
+        isOpen={isOpenModal}
+        onClose={onClose}
+        onRefresh={onRefresh}
+      />
 
       <div className="item-lesson-header">
         <div className="item-lesson-circle" />
         <div>
-          <div className="item-lesson-title">{lesson.LessonHeader || "Без назви"}</div>
+          <div className="item-lesson-title">
+            {lesson.LessonHeader || t("CalendarTeacher.components.ItemLesson.UI.NoTitleText")}
+          </div>
           <div className="item-lesson-subtitle">
             {formatDate(lesson.LessonDate)} {formatTimeRange(lesson.StartLessonTime, lesson.EndLessonTime)}
           </div>
@@ -98,22 +134,24 @@ const ItemLesson = ({ token, lesson, teacherId , onRefresh}) => {
       <div className={`item-lesson-collapsible ${isCollapsed ? "collapsed" : "expanded"}`}>
         <div className="item-lesson-content">
           <div className="item-lesson-info">
-            <span>Група:</span>
-            <span className="item-lesson-info-value">{lesson.GroupName || "Невідома група"}</span>
+            <span>{t("CalendarTeacher.components.ItemLesson.UI.GroupLabel")}</span>
+            <span className="item-lesson-info-value">
+              {lesson.GroupName || t("CalendarTeacher.components.ItemLesson.UI.UnknownGroupText")}
+            </span>
           </div>
           <div className="item-lesson-info mt-2">
-            <span>Місце:</span>
+            <span>{t("CalendarTeacher.components.ItemLesson.UI.LocationLabel")}</span>
             <span className="item-lesson-info-link">
               {lesson.LessonType === "online" ? (
                 lesson.LessonLink ? (
                   <a href={lesson.LessonLink} target="_blank" rel="noopener noreferrer">
-                    Посилання
+                    {t("CalendarTeacher.components.ItemLesson.UI.LinkText")}
                   </a>
                 ) : (
-                  "Немає посилання"
+                  t("CalendarTeacher.components.ItemLesson.UI.NoLinkText")
                 )
               ) : (
-                lesson.LessonAddress || "Немає адреси"
+                lesson.LessonAddress || t("CalendarTeacher.components.ItemLesson.UI.NoAddressText")
               )}
             </span>
           </div>
@@ -122,9 +160,11 @@ const ItemLesson = ({ token, lesson, teacherId , onRefresh}) => {
         {!isCollapsed && (
           <div className="item-lesson-buttons">
             <button className="item-lesson-button" onClick={() => handleDelete()}>
-              Видалити
+              {t("CalendarTeacher.components.ItemLesson.UI.DeleteButton")}
             </button>
-            <button className="item-lesson-button-primary" onClick={() => onClose()}>Редагувати</button>
+            <button className="item-lesson-button-primary" onClick={() => onClose()}>
+              {t("CalendarTeacher.components.ItemLesson.UI.EditButton")}
+            </button>
           </div>
         )}
       </div>

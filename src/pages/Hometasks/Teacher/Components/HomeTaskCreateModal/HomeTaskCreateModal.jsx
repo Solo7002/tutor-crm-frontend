@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
+import { useTranslation } from 'react-i18next';
 import StandartInput from "../StandartInput/StandartInput";
 import ImageSelectionModal from './ImageSelectionModal';
 import { toast } from 'react-toastify';
@@ -28,6 +29,7 @@ const FileMarkup = ({ fileName, fileUrl }) => {
 };
 
 const HomeTaskCreateModal = ({ isOpened, onClose, subject = "", group = "", selectedGroupId, hometask = null, setRefreshTrigger }) => {
+  const { t } = useTranslation();
   const [deadline, setDeadline] = useState('');
   const [maxScore, setMaxScore] = useState('');
   const [existingFiles, setExistingFiles] = useState([]);
@@ -37,6 +39,7 @@ const HomeTaskCreateModal = ({ isOpened, onClose, subject = "", group = "", sele
   const [description, setDescription] = useState('');
   const fileInputRef = useRef(null);
   const coverInputRef = useRef(null);
+  const token=sessionStorage.getItem("token");
 
   const standardCovers = [
     'https://blobstorage226122007.blob.core.windows.net/blob-storage-container/hometask13042025_cover_1.png',
@@ -91,19 +94,27 @@ const HomeTaskCreateModal = ({ isOpened, onClose, subject = "", group = "", sele
 
     try {
       const response = await axios.post(
-        'http://localhost:4000/api/files/uploadAndReturnLink',
+        `${process.env.REACT_APP_BASE_API_URL}/api/files/uploadAndReturnLink`,
         formData,
         {
           headers: {
             'Content-Type': 'multipart/form-data',
+             Authorization: `Bearer ${token}`
           },
         }
       );
       const { fileUrl } = response.data;
       setNewFiles([...newFiles, { name: file.name, url: fileUrl }]);
     } catch (error) {
-      console.error('Помилка при завантаженні файлу:', error);
-      alert('Не вдалося завантажити файл');
+      toast.error(t('HomeTaskTeacher.components.HomeTaskCreateModal.FileUploadError'), {
+        position: "bottom-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
     }
   };
 
@@ -113,19 +124,27 @@ const HomeTaskCreateModal = ({ isOpened, onClose, subject = "", group = "", sele
 
     try {
       const response = await axios.post(
-        'http://localhost:4000/api/files/uploadAndReturnLink',
+        `${process.env.REACT_APP_BASE_API_URL}/api/files/uploadAndReturnLink`,
         formData,
         {
           headers: {
             'Content-Type': 'multipart/form-data',
+             Authorization: `Bearer ${token}`
           },
         }
       );
       const { fileUrl } = response.data;
       setCoverImage(fileUrl);
     } catch (error) {
-      console.error('Помилка при завантаженні обкладинки:', error);
-      alert('Не вдалося завантажити обкладинку');
+      toast.error(t('HomeTaskTeacher.components.HomeTaskCreateModal.CoverUploadError'), {
+        position: "bottom-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
     }
   };
 
@@ -147,8 +166,8 @@ const HomeTaskCreateModal = ({ isOpened, onClose, subject = "", group = "", sele
 
     let imgId;
     if (coverImage === null) {
-        imgId = standardCovers[Math.floor(Math.random() * standardCovers.length)];
-        setCoverImage(imgId);
+      imgId = standardCovers[Math.floor(Math.random() * standardCovers.length)];
+      setCoverImage(imgId);
     }
 
     const homeTaskData = {
@@ -163,7 +182,11 @@ const HomeTaskCreateModal = ({ isOpened, onClose, subject = "", group = "", sele
     };
 
     try {
-      await axios.post('http://localhost:4000/api/hometasks', homeTaskData);
+      await axios.post(`${process.env.REACT_APP_BASE_API_URL}/api/hometasks`, homeTaskData,{
+        headers: {
+           Authorization: `Bearer ${token}`
+        },
+      });
       onClose();
       setRefreshTrigger();
       setDeadline("");
@@ -172,7 +195,7 @@ const HomeTaskCreateModal = ({ isOpened, onClose, subject = "", group = "", sele
       setHeader("");
       setDescription("");
       
-    toast.success("Завдання було успішно створено", {
+      toast.success(t('HomeTaskTeacher.components.HomeTaskCreateModal.TaskCreatedSuccess'), {
         position: "bottom-right",
         autoClose: 3000,
         hideProgressBar: false,
@@ -180,20 +203,17 @@ const HomeTaskCreateModal = ({ isOpened, onClose, subject = "", group = "", sele
         pauseOnHover: true,
         draggable: true,
         progress: undefined,
-    });
-    } catch (error) {
-      console.error('Помилка при створенні домашнього завдання:', error);
-      
-      toast.error("Помилка при створенні домашнього завдання", {
-          position: "bottom-right",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
       });
-      alert('Не вдалося створити домашнє завдання');
+    } catch (error) {
+      toast.error(t('HomeTaskTeacher.components.HomeTaskCreateModal.TaskCreationError'), {
+        position: "bottom-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
     }
   };
 
@@ -208,30 +228,31 @@ const HomeTaskCreateModal = ({ isOpened, onClose, subject = "", group = "", sele
     };
 
     try {
-      await axios.put(`http://localhost:4000/api/hometasks/${hometask.HometaskId}`, updatedHomeTaskData);
+      await axios.put(`${process.env.REACT_APP_BASE_API_URL}/api/hometasks/${hometask.HometaskId}`, updatedHomeTaskData,{
+        headers: {
+           Authorization: `Bearer ${token}`
+        },
+      });
       onClose();
       setRefreshTrigger();
-      toast.success("Завдання було успішно змінено", {
-          position: "bottom-right",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
+      toast.success(t('HomeTaskTeacher.components.HomeTaskCreateModal.TaskEditedSuccess'), {
+        position: "bottom-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
       });
     } catch (error) {
-      console.error('Помилка при редагуванні домашнього завдання:', error);
-      alert('Не вдалося зберегти зміни');
-      
-      toast.error("Помилка при редагуванні домашнього завдання", {
-          position: "bottom-right",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
+      toast.error(t('HomeTaskTeacher.components.HomeTaskCreateModal.TaskEditError'), {
+        position: "bottom-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
       });
     }
   };
@@ -280,7 +301,7 @@ const HomeTaskCreateModal = ({ isOpened, onClose, subject = "", group = "", sele
             </svg>
           </button>
           <h2 className="flex-1 text-center text-[#120c38] text-[15px] font-bold font-['Nunito'] truncate px-2">
-            {`${subject}, група ${group}`}
+            {`${subject}, ${t('HomeTaskTeacher.components.HomeTaskCreateModal.GroupLabel')} ${group}`}
           </h2>
           <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center"></div>
         </div>
@@ -306,7 +327,7 @@ const HomeTaskCreateModal = ({ isOpened, onClose, subject = "", group = "", sele
             {coverImage ? (
               <img
                 src={coverImage}
-                alt="Обкладинка"
+                alt={t('HomeTaskTeacher.components.HomeTaskCreateModal.CoverImage')}
                 className="w-full h-full object-cover rounded-3xl"
               />
             ) : (
@@ -344,7 +365,7 @@ const HomeTaskCreateModal = ({ isOpened, onClose, subject = "", group = "", sele
           <div className="flex-1 flex flex-col gap-4">
             <div className="flex justify-between items-center p-2.5 rounded-2xl outline outline-1 outline-[#d7d7d7]">
               <span className="text-[#827ead] text-xs font-normal font-['Mulish']">
-                Видано
+                {t('HomeTaskTeacher.components.HomeTaskCreateModal.Issued')}
               </span>
               <span className="text-[#827ead] text-[15px] font-bold font-['Nunito'] truncate max-w-[150px]">
                 {new Date().toLocaleDateString('ru-RU', { day: '2-digit', month: '2-digit', year: 'numeric' })}
@@ -361,7 +382,7 @@ const HomeTaskCreateModal = ({ isOpened, onClose, subject = "", group = "", sele
                     className="text-[#827ead] text-xs font-normal font-['Mulish']"
                     htmlFor="deadline"
                   >
-                    Виконати до
+                    {t('HomeTaskTeacher.components.HomeTaskCreateModal.Deadline')}
                   </label>
                   <input
                     id="deadline"
@@ -387,7 +408,7 @@ const HomeTaskCreateModal = ({ isOpened, onClose, subject = "", group = "", sele
               <div className="p-2.5 rounded-2xl outline outline-1 outline-[#d7d7d7] flex justify-between items-center">
                 <div className="flex flex-col flex-1 min-w-0">
                   <span className="text-[#d7d7d7] text-xs font-normal font-['Mulish']">
-                    Виконано
+                    {t('HomeTaskTeacher.components.HomeTaskCreateModal.Completed')}
                   </span>
                   <span className="text-[#d7d7d7] text-[15px] font-bold font-['Nunito'] truncate">
                     -- -- ----
@@ -406,7 +427,7 @@ const HomeTaskCreateModal = ({ isOpened, onClose, subject = "", group = "", sele
                     className="text-[#827ead] text-xs font-normal font-['Mulish']"
                     htmlFor="maxScore"
                   >
-                    Максимальний бал
+                    {t('HomeTaskTeacher.components.HomeTaskCreateModal.MaxScore')}
                   </label>
                   <input
                     id="maxScore"
@@ -435,10 +456,10 @@ const HomeTaskCreateModal = ({ isOpened, onClose, subject = "", group = "", sele
               <div className="p-2.5 rounded-2xl outline outline-1 outline-[#d7d7d7] flex justify-between items-center">
                 <div className="flex flex-col flex-1 min-w-0">
                   <span className="text-[#827ead] text-xs font-normal font-['Mulish']">
-                    Статус
+                    {t('HomeTaskTeacher.components.HomeTaskCreateModal.Status')}
                   </span>
                   <span className="text-[#827ead] text-[15px] font-bold font-['Nunito'] truncate">
-                    {isEditing ? 'Редагування' : 'Створення'}
+                    {isEditing ? t('HomeTaskTeacher.components.HomeTaskCreateModal.Editing') : t('HomeTaskTeacher.components.HomeTaskCreateModal.Creating')}
                   </span>
                 </div>
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="flex-shrink-0">
@@ -451,15 +472,15 @@ const HomeTaskCreateModal = ({ isOpened, onClose, subject = "", group = "", sele
 
         <div className="px-4 pt-4 pb-2 flex-1">
           <h3 className="text-[#8a48e6] text-[15px] font-bold font-['Nunito'] mb-3 ml-3">
-            Завдання
+            {t('HomeTaskTeacher.components.HomeTaskCreateModal.Task')}
           </h3>
           <StandartInput
-            placeholder={"Завдання"}
+            placeholder={t('HomeTaskTeacher.components.HomeTaskCreateModal.TaskPlaceholder')}
             value={header}
             onChange={(e) => setHeader(e.target.value)}
           />
           <StandartInput
-            placeholder={"Опис"}
+            placeholder={t('HomeTaskTeacher.components.HomeTaskCreateModal.DescriptionPlaceholder')}
             value={description}
             onChange={(e) => setDescription(e.target.value)}
           />
@@ -467,7 +488,7 @@ const HomeTaskCreateModal = ({ isOpened, onClose, subject = "", group = "", sele
 
         <div className="px-4 pt-2 pb-4">
           <h3 className="text-[#8a48e6] text-[15px] font-bold font-['Nunito'] ml-3 mb-2">
-            Прикріплені файли
+            {t('HomeTaskTeacher.components.HomeTaskCreateModal.AttachedFiles')}
           </h3>
           <div className="w-full h-[160px] overflow-x-auto overflow-y-auto whitespace-nowrap border border-gray-100 rounded-xl p-2">
             {[...existingFiles, ...newFiles].length > 0 ? (
@@ -480,7 +501,7 @@ const HomeTaskCreateModal = ({ isOpened, onClose, subject = "", group = "", sele
               ))
             ) : (
               <div className="h-full flex items-center justify-center text-gray-400">
-                Немає прикріплених файлів
+                {t('HomeTaskTeacher.components.HomeTaskCreateModal.NoFiles')}
               </div>
             )}
           </div>
@@ -507,7 +528,7 @@ const HomeTaskCreateModal = ({ isOpened, onClose, subject = "", group = "", sele
               </svg>
             </div>
             <span className="text-[#120c38] text-[15px] font-bold font-['Nunito']">
-              Додати файли
+              {t('HomeTaskTeacher.components.HomeTaskCreateModal.AddFiles')}
             </span>
           </button>
           <input
@@ -536,7 +557,7 @@ const HomeTaskCreateModal = ({ isOpened, onClose, subject = "", group = "", sele
             `}
           >
             <div className="text-white text-[15px] font-bold font-['Nunito']">
-              {isEditing ? 'Зберегти' : 'Надіслати'}
+              {isEditing ? t('HomeTaskTeacher.components.HomeTaskCreateModal.Save') : t('HomeTaskTeacher.components.HomeTaskCreateModal.Submit')}
             </div>
             <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M27.9999 15.9997L6.26391 5.37835C6.13992 5.33013 6.00433 5.3201 5.8746 5.34956C5.74486 5.37903 5.62691 5.44663 5.53591 5.54369C5.44258 5.64325 5.37832 5.76648 5.35011 5.9C5.3219 6.03352 5.33082 6.17222 5.37591 6.30102L8.66658 15.9997M27.9999 15.9997L6.26391 26.621C6.13992 26.6692 6.00433 26.6793 5.8746 26.6498C5.74486 26.6203 5.62691 26.5527 5.53591 26.4557C5.44258 26.3561 5.37832 26.2329 5.35011 26.0994C5.3219 25.9659 5.33082 25.8272 5.37591 25.6984L8.66658 15.9997M27.9999 15.9997H8.66658" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
