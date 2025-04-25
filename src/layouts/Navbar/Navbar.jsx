@@ -3,6 +3,7 @@ import { Link, useLocation, Outlet } from "react-router-dom";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 import NotificationList from "../../components/Notifications/NotificationList";
+import LanguageSwitcher from "../../components/LanguageSwitcher/LanguageSwitcher";
 import { ToastContainer, Bounce } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
@@ -660,7 +661,7 @@ const Navbar = () => {
           </span>
           <div className="flex space-x-8">
             {/* Language */}
-            <Link to="/">
+            {/* <Link to="/">
               <button
                 className="top-buttons p-2 rounded-full border border-gray-300 hover:bg-[#A768FF] transition-all duration-300"
                 onMouseEnter={(e) => {
@@ -706,7 +707,10 @@ const Navbar = () => {
                   </svg>
                 </div>
               </button>
-            </Link>
+            </Link> */}
+
+            <LanguageSwitcher />
+
             {/* Theme */}
             {/* <Link to="/">
               <button

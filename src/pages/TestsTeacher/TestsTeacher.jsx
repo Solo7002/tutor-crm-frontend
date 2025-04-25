@@ -2,15 +2,17 @@ import "./TestsTeacher.css";
 import TestItem from "./components/TestItem/TestItem";
 import SearchButton from "../Materials/components/SearchButton";
 import Dropdown from "../../components/Dropdown/Dropdown";
-import TaskButton from "../../components/TaskButton/TaskButton";
 import { PrimaryButton } from "../../components/Buttons/Buttons";
 import CreateModal from "./components/CreateModal/CreateModal";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useLayoutEffect } from "react";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
+import { useTranslation } from "react-i18next";
 
 const TestsTeacher = () => {
+  const { t, ready } = useTranslation();
   const token = sessionStorage.getItem("token") || "";
   const [teacher_id, setTeacher_id] = useState();
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -20,8 +22,8 @@ const TestsTeacher = () => {
   const [groups, setGroups] = useState([]);
   const [filteredGroups, setFilteredGroups] = useState([]);
   const [courses, setCourses] = useState([]);
-  const [selectedGroup, setSelectedGroup] = useState("Усі групи");
-  const [selectedCourse, setSelectedCourse] = useState("Усі курси");
+  const [selectedGroup, setSelectedGroup] = useState(t("Tests.TestsTeacher.allGroups"));
+  const [selectedCourse, setSelectedCourse] = useState(t("Tests.TestsTeacher.allCourses"));
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
@@ -34,7 +36,7 @@ const TestsTeacher = () => {
     const fetchData = async () => {
       const decoded = jwtDecode(token);
       const teacherResponse = await axios.get(
-        `http://localhost:4000/api/teachers/search?UserId=${decoded.id}`,
+        `${process.env.REACT_APP_BASE_API_URL}/api/teachers/search?UserId=${decoded.id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -54,7 +56,7 @@ const TestsTeacher = () => {
         setLoading(true);
 
         const testsResponse = await axios.get(
-          `http://localhost:4000/api/tests/tests-by-teacher/${teacher_id}`,
+          `${process.env.REACT_APP_BASE_API_URL}/api/tests/tests-by-teacher/${teacher_id}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -66,7 +68,7 @@ const TestsTeacher = () => {
         setFilteredTests(testsResponse.data);
 
         const groupsResponse = await axios.get(
-          `http://localhost:4000/api/groups/groups-by-teacher/${teacher_id}`,
+          `${process.env.REACT_APP_BASE_API_URL}/api/groups/groups-by-teacher/${teacher_id}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -81,7 +83,7 @@ const TestsTeacher = () => {
         setFilteredGroups(transformedGroups);
 
         const coursesResponse = await axios.get(
-          `http://localhost:4000/api/courses/courses-by-teacher/${teacher_id}`,
+          `${process.env.REACT_APP_BASE_API_URL}/api/courses/courses-by-teacher/${teacher_id}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -95,7 +97,7 @@ const TestsTeacher = () => {
 
         setLoading(false);
       } catch (err) {
-        console.error("Ошибка при загрузке данных:", err);
+        toast.error("Сталася помилка, спробуйте ще раз");
         setError(err.message);
         setLoading(false);
       }
@@ -105,22 +107,22 @@ const TestsTeacher = () => {
   }, [teacher_id, token]);
 
   useEffect(() => {
-    if (selectedCourse === "Усі курси") {
+    if (selectedCourse === t("Tests.TestsTeacher.allCourses")) {
       setFilteredGroups(groups);
     } else {
       const filtered = groups.filter((group) => group.CourseName === selectedCourse);
       setFilteredGroups(filtered);
     }
-  }, [selectedCourse, groups]);
+  }, [selectedCourse, groups, t]);
 
   useEffect(() => {
-    if (selectedCourse !== "Усі курси") {
+    if (selectedCourse !== t("Tests.TestsTeacher.allCourses")) {
       const availableGroups = filteredGroups.map((group) => group.GroupName);
       if (!availableGroups.includes(selectedGroup)) {
-        setSelectedGroup(availableGroups[0] || "Усі групи");
+        setSelectedGroup(availableGroups[0] || t("Tests.TestsTeacher.allGroups"));
       }
     }
-  }, [filteredGroups, selectedCourse, selectedGroup]);
+  }, [filteredGroups, selectedCourse, selectedGroup, t]);
 
   const handleSearch = (query) => {
     if (query === "") {
@@ -141,15 +143,15 @@ const TestsTeacher = () => {
 
   useEffect(() => {
     let filtered = tests;
-    if (selectedGroup !== "Усі групи") {
+    if (selectedGroup !== t("Tests.TestsTeacher.allGroups")) {
       filtered = filtered.filter((test) => test.GroupName === selectedGroup);
     }
-    if (selectedCourse !== "Усі курси") {
+    if (selectedCourse !== t("Tests.TestsTeacher.allCourses")) {
       filtered = filtered.filter((test) => test.CourseName === selectedCourse);
     }
 
     setFilteredTests(filtered);
-  }, [selectedGroup, selectedCourse, tests]);
+  }, [selectedGroup, selectedCourse, tests, t]);
 
   useEffect(() => {
     const grouped = filteredTests.reduce((acc, test) => {
@@ -189,7 +191,7 @@ const TestsTeacher = () => {
               <svg width="17" height="14" viewBox="0 0 17 14" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M5 1H16M5 7H16M5 13H16M1 1V1.01M1 7V7.01M1 13V13.01" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
-              <div className="justify-center text-white text-[15px] font-bold font-['Nunito']">Назначені</div>
+              <div className="justify-center text-white text-[15px] font-bold font-['Nunito']">{t("Tests.TestsTeacher.assigned")}</div>
             </div>
           </div>
         </div>
@@ -207,7 +209,7 @@ const TestsTeacher = () => {
         <div className="w-full md:w-[175px]">
           <Dropdown
             options={courses}
-            textAll="Усі курси"
+            textAll={t("Tests.TestsTeacher.allCourses")}
             onSelectSubject={handleSelectCourse}
             wFull={true}
           />
@@ -215,7 +217,7 @@ const TestsTeacher = () => {
         <div className="w-full md:w-[175px]">
           <Dropdown
             options={filteredGroups.map((group) => ({ SubjectName: group.GroupName }))}
-            textAll="Усі групи"
+            textAll={t("Tests.TestsTeacher.allGroups")}
             onSelectSubject={handleSelectGroup}
             wFull={true}
           />
@@ -225,19 +227,19 @@ const TestsTeacher = () => {
       {/* Tests Container */}
       <div className="w-full overflow-x-auto pb-[100px]">
         {loading ? (
-          <div className="w-full text-center py-8">Loading tests...</div>
+          <div className="w-full text-center py-8">{t("Tests.TestsTeacher.loading")}</div>
         ) : error ? (
-          <div className="w-full text-center py-8 text-red-500">Error: {error}</div>
+          <div className="w-full text-center py-8 text-red-500">{t("Tests.TestsTeacher.error")} {error}</div>
         ) : Object.keys(groupedTests).length === 0 ? (
           <div className="w-full text-center py-8 font-[Nunito] text-[16px] text-[#827FAE]">
-            Немає тестів {":("} 
+            {t("Tests.TestsTeacher.noTests")} {t("Tests.TestsTeacher.sadFace")} 
           </div>
         ) : (
           <div className="w-full">
             {Object.entries(groupedTests).map(([courseName, courseTests]) => (
               <div key={courseName} className="mb-8">
                 <div className="w-full text-left text-[#120C38] text-xl sm:text-2xl font-[Nunito] font-bold mb-4">
-                  Курс: {courseName}
+                  {t("Tests.TestsTeacher.course")} {courseName}
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
                   {courseTests.map((test) => (
@@ -253,7 +255,7 @@ const TestsTeacher = () => {
       {/* Fixed Create Button */}
       <div className="fixed bottom-0 left-0 right-0 bg-white z-10 p-4 flex justify-center items-center shadow-lg">
         <PrimaryButton className="w-full max-w-md" onClick={handleOpenModal}>
-          Створити
+          {t("Tests.TestsTeacher.create")}
         </PrimaryButton>
       </div>
 

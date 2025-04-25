@@ -1,7 +1,10 @@
 import React from 'react';
 import './TestCard.css';
+import { useTranslation } from 'react-i18next';
 
 const TestCard = ({ test, onClick }) => {
+    const { t } = useTranslation();
+    
     const getTestType = () => {
         if (!test.isDone) {
             const currentDate = new Date();
@@ -95,7 +98,9 @@ const TestCard = ({ test, onClick }) => {
                             </svg>
                         </div>
                         <div>
-                            <span className="text-[#827ead] text-[15px] font-bold font-['Nunito']">Видано:</span>
+                            <span className="text-[#827ead] text-[15px] font-bold font-['Nunito']">
+                                {t("Tests.TestStudentComponents.TestCard.issued")}
+                            </span>
                             <span className="text-[#827ead] text-[15px] font-normal font-['Nunito']"> </span>
                             <span className="text-[#120c38] text-[15px] font-extrabold font-['Lato']">
                                 {formatDate(test.CreatedDate)}
@@ -110,13 +115,18 @@ const TestCard = ({ test, onClick }) => {
                             </svg>
                         </div>
                         <div>
-                            <span className="text-[#827ead] text-[15px] font-bold font-['Nunito']">{!test.isDone?"Виконати до: ":"Виконано: "}</span>
+                            <span className="text-[#827ead] text-[15px] font-bold font-['Nunito']">
+                                {!test.isDone 
+                                    ? t("Tests.TestStudentComponents.TestCard.completeBy") 
+                                    : t("Tests.TestStudentComponents.TestCard.completed")
+                                }
+                            </span>
                             <span className="text-[#827ead] text-[15px] font-normal font-['Nunito']"> </span>
                             <span
                                 className="text-[#8a48e6] text-[15px] font-extrabold font-['Lato']"
                                 style={{ color: getDateColor(type) }}
                             >
-                                {!test.isDone?formatDate(test.Deadline):formatDate(test.DoneDate)}
+                                {!test.isDone ? formatDate(test.Deadline) : formatDate(test.DoneDate)}
                             </span>
                         </div>
                     </div>
@@ -133,7 +143,7 @@ const TestCard = ({ test, onClick }) => {
                             className="text-[15px] font-bold font-['Nunito']"
                             style={{ color: buttonColor }}
                         >
-                            Виконати
+                            {t("Tests.TestStudentComponents.TestCard.completeButton")}
                         </div>
                         <div data-svg-wrapper className="cursor-pointer">
                             <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">

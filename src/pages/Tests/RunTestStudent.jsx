@@ -1,11 +1,13 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useParams, useNavigate } from 'react-router-dom';
-import axios from 'axios'; 
+import axios from 'axios';
 import { PrimaryButton } from "../../components/Buttons/Buttons";
 import { decryptData } from '../../utils/crypto';
 import { toast } from 'react-toastify';
+import { useTranslation } from 'react-i18next';
 
 export default function RunTestStudent() {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const { encryptedTestId } = useParams();
 
@@ -14,7 +16,7 @@ export default function RunTestStudent() {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [selectedAnswers, setSelectedAnswers] = useState([]);
   const [selectedAnswerId, setSelectedAnswerId] = useState(null);
-  const [timeRemaining, setTimeRemaining] = useState(null); 
+  const [timeRemaining, setTimeRemaining] = useState(null);
 
   const timerRef = useRef(null);
   const hasLoggedRef = useRef(false);
@@ -23,15 +25,17 @@ export default function RunTestStudent() {
     const decryptedTestId = decryptData(encryptedTestId);
     setDoneTestId(decryptedTestId);
 
-    axios.get(`http://localhost:4000/api/tests/testByDoneTest/${decryptedTestId}`)
+    axios.get(`${process.env.REACT_APP_BASE_API_URL}/api/tests/testByDoneTest/${decryptedTestId}`, {
+      headers: { Authorization: `Bearer ${sessionStorage.getItem("token")}` }
+    })
       .then(response => {
         setTestData(response.data);
         setTimeRemaining(response.data.TimeLimit * 60);
       })
       .catch(error => {
-        toast.error("Ошибка при получении тестов!");
+        toast.error(t("Tests.RunTestStudent.errorFetchingTest"));
       });
-  }, [encryptedTestId]);
+  }, [encryptedTestId, t]);
 
   useEffect(() => {
     if (!testData) return;
@@ -40,7 +44,7 @@ export default function RunTestStudent() {
       setTimeRemaining(prevTime => {
         if (prevTime <= 1) {
           clearInterval(timerRef.current);
-          alert("Время окончено");
+          alert(t("Tests.RunTestStudent.timeExpired"));
           return 0;
         }
         return prevTime - 1;
@@ -48,37 +52,39 @@ export default function RunTestStudent() {
     }, 1000);
 
     return () => clearInterval(timerRef.current);
-  }, [testData]);
+  }, [testData, t]);
 
   useEffect(() => {
     if (testData && currentQuestionIndex >= testData.TestQuestions.length && !hasLoggedRef.current) {
       hasLoggedRef.current = true;
       clearInterval(timerRef.current);
-  
+
       const initialTimeInSeconds = testData.TimeLimit * 60;
       const timeTakenInSeconds = initialTimeInSeconds - timeRemaining;
       const timeTakenFormatted = formatTime(timeTakenInSeconds);
-  
+
       const dataToSend = {
         answers: selectedAnswers,
         timeTaken: timeTakenFormatted
       };
-  
-      axios.put(`http://localhost:4000/api/doneTests/${doneTestId}/mark`, dataToSend)
+
+      axios.put(`${process.env.REACT_APP_BASE_API_URL}/api/doneTests/${doneTestId}/mark`, dataToSend, {
+        headers: { Authorization: `Bearer ${sessionStorage.getItem("token")}` }
+      })
         .then(response => {
           navigate(`/student/tests/complete/${encryptedTestId}`);
         })
         .catch(error => {
-          toast.error('Ошибка при отправке теста!');
+          toast.error(t("Tests.RunTestStudent.errorSubmittingTest"));
         });
     }
-  }, [currentQuestionIndex, testData, timeRemaining, selectedAnswers]);
+  }, [currentQuestionIndex, testData, timeRemaining, selectedAnswers, doneTestId, encryptedTestId, navigate, t]);
 
   const formatTime = (timeInSeconds) => {
     const hours = Math.floor(timeInSeconds / 3600);
     const minutes = Math.floor((timeInSeconds % 3600) / 60);
     const seconds = timeInSeconds % 60;
-    
+
     if (timeInSeconds >= 3600) {
       return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
     } else {
@@ -87,13 +93,13 @@ export default function RunTestStudent() {
   };
 
   if (!testData) {
-    return <div>Loading...</div>;
+    return <div>{t("Tests.RunTestStudent.loading")}</div>;
   }
 
   const totalQuestions = testData.TestQuestions.length;
 
   if (currentQuestionIndex >= totalQuestions) {
-    return <div>Тест завершено. Дякуємо!</div>;
+    return <div>{t("Tests.RunTestStudent.testCompleted")}</div>;
   }
 
   const currentQuestion = testData.TestQuestions[currentQuestionIndex];
@@ -114,9 +120,9 @@ export default function RunTestStudent() {
         }
       ]);
       setCurrentQuestionIndex(prev => prev + 1);
-      setSelectedAnswerId(null); 
+      setSelectedAnswerId(null);
     } else {
-      alert("Будь ласка, виберіть відповідь");
+      alert(t("Tests.RunTestStudent.pleaseSelectAnswer"));
     }
   };
 
@@ -165,7 +171,7 @@ export default function RunTestStudent() {
         {imageUrl && (
           <img
             src={imageUrl}
-            alt="Иллюстрация к вопросу"
+            alt={t("Tests.RunTestStudent.imageAlt")}
             className="max-w-full md:max-w-[50%] h-auto mb-4"
           />
         )}
@@ -191,7 +197,7 @@ export default function RunTestStudent() {
             ))}
           </div>
           <div className="w-full md:w-[55%] mx-auto mt-4 md:mt-6">
-            <PrimaryButton onClick={handleNext}>Далі</PrimaryButton>
+            <PrimaryButton onClick={handleNext}>{t("Tests.RunTestStudent.nextButton")}</PrimaryButton>
           </div>
         </div>
       </footer>

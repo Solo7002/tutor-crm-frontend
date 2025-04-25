@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate, Outlet } from "react-
 import { useEffect, useState } from "react";
 import { jwtDecode } from "jwt-decode";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 import Login from "../features/Auth/Login";
 import Register from "../features/Auth/Register";
@@ -35,11 +36,11 @@ import ProfileTeacher from "../pages/Profile/ProfileTeacher";
 
 const ProtectedRoute = ({ children }) => {
   const token = sessionStorage.getItem("token");
-  
+
   if (!token) {
     return <Navigate to="/auth/login" replace />;
   }
-  
+
   return children;
 };
 
@@ -54,15 +55,17 @@ const RoleBasedRoute = ({ allowedRole, children }) => {
         if (token) {
           const decodedToken = jwtDecode(token);
           const userId = decodedToken.id;
-          
-          const response = await axios.get(`http://localhost:4000/api/users/isTeacher/${userId}`);
+
+          const response = await axios.get(`${process.env.REACT_APP_BASE_API_URL}/api/users/isTeacher/${userId}`, {
+            headers: { Authorization: `Bearer ${sessionStorage.getItem("token")}` }
+          });
           const isTeacher = response.data.isTeacher;
-          
+
           setUserRole(isTeacher ? "teacher" : "student");
         }
         setLoading(false);
       } catch (error) {
-        console.error("Error checking user role:", error);
+        toast.error("Сталася помилка, спробуйте ще раз");
         setLoading(false);
       }
     };
@@ -92,15 +95,17 @@ const TestAccessRoute = ({ children }) => {
         if (token) {
           const decodedToken = jwtDecode(token);
           const userId = decodedToken.id;
-          
-          const response = await axios.get(`http://localhost:4000/api/users/isTeacher/${userId}`);
+
+          const response = await axios.get(`${process.env.REACT_APP_BASE_API_URL}/api/users/isTeacher/${userId}`, {
+            headers: { Authorization: `Bearer ${sessionStorage.getItem("token")}` }
+          });
           const isTeacher = response.data.isTeacher;
-          
+
           setUserRole(isTeacher ? "teacher" : "student");
         }
         setLoading(false);
       } catch (error) {
-        console.error("Error checking user role:", error);
+        toast.error("Сталася помилка, спробуйте ще раз");
         setLoading(false);
       }
     };
@@ -125,7 +130,7 @@ const AppRoutes = () => {
     <Router>
       <Routes>
         <Route path="/" element={<Navigate to="/auth/login" replace />} />
-        
+
         <Route path="test/:encryptedTestId" element={
           <ProtectedRoute>
             <TestAccessRoute>
@@ -133,7 +138,7 @@ const AppRoutes = () => {
             </TestAccessRoute>
           </ProtectedRoute>
         } />
-        
+
         <Route path="/auth" element={<AuthLayout />}>
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
@@ -177,9 +182,9 @@ const AppRoutes = () => {
           <Route path="profile" element={<ProfileTeacher />} />
         </Route>
 
-        <Route path="/user" element={ <Navbar />}>
-            <Route path="edit" element={<EditProfile />} />
-            <Route path="edit/credentials" element={<EditEmailAndPassword />} />
+        <Route path="/user" element={<Navbar />}>
+          <Route path="edit" element={<EditProfile />} />
+          <Route path="edit/credentials" element={<EditEmailAndPassword />} />
         </Route>
 
         <Route path="*" element={<Navigate to="/" replace />} />

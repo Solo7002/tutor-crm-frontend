@@ -4,10 +4,12 @@ import { useNavigate } from 'react-router-dom';
 import { PrimaryButton, SecondaryButton } from '../Buttons/Buttons2';
 import { encryptData } from '../../../../utils/crypto';
 import { toast } from 'react-toastify';
+import { useTranslation } from 'react-i18next'; // Add this import
 
 const TestModal = ({ isOpened, onClose, test, studentId }) => {
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(isOpened);
+  const { t } = useTranslation(); // Add translation hook
 
   useEffect(() => {
     setIsOpen(isOpened);
@@ -41,8 +43,8 @@ const TestModal = ({ isOpened, onClose, test, studentId }) => {
   const getDateColor = () => {
     switch (getTestType()) {
       case 'default': return '#8a48e6';
-      case 'overdue': return '#e64851'; 
-      case 'done_good': return '#47c974'; 
+      case 'overdue': return '#e64851';
+      case 'done_good': return '#47c974';
       case 'done_medium': return '#47c974';
       case 'done_bad': return '#47c974';
       default: return '#8a48e6';
@@ -50,15 +52,15 @@ const TestModal = ({ isOpened, onClose, test, studentId }) => {
   };
 
   const getButtonText = () => {
-    if (test.AttemptsUsed == 0){
-      return "До виконання";
-    } else if (test.AttemptsUsed > 0){
-      return "Виконати повторно";
+    if (test.AttemptsUsed == 0) {
+      return t("Tests.TestStudentComponents.TestModal.startButton");
+    } else if (test.AttemptsUsed > 0) {
+      return t("Tests.TestStudentComponents.TestModal.retryButton");
     }
   };
 
   const getButtonVisibility = () => {
-    if (test.AttemptsUsed >= test.Attempts){
+    if (test.AttemptsUsed >= test.Attempts) {
       return "none";
     }
     return "block";
@@ -90,16 +92,18 @@ const TestModal = ({ isOpened, onClose, test, studentId }) => {
         StudentId: studentId,
         TestId: test.TestId
       };
-  
-      const response = await axios.post('http://localhost:4000/api/doneTests', data);
-  
+
+      const response = await axios.post(`${process.env.REACT_APP_BASE_API_URL}/api/doneTests`, data, {
+        headers: { Authorization: `Bearer ${sessionStorage.getItem("token")}` }
+      });
+
       const doneTestId = response.data.DoneTestId;
-  
+
       const encryptedTestId = encryptData(doneTestId);
-  
+
       navigate(`/test/${encryptedTestId}`);
     } catch (error) {
-      toast.error('Помилка при створенні тесту!');
+      toast.error(t("Tests.TestStudentComponents.TestModal.createTestError"));
     }
   };
 
@@ -155,7 +159,7 @@ const TestModal = ({ isOpened, onClose, test, studentId }) => {
                 <div className="flex justify-between items-center border border-[#d7d7d7] rounded-2xl p-2.5 h-[54px]" style={{ width: test.isDone ? "200px" : "100%" }}>
                   <div>
                     <div className="text-xs text-[#827ead] font-normal font-[Mulish]">
-                      Видано
+                      {t("Tests.TestStudentComponents.TestModal.issued")}
                     </div>
                     <div className="text-[15px] text-[#120C38] font-bold font-[Nunito]">
                       {formatDate(test.CreatedDate)}
@@ -180,10 +184,10 @@ const TestModal = ({ isOpened, onClose, test, studentId }) => {
                   </div>
                 </div>
 
-                {test.isDone && (<div className="flex justify-between items-center border border-[#d7d7d7] rounded-2xl p-2.5 w-[200px] h-[54px]" style={{border: `${getBorderColor()} solid 1px`}}>
+                {test.isDone && (<div className="flex justify-between items-center border border-[#d7d7d7] rounded-2xl p-2.5 w-[200px] h-[54px]" style={{ border: `${getBorderColor()} solid 1px` }}>
                   <div>
                     <div className="text-xs text-[#827ead] font-normal font-[Mulish]">
-                      Бал
+                      {t("Tests.TestStudentComponents.TestModal.score")}
                     </div>
                     <div className="text-[15px] text-[#120C38] font-bold font-[Nunito]">
                       {test.Mark}
@@ -212,12 +216,12 @@ const TestModal = ({ isOpened, onClose, test, studentId }) => {
               {/* 2 ряд: Виконати до і Виконано */}
               <div className="flex gap-5">
                 {/* Виконати до */}
-                <div className="flex justify-between items-center border border-[#8a48e6] rounded-2xl p-2.5 w-[200px] h-[54px]" style={{border: `${!test.isDone && getDateColor()} solid 1px`}}>
+                <div className="flex justify-between items-center border border-[#8a48e6] rounded-2xl p-2.5 w-[200px] h-[54px]" style={{ border: `${!test.isDone && getDateColor()} solid 1px` }}>
                   <div>
                     <div className="text-xs text-[#827ead] font-normal font-[Mulish]">
-                      Виконати до
+                      {t("Tests.TestStudentComponents.TestModal.completeBy")}
                     </div>
-                    <div className="text-[15px] text-[#8a48e6] font-bold font-[Nunito]" style={{color: !test.isDone && getDateColor()}}>
+                    <div className="text-[15px] text-[#8a48e6] font-bold font-[Nunito]" style={{ color: !test.isDone && getDateColor() }}>
                       {formatDate(test.Deadline)}
                     </div>
                   </div>
@@ -241,12 +245,12 @@ const TestModal = ({ isOpened, onClose, test, studentId }) => {
                 </div>
 
                 {/* Виконано */}
-                <div className="flex justify-between items-center border border-[#d7d7d7] rounded-2xl p-2.5 w-[200px] h-[54px]"  style={{border: `${test.isDone?getDateColor():"#d7d7d7"} solid 1px`}}>
+                <div className="flex justify-between items-center border border-[#d7d7d7] rounded-2xl p-2.5 w-[200px] h-[54px]" style={{ border: `${test.isDone ? getDateColor() : "#d7d7d7"} solid 1px` }}>
                   <div>
                     <div className="text-xs text-[#827ead] font-normal font-[Mulish]">
-                      Виконано
+                      {t("Tests.TestStudentComponents.TestModal.completed")}
                     </div>
-                    <div className="text-[15px] text-[#827ead] font-bold font-[Nunito]" style={{color: test.isDone?getDateColor():"#827ead"}}>
+                    <div className="text-[15px] text-[#827ead] font-bold font-[Nunito]" style={{ color: test.isDone ? getDateColor() : "#827ead" }}>
                       {test.isDone ? formatDate(test.DoneDate) : '-- -- ----'}
                     </div>
                   </div>
@@ -276,7 +280,7 @@ const TestModal = ({ isOpened, onClose, test, studentId }) => {
                 <div className="flex justify-between items-center border border-[#d7d7d7] rounded-2xl p-2.5 w-[200px] h-[54px]">
                   <div>
                     <div className="text-xs text-[#827ead] font-normal font-[Mulish]">
-                      Максимальний бал
+                      {t("Tests.TestStudentComponents.TestModal.maxScore")}
                     </div>
                     <div className="text-[15px] text-[#120C38] font-bold font-[Nunito]">
                       {test.MaxMark}
@@ -305,10 +309,10 @@ const TestModal = ({ isOpened, onClose, test, studentId }) => {
                 <div className="flex justify-between items-center border border-[#d7d7d7] rounded-2xl p-2.5 w-[200px] h-[54px]">
                   <div>
                     <div className="text-xs text-[#827ead] font-normal font-[Mulish]">
-                      Статус
+                      {t("Tests.TestStudentComponents.TestModal.status")}
                     </div>
                     <div className="text-[15px] text-[#120C38] font-bold font-[Nunito]">
-                      {test.isDone ? 'Виконано' : 'До виконання'}
+                      {test.isDone ? t("Tests.TestStudentComponents.TestModal.statusDone") : t("Tests.TestStudentComponents.TestModal.statusToDo")}
                     </div>
                   </div>
                   <div>
@@ -337,7 +341,7 @@ const TestModal = ({ isOpened, onClose, test, studentId }) => {
               <div className="flex justify-between">
                 <div>
                   <span className="text-[15px] text-black font-bold font-[Nunito] mr-2">
-                    Кількість спроб:
+                    {t("Tests.TestStudentComponents.TestModal.attemptsCount")}:
                   </span>
                   <span className="text-[15px] text-[#827ead] font-normal font-[Mulish]">
                     {test.Attempts}
@@ -345,7 +349,7 @@ const TestModal = ({ isOpened, onClose, test, studentId }) => {
                 </div>
                 <div>
                   <span className="text-[15px] text-black font-bold font-[Nunito] mr-2">
-                    Виконано спроб:
+                    {t("Tests.TestStudentComponents.TestModal.attemptsUsed")}:
                   </span>
                   <span className="text-[15px] text-[#827ead] font-normal font-[Mulish]">
                     {test.AttemptsUsed}/{test.Attempts}
@@ -355,15 +359,15 @@ const TestModal = ({ isOpened, onClose, test, studentId }) => {
               <div className="flex justify-between">
                 <div>
                   <span className="text-[15px] text-black font-bold font-[Nunito] mr-2">
-                    Час на виконання:
+                    {t("Tests.TestStudentComponents.TestModal.timeToComplete")}:
                   </span>
                   <span className="text-[15px] text-[#827ead] font-normal font-[Mulish]">
-                    {test.TimeLimit}хв
+                    {test.TimeLimit}{t("Tests.TestStudentComponents.TestModal.minutesShort")}
                   </span>
                 </div>
                 <div>
                   <span className="text-[15px] text-black font-bold font-[Nunito] mr-2">
-                    Кількість питань:
+                    {t("Tests.TestStudentComponents.TestModal.questionsCount")}:
                   </span>
                   <span className="text-[15px] text-[#827ead] font-normal font-[Mulish]">
                     {test.AmountOfQuestions}
@@ -371,10 +375,10 @@ const TestModal = ({ isOpened, onClose, test, studentId }) => {
                 </div>
               </div>
             </div>
-            <div className='mt-4' style={{display: test.isDone?"block":"none"}}>
-              <SecondaryButton onClick={resultClickHandler}>Результат</SecondaryButton>
+            <div className='mt-4' style={{ display: test.isDone ? "block" : "none" }}>
+              <SecondaryButton onClick={resultClickHandler}>{t("Tests.TestStudentComponents.TestModal.resultButton")}</SecondaryButton>
             </div>
-            <div className='mt-3' style={{display: getButtonVisibility()}}>
+            <div className='mt-3' style={{ display: getButtonVisibility() }}>
               <PrimaryButton onClick={runTestHandler}>{getButtonText()}</PrimaryButton>
             </div>
           </div>

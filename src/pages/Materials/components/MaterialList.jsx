@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import './styles/Material.css';
+import { useTranslation } from 'react-i18next';
 
 export default function MaterialList({ name, ext, img, onDownloadClick, materialId = null, onDelete, onEdit, openAccessModalHandler }) {
+    const { t } = useTranslation();
     const [isEditDelVisible, setIsEditDelVisible] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
     const [newName, setNewName] = useState(name);
@@ -18,8 +20,8 @@ export default function MaterialList({ name, ext, img, onDownloadClick, material
 
             toast.success(
                 <div>
-                    <p>Назву матеріалу змінено</p>
-                    <p>Нова назва: {newName}</p>
+                    <p>{t("MaterialComponents.MaterialList.nameChanged")}</p>
+                    <p>{t("MaterialComponents.MaterialList.newName")}: {newName}</p>
                 </div>
             );
         } else {
@@ -30,7 +32,7 @@ export default function MaterialList({ name, ext, img, onDownloadClick, material
     const handleDelete = () => {
         toast.info(
             <div>
-                <p>Ви впевнені, що хочете видалити цей матеріал?</p>
+                <p>{t("MaterialComponents.MaterialList.deleteConfirmation")}</p>
                 <div className="flex gap-2 mt-2">
                     <button
                         className="px-3 py-1 bg-red-600 text-white rounded-md hover:bg-red-700"
@@ -40,20 +42,20 @@ export default function MaterialList({ name, ext, img, onDownloadClick, material
                             toast.dismiss();
                             toast.success(
                                 <div>
-                                    <p>Матеріал успішно видалено!</p>
-                                    <p>Назва: {name}</p>
+                                    <p>{t("MaterialComponents.MaterialList.deleteSuccess")}</p>
+                                    <p>{t("MaterialComponents.MaterialList.name")}: {name}</p>
                                 </div>,
                                 { autoClose: 5000 }
                             );
                         }}
                     >
-                        Видалити
+                        {t("MaterialComponents.MaterialList.delete")}
                     </button>
                     <button
                         className="px-3 py-1 bg-gray-300 text-gray-800 rounded-md hover:bg-gray-400"
                         onClick={() => toast.dismiss()}
                     >
-                        Скасувати
+                        {t("MaterialComponents.MaterialList.cancel")}
                     </button>
                 </div>
             </div>,
@@ -79,7 +81,7 @@ export default function MaterialList({ name, ext, img, onDownloadClick, material
                             if (e.key === 'Enter') handleSave();
                         }}
                         autoFocus
-                        placeholder="Введіть нову назву"
+                        placeholder={t("MaterialComponents.MaterialList.enterNewName")}
                         className="self-stretch text-[#120C38] text-[15px] font-normal font-['Mulish'] outline outline-1 outline-[#8A48E6] rounded-lg p-1 cursor-pointer hover:outline-[1.2px]"
                     />
                 ) : (
@@ -126,7 +128,7 @@ export default function MaterialList({ name, ext, img, onDownloadClick, material
                             strokeLinejoin="round"
                         />
                     </svg>
-                    <div className="justify-center text-[#e64851] text-[15px] font-bold font-['Nunito']">Видалити</div>
+                    <div className="justify-center text-[#e64851] text-[15px] font-bold font-['Nunito']">{t("MaterialComponents.MaterialList.delete")}</div>
                 </button>
 
                 <button
@@ -149,7 +151,7 @@ export default function MaterialList({ name, ext, img, onDownloadClick, material
                             strokeLinejoin="round"
                         />
                     </svg>
-                    <div className="justify-center text-[#120c38] text-[15px] font-bold font-['Nunito']">Змінити назву</div>
+                    <div className="justify-center text-[#120c38] text-[15px] font-bold font-['Nunito']">{t("MaterialComponents.MaterialList.changeName")}</div>
                 </button>
 
                 <button
@@ -179,7 +181,7 @@ export default function MaterialList({ name, ext, img, onDownloadClick, material
                             strokeLinejoin="round"
                         />
                     </svg>
-                    <div className="justify-center text-[#120c38] text-[15px] font-bold font-['Nunito']">Керування доступом</div>
+                    <div className="justify-center text-[#120c38] text-[15px] font-bold font-['Nunito']">{t("MaterialComponents.MaterialList.manageAccess")}</div>
                 </button>
 
                 <button

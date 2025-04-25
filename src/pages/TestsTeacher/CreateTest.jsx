@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import TestForm from './components/TestForm/TestForm';
 import AddQuestion from './components/AddQuestion/AddQuestion';
 import { PrimaryButton } from '../../components/Buttons/Buttons';
@@ -10,6 +11,7 @@ import { toast } from 'react-toastify';
 
 const CreateTest = () => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const { encodedGroupId } = useParams();
   const [questions, setQuestions] = useState([1]);
   const [formData, setFormData] = useState({});
@@ -24,23 +26,20 @@ const CreateTest = () => {
       const decryptedGroupId = decryptData(encodedGroupId);
       setGroupId(decryptedGroupId);
     } catch (err) {
-      console.log(err.message);
+      toast.error(t("Tests.CreateTest.errorDecryptGroup"));
     }
-  }, [encodedGroupId]);
+  }, [encodedGroupId, t]);
 
   const handleSubmit = async () => {
     setIsSubmitting(true);
-    console.log('Form Data:', formData);
-    console.log('Questions Data:', questionsData);
-
     const newErrors = {};
 
     if (!formData.subject || formData.subject.trim() === '') {
-      newErrors.subject = 'Тема тесту не може бути порожньою.';
+      newErrors.subject = t("Tests.CreateTest.errorEmptySubject");
     }
 
     if (!formData.numAttempts || parseInt(formData.numAttempts) < 1) {
-      newErrors.numAttempts = 'Кількість спроб має бути числом >= 1.';
+      newErrors.numAttempts = t("Tests.CreateTest.errorNumAttempts");
     }
 
     let timeInMinutes = 0;
@@ -55,15 +54,16 @@ const CreateTest = () => {
         const [hours, minutes, seconds] = timeValue.split(':').map(Number);
         timeInMinutes = hours * 60 + minutes + Math.floor(seconds / 60);
       } else {
-        newErrors.time = 'Некоректний формат часу. Використовуйте число (хвилини), MM:SS або HH:MM:SS.';
+        newErrors.time = t("Tests.CreateTest.errorTimeFormat");
       }
     }
+
     if (timeInMinutes < 0) {
-      newErrors.time = 'Час виконання не може бути від’ємним.';
+      newErrors.time = t("Tests.CreateTest.errorNegativeTime");
     }
 
     if (!formData.maxScore || parseInt(formData.maxScore) < 0) {
-      newErrors.maxScore = 'Максимальний бал має бути числом >= 0.';
+      newErrors.maxScore = t("Tests.CreateTest.errorMaxScore");
     }
 
     if (formData.deadline) {
@@ -71,10 +71,10 @@ const CreateTest = () => {
       const today = new Date();
       today.setHours(0, 0, 0, 0);
       if (deadlineDate < today) {
-        newErrors.deadline = 'Дедлайн не може бути меншим за сьогоднішню дату.';
+        newErrors.deadline = t("Tests.CreateTest.errorPastDeadline");
       }
     } else {
-      newErrors.deadline = 'Будь ласка, виберіть дедлайн.';
+      newErrors.deadline = t("Tests.CreateTest.errorEmptyDeadline");
     }
 
     const validQuestions = Object.values(questionsData).filter((question) => {
@@ -85,23 +85,22 @@ const CreateTest = () => {
     });
 
     if (validQuestions.length === 0) {
-      newErrors.questions = 'Будь ласка, додайте хоча б одне заповнене питання.';
+      newErrors.questions = t("Tests.CreateTest.errorNoQuestions");
     } else {
       validQuestions.forEach((question) => {
         const questionErrors = {};
-
         if (!question.questionText || question.questionText.trim() === '') {
-          questionErrors.questionText = `Будь ласка, заповніть текст питання для завдання ${question.taskNumber}.`;
+          questionErrors.questionText = t("Tests.CreateTest.errorEmptyQuestion", { number: question.taskNumber });
         }
 
         const validOptions = question.options.filter((opt) => opt.trim() !== '');
         if (validOptions.length < 2) {
-          questionErrors.options = `Питання ${question.taskNumber} має мати принаймні 2 відповіді.`;
+          questionErrors.options = t("Tests.CreateTest.errorNotEnoughOptions", { number: question.taskNumber });
         } else {
           const optionErrors = [];
           question.options.forEach((opt, index) => {
             if (!opt.trim()) {
-              optionErrors[index] = `Відповідь ${index + 1} не може бути порожньою.`;
+              optionErrors[index] = t("Tests.CreateTest.errorEmptyOption", { index: index + 1 });
             }
           });
           if (optionErrors.length > 0) {
@@ -110,7 +109,7 @@ const CreateTest = () => {
         }
 
         if (!question.correctAnswer) {
-          questionErrors.correctAnswer = `Будь ласка, виберіть правильну відповідь для питання ${question.taskNumber}.`;
+          questionErrors.correctAnswer = t("Tests.CreateTest.errorNoCorrectAnswer", { number: question.taskNumber });
         }
 
         if (Object.keys(questionErrors).length > 0) {
@@ -121,7 +120,7 @@ const CreateTest = () => {
 
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
-      toast.error('Будь ласка, виправте помилки у формі');
+      toast.error(t("Tests.CreateTest.errorFixForm"));
       setIsSubmitting(false);
       return;
     }
@@ -142,7 +141,7 @@ const CreateTest = () => {
           timeLimitInMinutes = hours * 60 + minutes + Math.floor(seconds / 60);
         }
       }
-     
+
       const testPayload = {
         TestName: formData.subject,
         TestDescription: formData.description,
@@ -156,13 +155,13 @@ const CreateTest = () => {
         ShowAnswers: formData.showAnswersAfterTest || false,
       };
 
-      const testResponse = await axios.post('http://localhost:4000/api/tests', testPayload, {
+      const testResponse = await axios.post(`${process.env.REACT_APP_BASE_API_URL}/api/tests`, testPayload, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const testId = testResponse.data.TestId;
 
       if (!testId) {
-        throw new Error('Не вдалося отримати TestId');
+        throw new Error(t("Tests.CreateTest.errorMissingTestId"));
       }
 
       const questionsPayload = await Promise.all(
@@ -174,39 +173,37 @@ const CreateTest = () => {
 
             try {
               const imageResponse = await axios.post(
-                'http://localhost:4000/api/files/upload',
+                `${process.env.REACT_APP_BASE_API_URL}/api/files/upload`,
                 formDataForImage,
                 {
                   headers: {
                     Authorization: `Bearer ${token}`
-                },
+                  },
                 }
               );
               fileUrl = imageResponse.data.fileUrl;
             } catch (error) {
-              throw new Error('Не вдалося завантажити зображення: ' + (error.message || error));
+              throw new Error(t("Tests.CreateTest.errorImageUpload", { error: error.message || error }));
             }
           }
 
           const questionData = {
             TestId: testId,
             TestQuestionHeader: `${question.questionText.trim()}`,
-            TestQuestionDescription: `    `,
+            TestQuestionDescription: ``,
             ImagePath: fileUrl,
             AudioPath: null,
           };
 
-          console.log('Question Data:', questionData);
-
           const questionResponse = await axios.post(
-            'http://localhost:4000/api/testQuestions',
+            `${process.env.REACT_APP_BASE_API_URL}/api/testQuestions`,
             questionData,
             { headers: { Authorization: `Bearer ${token}` } }
           );
           const testQuestionId = questionResponse.data.TestQuestionId;
 
           if (!testQuestionId) {
-            throw new Error('Не вдалося отримати TestQuestionId');
+            throw new Error(t("Tests.CreateTest.errorMissingQuestionId"));
           }
 
           const answers = question.options
@@ -219,7 +216,7 @@ const CreateTest = () => {
             }));
 
           for (const answer of answers) {
-            await axios.post('http://localhost:4000/api/testAnswers', answer, {
+            await axios.post(`${process.env.REACT_APP_BASE_API_URL}/api/testAnswers`, answer, {
               headers: { Authorization: `Bearer ${token}` },
             });
           }
@@ -234,9 +231,9 @@ const CreateTest = () => {
 
       toast.success(
         <div>
-          <p>Тест успішно створено!</p>
-          <p>Назва: {formData.subject}</p>
-          <p>Група: {questionsPayload[0]?.answers[0]?.TestQuestionId ? 'Невідома' : 'Невідома'}</p>
+          <p>{t("Tests.CreateTest.success")}</p>
+          <p>{t("Tests.CreateTest.testName")}: {formData.subject}</p>
+          <p>{t("Tests.CreateTest.group")}: {questionsPayload[0]?.answers[0]?.TestQuestionId ? 'Невідома' : 'Невідома'}</p>
         </div>,
         { autoClose: 5000 }
       );
@@ -246,8 +243,7 @@ const CreateTest = () => {
         navigate(0);
       }, 1500);
     } catch (error) {
-      console.error('Помилка:', error);
-      const errorMessage = error.response?.data?.message || error.message || 'Виникла помилка при створенні тесту';
+      const errorMessage = error.response?.data?.message || error.message || t("Tests.CreateTest.errorCreatingTest");
       toast.error(errorMessage);
       setErrors({ general: errorMessage });
       setIsSubmitting(false);
@@ -256,7 +252,7 @@ const CreateTest = () => {
     }
   };
 
- const addNewQuestion = () => {
+  const addNewQuestion = () => {
     setQuestions((prevQuestions) => [...prevQuestions, prevQuestions.length + 1]);
   };
 
@@ -291,7 +287,7 @@ const CreateTest = () => {
         errors={errors}
         createdQuestionsAmount={questions.length}
       />
-  
+
       <div className="questions-container mt-4 sm:mt-6 md:mt-8">
         <div className="questions-section space-y-4 sm:space-y-6">
           {questions.map((questionNumber) => (
@@ -313,21 +309,21 @@ const CreateTest = () => {
           ))}
         </div>
       </div>
-  
+
       <div className="flex flex-col sm:flex-row justify-center gap-4 mt-6 mb-24">
         <PrimaryButton
           onClick={addNewQuestion}
           className="w-full sm:w-auto sm:flex-1 max-w-md mx-auto sm:mx-0 bg-purple-500 hover:bg-purple-600"
         >
-          Додати ще одне запитання
+          {t("Tests.CreateTest.addQuestion")}
         </PrimaryButton>
-  
+
         <PrimaryButton
           className="w-full sm:w-auto sm:flex-1 max-w-md mx-auto sm:mx-0"
           onClick={handleSubmit}
           disabled={isSubmitting}
         >
-          {isSubmitting ? 'Зберігається...' : 'Створити'}
+          {isSubmitting ? t("Tests.CreateTest.saving") : t("Tests.CreateTest.create")}
         </PrimaryButton>
       </div>
     </div>

@@ -1,11 +1,14 @@
 import { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import "./CreateModal.css";
 import Dropdown from "../../../../components/Dropdown/Dropdown";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { encryptData } from "../../../../utils/crypto";
+import { toast } from "react-toastify";
 
 const CreateModal = ({ onClose, teacher_id, token }) => {
+  const { t } = useTranslation();
   const [courses, setCourses] = useState([]);
   const [groups, setGroups] = useState([]);
   const [selectedCourseId, setSelectedCourseId] = useState(null);
@@ -14,7 +17,6 @@ const CreateModal = ({ onClose, teacher_id, token }) => {
   const [isLoadingGroups, setIsLoadingGroups] = useState(false);
   const navigate = useNavigate();
 
-  // Завантаження курсів при монтуванні компонента
   useEffect(() => {
     const fetchCourses = async () => {
       setIsLoadingCourses(true);
@@ -29,15 +31,14 @@ const CreateModal = ({ onClose, teacher_id, token }) => {
         );
         setCourses(response.data);
       } catch (error) {
-        console.error("Помилка при завантаженні курсів:", error);
+        toast.error(t("Tests.TestTeacherComponents.CreateModal.errorMessage"));
       } finally {
         setIsLoadingCourses(false);
       }
     };
     fetchCourses();
-  }, [teacher_id, token]);
+  }, [teacher_id, token, t]);
 
-  // Завантаження груп при зміні обраного курсу
   useEffect(() => {
     if (selectedCourseId) {
       const fetchGroups = async () => {
@@ -53,30 +54,27 @@ const CreateModal = ({ onClose, teacher_id, token }) => {
           );
           setGroups(response.data);
         } catch (error) {
-          console.error("Помилка при завантаженні груп:", error);
+          toast.error(t("Tests.TestTeacherComponents.CreateModal.errorMessage"));
         } finally {
           setIsLoadingGroups(false);
         }
       };
       fetchGroups();
     } else {
-      setGroups([]); // Очищаємо групи, якщо курс не обраний
+      setGroups([]);
     }
-  }, [selectedCourseId, token]);
+  }, [selectedCourseId, token, t]);
 
-  // Скидання обраної групи при зміні курсу
   useEffect(() => {
     setSelectedGroupId(null);
   }, [selectedCourseId]);
 
-  // Закриття модального вікна при кліку на оверлей
   const handleOverlayClick = (e) => {
     if (e.target.classList.contains("CreateModal")) {
       onClose();
     }
   };
 
-  // Обробка вибору курсу
   const handleCourseSelect = (courseName) => {
     const selectedCourse = courses.find(
       (course) => course.CourseName === courseName
@@ -84,19 +82,18 @@ const CreateModal = ({ onClose, teacher_id, token }) => {
     setSelectedCourseId(selectedCourse?.CourseId || null);
   };
 
-  // Обробка вибору групи
   const handleGroupSelect = (groupName) => {
-    const selectedGroup = groups.find((group) => group.GroupName === groupName);
+    const selectedGroup = groups.find(
+      (group) => group.GroupName === groupName
+    );
     setSelectedGroupId(selectedGroup?.GroupId || null);
   };
 
-  // Навігація для створення тесту вручну
   const handleManualTestClick = () => {
     const encryptedGroupId = encryptData(selectedGroupId);
     navigate(`create/${encryptedGroupId}`);
   };
 
-  // Навігація для створення тесту за допомогою ШІ
   const handleAITestClick = () => {
     const encryptedGroupId = encryptData(selectedGroupId);
     navigate(`create-ai/${encryptedGroupId}`);
@@ -125,15 +122,23 @@ const CreateModal = ({ onClose, teacher_id, token }) => {
           </div>
         </button>
 
-        <h2 className="modal-title">Створення тесту</h2>
+        <h2 className="modal-title">
+          {t("Tests.TestTeacherComponents.CreateModal.modalTitle")}
+        </h2>
 
         <div className="dropdowns-container">
           {isLoadingCourses ? (
-            <p>Завантаження курсів...</p>
+            <p>
+              {t(
+                "Tests.TestTeacherComponents.CreateModal.loadingCourses"
+              )}
+            </p>
           ) : (
             <div className="dropdown-wrapper">
               <Dropdown
-                textAll="Виберіть курс"
+                textAll={t(
+                  "Tests.TestTeacherComponents.CreateModal.selectCourse"
+                )}
                 options={courses.map((course) => ({
                   SubjectName: course.CourseName,
                 }))}
@@ -145,11 +150,17 @@ const CreateModal = ({ onClose, teacher_id, token }) => {
 
           {selectedCourseId &&
             (isLoadingGroups ? (
-              <p>Завантаження груп...</p>
+              <p>
+                {t(
+                  "Tests.TestTeacherComponents.CreateModal.loadingGroups"
+                )}
+              </p>
             ) : (
               <div className="dropdown-wrapper">
                 <Dropdown
-                  textAll="Виберіть групу"
+                  textAll={t(
+                    "Tests.TestTeacherComponents.CreateModal.selectGroup"
+                  )}
                   options={groups.map((group) => ({
                     SubjectName: group.GroupName,
                   }))}
@@ -166,10 +177,21 @@ const CreateModal = ({ onClose, teacher_id, token }) => {
               className="manual-test-button"
               onClick={handleManualTestClick}
             >
-              <span>Створити тест самостійно</span>
+              <span>
+                {t(
+                  "Tests.TestTeacherComponents.CreateModal.manualTestButton"
+                )}
+              </span>
             </button>
-            <button className="ai-test-button" onClick={handleAITestClick}>
-              <span>Тест від штучного інтелекту</span>
+            <button
+              className="ai-test-button"
+              onClick={handleAITestClick}
+            >
+              <span>
+                {t(
+                  "Tests.TestTeacherComponents.CreateModal.aiTestButton"
+                )}
+              </span>
             </button>
           </div>
         )}

@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import { useTranslation } from "react-i18next";
 
 export default function AccessManagementModal({ materialId, courses = [], isOpened = false, onClose = () => { } }) {
+  const { t } = useTranslation();
   const [expandedCourses, setExpandedCourses] = useState({});
   const [expandedGroups, setExpandedGroups] = useState({});
   const [selectedStudents, setSelectedStudents] = useState({});
@@ -167,17 +169,16 @@ export default function AccessManagementModal({ materialId, courses = [], isOpen
     const selectedStudentIds = Object.keys(selectedStudents).filter(
       id => selectedStudents[id]
     );
-    
-    console.log("materialId: ", materialId);
-    console.log("Выбранные StudentId:", selectedStudentIds);
-    
-    axios.put(`http://localhost:4000/api/materials/setAccessToMaterial/${materialId}`, selectedStudentIds)
-      .then(response => {  
-        toast.success("Доступ до матеріалу оновлено");
+
+    axios.put(`${process.env.REACT_APP_BASE_API_URL}/api/materials/setAccessToMaterial/${materialId}`, selectedStudentIds, {
+      headers: { Authorization: `Bearer ${sessionStorage.getItem("token")}` }
+    })
+      .then(response => {
+        toast.success(t("MaterialComponents.AccessManagementModal.accessUpdated"));
         onClose();
       })
       .catch(error => {
-        console.error("Error updating access:", error);
+        toast.error(t("MaterialComponents.AccessManagementModal.errorMessage"));
       });
   };
 
@@ -192,7 +193,9 @@ export default function AccessManagementModal({ materialId, courses = [], isOpen
 
       <div className="relative w-full max-w-3xl mx-auto bg-white rounded-2xl shadow-xl transform transition-all z-50">
         <div className="flex justify-between items-center p-6 border-b border-gray-200">
-          <h3 className="text-lg font-bold text-[#120c38] font-['Nunito']">Керування доступом до навчальних матеріалів</h3>
+          <h3 className="text-lg font-bold text-[#120c38] font-['Nunito']">
+            {t("MaterialComponents.AccessManagementModal.title")}
+          </h3>
           <button
             className="p-2 rounded-full hover:bg-gray-100 transition-colors"
             onClick={onClose}
@@ -305,7 +308,7 @@ export default function AccessManagementModal({ materialId, courses = [], isOpen
             </div>
           ) : (
             <div className="text-center py-8 text-[#827ead] font-['Mulish']">
-              Нет доступных курсов
+              {t("MaterialComponents.AccessManagementModal.noCourses")}
             </div>
           )}
         </div>
@@ -315,7 +318,7 @@ export default function AccessManagementModal({ materialId, courses = [], isOpen
             onClick={handleSave}
             className="bg-[#8a48e6] text-white px-6 py-2 rounded-full flex items-center font-bold font-['Nunito'] hover:bg-purple-700 stroke-white transition-colors"
           >
-            <span>Зберегти</span>
+            <span>{t("MaterialComponents.AccessManagementModal.saveButton")}</span>
             <svg className="w-5 h-5 ml-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <path d="M5 12h14M12 5l7 7-7 7" />
             </svg>
