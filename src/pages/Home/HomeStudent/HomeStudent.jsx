@@ -8,12 +8,13 @@ import NearestEvents from './components/NearestEvents';
 import Schedule from './components/Schedule';
 import Graphic from './components/Graphic';
 import SearchTeachers from './components/SearchTeacher';
-//import Map from './components/Map';
 import { jwtDecode } from 'jwt-decode';
 import { useLocation } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { useTranslation } from 'react-i18next';
 
 export default function HomeStudent() {
+  const { t } = useTranslation();
   const [leaders, setLeaders] = useState([]);
   const [grades, setGrades] = useState([]);
   const [events, setEvents] = useState([]);
@@ -21,11 +22,11 @@ export default function HomeStudent() {
   const [user, setUser] = useState(null);
   const [studentId, setStudentId] = useState(null);
 
-  const location=useLocation();
+  const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const tokenServer = searchParams.get('token');
-  if(tokenServer){
-    sessionStorage.setItem('token',tokenServer);
+  if (tokenServer) {
+    sessionStorage.setItem('token', tokenServer);
   }
 
   useEffect(() => {
@@ -33,7 +34,7 @@ export default function HomeStudent() {
       try {
         const token = sessionStorage.getItem('token');
         if (!token) {
-          toast.error('Токен не знайдено в сховищі сесії!');
+          toast.error(t('HomeStudent.errorNoToken'));
           return;
         }
 
@@ -41,25 +42,28 @@ export default function HomeStudent() {
         try {
           decodedToken = jwtDecode(token);
         } catch (error) {
-          toast.error('Ошибка при расшифровке токена!');
+          toast.error(t('HomeStudent.errorTokenDecode'));
           return;
         }
 
         const userId = decodedToken.id;
 
         if (!userId) {
-          toast.error('User ID не знайдено в токені!');
+          toast.error(t('HomeStudent.errorNoUserId'));
           return;
         }
 
-        const studentResponse = await axios.get(`http://localhost:4000/api/students/search/user/${userId}`, {
-          headers: {
-            Authorization: `Bearer ${token}`
+        const studentResponse = await axios.get(
+          `${process.env.REACT_APP_BASE_API_URL}/api/students/search/user/${userId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`
+            }
           }
-        });
+        );
 
         if (!studentResponse.data.success || !studentResponse.data.data.length) {
-          toast.error('Студент не знайдено для цього користувача!');
+          toast.error(t('HomeStudent.errorNoStudent'));
           return;
         }
 
@@ -67,11 +71,31 @@ export default function HomeStudent() {
         setStudentId(student.StudentId);
 
         const [leadersResponse, gradesResponse, eventsResponse, daysResponse, userResponse] = await Promise.all([
-          axios.get(`http://localhost:4000/api/students/${student.StudentId}/leaders`),
-          axios.get(`http://localhost:4000/api/students/${student.StudentId}/grades`),
-          axios.get(`http://localhost:4000/api/students/${student.StudentId}/events`),
-          axios.get(`http://localhost:4000/api/students/${student.StudentId}/days`),
-          axios.get(`http://localhost:4000/api/students/${student.StudentId}/user`)
+          axios.get(`${process.env.REACT_APP_BASE_API_URL}/api/students/${student.StudentId}/leaders`, {
+            headers: {
+              Authorization: `Bearer ${token}`
+            }
+          }),
+          axios.get(`${process.env.REACT_APP_BASE_API_URL}/api/students/${student.StudentId}/grades`, {
+            headers: {
+              Authorization: `Bearer ${token}`
+            }
+          }),
+          axios.get(`${process.env.REACT_APP_BASE_API_URL}/api/students/${student.StudentId}/events`, {
+            headers: {
+              Authorization: `Bearer ${token}`
+            }
+          }),
+          axios.get(`${process.env.REACT_APP_BASE_API_URL}/api/students/${student.StudentId}/days`, {
+            headers: {
+              Authorization: `Bearer ${token}`
+            }
+          }),
+          axios.get(`${process.env.REACT_APP_BASE_API_URL}/api/students/${student.StudentId}/user`, {
+            headers: {
+              Authorization: `Bearer ${token}`
+            }
+          })
         ]);
 
         setLeaders(leadersResponse.data);
@@ -81,12 +105,12 @@ export default function HomeStudent() {
         setUser(userResponse.data);
 
       } catch (error) {
-        toast.error('Помилка при отриманні даних студента!');
+        toast.error(t('HomeStudent.errorFetchData'));
       }
     };
 
     fetchStudentData();
-  }, []);
+  }, [t]);
 
   return (
     <div className="flex flex-col md:flex-row bg-[#F6EEFF] p-2 min-h-[90vh] overflow-hidden">

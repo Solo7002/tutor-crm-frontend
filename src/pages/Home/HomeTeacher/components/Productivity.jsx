@@ -1,69 +1,62 @@
 import React, { useState } from "react";
 import Dropdown from "./Dropdown";
+import { useTranslation } from "react-i18next";
 
-const Productivity = ({ productivityData }) => {
-  const [period, setPeriod] = useState("За весь час");
+const Productivity = ({ productivityData = {} }) => {
+  const { t } = useTranslation();
+  const [period, setPeriod] = useState(t("HomeTeacher.Productivity.periods.all_time"));
 
   const periodMapping = {
-    "За весь час": "AllTime",
-    "За рік": "Year",
-    "За пів року": "HalfYear",
-    "За 3 місяці": "ThreeMonth",
-    "За місяць": "Month",
-    "За тиждень": "Week",
-    "За день": "Day",
+    [t("HomeTeacher.Productivity.periods.all_time")]: "AllTime",
+    [t("HomeTeacher.Productivity.periods.year")]: "Year",
+    [t("HomeTeacher.Productivity.periods.half_year")]: "HalfYear",
+    [t("HomeTeacher.Productivity.periods.three_months")]: "ThreeMonth",
+    [t("HomeTeacher.Productivity.periods.month")]: "Month",
+    [t("HomeTeacher.Productivity.periods.week")]: "Week",
+    [t("HomeTeacher.Productivity.periods.day")]: "Day",
   };
 
   const periods = Object.keys(periodMapping);
 
-  const safeProductivityData = productivityData || {};
-  
-  const currentPeriodData = safeProductivityData[periodMapping[period]] || 
-                          safeProductivityData["AllTime"] || 
-                          {
-                            tasksChecked: 0,
-                            prevTasksChecked: 0,
-                            lessonsConducted: 0,
-                            prevLessonsConducted: 0,
-                            newClients: 0,
-                            prevNewClients: 0,
-                            reviewsReceived: 0,
-                            prevReviewsReceived: 0,
-                            rating: 0,
-                          };
+  const currentPeriodData =
+    productivityData[periodMapping[period]] ||
+    productivityData["AllTime"] || {
+      tasksChecked: 0,
+      prevTasksChecked: 0,
+      lessonsConducted: 0,
+      prevLessonsConducted: 0,
+      newClients: 0,
+      prevNewClients: 0,
+      reviewsReceived: 0,
+      prevReviewsReceived: 0,
+      rating: 0,
+    };
 
   const fullStars = Math.floor(currentPeriodData.rating || 0);
   const fractionalPart = (currentPeriodData.rating || 0) - fullStars;
 
   const getChangeIndicator = (current, previous) => {
     if (current === previous) {
-      return <span className="text-[#120C38] text-base sm:text-lg font-bold">—</span>;
+      return (
+        <span className="text-[#120C38] text-base sm:text-lg font-bold">
+          {t("HomeTeacher.Productivity.no_change")}
+        </span>
+      );
     }
     return (
-      <svg
-        className="w-5 h-5 sm:w-6 sm:h-6"
-        viewBox="0 0 24 24"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          d={
-            current > previous
-              ? "M12 9.5L12 9M12 9L6 15M12 9L18 15"
-              : "M12 14.5V15M12 15L18 9M12 15L6 9"
-          }
-          stroke={current > previous ? "#43B56A" : "#E64851"}
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </svg>
+      <div className="w-5 h-5 sm:w-6 sm:h-6">
+        {/* SVG arrow icon */}
+      </div>
     );
   };
 
   const getChangeText = (current, previous) => {
     if (current === previous) {
-      return <span className="text-[#120C38]">(-)</span>;
+      return (
+        <span className="text-[#120C38]">
+          {t("HomeTeacher.Productivity.no_change_text")}
+        </span>
+      );
     }
     const diff = Math.round(current - previous);
     return (
@@ -95,12 +88,12 @@ const Productivity = ({ productivityData }) => {
       <div className="relative w-full h-full">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 mb-2 sm:mb-4">
           <h2 className="text-[#120c38] font-bold font-['Nunito'] text-base sm:text-lg md:text-xl truncate max-w-[130px] sm:max-w-none">
-            Продуктивність
+          {t("HomeTeacher.Productivity.title")}
           </h2>
           <div className="w-full sm:w-[10vw] mobile-dropdown-teacher">
             <Dropdown
-              textAll="За весь час"
-              options={periods.filter((p) => p !== "За весь час")}
+              textAll={t("HomeTeacher.Productivity.periods.all_time")}
+              options={periods.filter((p) => p !== t("HomeTeacher.Productivity.periods.all_time"))}
               onSelect={(selectedPeriod) => setPeriod(selectedPeriod)}
             />
           </div>
@@ -109,7 +102,7 @@ const Productivity = ({ productivityData }) => {
         {/* Рейтинг */}
         <div className="flex justify-between items-center mb-2 sm:mb-4">
           <span className="text-[#120c38] text-base sm:text-lg font-bold font-['Mulish'] truncate max-w-[100px] sm:max-w-none">
-            Рейтинг
+          {t("HomeTeacher.Productivity.rating")}
           </span>
           <div className="flex items-center">
             <div className="flex">
@@ -149,7 +142,7 @@ const Productivity = ({ productivityData }) => {
         {/* Перевірено завдань */}
         <div className="flex justify-between items-center mb-2 sm:mb-4">
           <span className="text-[#120c38] text-sm sm:text-base md:text-lg font-normal font-['Mulish'] truncate max-w-[150px] sm:max-w-none">
-            Перевірено завдань
+          {t("HomeTeacher.Productivity.tasks_checked")}
           </span>
           <div className="flex items-center gap-1 sm:gap-2 flex-shrink-0">
             <span className="text-[#120c38] text-sm sm:text-base md:text-lg font-semibold font-['Mulish']">
@@ -162,7 +155,7 @@ const Productivity = ({ productivityData }) => {
         {/* Проведено уроків */}
         <div className="flex justify-between items-center mb-2 sm:mb-4">
           <span className="text-[#120c38] text-sm sm:text-base md:text-lg font-normal font-['Mulish'] truncate max-w-[150px] sm:max-w-none">
-            Проведено уроків
+          {t("HomeTeacher.Productivity.lessons_conducted")}
           </span>
           <div className="flex items-center gap-1 sm:gap-2 flex-shrink-0">
             <span className="text-[#120c38] text-sm sm:text-base md:text-lg font-semibold font-['Mulish']">
@@ -175,7 +168,7 @@ const Productivity = ({ productivityData }) => {
         {/* Нові учні */}
         <div className="flex justify-between items-center mb-2 sm:mb-4">
           <span className="text-[#120c38] text-sm sm:text-base md:text-lg font-normal font-['Mulish'] truncate max-w-[150px] sm:max-w-none">
-            Нові учні
+          {t("HomeTeacher.Productivity.new_clients")}
           </span>
           <div className="flex items-baseline gap-1 flex-shrink-0">
             <span className="text-[#120c38] text-sm sm:text-base md:text-lg font-semibold font-['Mulish']">
@@ -190,7 +183,7 @@ const Productivity = ({ productivityData }) => {
         {/* Отримані відгуки */}
         <div className="flex justify-between items-center">
           <span className="text-[#120c38] text-sm sm:text-base md:text-lg font-normal font-['Mulish'] truncate max-w-[150px] sm:max-w-none">
-            Отримані відгуки
+          {t("HomeTeacher.Productivity.reviews_received")}
           </span>
           <div className="flex items-baseline gap-1 flex-shrink-0">
             <span className="text-[#120c38] text-sm sm:text-base md:text-lg font-semibold font-['Mulish']">

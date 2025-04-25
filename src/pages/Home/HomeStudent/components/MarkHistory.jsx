@@ -1,7 +1,9 @@
 import React from "react";
+import { useTranslation } from 'react-i18next';
 import "../HomeStudent.css";
 
 const MarkHistory = ({ grades }) => {
+  const { t } = useTranslation();
   const getIcon = (type) => {
     switch (type) {
       case "Test": // Test
@@ -29,18 +31,18 @@ const MarkHistory = ({ grades }) => {
     }
   };
 
-  const getTypeUkr = (type) => {
-    switch (type) {
-      case "Classwork":
-        return "Робота в класі";
-      case "Homework":
-        return "Домашнє завдання";
-      case "Test":
-        return "Тест";
-      default:
-        return "Домашнє завдання";
-    }
-  };
+  // const getTypeUkr = (type) => {
+  //   switch (type) {
+  //     case "Classwork":
+  //       return "Робота в класі";
+  //     case "Homework":
+  //       return "Домашнє завдання";
+  //     case "Test":
+  //       return "Тест";
+  //     default:
+  //       return "Домашнє завдання";
+  //   }
+  // };
 
   const getBgMark = (type) => {
     switch (type) {
@@ -85,7 +87,7 @@ const MarkHistory = ({ grades }) => {
           color: "#120C38",
         }}
       >
-        Історія оцінок
+        {t('HomeStudent.MarkHistory.title')}
       </h2>
       <div className="px-4 pb-4">
         <ul className="custom-scrollbar">
@@ -100,7 +102,7 @@ const MarkHistory = ({ grades }) => {
                     <div>
                       <div className="text-[#6f6f6f] text-[10pt] font-normal font-['Mulish']">{grade.date}</div>
                       <div className="text-black text-[14pt] font-bold font-['Nunito'] truncate max-w-[calc(100%)]">{grade.subject}</div>
-                      <div className="text-[#6f6f6f] text-[10pt] font-normal font-['Mulish']">{getTypeUkr(grade.type)}</div>
+                      <div className="text-[#6f6f6f] text-[10pt] font-normal font-['Mulish']">{t(`HomeStudent.MarkHistory.types.${grade.type}`)}</div>
                     </div>
                   </div>
                   {/* Grade Circle */}
@@ -163,7 +165,7 @@ const MarkHistory = ({ grades }) => {
                   color: "#120C38",
                 }}
               >
-                Немає інформації
+                {t('HomeStudent.MarkHistory.no_data')}
               </div>}
         </ul>
       </div>
