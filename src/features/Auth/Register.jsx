@@ -19,6 +19,7 @@ const Register = () => {
     const [confirmError, setConfirmError] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [imageError, setImageError] = useState("");
+    const [isDatabaseFiling, setIsDatabaseFiling] = useState(false);
 
     const [formData, setFormData] = useState({
         Username: "",
@@ -191,15 +192,15 @@ const Register = () => {
                 const response = await axios.post(
                     `${process.env.REACT_APP_BASE_API_URL}/api/files/uploadAndReturnLink`,
                     ReqformData, {
-                        headers: { Authorization: `Bearer ${sessionStorage.getItem("token")}` }
-                    }
+                    headers: { Authorization: `Bearer ${sessionStorage.getItem("token")}` }
+                }
                 );
 
                 if (formData.ImageFilePath) {
                     const delResponse = await axios.delete(
                         `${process.env.REACT_APP_BASE_API_URL}/api/files/delete/${formData.ImageFilePath.split('/').pop()}`, {
-                            headers: { Authorization: `Bearer ${sessionStorage.getItem("token")}` }
-                        }
+                        headers: { Authorization: `Bearer ${sessionStorage.getItem("token")}` }
+                    }
                     );
                 }
                 setFormData((prevFormData) => ({
@@ -254,7 +255,6 @@ const Register = () => {
 
     const handleConfirmCode = async (code) => {
         if (isLoading) return;
-
         setIsLoading(true);
         try {
             const response = await axios.post(`${process.env.REACT_APP_BASE_API_URL}/api/auth/confirm-email-code`, {
@@ -269,7 +269,24 @@ const Register = () => {
             }, {
                 headers: { Authorization: `Bearer ${sessionStorage.getItem("token")}` }
             });
+
             if (response.status === 201) {
+                setIsDatabaseFiling(true);
+                const userId = response.data.user.UserId;
+
+                const populateDbUrl = formData.Role === "Student"
+                    ? `${process.env.REACT_APP_BASE_API_URL}/populateFullDbForStudent/${userId}`
+                    : `${process.env.REACT_APP_BASE_API_URL}/populateFullDbForTeacher/${userId}`;
+
+                try {
+                    await axios.get(populateDbUrl, {
+                        headers: { Authorization: `Bearer ${sessionStorage.getItem("token")}` }
+                    });
+                } catch (dbError) {
+                    toast.error("Помилка при заповненні бази даних");
+                }
+
+                setIsDatabaseFiling(false);
                 setStep(5);
             }
         } catch (error) {
@@ -397,18 +414,23 @@ const Register = () => {
                     </div>
                 )}
                 {step === 4 && (
-                    <div className="register-stage-4">
-                        <h1 className='text-center text-lg'>Код підтвердження надіслано на адресу <b>{formData.Email}</b></h1>
-
-                        <h1 className='text-lg mt-8 text-center'><b>Введіть код підтвердження</b></h1>
-
-                        <div className='w-full flex justify-center mt-3'>
-                            <ConfirmCodeInput isLoading={isLoading} callback={handleConfirmCode} />
+                    <div className="register-stage-4 relative">
+                        <div className={`${isDatabaseFiling ? 'opacity-30' : 'opacity-100'} transition-opacity`}>
+                            <h1 className='text-center text-lg'>Код підтвердження надіслано на адресу <b>{formData.Email}</b></h1>
+                            <h1 className='text-lg mt-8 text-center'><b>Введіть код підтвердження</b></h1>
+                            <div className='w-full flex justify-center mt-3'>
+                                <ConfirmCodeInput isLoading={isLoading} callback={handleConfirmCode} />
+                            </div>
+                            <div className='big-error-text'>
+                                <h2 className={`text-md ${confirmError ? "text-red-600" : "text-white"} ml-1 mt-2 pr-5`}>Код підтвердження не вірний, або термін його дії закінчився</h2>
+                            </div>
                         </div>
 
-                        <div className='big-error-text'>
-                            <h2 className={`text-md ${confirmError ? "text-red-600" : "text-white"} ml-1 mt-2 pr-5`}>Код підтвердження не вірний, або термін його дії закінчився</h2>
-                        </div>
+                        {isDatabaseFiling && (
+                            <div className="absolute inset-0 flex items-center justify-center">
+                                <div className="w-12 h-12 border-4 border-purple-600 border-t-transparent rounded-full animate-spin"></div>
+                            </div>
+                        )}
                     </div>
                 )}
                 {step === 5 && (
@@ -424,7 +446,7 @@ const Register = () => {
                 {(step === 1) && (<PrimaryButton onClick={handleNext} disabled={!Object.values(step1Validation).every(val => val)}>Далі</PrimaryButton>)}
                 {(step === 1) && (<SecondaryButton onClick={handlePrev}>Авторизація</SecondaryButton>)}
 
-                {(step === 2) && (<PrimaryButton onClick={handleNext}>{formData.ImageFilePath?"Далі":"Пропустити"}</PrimaryButton>)}
+                {(step === 2) && (<PrimaryButton onClick={handleNext}>{formData.ImageFilePath ? "Далі" : "Пропустити"}</PrimaryButton>)}
                 {(step === 2) && (<SecondaryButton onClick={handlePrev}>Назад</SecondaryButton>)}
 
                 {(step === 3) && (<PrimaryButton onClick={handleNext} disabled={!selectedRole}>Далі</PrimaryButton>)}

@@ -1,5 +1,340 @@
 {
     "HomeStudent": {
-        "testText": "hello"
+        "testText": "Hello"
+    },
+    "MaterialsStudent": {
+        "archive": "Archive",
+        "soon": "Soon",
+        "shop": "Shop",
+        "searchError": "An error occurred, please try again",
+        "noMaterials": "No teacher has provided you access to their materials yet :(",
+        "sortOptions": {
+            "alphabetical": "Alphabetically",
+            "newest": "Newest first",
+            "oldest": "Oldest first"
+        },
+        "fileCategories": {
+            "allFormats": "All formats",
+            "presentations": "Presentations",
+            "documents": "Documents",
+            "textFiles": "Text files",
+            "spreadsheets": "Spreadsheets",
+            "pdf": "PDF",
+            "images": "Images"
+        }
+    },
+    "MaterialsTeacher": {
+        "archive": "Archive",
+        "store": "Store",
+        "soon": "Soon",
+        "searchPlaceholder": "Search",
+        "addFile": "Add file",
+        "createFolder": "Create folder",
+        "sortAlphabetically": "Alphabetically",
+        "sortNewest": "Newest first",
+        "sortOldest": "Oldest first",
+        "errorMessage": "An error occurred, please try again",
+        "allFormats": "All formats",
+        "presentations": "Presentations",
+        "documents": "Documents",
+        "textFiles": "Text files",
+        "spreadsheets": "Spreadsheets",
+        "pdf": "PDF",
+        "images": "Images"
+    },
+    "MaterialComponents": {
+        "AccessManagementModal": {
+            "title": "Manage access to learning materials",
+            "saveButton": "Save",
+            "noCourses": "No courses available",
+            "accessUpdated": "Material access updated",
+            "errorMessage": "An error occurred, please try again"
+        },
+        "AddMaterialModal": {
+            "title": "Add file",
+            "selectFromComputer": "Select file from computer",
+            "or": "or",
+            "dragAndDropText": "Drag and drop files from your computer to this area",
+            "restrictions": "Restrictions: max 49MB, no TXT or BAT files",
+            "addFilesButton": "Add file(s)",
+            "uploading": "Uploading...",
+            "successMessage": "Materials successfully added",
+            "errorMessage": "An error occurred, please try again",
+            "fileSizeError": "File \"{{fileName}}\" exceeds the maximum size (49MB)",
+            "fileTypeError": "File \"{{fileName}}\" has a forbidden format ({{extension}})"
+        },
+        "FolderBlock": {
+            "folder": "Folder",
+            "delete": "Delete",
+            "editName": "Edit name",
+            "manageAccess": "Manage access",
+            "enterNewName": "Enter new name",
+            "toast": {
+                "folderNameChanged": "Folder name changed",
+                "newName": "New name: {{name}}",
+                "confirmDelete": "Are you sure you want to delete this folder?",
+                "deleteButton": "Delete",
+                "cancelButton": "Cancel",
+                "folderDeleted": "Folder successfully deleted!",
+                "deletedName": "Name: {{name}}"
+            }
+        },
+        "MaterialBlock": {
+            "materialNameChanged": "Material name changed",
+            "newName": "New name: {{newName}}",
+            "confirmDelete": "Are you sure you want to delete this material?",
+            "delete": "Delete",
+            "cancel": "Cancel",
+            "materialDeleted": "Material successfully deleted!",
+            "name": "Name: {{name}}",
+            "enterNewName": "Enter new name",
+            "changeName": "Change name",
+            "accessManagement": "Manage access"
+        },
+        "FolderCreateBlock": {
+            "placeholder": "Enter name",
+            "label": "Folder",
+            "successMessage": "New folder created",
+            "errorMessage": "An error occurred, please try again"
+        },
+        "FolderCreateList": {
+            "placeholder": "Enter name",
+            "label": "Folder",
+            "successMessage": "New folder created",
+            "errorMessage": "An error occurred, please try again"
+        },
+        "FolderList": {
+            "folderTypeLabel": "Folder",
+            "folderNameChanged": "Folder name changed",
+            "newName": "New name: {{name}}",
+            "deleteConfirmation": "Are you sure you want to delete this folder?",
+            "deleteButton": "Delete",
+            "cancelButton": "Cancel",
+            "deletedSuccessfully": "Folder successfully deleted!",
+            "nameLabel": "Name: {{name}}",
+            "inputPlaceholder": "Enter new name",
+            "menuDelete": "Delete",
+            "menuRename": "Rename",
+            "menuAccessManagement": "Manage access"
+        },
+        "MaterialList": {
+            "nameChanged": "Material name changed",
+            "newName": "New name",
+            "deleteConfirmation": "Are you sure you want to delete this material?",
+            "delete": "Delete",
+            "cancel": "Cancel",
+            "deleteSuccess": "Material successfully deleted!",
+            "name": "Name",
+            "enterNewName": "Enter new name",
+            "changeName": "Change name",
+            "manageAccess": "Manage access"
+        },
+        "FolderUpBlock": {
+            "back": "Back"
+        }
+    },
+    "Tests": {
+        "DoneTestStudent": {
+            "error": "Error:",
+            "loading": "Loading...",
+            "testTitle": "Test |",
+            "topic": "Topic:",
+            "score": "Score",
+            "result": "Result:",
+            "questionsCount": "Number of questions",
+            "correctAnswers": "Correct answers",
+            "incorrectAnswers": "Incorrect answers",
+            "timeSpent": "Time spent",
+            "attemptsUsed": "Attempts used:",
+            "nextAttempt": "Next attempt",
+            "returnToTests": "Return to tests",
+            "yourAnswer": "Your answer",
+            "correctAnswer": "Correct answer"
+        },
+        "RunTestStudent": {
+            "errorFetchingTest": "Error fetching tests!",
+            "errorSubmittingTest": "Error submitting test!",
+            "timeExpired": "Time expired",
+            "loading": "Loading...",
+            "testCompleted": "Test completed. Thank you!",
+            "pleaseSelectAnswer": "Please select an answer",
+            "imageAlt": "Illustration for the question",
+            "nextButton": "Next"
+        },
+        "TestStudent": {
+            "toComplete": "To complete",
+            "completed": "Completed",
+            "sortNewest": "Newest first",
+            "sortOldest": "Oldest first",
+            "sortAlphabetical": "Alphabetically",
+            "errors": {
+                "tokenDecode": "Error decoding token!",
+                "studentIdGet": "Error getting studentId!",
+                "testsGet": "Error getting tests!"
+            }
+        },
+        "TestStudentComponents": {
+            "TestCard": {
+                "issued": "Issued:",
+                "completeBy": "Complete by:",
+                "completed": "Completed:",
+                "completeButton": "Complete"
+            },
+            "TestModal": {
+                "issued": "Issued",
+                "score": "Score",
+                "completeBy": "Complete by",
+                "completed": "Completed",
+                "maxScore": "Maximum score",
+                "status": "Status",
+                "statusDone": "Completed",
+                "statusToDo": "To complete",
+                "attemptsCount": "Number of attempts",
+                "attemptsUsed": "Attempts used",
+                "timeToComplete": "Time to complete",
+                "minutesShort": "min",
+                "questionsCount": "Number of questions",
+                "resultButton": "Result",
+                "startButton": "Start",
+                "retryButton": "Retry",
+                "createTestError": "Error creating test!"
+            }
+        },
+        "TestsTeacher": {
+            "allGroups": "All groups",
+            "allCourses": "All courses",
+            "assigned": "Assigned",
+            "loading": "Loading tests...",
+            "error": "Error:",
+            "noTests": "No tests",
+            "sadFace": ":(",
+            "course": "Course:",
+            "create": "Create"
+        },
+        "TestResults": {
+            "loading": "Loading...",
+            "error": "Error:",
+            "resultsTitle": "Test results:",
+            "course": "Course:",
+            "notAvailable": "N/A",
+            "group": "Group:",
+            "issued": "Issued:",
+            "deadline": "Deadline:",
+            "studentsDone": "Students completed",
+            "studentsNotDone": "Students not completed",
+            "deleteTest": "Delete test",
+            "noTestDetails": "Test details not available.",
+            "errorMessage": "An error occurred, please try again",
+            "testDeletedSuccess isotopes": "Test successfully deleted!",
+            "title": "Title:",
+            "unknown": "Unknown",
+            "deleteFailure": "Failed to delete test. Please try again."
+        },
+        "CreateTestAi": {
+            "decryptError": "An error occurred, please try again",
+            "fixFormErrors": "Please fix the errors in the form",
+            "generateBeforeSubmit": "Please generate the test before submitting.",
+            "generateSuccess": "Test successfully generated! Number of questions: {{count}}",
+            "abortInfo": "Generation was canceled",
+            "generateError": "An error occurred during generation, please try again",
+            "generateFail": "Failed to generate test: {{message}}",
+            "apiAuthError": "API authentication error. Please contact the administrator.",
+            "testIdError": "Failed to obtain TestId",
+            "imageUploadError": "Failed to upload image: {{message}}",
+            "testQuestionIdError": "Failed to obtain TestQuestionId",
+            "testCreated": "Test successfully created!",
+            "testName": "Title",
+            "createError": "An error occurred while creating the test",
+            "generate": "Generate",
+            "regenerate": "Regenerate",
+            "create": "Create",
+            "generating": "Generating...",
+            "saving": "Saving..."
+        },
+        "CreateTest": {
+            "errorDecryptGroup": "An error occurred, please try again",
+            "errorEmptySubject": "Test subject cannot be empty.",
+            "errorNumAttempts": "Number of attempts must be a number >= 1.",
+            "errorTimeFormat": "Invalid time format. Use a number (minutes), MM:SS, or HH:MM:SS.",
+            "errorNegativeTime": "Completion time cannot be negative.",
+            "errorMaxScore": "Maximum score must be a number >= 0.",
+            "errorPastDeadline": "Deadline cannot be earlier than today.",
+            "errorEmptyDeadline": "Please select a deadline.",
+            "errorNoQuestions": "Please add at least one completed question.",
+            "errorEmptyQuestion": "Please fill in the question text for task {{number}}.",
+            "errorNotEnoughOptions": "Question {{number}} must have at least 2 answers.",
+            "errorEmptyOption": "Answer {{index}} cannot be empty.",
+            "errorNoCorrectAnswer": "Please select the correct answer for question {{number}}.",
+            "errorFixForm": "Please fix the errors in the form",
+            "errorMissingTestId": "Failed to obtain TestId",
+            "errorImageUpload": "Failed to upload image: {{error}}",
+            "errorMissingQuestionId": "Failed to obtain TestQuestionId",
+            "errorCreatingTest": "An error occurred while creating the test",
+            "success": "Test successfully created!",
+            "testName": "Title",
+            "group": "Group",
+            "addQuestion": "Add another question",
+            "create": "Create",
+            "saving": "Saving..."
+        },
+        "TestTeacherComponents": {
+            "CreateModal": {
+                "errorMessage": "An error occurred, please try again",
+                "loadingCourses": "Loading courses...",
+                "loadingGroups": "Loading groups...",
+                "selectCourse": "Select course",
+                "selectGroup": "Select group",
+                "modalTitle": "Create test",
+                "manualTestButton": "Create test manually",
+                "aiTestButton": "AI-generated test"
+            },
+            "AddQuestion": {
+                "addImage": "Add image",
+                "deleteImage": "Delete image",
+                "enterAnswer": "Enter answer",
+                "enterOptions": "Enter {{count}} answer options and mark the correct answer.",
+                "enterTask": "Enter task",
+                "imageFileType": "Please select an image file (JPEG, PNG, etc.).",
+                "noImageSelected": "No image selected.",
+                "questionPreview": "Question preview"
+            },
+            "TestForm": {
+                "subjectLabel": "Subject:",
+                "subjectPlaceholder": "Enter text here",
+                "maxScoreLabel": "Maximum score",
+                "maxScorePlaceholder": "12",
+                "descriptionLabel": "Description:",
+                "descriptionPlaceholder": "Enter text here",
+                "numQuestionsLabel": "Number of questions",
+                "numAttemptsLabel": "Number of attempts",
+                "numAttemptsPlaceholder": "1",
+                "timeLabel": "Completion time",
+                "timePlaceholder": "00:10:00",
+                "deadlineLabel": "Deadline",
+                "showAnswersAfterTestLabel": "Show all answers to the student after the test.",
+                "validation": {
+                    "subjectEmpty": "Test subject cannot be empty.",
+                    "descriptionEmpty": "Test description cannot be empty.",
+                    "numQuestionsInvalid": "Number of questions must be a number >= 1.",
+                    "numAttemptsInvalid": "Number of attempts must be a number >= 1.",
+                    "timeEmpty": "Completion time cannot be empty.",
+                    "timeFormatInvalid": "Invalid time format. Use a number (minutes), MM:SS, or HH:MM:SS.",
+                    "timeNegative": "Completion time cannot be negative.",
+                    "maxScoreInvalid": "Maximum score must be a number >= 0.",
+                    "deadlineEmpty": "Please select a deadline.",
+                    "deadlinePast": "Deadline cannot be earlier than today."
+                }
+            },
+            "TestItem": {
+                "issued": "Issued:",
+                "completeBy": "Complete by:",
+                "results": "Results"
+            },
+            "WaitModal": {
+                "title": "Please wait, the test is being generated based on your request",
+                "description": "After the test is created, review its content, edit if necessary, or restart the generation.",
+                "buttonText": "Stop generation"
+            }
+        }
     }
 }
