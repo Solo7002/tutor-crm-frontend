@@ -1,7 +1,9 @@
 import { useState, useRef, useEffect } from "react";
+import { useTranslation } from 'react-i18next';
 import './SearchButton.css';
 
 export default function SearchButton({ onSearchClick, value, setValue }) {
+    const { t } = useTranslation();
     const [isOpen, setIsOpen] = useState(false);
     const inputRef = useRef(null);
 
@@ -23,7 +25,7 @@ export default function SearchButton({ onSearchClick, value, setValue }) {
                 <div className="w-[420px] h-[80px] px-4 py-2 bg-white rounded-[40px] gap-2 items-center flex justify-between">
                     <input
                         type="text"
-                        placeholder="Шукати"
+                        placeholder={t('HomeTaskTeacher.components.SearchButton.SearchPlaceholder')}
                         value={value}
                         onInput={e => setValue(e.target.value)}
                         className="text-[#827ead] w-full text-[15px] font-normal outline-none"

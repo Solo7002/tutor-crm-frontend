@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo, useCallback } from "react";
+import { useTranslation } from 'react-i18next';
 import TaskButton from '../../components/TaskButton/TaskButton';
 import { HomeTaskCardFull, HomeTaskCard } from './components/HomeCard/Hometask-card';
 import "./HometaskStudent.css";
@@ -21,6 +22,7 @@ const debounce = (func, wait) => {
 };
 
 const HometaskStudent = () => {
+  const { t } = useTranslation();
   const [isDataLoaded, setDataLoaded] = useState(false);
   const [selectedButton, setSelectedButton] = useState(0);
   const [isBlock, setIsBlock] = useState(true);
@@ -38,7 +40,7 @@ const HometaskStudent = () => {
   const [originalPendingHomeTasks, setOriginalPendingHomeTasks] = useState([]);
   const [originalDoneHomeTasks, setOriginalDoneHomeTasks] = useState([]);
   const [subjects, setSubjects] = useState([]);
-  const [selectedSubject, setSelectedSubject] = useState("Усі предмети");
+  const [selectedSubject, setSelectedSubject] = useState(t('HometaskStudent.components.page.Filters.AllSubjects'));
   const [userId, setUserId] = useState(null);
   const [studentId, setStudentId] = useState(null);
   const [token, setToken] = useState(null);
@@ -53,38 +55,50 @@ const HometaskStudent = () => {
         const decoded = jwtDecode(tok);
         setUserId(decoded.id);
       } catch (error) {
-        console.error("Ошибка при расшифровке токена:", error);
+        toast.error(t('HometaskStudent.components.page.Errors.TokenDecode'), {
+          position: "bottom-right",
+          autoClose: 5000,
+        });
       }
     }
-  }, []);
+  }, [t]);
 
   useEffect(() => {
-    if (userId) {
+    if (userId && token) {
       axios
-        .get(`http://localhost:4000/api/students/search-by-user-id/${userId}`)
+        .get(`${process.env.REACT_APP_BASE_API_URL}/api/students/search-by-user-id/${userId}`, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
         .then((response) => {
           if (response.data.success) {
             setStudentId(response.data.data[0].StudentId);
           }
         })
         .catch((error) => {
-          console.error("Ошибка при получении studentId:", error);
+          toast.error(t('HometaskStudent.components.page.Errors.FetchStudentId'), {
+            position: "bottom-right",
+            autoClose: 5000,
+          });
         });
     }
-  }, [userId]);
+  }, [userId, token, t]);
 
   const buttons = [
     {
-      text: 'До виконання',
+      text: t('HometaskStudent.components.page.Tabs.ToDo'),
       icon: 'M9 6H20M9 12H20M9 18H20M5 6V6.01M5 12V12.01M5 18V18.01',
       count: newHomeTasks.length,
     },
     {
-      text: 'На перевірці',
+      text: t('HometaskStudent.components.page.Tabs.Pending'),
       icon: 'M15 14L12 12V7M3 12C3 13.1819 3.23279 14.3522 3.68508 15.4442C4.13738 16.5361 4.80031 17.5282 5.63604 18.364C6.47177 19.1997 7.46392 19.8626 8.55585 20.3149C9.64778 20.7672 10.8181 21 12 21C13.1819 21 14.3522 20.7672 15.4442 20.3149C16.5361 19.8626 17.5282 19.1997 18.364 18.364C19.1997 17.5282 19.8626 16.5361 20.3149 15.4442C20.7672 14.3522 21 13.1819 21 12C21 10.8181 20.7672 9.64778 20.3149 8.55585C19.8626 7.46392 19.1997 6.47177 18.364 5.63604C17.5282 4.80031 16.5361 4.13738 15.4442 3.68508C14.3522 3.23279 13.1819 3 12 3C10.8181 3 9.64778 3.23279 8.55585 3.68508C7.46392 4.13738 6.47177 4.80031 5.63604 5.63604C4.80031 6.47177 4.13738 7.46392 3.68508 8.55585C3.23279 9.64778 3 10.8181 3 12Z',
       count: pendingHomeTasks.length,
     },
-    { text: 'Виконано', icon: 'M5 12L10 17L20 7', count: doneHomeTasks.length },
+    {
+      text: t('HometaskStudent.components.page.Tabs.Done'),
+      icon: 'M5 12L10 17L20 7',
+      count: doneHomeTasks.length,
+    },
   ];
 
   useEffect(() => {
@@ -94,24 +108,27 @@ const HometaskStudent = () => {
         setSubjects(subjectsResponse);
 
         await Promise.all([
-          fetchTasksByStatus(`http://localhost:4000/api/hometasks/newHometask/${studentId}`, setNewHomeTasks, "new"),
-          fetchTasksByStatus(`http://localhost:4000/api/donehometasks/pendingHometask/${studentId}`, setPendingHomeTasks, "pending"),
-          fetchTasksByStatus(`http://localhost:4000/api/donehometasks/doneHometask/${studentId}`, setDoneHomeTasks, "done"),
+          fetchTasksByStatus(`${process.env.REACT_APP_BASE_API_URL}/api/hometasks/newHometask/${studentId}`, setNewHomeTasks, "new"),
+          fetchTasksByStatus(`${process.env.REACT_APP_BASE_API_URL}/api/donehometasks/pendingHometask/${studentId}`, setPendingHomeTasks, "pending"),
+          fetchTasksByStatus(`${process.env.REACT_APP_BASE_API_URL}/api/donehometasks/doneHometask/${studentId}`, setDoneHomeTasks, "done"),
         ]);
       } catch (error) {
-        console.error("Ошибка при первоначальной загрузке данных:", error);
+        toast.error(t('HometaskStudent.components.page.Errors.FetchInitialData'), {
+          position: "bottom-right",
+          autoClose: 5000,
+        });
       }
     };
 
     if (studentId) {
       fetchInitialData();
     }
-  }, [studentId]);
+  }, [studentId, t]);
 
   const filterTasksBySubject = useCallback((tasks, subject) => {
-    if (subject === "Усі предмети") return tasks;
+    if (subject === t('HometaskStudent.components.page.Filters.AllSubjects')) return tasks;
     return tasks.filter((task) => task.subject === subject);
-  }, []);
+  }, [t]);
 
   useEffect(() => {
     setNewHomeTasks(filterTasksBySubject(originalNewHomeTasks, selectedSubject));
@@ -121,12 +138,15 @@ const HometaskStudent = () => {
 
   const fetchSubjectsByStudentId = async (studentId) => {
     try {
-      const response = await axios.get(`http://localhost:4000/api/subjects/subjectsByStudentId/${studentId}`, {
+      const response = await axios.get(`${process.env.REACT_APP_BASE_API_URL}/api/subjects/subjectsByStudentId/${studentId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       return response.data;
     } catch (error) {
-      console.error("Ошибка при получении предметов:", error);
+      toast.error(t('HometaskStudent.components.page.Errors.FetchSubjects'), {
+        position: "bottom-right",
+        autoClose: 5000,
+      });
       return [];
     }
   };
@@ -148,33 +168,42 @@ const HometaskStudent = () => {
 
           try {
             const teacherResponse = await axios.get(
-              `http://localhost:4000/api/teachers/hometaskTeacher/${task.HomeTaskId}`,
+              `${process.env.REACT_APP_BASE_API_URL}/api/teachers/hometaskTeacher/${task.HomeTaskId}`,
               { headers: { Authorization: `Bearer ${token}` } }
             );
             teacherData = teacherResponse.data;
           } catch (error) {
-            console.log(`Ошибка при получении данных о преподавателе (ID: ${task.HomeTaskId}):`, error);
+            toast.error(t('HometaskStudent.components.page.Errors.FetchTeacher', { id: task.HomeTaskId }), {
+              position: "bottom-right",
+              autoClose: 5000,
+            });
           }
 
           try {
             const subjectResponse = await axios.get(
-              `http://localhost:4000/api/subjects/hometaskSubjectName/${task.HomeTaskId}`,
+              `${process.env.REACT_APP_BASE_API_URL}/api/subjects/hometaskSubjectName/${task.HomeTaskId}`,
               { headers: { Authorization: `Bearer ${token}` } }
             );
             subjectName = subjectResponse.data.SubjectName;
           } catch (error) {
-            console.log(`Ошибка при получении данных о предмете (ID: ${task.HomeTaskId}):`, error);
+            toast.error(t('HometaskStudent.components.page.Errors.FetchSubject', { id: task.HomeTaskId }), {
+              position: "bottom-right",
+              autoClose: 5000,
+            });
           }
 
           if (statusType === "pending" || statusType === "done") {
             try {
               const homeTaskResponse = await axios.get(
-                `http://localhost:4000/api/hometasks/${task.HomeTaskId}`,
+                `${process.env.REACT_APP_BASE_API_URL}/api/hometasks/${task.HomeTaskId}`,
                 { headers: { Authorization: `Bearer ${token}` } }
               );
               homeTaskDetails = homeTaskResponse.data;
             } catch (error) {
-              console.log(`Ошибка при получении данных о домашнем задании (ID: ${task.HomeTaskId}):`, error);
+              toast.error(t('HometaskStudent.components.page.Errors.FetchHometask', { id: task.HomeTaskId }), {
+              position: "bottom-right",
+              autoClose: 5000,
+              });
             }
           }
 
@@ -214,7 +243,10 @@ const HometaskStudent = () => {
         setDoneHomeTasks(tasksWithStatus);
       }
     } catch (error) {
-      console.error("Ошибка при получении данных:", error);
+      toast.error(t('HometaskStudent.components.page.Errors.FetchTasks'), {
+        position: "bottom-right",
+        autoClose: 5000,
+      });
       setTasks([]);
     }
   };
@@ -250,21 +282,21 @@ const HometaskStudent = () => {
       setDataLoaded(false);
       let hometask, hometaskDone, subjectName, hometaskFile, hometaskDoneFile;
 
-      const hometaskResponse = await axios.get(`http://localhost:4000/api/hometasks/${id}`, {
+      const hometaskResponse = await axios.get(`${process.env.REACT_APP_BASE_API_URL}/api/hometasks/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       hometask = hometaskResponse.data;
 
       if (status === "done" || status === "pending") {
         const doneResponse = await axios.get(
-          `http://localhost:4000/api/doneHometasks/checkedHomeTasks/${studentId}/${hometask.HomeTaskId}`,
+          `${process.env.REACT_APP_BASE_API_URL}/api/doneHometasks/checkedHomeTasks/${studentId}/${hometask.HomeTaskId}`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
         hometaskDone = doneResponse.data.data[0];
         setHometaskDoneInModal(hometaskDone);
 
         const doneFilesResponse = await axios.get(
-          `http://localhost:4000/api/doneHomeTaskFiles/getByDoneHomeTask/${hometaskDone.DoneHomeTaskId}`,
+          `${process.env.REACT_APP_BASE_API_URL}/api/doneHomeTaskFiles/getByDoneHomeTask/${hometaskDone.DoneHomeTaskId}`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
         hometaskDoneFile = doneFilesResponse.data;
@@ -272,13 +304,13 @@ const HometaskStudent = () => {
       }
 
       const subjectResponse = await axios.get(
-        `http://localhost:4000/api/subjects/hometaskSubjectName/${hometask.HomeTaskId}`,
+        `${process.env.REACT_APP_BASE_API_URL}/api/subjects/hometaskSubjectName/${hometask.HomeTaskId}`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
       subjectName = subjectResponse.data.SubjectName;
 
       const fileResponse = await axios.get(
-        `http://localhost:4000/api/hometaskFiles/getFilebyHometaskId/${id}`,
+        `${process.env.REACT_APP_BASE_API_URL}/api/hometaskFiles/getFilebyHometaskId/${id}`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
       hometaskFile = fileResponse.data.map((file) => {
@@ -291,7 +323,10 @@ const HometaskStudent = () => {
       setHometaskFile(hometaskFile);
       setIsModalOpen(true);
     } catch (error) {
-      console.log("Error parsing data in server:", error.message);
+      toast.error(t('HometaskStudent.components.page.Errors.ParseData'), {
+        position: "bottom-right",
+        autoClose: 5000,
+      });
     } finally {
       setDataLoaded(true);
     }
@@ -308,26 +343,28 @@ const HometaskStudent = () => {
   const refreshTasks = useCallback(async () => {
     try {
       await Promise.all([
-        fetchTasksByStatus(`http://localhost:4000/api/hometasks/newHometask/${studentId}`, setNewHomeTasks, "new"),
-        fetchTasksByStatus(`http://localhost:4000/api/donehometasks/pendingHometask/${studentId}`, setPendingHomeTasks, "pending"),
+        fetchTasksByStatus(`${process.env.REACT_APP_BASE_API_URL}/api/hometasks/newHometask/${studentId}`, setNewHomeTasks, "new"),
+        fetchTasksByStatus(`${process.env.REACT_APP_BASE_API_URL}/api/donehometasks/pendingHometask/${studentId}`, setPendingHomeTasks, "pending"),
       ]);
     } catch (error) {
-      console.error("Error refreshing tasks:", error);
+      toast.error(t('HometaskStudent.components.page.Errors.RefreshTasks'), {
+        position: "bottom-right",
+        autoClose: 5000,
+      });
     }
-  }, [studentId, token]);
+  }, [studentId, token, t]);
 
   const sendHometask = useCallback(async (selectedFiles) => {
     setIsSubmitting(true);
   
     try {
-      
       const uploadedFiles = await Promise.all(
         selectedFiles.map(async (file) => {
           const formData = new FormData();
           formData.append('file', file);
   
           const uploadResponse = await axios.post(
-            'http://localhost:4000/api/files/uploadAndReturnLink',
+            `${process.env.REACT_APP_BASE_API_URL}/api/files/uploadAndReturnLink`,
             formData,
             {
               headers: { Authorization: `Bearer ${token}` },
@@ -336,10 +373,8 @@ const HometaskStudent = () => {
   
           const fileUrl = uploadResponse.data?.fileUrl;
   
-         
           if (!fileUrl || typeof fileUrl !== 'string' || !fileUrl.startsWith('http')) {
-            console.error('Ошибка загрузки файла:', file.name, 'Ответ:', uploadResponse.data);
-            throw new Error(`Ошибка загрузки файла "${file.name}".`);
+            throw new Error(t('HometaskStudent.components.page.Errors.UploadFile', { fileName: file.name }));
           }
   
           return {
@@ -349,14 +384,12 @@ const HometaskStudent = () => {
         })
       );
   
-    
       if (uploadedFiles.length !== selectedFiles.length) {
-        throw new Error('Не все файлы были загружены. Попробуйте ещё раз.');
+        throw new Error(t('HometaskStudent.components.page.Errors.IncompleteUpload'));
       }
   
-     
       const createResponse = await axios.post(
-        'http://localhost:4000/api/doneHometasks',
+        `${process.env.REACT_APP_BASE_API_URL}/api/doneHometasks`,
         {
           HomeTaskId: hometaskInModal.HomeTaskId,
           StudentId: studentId,
@@ -370,11 +403,10 @@ const HometaskStudent = () => {
   
       const doneHometaskId = createResponse.data.DoneHomeTaskId;
   
-    
       await Promise.all(
         uploadedFiles.map((file) =>
           axios.post(
-            'http://localhost:4000/api/doneHometaskFiles/',
+            `${process.env.REACT_APP_BASE_API_URL}/api/doneHometaskFiles/`,
             {
               DoneHomeTaskId: doneHometaskId,
               FileName: file.name,
@@ -387,11 +419,10 @@ const HometaskStudent = () => {
         )
       );
   
-      
       toast.success(
         <div>
-          <p>Домашнее задание успешно отправлено!</p>
-          <p>Название: {hometaskInModal.HomeTaskHeader}</p>
+          <p>{t('HometaskStudent.components.page.Messages.SendSuccess')}</p>
+          <p>{t('HometaskStudent.components.page.Messages.SendSuccessTitle', { title: hometaskInModal.HomeTaskHeader })}</p>
         </div>,
         { position: 'bottom-right', autoClose: 5000 }
       );
@@ -401,9 +432,8 @@ const HometaskStudent = () => {
       setStatus('pending');
       handleCloseModal();
     } catch (error) {
-      console.error('Ошибка при отправке домашнего задания:', error);
       toast.error(
-        error?.message || 'Не удалось отправить домашнее задание. Попробуйте ещё раз.',
+        error?.message || t('HometaskStudent.components.page.Messages.SendError'),
         {
           position: 'bottom-right',
           autoClose: 5000,
@@ -412,20 +442,20 @@ const HometaskStudent = () => {
     } finally {
       setIsSubmitting(false);
     }
-  }, [hometaskInModal, studentId, token, refreshTasks]);
-  
+  }, [hometaskInModal, studentId, token, refreshTasks, t]);
+
   const cancelHometask = useCallback(async () => {
     if (hometaskDoneInModal) {
       setIsSubmitting(true);
       try {
-        await axios.delete(`http://localhost:4000/api/doneHometasks/${hometaskDoneInModal.DoneHomeTaskId}`, {
+        await axios.delete(`${process.env.REACT_APP_BASE_API_URL}/api/doneHometasks/${hometaskDoneInModal.DoneHomeTaskId}`, {
           headers: { Authorization: `Bearer ${token}` }
         });
 
         toast.success(
           <div>
-            <p>Відправлення домашнього завдання скасовано!</p>
-            <p>Назва: {hometaskInModal.HomeTaskHeader}</p>
+            <p>{t('HometaskStudent.components.page.Messages.CancelSuccess')}</p>
+            <p>{t('HometaskStudent.components.page.Messages.CancelSuccessTitle', { title: hometaskInModal.HomeTaskHeader })}</p>
           </div>,
           {
             position: "bottom-right",
@@ -438,9 +468,8 @@ const HometaskStudent = () => {
         setStatus("default");
         handleCloseModal();
       } catch (error) {
-        console.error("Cancel hometask error:", error);
         toast.error(
-          "Не вдалося скасувати відправлення. Спробуйте ще раз.",
+          t('HometaskStudent.components.page.Messages.CancelError'),
           {
             position: "bottom-right",
             autoClose: 5000
@@ -450,7 +479,7 @@ const HometaskStudent = () => {
         setIsSubmitting(false);
       }
     }
-  }, [hometaskDoneInModal, hometaskInModal, token, refreshTasks]);
+  }, [hometaskDoneInModal, hometaskInModal, token, refreshTasks, t]);
 
   const handleButtonClick = useCallback(
     debounce((index) => {
@@ -479,16 +508,16 @@ const HometaskStudent = () => {
 
   const sortTasks = useCallback((tasks, sortOption) => {
     switch (sortOption) {
-      case "Спочатку нові":
+      case t('HometaskStudent.components.page.SortOptions.NewestFirst'):
         return [...tasks].sort((a, b) => new Date(b.StartDate || b.DoneDate) - new Date(a.StartDate || a.DoneDate));
-      case "Спочатку старі":
-        return [...tasks].sort((a, b) => new Date(a.StartDate || a.DoneDate) - new Date(b.StartDate || a.DoneDate));
-      case "За алфавітом":
+      case t('HometaskStudent.components.page.SortOptions.OldestFirst'):
+        return [...tasks].sort((a, b) => new Date(a.StartDate || a.DoneDate) - new Date(b.StartDate || b.DoneDate));
+      case t('HometaskStudent.components.page.SortOptions.Alphabetical'):
         return [...tasks].sort((a, b) => a.HomeTaskHeader.localeCompare(b.HomeTaskHeader));
       default:
         return tasks;
     }
-  }, []);
+  }, [t]);
 
   const sortAllTasks = useCallback((option) => {
     setNewHomeTasks((prev) => sortTasks(prev, option));
@@ -507,7 +536,7 @@ const HometaskStudent = () => {
         <div className="hometask-modal fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-2 sm:p-4" tabIndex={-1} ref={(el) => el?.focus()}>
           <div className="hometask-modal-content w-full max-w-lg md:max-w-2xl lg:max-w-3xl bg-white rounded-lg shadow-xl max-h-[90vh] overflow-y-auto">
             {!isDataLoaded ? (
-              <div className="modal-loading p-4 text-center">Завантаження...</div>
+              <div className="modal-loading p-4 text-center">{t('HometaskStudent.components.page.Loading')}</div>
             ) : (
               <HometaskModal
                 onClose={handleCloseModal}
@@ -565,8 +594,13 @@ const HometaskStudent = () => {
               />
             </div>
             <div className="w-full sm:w-auto  mb-2">
+            {/* <ToggleSwitch isOn={isBlock} setIsOn={setIsBlock} /> */}
               <SortDropdown
-                options={["Спочатку нові", "Спочатку старі", "За алфавітом"]}
+                options={[
+                  t('HometaskStudent.components.page.SortOptions.NewestFirst'),
+                  t('HometaskStudent.components.page.SortOptions.OldestFirst'),
+                  t('HometaskStudent.components.page.SortOptions.Alphabetical')
+                ]}
                 onSelect={(option) => sortAllTasks(option)}
                 className="w-full"
               />
@@ -576,9 +610,9 @@ const HometaskStudent = () => {
 
           <div className="flex flex-wrap gap-4 items-center my-7">
             {isSwitching ? (
-              <div className="w-full text-center py-4">Завантаження...</div>
+              <div className="w-full text-center py-4">{t('HometaskStudent.components.page.Loading')}</div>
             ) : selectedTasks.length === 0 ? (
-              <div className="w-full text-center text-gray-500 py-4">Нічого немає</div>
+              <div className="w-full text-center text-gray-500 py-4">{t('HometaskStudent.components.page.NoTasks')}</div>
             ) : (
               selectedTasks.map((task) => (
                 isBlock ? (

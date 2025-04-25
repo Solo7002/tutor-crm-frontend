@@ -1,5 +1,5 @@
-import React, { useState, useRef, useEffect } from 'react';
-import axios from 'axios';
+import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import StandartInput from "../StandartInput/StandartInput";
 
 const FileMarkup = ({ fileName, fileUrl }) => {
@@ -50,9 +50,8 @@ const DoneFileMarkup = ({ fileName, fileUrl }) => {
 };
 
 const HomeTaskCheckModal = ({ isOpened, onClose, hometask = null, doneHometask = null, subject = null, group = null, onEvaluate, onEvaluateAI }) => {
+  const { t } = useTranslation();
   const [coverImage, setCoverImage] = useState(null);
-  const fileInputRef = useRef(null);
-  const coverInputRef = useRef(null);
 
   if (!isOpened) return null;
 
@@ -88,7 +87,7 @@ const HomeTaskCheckModal = ({ isOpened, onClose, hometask = null, doneHometask =
             </svg>
           </button>
           <h2 className="flex-1 text-center text-[#120c38] text-[15px] font-bold font-['Nunito']">
-            {`${subject}, група ${group}`}
+            {`${subject}, ${t('HomeTaskTeacher.components.HomeTaskCheckModal.GroupLabel')} ${group}`}
           </h2>
           <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center"></div>
         </div>
@@ -120,7 +119,7 @@ const HomeTaskCheckModal = ({ isOpened, onClose, hometask = null, doneHometask =
           <div className="flex-1 flex flex-col gap-4 min-w-[200px]">
             <div className="flex justify-between items-center p-2.5 rounded-2xl outline outline-1 outline-[#d7d7d7]">
               <span className="text-[#827ead] text-xs font-normal font-['Mulish']">
-                Видано
+                {t('HomeTaskTeacher.components.HomeTaskCheckModal.Issued')}
               </span>
               <span className="text-[#120C38] text-[15px] font-bold font-['Nunito']">
                 {new Date(hometask.HometaskStartDate).toLocaleDateString('ru-RU', { day: '2-digit', month: '2-digit', year: 'numeric' })}
@@ -137,7 +136,7 @@ const HomeTaskCheckModal = ({ isOpened, onClose, hometask = null, doneHometask =
                     className="text-[#827ead] text-xs font-normal font-['Mulish']"
                     htmlFor="deadline"
                   >
-                    Виконати до
+                    {t('HomeTaskTeacher.components.HomeTaskCheckModal.Deadline')}
                   </label>
                   <span className="text-[#827ead] text-[15px] font-bold font-['Nunito']">
                     {new Date(hometask.HometaskDeadlineDate).toLocaleDateString('ru-RU', { day: '2-digit', month: '2-digit', year: 'numeric' })}
@@ -151,7 +150,7 @@ const HomeTaskCheckModal = ({ isOpened, onClose, hometask = null, doneHometask =
               <div className="flex-1 p-2.5 rounded-2xl outline outline-1 outline-[#8A48E6] flex justify-between items-center">
                 <div className="flex flex-col">
                   <span className="text-[#827FAE] text-xs font-normal font-['Mulish']">
-                    Виконано
+                    {t('HomeTaskTeacher.components.HomeTaskCheckModal.Completed')}
                   </span>
                   <span className="text-[#8A48E6] text-[15px] font-bold font-['Nunito']">
                     {new Date(doneHometask.DoneDate).toLocaleDateString('ru-RU', { day: '2-digit', month: '2-digit', year: 'numeric' })}
@@ -170,7 +169,7 @@ const HomeTaskCheckModal = ({ isOpened, onClose, hometask = null, doneHometask =
                     className="text-[#827ead] text-xs font-normal font-['Mulish']"
                     htmlFor="maxScore"
                   >
-                    Максимальний бал
+                    {t('HomeTaskTeacher.components.HomeTaskCheckModal.MaxScore')}
                   </label>
                   <span className="text-[#120C38] text-[15px] font-bold font-['Nunito']">
                     {hometask.MaxMark}
@@ -184,10 +183,10 @@ const HomeTaskCheckModal = ({ isOpened, onClose, hometask = null, doneHometask =
               <div className="flex-1 w-[177px] p-2.5 rounded-2xl outline outline-1 outline-[#FFA869] flex justify-between items-center">
                 <div className="flex flex-col">
                   <span className="text-[#827ead] text-xs font-normal font-['Mulish']">
-                    Статус
+                    {t('HomeTaskTeacher.components.HomeTaskCheckModal.Status')}
                   </span>
                   <span className="text-[#FFA869] text-[15px] font-bold font-['Nunito']">
-                    До перевірки
+                    {t('HomeTaskTeacher.components.HomeTaskCheckModal.PendingReview')}
                   </span>
                 </div>
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -198,9 +197,9 @@ const HomeTaskCheckModal = ({ isOpened, onClose, hometask = null, doneHometask =
           </div>
         </div>
 
-        <div className="p-4 pb-0 flex-1  mb-3 ml-3">
+        <div className="p-4 pb-0 flex-1 mb-3 ml-3">
           <h3 className="text-[#8a48e6] text-[15px] font-bold font-['Nunito']">
-            Завдання
+            {t('HomeTaskTeacher.components.HomeTaskCheckModal.Task')}
           </h3>
           <div className='font-[Mulish] text-[20px] text-[#120C38] font-normal'>{hometask.HometaskHeader}</div>
           <div className='font-[Mulish] text-[15px] text-[#827FAE] font-normal'>{hometask.HomeTaskDescription}</div>
@@ -208,7 +207,7 @@ const HomeTaskCheckModal = ({ isOpened, onClose, hometask = null, doneHometask =
 
         <div className="p-4 pt-0">
           <h3 className="text-[#8a48e6] text-[15px] font-bold font-['Nunito'] ml-3 mb-1">
-            Прикріплені файли
+            {t('HomeTaskTeacher.components.HomeTaskCheckModal.AttachedFiles')}
           </h3>
           <div className="w-full h-[140px] overflow-x-auto whitespace-nowrap">
             {hometask.HometaskFiles.map((file, index) => (
@@ -222,30 +221,30 @@ const HomeTaskCheckModal = ({ isOpened, onClose, hometask = null, doneHometask =
         </div>
 
         <div className="p-4 pb-0 flex-1 mb-3 ml-3">
-          <span className="text-[#8a48e6] text-[15px] font-bold font-['Nunito']">Завдання від: </span>
+          <span className="text-[#8a48e6] text-[15px] font-bold font-['Nunito']">{t('HomeTaskTeacher.components.HomeTaskCheckModal.TaskBy')}</span>
           <span className="text-[#827FAE] text-[15px] font-bold font-['Nunito']">{doneHometask.Student.LastName + " " + doneHometask.Student.FirstName}</span>
 
           <div className="flex flex-wrap gap-4 bg-white rounded-tl-2xl rounded-tr-2xl rounded-br-2xl border border-[#8a48e6] px-4 py-3 mt-1">
             {doneHometask.DoneHometaskFiles.map((file, index) => (
               <DoneFileMarkup
-              key={index}
-              fileName={file.FileName || file.name}
-              fileUrl={file.Filepath || file.url}
-            />
+                key={index}
+                fileName={file.FileName || file.name}
+                fileUrl={file.Filepath || file.url}
+              />
             ))}
           </div>
         </div>
 
         <div className="flex flex-wrap justify-between p-4 gap-2">
           <div data-icon-position="Right" data-property-1="Active" data-size="Big" data-text-or without="On" className="w-[240px] h-12 p-2 bg-[#8a48e6] hover:bg-purple-700 rounded-[40px] inline-flex justify-between items-center cursor-pointer" onClick={onEvaluateAI}>
-            <div className="justify-center text-white text-[15px] font-bold font-['Nunito']">Автоматичне оцінювання</div>
+            <div className="justify-center text-white text-[15px] font-bold font-['Nunito']">{t('HomeTaskTeacher.components.HomeTaskCheckModal.AutoEvaluation')}</div>
             <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M10.6667 21.3333V13.3333C10.6667 12.6261 10.9476 11.9478 11.4477 11.4477C11.9478 10.9476 12.6261 10.6667 13.3333 10.6667C14.0406 10.6667 14.7189 10.9476 15.219 11.4477C15.7191 11.9478 16 12.6261 16 13.3333V21.3333M10.6667 17.3333H16M21.3333 10.6667V21.3333" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
             </svg>
           </div>
 
           <div data-icon-position="Right" data-property-1="Secondary" data-size="Big" data-text-or without="On" className="w-[178px] h-12 p-2.5 bg-white hover:bg-[#8a48e6] rounded-[40px] outline outline-1 outline-offset-[-1px] outline-[#8a48e6] inline-flex justify-end items-center gap-2.5 cursor-pointer text-[#8a48e6] hover:text-white stroke-[#8A48E6] hover:stroke-white" onClick={onEvaluate}>
-            <div className="justify-center text-[15px] font-bold font-['Nunito']">Оцінити вручну</div>
+            <div className="justify-center text-[15px] font-bold font-['Nunito']">{t('HomeTaskTeacher.components.HomeTaskCheckModal.ManualEvaluation')}</div>
             <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M28 16L6.264 5.37867C6.14001 5.33044 6.00442 5.32041 5.87469 5.34988C5.74495 5.37934 5.627 5.44695 5.536 5.544C5.44267 5.64356 5.37841 5.76679 5.3502 5.90031C5.32199 6.03383 5.33092 6.17253 5.376 6.30133L8.66667 16M28 16L6.264 26.6213C6.14001 26.6696 6.00442 26.6796 5.87469 26.6501C5.74495 26.6207 5.627 26.553 5.536 26.456C5.44267 26.3564 5.37841 26.2332 5.3502 26.0997C5.32199 25.9662 5.33092 25.8275 5.376 25.6987L8.66667 16M28 16H8.66667" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
             </svg>

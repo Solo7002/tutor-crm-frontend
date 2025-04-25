@@ -4,14 +4,14 @@ import LanguageDetector from 'i18next-browser-languagedetector'
 import {initReactI18next} from 'react-i18next'
 
 // the translations
-const languages = ['ua','en','es','ja','de'];
+const languages = ['en','ua','es','ja','de'];
 i18n
   .use(Backend)
   .use(LanguageDetector)
   .use(initReactI18next)
   .init({
     supportedLngs: languages,
-    fallbackLng: 'ua',
+    fallbackLng: 'en',
     debug: false,
     react: {
       useSuspense: false,

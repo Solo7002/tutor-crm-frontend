@@ -1,37 +1,40 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import StandartInput from "../StandartInput/StandartInput";
 import { toast } from 'react-toastify';
+import { useTranslation } from 'react-i18next';
 
 const EvaluateModal = ({ isOpened, onClose, onNext, hometask = null, doneHometask = null, setRefreshTrigger }) => {
+  const { t } = useTranslation();
   const [AnswerDescription, setAnswerDescription] = useState("");
   const [Mark, setMark] = useState("");
+  const token = sessionStorage.getItem("token");
 
   const handleEvaluate = async () => {
     if (Mark === "" || Mark < 0 || Mark > hometask.MaxMark) {
-      alert("Пожалуйста, введите корректную оценку.");
+      toast.error(
+        <div>
+          <p>{t('HomeTaskTeacher.components.EvaluateModal.EnterValidGrade')}</p>
+        </div>,
+        { autoClose: 5000, position: "bottom-right" }
+      );
       return;
     }
 
     try {
-      await axios.put(`http://localhost:4000/api/doneHometasks/${doneHometask.DoneHometaskId}/mark`, {
+      await axios.put(`${process.env.REACT_APP_BASE_API_URL}/api/doneHometasks/${doneHometask.DoneHometaskId}/mark`, {
         Mark: parseInt(Mark)
+      }, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
+        }
       });
       onClose();
       setRefreshTrigger();
-        toast.success(`Завдання було успішно оцінено: ${Mark}/${hometask.MaxMark}`, {
-            position: "bottom-right",
-            autoClose: 3000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-        });
-    } catch (error) {
-      console.error('Ошибка при обновлении DoneHometask:', error);
-      alert("Произошла ошибка при обновлении оценки.");
-      toast.error("Виникла помилка", {
+      toast.success(
+        `${t('HomeTaskTeacher.components.EvaluateModal.TaskSuccessfullyEvaluated')}: ${Mark}/${hometask.MaxMark}`,
+        {
           position: "bottom-right",
           autoClose: 3000,
           hideProgressBar: false,
@@ -39,7 +42,15 @@ const EvaluateModal = ({ isOpened, onClose, onNext, hometask = null, doneHometas
           pauseOnHover: true,
           draggable: true,
           progress: undefined,
-      });
+        }
+      );
+    } catch (error) {
+      toast.error(
+        <div>
+          <p>{t('HomeTaskTeacher.components.page.GeneralError')}</p>
+        </div>,
+        { autoClose: 5000, position: "bottom-right" }
+      );
     }
   };
 
@@ -78,13 +89,12 @@ const EvaluateModal = ({ isOpened, onClose, onNext, hometask = null, doneHometas
             </svg>
           </button>
           <h2 className="flex-1 text-center text-[#120c38] text-[15px] font-bold font-['Nunito'] mt-1">
-            Оцінювання роботи вручну
+            {t('HomeTaskTeacher.components.EvaluateModal.ManualEvaluation')}
           </h2>
           <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center"></div>
         </div>
 
         <div className="flex items-center justify-between px-4 py-2">
-
           <div className="w-full h-[119px] relative bg-[#120c38] rounded-3xl overflow-hidden">
             <div className='absolute bottom-0 left-4'>
               <svg width="103" height="108" viewBox="0 0 103 108" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -104,9 +114,9 @@ const EvaluateModal = ({ isOpened, onClose, onNext, hometask = null, doneHometas
               </svg>
             </div>
 
-            <div className="w-[372px] left-[149px] top-[15px] absolute justify-start text-white text-[15px] font-normal font-['Mulish']">Перевіряйте роботу швидше, з нашею  AI перевіркою</div>
-            <div data-property-1="Active" className="w-[143px] h-10 px-4 py-2 left-[378px] top-[64px] absolute bg-[#8a48e6]  hover:bg-purple-700 cursor-pointer rounded-[40px] inline-flex justify-center items-center gap-2.5">
-              <div className="justify-start text-white text-[15px] font-bold font-['Nunito']" onClick={onNext}>Перейти</div>
+            <div className="w-[372px] left-[149px] top-[15px] absolute justify-start text-white text-[15px] font-normal font-['Mulish']">{t('HomeTaskTeacher.components.EvaluateModal.CheckWorkFasterWithAI')}</div>
+            <div data-property-1="Active" className="w-[143px] h-10 px-4 py-2 left-[378px] top-[64px] absolute bg-[#8a48e6] hover:bg-purple-700 cursor-pointer rounded-[40px] inline-flex justify-center items-center gap-2.5">
+              <div className="justify-start text-white text-[15px] font-bold font-['Nunito']" onClick={onNext}>{t('HomeTaskTeacher.components.EvaluateModal.GoToAI')}</div>
             </div>
           </div>
         </div>
@@ -114,11 +124,14 @@ const EvaluateModal = ({ isOpened, onClose, onNext, hometask = null, doneHometas
         <div className="w-[536px] h-0 outline outline-1 outline-offset-[-0.50px] outline-[#827ead] mx-auto my-3" />
 
         <div className='px-4 py-2'>
-          <StandartInput placeholder="Додатковий коментар (Не обов'язково)" />
+          <StandartInput
+            placeholder={t('HomeTaskTeacher.components.EvaluateModal.AdditionalCommentOptional')}
+            value={AnswerDescription}
+            onChange={(e) => setAnswerDescription(e.target.value)}
+          />
         </div>
 
         <div className='flex justify-between px-4 py-2 mb-2'>
-
           <div className="flex h-12 items-center justify-center text-[#8a48e6] text-2xl font-bold font-['Nunito']">
             <div className="w-12 h-12 relative rounded-2xl border border-[#8a48e6] flex items-center justify-center mr-1">
               <input
@@ -126,21 +139,20 @@ const EvaluateModal = ({ isOpened, onClose, onNext, hometask = null, doneHometas
                 value={Mark}
                 min={0}
                 max={hometask.MaxMark}
-                onChange={(e) => {setMark(e.target.value)}}
+                onChange={(e) => setMark(e.target.value)}
                 className="w-full h-full text-center text-[#120c38] text-2xl font-bold font-['Mulish'] bg-transparent border-none focus:outline-none no-arrows"
               />
             </div>
             <span>/{hometask.MaxMark}</span>
           </div>
 
-          <div className="h-10 px-4 py-2.5 bg-white hover:bg-[#8a48e6] text-[#8a48e6] hover:text-white stroke-[#8A48E6] hover:stroke-white cursor-pointer rounded-[40px] outline outline-1 outline-offset-[-1px] outline-[#8a48e6] inline-flex justify-end items-center gap-2.5" style={{display: ((Mark === "" || Mark<0 || Mark>hometask.MaxMark) && "none")}} onClick={handleEvaluate}>
-            <div className="justify-center text-[15px] font-bold font-['Nunito']">Оцінити роботу </div>
+          <div className="h-10 px-4 py-2.5 bg-white hover:bg-[#8a48e6] text-[#8a48e6] hover:text-white stroke-[#8A48E6] hover:stroke-white cursor-pointer rounded-[40px] outline outline-1 outline-offset-[-1px] outline-[#8a48e6] inline-flex justify-end items-center gap-2.5" style={{ display: (Mark === "" || Mark < 0 || Mark > hometask.MaxMark) && "none" }} onClick={handleEvaluate}>
+            <div className="justify-center text-[15px] font-bold font-['Nunito']">{t('HomeTaskTeacher.components.EvaluateModal.EvaluateWork')}</div>
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M21 12L4.69799 4.034C4.605 3.99783 4.50331 3.99031 4.40601 4.01241C4.30871 4.03451 4.22024 4.08521 4.15199 4.158C4.08199 4.23267 4.0338 4.3251 4.01264 4.42524C3.99149 4.52538 3.99818 4.6294 4.03199 4.726L6.49999 12M21 12L4.69799 19.966C4.605 20.0022 4.50331 20.0097 4.40601 19.9876C4.30871 19.9655 4.22024 19.9148 4.15199 19.842C4.08199 19.7673 4.0338 19.6749 4.01264 19.5748C3.99149 19.4746 3.99818 19.3706 4.03199 19.274L6.49999 12M21 12H6.49999" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
             </svg>
           </div>
         </div>
-
       </div>
     </div>
   );

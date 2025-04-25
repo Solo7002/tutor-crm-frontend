@@ -1,5 +1,7 @@
 import "./CalendarTeacher.css";
 import { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
+import { toast } from "react-toastify";
 import ChangeDayModal from "./components/ChangeDayModal/ChangeDayModal";
 import MyCalendar from "./components/MyCalendar/MyCalendar";
 import Panel from "./components/Panel/Panel";
@@ -10,6 +12,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const CalendarTeacher = () => {
+  const { t } = useTranslation();
   const [teacherId, setTeacherId] = useState();
   const [lessons, setLessons] = useState([]);
   const [selectedDate, setSelectedDate] = useState(null);
@@ -24,7 +27,7 @@ const CalendarTeacher = () => {
       if (!userId) return;
 
       const teacherRes = await axios.get(
-        `http://localhost:4000/api/teachers/search/user/${userId}`,
+        `${process.env.REACT_APP_BASE_API_URL}/api/teachers/search/user/${userId}`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -36,7 +39,7 @@ const CalendarTeacher = () => {
       setTeacherId(teacher.TeacherId);
 
       const lessonsRes = await axios.get(
-        `http://localhost:4000/api/plannedLessons/getLessonByTecher/${teacher.TeacherId}`,
+        `${process.env.REACT_APP_BASE_API_URL}/api/plannedLessons/getLessonByTecher/${teacher.TeacherId}`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -44,7 +47,10 @@ const CalendarTeacher = () => {
 
       setLessons(lessonsRes.data);
     } catch (err) {
-      console.error("Error fetching data:", err);
+      toast.error(t("CalendarTeacher.components.Messages.FetchError"), {
+        position: "bottom-right",
+        autoClose: 5000,
+      });
     }
   };
 
@@ -54,35 +60,38 @@ const CalendarTeacher = () => {
 
   useEffect(() => {
     const checkIfMobile = () => {
-      console.log(window.innerWidth);
+      toast.info(
+        t("CalendarTeacher.components.Messages.WindowWidth", {
+          width: window.innerWidth,
+        }),
+        {
+          position: "bottom-right",
+          autoClose: 5000,
+        }
+      );
 
       setIsMobile(window.innerWidth <= 1000);
     };
 
-
     checkIfMobile();
 
+    window.addEventListener("resize", checkIfMobile);
 
-    window.addEventListener('resize', checkIfMobile);
-
-
-    return () => window.removeEventListener('resize', checkIfMobile);
-  }, []);
+    return () => window.removeEventListener("resize", checkIfMobile);
+  }, [t]);
 
   const handleDateSelect = (date) => setSelectedDate(date);
   const resetSelectedDate = () => setSelectedDate(null);
 
   return (
     <div className="TeacherCalendar">
-
-
       <div className="app-container">
-        <div className={`app-content ${isMobile ? 'flex-col' : ''}`}>
-          <div className={isMobile ? 'w-full' : 'w-3/4'}>
+        <div className={`app-content ${isMobile ? "flex-col" : ""}`}>
+          <div className={isMobile ? "w-full" : "w-3/4"}>
             <Panel />
             <MyCalendar events={lessons} onDateSelect={handleDateSelect} />
           </div>
-          <div className={`panelLesson ${isMobile ? 'w-full mt-4' : ''}`}>
+          <div className={`panelLesson ${isMobile ? "w-full mt-4" : ""}`}>
             <PanelLessons
               teacherId={teacherId}
               token={token}
@@ -94,6 +103,7 @@ const CalendarTeacher = () => {
           </div>
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 };

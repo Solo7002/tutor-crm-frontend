@@ -1,7 +1,10 @@
 import React from "react";
 import axios from "axios";
+import { useTranslation } from 'react-i18next';
 
 const TaskCardBlock2 = React.forwardRef(({ isSelected, onSelect, hometask }, ref) => {
+  const { t } = useTranslation();
+
   return (
     <div
       ref={ref}
@@ -37,7 +40,7 @@ const TaskCardBlock2 = React.forwardRef(({ isSelected, onSelect, hometask }, ref
             </svg>
             <div className="justify-center">
               <span className="text-[#827ead] text-xs sm:text-[15px] font-bold font-['Nunito']">
-                Видано:
+                {t('HomeTaskTeacher.components.TaskCardBlock2.Issued')}
                 <br />
               </span>
               <span className="text-[#120c38] text-xs sm:text-[15px] font-extrabold font-['Mulish']">
@@ -64,11 +67,11 @@ const TaskCardBlock2 = React.forwardRef(({ isSelected, onSelect, hometask }, ref
             </svg>
             <div className="justify-center">
               <span className="text-[#827ead] text-xs sm:text-[15px] font-bold font-['Nunito']">
-                Виконати до:
+                {t('HomeTaskTeacher.components.TaskCardBlock2.Due')}
                 <br />
               </span>
               <span className="text-[#8a48e6] text-xs sm:text-[15px] font-extrabold font-['Mulish']">
-              {new Date(hometask.HometaskDeadlineDate).toLocaleDateString("ru-RU")}
+                {new Date(hometask.HometaskDeadlineDate).toLocaleDateString("ru-RU")}
               </span>
             </div>
           </div>
@@ -78,7 +81,7 @@ const TaskCardBlock2 = React.forwardRef(({ isSelected, onSelect, hometask }, ref
         className="no-select-img w-full sm:w-[131px] h-24 sm:h-[124px] rounded-lg sm:rounded-3xl object-cover order-1 sm:order-2"
         src={hometask.HometaskCover || "https://placehold.co/131x124"}
         draggable="false"
-        alt="Task preview"
+        alt={t('HomeTaskTeacher.components.TaskCardBlock2.TaskPreviewAlt')}
       />
       <div
         className="px-2 py-1 sm:px-2.5 sm:py-[5px] right-2 top-2 sm:right-0 sm:top-0 absolute rounded-lg sm:rounded-tr-3xl sm:rounded-bl-3xl outline outline-1 outline-offset-[-1px] flex justify-end items-center gap-2"

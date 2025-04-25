@@ -1,34 +1,40 @@
 import React from "react";
 import axios from 'axios';
+import { useTranslation } from 'react-i18next';
 import { formatDate } from "../../../../../functions/formatDate";
 import { toast } from "react-toastify";
 
 const TaskCardTile = ({ hometask, onEdit, setRefreshTrigger }) => {
+  const { t } = useTranslation();
+  const token = sessionStorage.getItem('token');
+
   const handleDelete = async () => {
     try {
-      await axios.delete(`http://localhost:4000/api/hometasks/${hometask.HometaskId}`);
+      await axios.delete(`${process.env.REACT_APP_BASE_API_URL}/api/hometasks/${hometask.HometaskId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       setRefreshTrigger();
-        toast.success("Завдання було успішно видалено", {
-            position: "bottom-right",
-            autoClose: 3000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-        });
+      toast.success(t('HomeTaskTeacher.components.TaskCardTile.DeleteSuccess'), {
+        position: "bottom-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
     } catch (error) {
-      console.error("Помилка при видаленні домашнього завдання:", error);
-      alert("Не вдалося видалити домашнє завдання");
-        toast.error("Не вдалося видалити домашнє завдання", {
-            position: "bottom-right",
-            autoClose: 3000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-        });
+      toast.error(t('HomeTaskTeacher.components.TaskCardTile.DeleteError'), {
+        position: "bottom-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
     }
   };
 
@@ -81,7 +87,7 @@ const TaskCardTile = ({ hometask, onEdit, setRefreshTrigger }) => {
                   color: "#827fae",
                 }}
               >
-                Видано:
+                {t('HomeTaskTeacher.components.TaskCardTile.Issued')}
               </div>
               <div
                 style={{
@@ -120,7 +126,7 @@ const TaskCardTile = ({ hometask, onEdit, setRefreshTrigger }) => {
                   color: "#827fae",
                 }}
               >
-                Виконати до:
+                {t('HomeTaskTeacher.components.TaskCardTile.Due')}
               </div>
               <div
                 style={{
@@ -148,7 +154,7 @@ const TaskCardTile = ({ hometask, onEdit, setRefreshTrigger }) => {
             transform
             hover:bg-[#FFEDEE]
           "
-          onClick={handleDelete} // Додаємо обробник видалення
+          onClick={handleDelete}
         >
           <span
             className="mr-2"
@@ -160,7 +166,7 @@ const TaskCardTile = ({ hometask, onEdit, setRefreshTrigger }) => {
               verticalAlign: "middle",
             }}
           >
-            Видалити
+            {t('HomeTaskTeacher.components.TaskCardTile.Delete')}
           </span>
           <svg
             width="32"
@@ -191,7 +197,7 @@ const TaskCardTile = ({ hometask, onEdit, setRefreshTrigger }) => {
             transform
             hover:bg-[#EFE2FB]
           "
-          onClick={() => onEdit(hometask)} // Додаємо обробник редагування
+          onClick={() => onEdit(hometask)}
         >
           <span
             className="mr-2"
@@ -203,7 +209,7 @@ const TaskCardTile = ({ hometask, onEdit, setRefreshTrigger }) => {
               verticalAlign: "middle",
             }}
           >
-            Змінити
+            {t('HomeTaskTeacher.components.TaskCardTile.Edit')}
           </span>
           <svg
             width="25"

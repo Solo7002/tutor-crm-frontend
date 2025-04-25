@@ -1,4 +1,5 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 
 const UserCard = ({ 
   type = "not_done", 
@@ -9,12 +10,14 @@ const UserCard = ({
   className = "",
   dateFormat = "ru-RU"
 }) => {
+  const { t } = useTranslation();
+
   const CARD_TYPES = {
     check: {
       outlineColor: "#8a48e6",
       bgColor: "#ffffff",
       textColor: "#8a48e6",
-      buttonText: "Перевірити"
+      buttonText: t('HomeTaskTeacher.components.UserCard.Check')
     },
     done: {
       getOutlineColor: (mark, max) => {
@@ -36,7 +39,7 @@ const UserCard = ({
       outlineColor: "#d7d7d7",
       bgColor: "#ffffff",
       textColor: "#d7d7d7",
-      buttonText: "Не виконано"
+      buttonText: t('HomeTaskTeacher.components.UserCard.NotCompleted')
     }
   };
 
@@ -67,12 +70,12 @@ const UserCard = ({
   };
 
   const getFormattedDate = () => {
-    if (!doneHometask.DoneDate) return "Не відправлено";
+    if (!doneHometask.DoneDate) return t('HomeTaskTeacher.components.UserCard.NotSubmitted');
     
     try {
       return new Date(doneHometask.DoneDate).toLocaleDateString(dateFormat);
     } catch (e) {
-      return "Некорректная дата";
+      return t('HomeTaskTeacher.components.UserCard.InvalidDate');
     }
   };
 
@@ -84,7 +87,7 @@ const UserCard = ({
   };
 
   const getFullName = () => {
-    return `${student.LastName || ""} ${student.FirstName || ""}`.trim() || "Имя не указано";
+    return `${student.LastName || ""} ${student.FirstName || ""}`.trim() || t('HomeTaskTeacher.components.UserCard.NameNotSpecified');
   };
 
   return (
@@ -119,7 +122,7 @@ const UserCard = ({
             {getFullName()}
           </div>
           <div className="text-[#827ead] text-[15px] font-bold font-['Nunito'] truncate mt-[13px] max-w-full">
-            {type !== "not_done" ? getFormattedDate() : "Не відправлено"}
+            {type !== "not_done" ? getFormattedDate() : t('HomeTaskTeacher.components.UserCard.NotSubmitted')}
           </div>
         </div>
         
