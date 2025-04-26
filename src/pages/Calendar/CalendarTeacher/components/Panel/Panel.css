@@ -1,14 +1,6 @@
-/* Panel.css */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-/* Кастомный слой для стилей с opacity
-@layer components {
-  .bg-opacity-10 {
-    @apply bg-opacity-10;
-  }
-} */
 
 .panel-container {
     @apply w-full   sm:h-52 md:h-56 relative overflow-hidden rounded-2xl bg-[#1E1A3C];

@@ -2,17 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Modal Background */
 .ChangeDayModal {
   @apply fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 px-4;
 }
 
-/* Modal Container */
 .ChangeDayModal .event-form-container {
   @apply w-full max-w-md max-h-[90vh] mx-auto p-6 bg-white rounded-2xl shadow-lg relative flex flex-col overflow-hidden;
 }
 
-/* Header */
 .ChangeDayModal .event-form-header {
   @apply flex justify-between items-center p-4 ;
    
@@ -34,17 +31,14 @@
 }
 
 
-/* Form Content with Scroll */
 .ChangeDayModal .form-content {
   @apply flex-1 overflow-y-auto px-2;
 }
 
-/* Labels */
 .ChangeDayModal .label {
   @apply block mb-2 font-medium;
 }
 
-/* Input Fields */
 .ChangeDayModal .input-field {
   @apply w-full p-2 border rounded-lg mb-4;
 }
@@ -56,7 +50,6 @@
   @apply border-[#8a4ae6] outline-none;
 }
 
-/* Time Block */
 .ChangeDayModal .time-block {
   @apply flex flex-col mb-4;
 }
@@ -81,7 +74,6 @@
   @apply self-center mr-2 w-8;
 }
 
-/* Radio Buttons */
 .ChangeDayModal .radio-group {
   @apply flex flex-col sm:flex-row gap-4 mb-4;
 }
@@ -114,12 +106,10 @@
   @apply ml-2;
 }
 
-/* Textarea */
 .ChangeDayModal .textarea-field {
   @apply w-full p-2 border rounded-lg mb-4;
 }
 
-/* Error Styles */
 .ChangeDayModal .error-border {
   @apply border-red-500;
 }
@@ -128,7 +118,6 @@
   @apply text-red-500 text-sm mb-4 block;
 }
 
-/* Submit Button */
 .ChangeDayModal .submit-button {
   @apply w-full py-2 bg-[#8a4ae6] text-white rounded-lg border border-[#8a4ae6] transition-all mt-4 sticky bottom-0;
 }
@@ -137,12 +126,10 @@
   @apply bg-white text-[#8a4ae6] outline outline-1 outline-[#8a4ae6];
 }
 
-/* Dropdown Styles */
 .ChangeDayModal .dropdown-wrapper {
   @apply mb-4 relative;
 }
 
-/* Add outline to Dropdown component */
 .ChangeDayModal .dropdown-wrapper > div {
   @apply border rounded-lg focus-within:border-[#8a4ae6] outline-none;
 }
@@ -151,7 +138,6 @@
   @apply w-full p-2 text-left rounded-lg focus:outline-none focus:ring-2 focus:ring-[#8a4ae6];
 }
 
-/* Dropdown list */
 .ChangeDayModal .dropdown-wrapper ul {
   @apply absolute z-10 w-full mt-1 bg-white border rounded-lg shadow-lg max-h-60 overflow-y-auto;
 }
@@ -160,7 +146,6 @@
   @apply px-4 py-2 hover:bg-purple-100 cursor-pointer;
 }
 
-/* Responsive adjustments */
 @media (max-width: 640px) {
   .ChangeDayModal .event-form-container {
     @apply max-w-full mx-2 py-4 px-3;

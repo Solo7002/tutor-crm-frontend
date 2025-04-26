@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/6c873d1a-1934-425c-b224-58cdbf2d3d3d/resourceGroups/appsvc_linux_northeurope_basic/providers/Microsoft.Web/sites/tutoct-app",
+    "appService.deploySubpath": "."
+}

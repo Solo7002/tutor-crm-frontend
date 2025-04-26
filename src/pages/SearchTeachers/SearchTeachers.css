@@ -2,7 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Custom scrollbar for the teacher cards container */
 .teacher-cards-grid {
   max-height: calc(100vh - 300px);
   overflow-y: auto;
@@ -31,7 +30,6 @@
     flex-wrap: nowrap;
 }
 
-/* Line clamp for teacher description */
 .line-clamp-3 {
   display: -webkit-box;
   -webkit-line-clamp: 3;
@@ -39,7 +37,6 @@
   overflow: hidden;
 }
 
-/* Hover effects */
 .teacher-card {
   transition: all 0.3s ease;
 }
@@ -48,7 +45,6 @@
     border: 1px solid #120c38;
 }
 
-/* Loading animation */
 @keyframes pulse {
   0%, 100% {
     opacity: 1;
@@ -62,7 +58,6 @@
   animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
-/* Filter popup animations */
 @keyframes slideDown {
   from {
     opacity: 0;
@@ -78,7 +73,6 @@
   animation: slideDown 0.2s ease-out forwards;
 }
 
-/* Custom radio buttons */
 .radio-button {
   position: relative;
   display: inline-block;
@@ -106,7 +100,6 @@
   border-radius: 50%;
 }
 
-/* Price range inputs */
 .price-input {
   @apply w-full h-12 px-4 rounded-full border border-[#D7D7D7] text-[#120C38] outline-none transition-colors;
 }
@@ -125,7 +118,6 @@
   -moz-appearance: textfield;
 }
 
-/* Filter button hover effect */
 .filter-button {
   transition: all 0.2s ease;
 }
@@ -138,7 +130,6 @@
   stroke: #8a48e6;
 }
 
-/* Search input styles */
 .search-input {
   transition: all 0.2s ease;
 }
@@ -148,7 +139,6 @@
   outline-offset: -1px;
 }
 
-/* Dropdown styles */
 .dropdown {
   position: relative;
 }
@@ -176,7 +166,6 @@
   background: #F6EEFF;
 }
 
-/* Banner styles */
 .banner-bg {
   background: linear-gradient(90deg, rgba(18, 12, 56, 0.8) 0%, rgba(18, 12, 56, 0.4) 100%);
 }
@@ -200,13 +189,6 @@
     pointer-events: none;
 }
 
-/* Responsive adjustments 
-@media (max-width: 1024px) {
-  .teacher-cards-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}*/
-
 @media (max-width: 768px) {
   .search-filters {
     flex-direction: column;
@@ -225,7 +207,6 @@
     grid-template-columns: 1fr;
   }
 
-  /* Banner styles for mobile */
   .bg-pattern {
     width: 100%;
     height: 181px;
@@ -264,7 +245,6 @@
    margin: 0px !important;
   }
 
-  /* Search section styles for mobile */
   .search-input {
     width: 100%;
     max-width: 408px;
@@ -283,12 +263,10 @@
     margin-right: 8px;
   }
 
-  /* Adjust dropdown widths for mobile */
   select.dropdown {
     width: calc(50% - 4px);
   }
 
-  /* Teacher cards grid for mobile */
   .teacher-cards-grid {
     max-height: calc(100vh - 420px);
     overflow-y: auto;
@@ -296,18 +274,15 @@
     margin-top: 16px;
   }
 
-  /* Teacher card adjustments for mobile */
   .teacher-card {
     margin-bottom: 16px;
   }
 
-  /* Load more button adjustments */
   .teacher-cards-grid button {
     margin-top: 16px;
     margin-bottom: 24px;
   }
 
-  /* Filter popup adjustments for mobile */
   .filter-popup {
     width: 90vw !important;
     max-width: 408px;
@@ -322,30 +297,25 @@
     display: flex;
   }
 
-  /* Main container adjustments */
   .flex.flex-col.bg-[#F6EEFF] {
     min-height: 100vh;
     padding: 16px;
   }
 
-  /* Top section adjustments */
   .p-6.bg-[#F6EEFF] {
     padding: 0;
   }
 
-  /* Search and filters section */
   .flex.gap-4.w-full {
     flex-direction: column;
     gap: 8px;
   }
 
-  /* Dropdowns container */
   .flex.flex-wrap.gap-2.sm\:gap-6 {
     gap: 8px;
     margin-top: 8px;
   }
 
-  /* Adjust button position in teacher cards */
   .teacher-card .flex.items-center.justify-between {
     margin-top: 8px;
   }
@@ -359,7 +329,6 @@
   }
 }
 
-/* Ensure proper scrolling behavior */
 .overflow-y-auto {
   -webkit-overflow-scrolling: touch;
 }

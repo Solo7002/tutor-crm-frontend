@@ -62,7 +62,6 @@
     @apply bg-[#44B56A] text-white;
 }
 
-/* Hover effects */
 .homework-status-default button:hover {
     @apply bg-[#8A48E6] transition-all duration-300;
 }
@@ -99,7 +98,6 @@
     stroke: white;
 }
 
-/* Responsive styles */
 @media (max-width: 640px) {
     .hometask-card .back-card {
         @apply h-auto flex-col;
@@ -157,14 +155,12 @@
     }
 }
 
-/* Tablet specific adjustments */
 @media (min-width: 641px) and (max-width: 1024px) {
     .hometask-card .back-card {
         @apply gap-2;
     }
 }
 
-/* Fixing divider line and teacher name positioning */
 [data-svg-wrapper] svg {
     @apply max-w-full;
 }

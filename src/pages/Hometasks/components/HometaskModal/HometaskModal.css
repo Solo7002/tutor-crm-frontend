@@ -68,7 +68,6 @@
   @apply flex justify-between items-center;
 }
 
-/* Status-specific styles */
 .modal-card-pending {
   @apply border-[#FFA869];
 }

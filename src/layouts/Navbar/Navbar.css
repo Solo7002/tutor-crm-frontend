@@ -9,19 +9,19 @@
   .navbar .sidebar .nav-item-text {
     opacity: 0;
     transform: translateX(-10px);
-    max-width: 0; /* Скрываем текст по ширине */
-    overflow: hidden; /* Предотвращаем отображение текста за пределами */
-    white-space: nowrap; /* Текст не переносится */
+    max-width: 0;
+    overflow: hidden;
+    white-space: nowrap;
     transition: 
-      opacity 0.2s ease 0.2s, /* Появление с задержкой 0.2с */
-      transform 0.2s ease 0.2s, /* Сдвиг с задержкой */
-      max-width 0.2s ease 0.2s; /* Раскрытие ширины */
+      opacity 0.2s ease 0.2s,
+      transform 0.2s ease 0.2s,
+      max-width 0.2s ease 0.2s;
   }
   
   .navbar .sidebar.sidebar-visible .nav-item-text {
     opacity: 1;
     transform: translateX(0);
-    max-width: 200px; /* Достаточно для текста */
+    max-width: 200px;
   }
 
   .navbar .sidebar .profile-name {
@@ -30,12 +30,12 @@
     max-width: 0;
     overflow: hidden;
     white-space: nowrap;
-    visibility: hidden; /* Полностью скрываем элемент */
+    visibility: hidden;
     transition: 
-      opacity 0.2s ease 0.1s, /* Появление после 0.3с */
+      opacity 0.2s ease 0.1s,
       transform 0.2s ease,
       max-width 0.2s ease,
-      visibility 0s; /* visibility меняется мгновенно после задержки */
+      visibility 0s;
   }
 
   .navbar .sidebar.sidebar-visible .profile-name {
@@ -78,20 +78,17 @@
         display: none;
     }
 
-    /* Стили для скрытия сайдбара */
     .navbar .sidebar {
         visibility: hidden;
         padding-left: 10px;
     }
 
-    /* Стили для видимого сайдбара */
     .navbar .sidebar.sidebar-visible {
         visibility: visible !important;
         width: 70%;
         padding-right: 10px;
     }
 
-    /* Стили для меню */
     .navbar .menu {
         align-items: center;
         padding: 0px;
@@ -165,7 +162,6 @@
         margin-left: 3% !important;
     }
 
-    /* Стили для футера */
     .navbar .footer {
         flex-direction: row; 
         justify-content: space-between !important;
@@ -239,12 +235,10 @@
         width: 5vh !important;
     }
    
-    /* Скрываем текст в футере */
     .navbar .footer .nav-item-text {
         display: none;
     }
 
-    /* Стили для кнопок в видимом сайдбаре */
     .navbar .sidebar-visible .footer button {
         visibility: visible !important;
         display: block;
@@ -292,7 +286,6 @@
         padding: 5px;
     } 
 
-    /* Стили для шапки */
     .navbar header>span {
         padding-left: 90px;
         font-size: 30pt !important;

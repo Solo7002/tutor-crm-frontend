@@ -1,4 +1,3 @@
-/* Base styles */
 .custom-calendar {
     width: 100% !important;
     border: none;
@@ -50,7 +49,6 @@
     color: #8A48E6;
 }
 
-/* Styles for cells */
 .react-calendar__tile {
     position: relative;
     text-align: center;
@@ -101,7 +99,6 @@
     text-decoration: none;
 }
 
-/* Grid layout for days */
 .react-calendar__month-view__days {
     display: grid !important;
     grid-template-columns: repeat(7, 1fr) !important;
@@ -109,7 +106,6 @@
     gap: 2px !important;
 }
 
-/* Grid for weekdays */
 .react-calendar__month-view__weekdays {
     display: grid !important;
     grid-template-columns: repeat(7, 1fr) !important;
@@ -119,7 +115,6 @@
     gap: 2px !important;
 }
 
-/* Weekday labels */
 .react-calendar__month-view__weekdays__weekday {
     font-family: 'Nunito', sans-serif !important;
     font-size: 0.75rem !important;
@@ -135,12 +130,10 @@
     box-sizing: border-box !important;
 }
 
-/* Remove underline from abbr */
 .react-calendar__month-view__weekdays__weekday abbr {
     text-decoration: none !important;
 }
 
-/* Media queries for responsive design */
 @media (min-width: 480px) {
     .react-calendar__tile {
         width: 28px !important;

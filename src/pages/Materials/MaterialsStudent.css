@@ -23,19 +23,6 @@ body {
     @apply text-[#8a48e6] stroke-[#8a48e6];
 }
 
-/* .button:hover {
-    @apply bg-[#A768FF] border-[#A768FF];
-}
-
-.button:hover>div,
-.button:hover>div>svg>path {
-    @apply text-white border-white stroke-white;
-}
-
-.button:hover>div:last-child>div:first-child {
-    @apply bg-[#9E80C9];
-} */
-
 .button-selected {
     @apply bg-[#8a48e6];
 }

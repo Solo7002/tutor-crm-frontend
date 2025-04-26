@@ -2,17 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Modal Background */
 .AddDayModal {
   @apply fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 px-4;
 }
 
-/* Modal Container */
 .AddDayModal .event-form-container {
   @apply w-full max-w-md max-h-[90vh] mx-auto p-6 bg-white rounded-2xl shadow-lg relative flex flex-col overflow-hidden;
 }
 
-/* Header */
 .AddDayModal .event-form-header {
   @apply flex justify-between items-center p-4 ;
 }
@@ -33,17 +30,14 @@
 
 }
 
-/* Form Content with Scroll */
 .AddDayModal .form-content {
   @apply flex-1 overflow-y-auto px-2;
 }
 
-/* Labels */
 .AddDayModal .label {
   @apply block mb-2 font-medium;
 }
 
-/* Input Fields */
 .AddDayModal .input-field {
   @apply w-full p-2 border rounded-lg mb-4;
 }
@@ -54,7 +48,6 @@
 .AddDayModal textarea:focus {
   @apply border-[#8a4ae6] outline-none;
 }
-/* Time Block */
 .AddDayModal .time-block {
   @apply flex flex-col mb-4 w-full;
 }
@@ -79,7 +72,6 @@
   @apply self-center mr-2 w-8 flex-shrink-0;
 }
 
-/* Radio Buttons */
 .AddDayModal .radio-group {
   @apply flex flex-col sm:flex-row sm:flex-wrap gap-y-2 gap-x-4 mb-4;
 }
@@ -122,12 +114,10 @@
   @apply ml-2 text-sm sm:text-base;
 }
 
-/* Textarea */
 .AddDayModal .textarea-field {
   @apply w-full p-2 border rounded-lg mb-4 resize-none;
 }
 
-/* Error Styles */
 .AddDayModal .error-border {
   @apply border-red-500;
 }
@@ -136,7 +126,6 @@
   @apply text-red-500 text-xs sm:text-sm mb-4 block;
 }
 
-/* Submit Button */
 .AddDayModal .submit-button {
   @apply w-full py-3 bg-[#8a4ae6] text-white rounded-lg border border-[#8a4ae6] transition-all mt-4 sticky bottom-0 font-medium text-center;
 }
@@ -149,12 +138,10 @@
   @apply bg-purple-100;
 }
 
-/* Dropdown Styles */
 .AddDayModal .dropdown-wrapper {
   @apply mb-4 relative;
 }
 
-/* Add outline to Dropdown component */
 .AddDayModal .dropdown-wrapper > div {
   @apply border rounded-lg focus-within:border-[#8a4ae6] outline-none;
 }
@@ -163,7 +150,6 @@
   @apply w-full p-2 text-left rounded-lg focus:outline-none focus:ring-2 focus:ring-[#8a4ae6] ;
 }
 
-/* Dropdown list */
 .AddDayModal .dropdown-wrapper ul {
   @apply absolute z-10 w-full mt-1 bg-white border rounded-lg shadow-lg max-h-60 overflow-y-auto;
 }
@@ -172,7 +158,6 @@
   @apply px-4 py-2 hover:bg-purple-100 cursor-pointer;
 }
 
-/* Responsive adjustments */
 @media (max-width: 640px) {
   .AddDayModal .event-form-container {
     @apply max-w-full h-full max-h-full rounded-none py-4 px-4;

@@ -1,10 +1,6 @@
-
-
-
-/* Стили для кнопок при наведении */
 .taskButton .nav-button:hover {
-    background-color: #8A48E6; /* Фиолетовый цвет */
-    color: #FFFFFF; /* Белый цвет текста */
+    background-color: #8A48E6;
+    color: #FFFFFF;
 }
 
 .taskButton .nav-button:hover .text-violet-600 {

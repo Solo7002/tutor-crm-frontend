@@ -2,13 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Reset styles */
 * {
     padding: 0;
     margin: 0;
 }
 
-/* Background pattern styling */
 .pattern-bg::before {
     content: '';
     position: absolute;
@@ -35,11 +33,6 @@
     z-index: -2;
     border-radius: 1.5rem;
 }
-
-/* Original button styling */
-/* .test-item-button-wrapper {
-    @apply mb-0;
-} */
 
 .test-item-button {
     @apply rounded-[40px] bg-[#8a48e6] text-white font-bold font-['Nunito'] px-6 mb-0;

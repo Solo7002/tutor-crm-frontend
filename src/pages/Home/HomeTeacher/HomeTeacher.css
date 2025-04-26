@@ -2,7 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Global responsive styling */
 .overflow-hidden {
   overflow: hidden !important;
 }
@@ -12,25 +11,21 @@
   overflow-x: hidden;
 }
 
-/* Typography responsiveness */
 h1, h2, h3, h4, h5, h6 {
   overflow-wrap: break-word;
   word-wrap: break-word;
   hyphens: auto;
 }
 
-/* Image responsiveness */
 img {
   max-width: 100%;
   height: auto;
 }
 
-/* Common card components */
 .card-container {
   @apply rounded-[20px] shadow-md overflow-hidden;
 }
 
-/* Mobile-specific styles */
 @media (max-width: 640px) {
   .students-success .apexcharts-legend {
     top: 0px !important;
@@ -73,7 +68,6 @@ img {
   }
 }
 
-/* Tablet-specific styles */
 @media (min-width: 641px) and (max-width: 1024px) {
   .students-success {
     width: 100% !important;
@@ -85,7 +79,6 @@ img {
   }
 }
 
-/* Common responsive layout helpers */
 .flex-responsive {
   @apply flex flex-col sm:flex-row;
 }
@@ -94,12 +87,10 @@ img {
   @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3;
 }
 
-/* Ensures text doesn't overflow containers */
 .text-truncate {
   @apply truncate max-w-full;
 }
 
-/* Component-specific responsive adjustments */
 .greetings svg {
   max-height: 100%;
   width: auto;

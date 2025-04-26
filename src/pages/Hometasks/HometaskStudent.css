@@ -2,12 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-/* 
-.hometask .card-container{
-    @apply
-    flex flex-wrap gap-4 items-center p-4;
-} */
-
 .buttons-box {
     @apply h-12 my-[18px] items-center flex justify-between;
 }

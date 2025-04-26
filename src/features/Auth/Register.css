@@ -67,8 +67,6 @@
     mb-6;
 }
 
-/* 2 */
-
 .register-page .add-photo-text{
     font-family: 'Lato', sans-serif;
     font-size: 20px;
@@ -122,7 +120,6 @@
     bg-center;
 }
 
-/* 3 */
 
 .register-page .select-role-text{
     font-family: 'Lato', sans-serif;
@@ -145,7 +142,6 @@
     cursor-pointer
 }
 
-/* 4 */
 
 
 .register-page .registered-email-text{
@@ -156,7 +152,6 @@
     text-center;
 }
 
-/* 5 */
 
 .register-page .register-step-5{
     @apply
@@ -175,7 +170,6 @@
 }
 
 
-/* Mobile */
 @media (max-width: 768px) {
     .register-title{
         @apply

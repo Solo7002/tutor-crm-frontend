@@ -1,0 +1,1216 @@
+{
+    "HomeStudent": {
+        "errorNoToken": "Токен не знайдено в сховищі сесії!",
+        "errorTokenDecode": "Помилка при розшифровці токена!",
+        "errorNoUserId": "ID користувача не знайдено в токені!",
+        "errorNoStudent": "Студента не знайдено для цього користувача!",
+        "errorFetchData": "Помилка при отриманні даних студента!",
+        "Greetings": {
+            "greeting": "Привіт",
+            "description": "Навчання — це щоденна подорож із викликами та перемогами. OctoCRM стане твоїм надійним помічником: допоможе не пропустити важливі завдання, тримати під контролем розклад і завжди бути на зв’язку з учителями. Організуй свій навчальний процес розумно та впевнено!"
+        },
+        "Graphic": {
+            "title": "Успішність",
+            "homework": "– Домашня робота",
+            "classwork": "– Робота в класі",
+            "gradeTooltip": "Оцінка:",
+            "months": {
+                "january": "січень",
+                "february": "лютий",
+                "march": "березень",
+                "april": "квітень",
+                "may": "травень",
+                "june": "червень",
+                "july": "липень",
+                "august": "серпень",
+                "september": "вересень",
+                "october": "жовтень",
+                "november": "листопад",
+                "december": "грудень"
+            }
+        },
+        "Leaderboard": {
+            "title": "Таблиця лідерів",
+            "all_subjects": "Усі предмети",
+            "no_data": "Немає інформації",
+            "profile_alt": "Профіль користувача"
+        },
+        "Map": {
+            "all_subjects": "Усі предмети",
+            "format": "Формат",
+            "lesson_type": "Вид навчання",
+            "current_location": "Ваше поточне місцезнаходження",
+            "error_location": "Помилка отримання місцезнаходження!"
+        },
+        "MarkHistory": {
+            "title": "Історія оцінок",
+            "no_data": "Немає інформації",
+            "types": {
+                "Classwork": "Робота в класі",
+                "Homework": "Домашнє завдання",
+                "Test": "Тест"
+            }
+        },
+        "NearestEvents": {
+            "title": "Найближчі події",
+            "no_data": "Немає інформації",
+            "go_to": "Перейти",
+            "event_alt": "Аватар події"
+        },
+        "Schedule": {
+            "title": "{{month}} {{year}}",
+            "months": {
+                "0": "Січень",
+                "1": "Лютий",
+                "2": "Березень",
+                "3": "Квітень",
+                "4": "Травень",
+                "5": "Червень",
+                "6": "Липень",
+                "7": "Серпень",
+                "8": "Вересень",
+                "9": "Жовтень",
+                "10": "Листопад",
+                "11": "Грудень"
+            },
+            "weekdays": {
+                "sun": "Нд",
+                "mon": "Пн",
+                "tue": "Вт",
+                "wed": "Ср",
+                "thu": "Чт",
+                "fri": "Пт",
+                "sat": "Сб"
+            }
+        }
+    },
+    "HomeTeacher": {
+        "errorNoToken": "Токен не знайдено в сховищі сесії!",
+        "errorTokenDecode": "Помилка при розшифровці токена!",
+        "errorNoUserId": "ID користувача не знайдено в токені!",
+        "errorNoTeacher": "Вчитель не знайдено для цього користувача!",
+        "errorFetchData": "Помилка при отриманні даних вчителя!",
+        "Greetings": {
+            "greeting": "Привіт",
+            "description": "Ви – майстер навчання! OctoCRM допоможе вам керувати уроками, розкладом та учнями з легкістю.",
+            "defaultName": "Вчитель"
+        },
+        "Graphic": {
+            "title": "Успішність учнів",
+            "homework": "Домашня робота",
+            "classwork": "Робота в класі",
+            "test": "Тести",
+            "all_groups": "Усі групи",
+            "grades": "Оцінки",
+            "average": "Середня",
+            "no_data": "Немає даних",
+            "months": {
+                "0": "січень",
+                "1": "лютий",
+                "2": "березень",
+                "3": "квітень",
+                "4": "травень",
+                "5": "червень",
+                "6": "липень",
+                "7": "серпень",
+                "8": "вересень",
+                "9": "жовтень",
+                "10": "листопад",
+                "11": "грудень"
+            },
+            "types": {
+                "Homework": "Домашня робота",
+                "Classwork": "Робота в класі",
+                "Test": "Тест"
+            }
+        },
+        "Leaderboard": {
+            "title": "Таблиця лідерів",
+            "all_groups": "Усі групи",
+            "no_data": "Немає інформації",
+            "profile_alt": "Профіль учня"
+        },
+        "LatestActivity": {
+            "title": "Останні дії",
+            "no_data": "Немає інформації",
+            "activity_alt": "Аватар активності",
+            "types": {
+                "Lesson": "Урок проведено",
+                "AssignmentChecked": "Завдання перевірено",
+                "Test": "Тест сдано",
+                "Hometask": "Домашня робота"
+            }
+        },
+        "NearestEvents": {
+            "title": "Найближчі події",
+            "no_data": "Немає інформації",
+            "go_to": "Перейти",
+            "event_alt": "Аватар події"
+        },
+        "Schedule": {
+            "title": "{{month}} {{year}}",
+            "no_data": "Немає даних",
+            "months": {
+                "0": "Січень",
+                "1": "Лютий",
+                "2": "Березень",
+                "3": "Квітень",
+                "4": "Травень",
+                "5": "Червень",
+                "6": "Липень",
+                "7": "Серпень",
+                "8": "Вересень",
+                "9": "Жовтень",
+                "10": "Листопад",
+                "11": "Грудень"
+            },
+            "weekdays": {
+                "0": "Н",
+                "1": "П",
+                "2": "В",
+                "3": "С",
+                "4": "Ч",
+                "5": "П",
+                "6": "С"
+            }
+        },
+        "Productivity": {
+            "title": "Продуктивність",
+            "rating": "Рейтинг",
+            "tasks_checked": "Перевірено завдань",
+            "lessons_conducted": "Проведено уроків",
+            "new_clients": "Нові учні",
+            "reviews_received": "Отримані відгуки",
+            "no_change": "—",
+            "no_change_text": "(-)",
+            "periods": {
+                "all_time": "За весь час",
+                "year": "За рік",
+                "half_year": "За пів року",
+                "three_months": "За 3 місяці",
+                "month": "За місяць",
+                "week": "За тиждень",
+                "day": "За день"
+            }
+        }
+    },
+    "SearchTeachers": {
+        "searchPlaceholder": "Шукати",
+        "bannerTitle": "Ваш ключ до успіху в навчанні!",
+        "bannerText": "Прокачайте свої знання з найкращими репетиторами!",
+        "priceLabel": "Вартість навчання",
+        "priceMin": "Мінімальна",
+        "priceMax": "Максимальна",
+        "ratingLabel": "Рейтинг",
+        "ratingDesc": "Від більшого до меншого",
+        "ratingAsc": "Від меншого до більшого",
+        "formatLabel": "Формат",
+        "formatOnline": "Онлайн",
+        "formatOffline": "Офлайн",
+        "resetButton": "Скинути",
+        "viewButton": "Переглянути",
+        "loadMoreButton": "Переглянути більше",
+        "loading": "Завантаження...",
+        "noTeachers": "Немає доступних викладачів",
+        "from": "Від",
+        "currency": "грн",
+        "defaultTeacherName": "Волкова Надія Миколаївна",
+        "defaultSubject": "Математика",
+        "defaultDescription": "Привіт! Я, Надія Волкова, вчитель математики та фізики. Я маю власну методику навчання, а також розробила авторські матеріали, що гарантує якісне засвоєння нових знань.",
+        "errorLoading": "Не вдалося завантажити викладачів.",
+        "errorLoadingMore": "Не вдалося завантажити більше викладачів.",
+        "priceSort": "За ціною",
+        "lessonType": "Вид занять",
+        "lessonTypeGroup": "Груповий",
+        "lessonTypeSolo": "Індивідуальний",
+        "priceSortDesc": "Від більшого",
+        "priceSortAsc": "Від меншого",
+        "profile_alt": "Профіль викладача"
+    },
+    "HomeTaskTeacher": {
+        "components": {
+            "page": {
+                "AtFirstNew": "Спочатку нові",
+                "AtFirstOld": "Спочатку старі",
+                "ByAlphabet": "За алфавітом",
+                "TaskVerification": "Перевірка завданнь",
+                "TaskManager": "Менеджер завдань",
+                "AddTask": "Додати завдання",
+                "RecentTasks": "Останні завдання",
+                "More": "Більше",
+                "ToCheck": "До перевірки",
+                "Checked": "Перевірено",
+                "NotSubmitted": "Не відправлено",
+                "NoTasksYet": "Ще немає завдань",
+                "GeneralError": "Сталася помилка, спробуйте ще раз"
+            },
+            "UserCard": {
+                "Check": "Перевірити",
+                "NotCompleted": "Не виконано",
+                "NotSubmitted": "Не відправлено",
+                "InvalidDate": "Некоректна дата",
+                "NameNotSpecified": "Ім'я не вказано"
+            },
+            "EvaluateAIModal": {
+                "PleaseWaitAIChecking": "Зачекайте, будь ласка, ШІ перевіряє роботу. Це може зайняти кілька хвилин.",
+                "AIEvaluation": "Оцінювання за допомогою ШІ",
+                "EvaluateManually": "Оцінити вручну",
+                "StartCheck": "Запустити перевірку",
+                "Evaluate": "Оцінити",
+                "Response": "Відповідь:",
+                "WaitForAICompletion": "Будь ласка, дочекайтесь завершення перевірки ШІ.",
+                "ErrorUpdatingGrade": "Виникла помилка під час оновлення оцінки.",
+                "TaskSuccessfullyEvaluated": "Завдання успішно оцінено",
+                "ErrorOccurred": "Виникла помилка"
+            },
+            "EvaluateModal": {
+                "ManualEvaluation": "Оцінювання роботи вручну",
+                "CheckWorkFasterWithAI": "Перевіряйте роботу швидше, з нашею AI перевіркою",
+                "GoToAI": "Перейти",
+                "AdditionalcommentOptional": "Додатковий коментар (Не обов'язково)",
+                "EvaluateWork": "Оцінити роботу",
+                "EnterValidGrade": "Будь ласка, введіть коректну оцінку.",
+                "TaskSuccessfullyEvaluated": "Завдання успішно оцінено",
+                "ErrorOccurred": "Виникла помилка"
+            },
+            "HomeTaskCheckModal": {
+                "GroupLabel": "група",
+                "Issued": "Видано",
+                "Deadline": "Виконати до",
+                "Completed": "Виконано",
+                "MaxScore": "Максимальний бал",
+                "Status": "Статус",
+                "PendingReview": "До перевірки",
+                "Task": "Завдання",
+                "AttachedFiles": "Прикріплені файли",
+                "TaskBy": "Завдання від: ",
+                "AutoEvaluation": "Автоматичне оцінювання",
+                "ManualEvaluation": "Оцінити вручну"
+            },
+            "HomeTaskCreateModal": {
+                "GroupLabel": "група",
+                "Issued": "Видано",
+                "Deadline": "Виконати до",
+                "Completed": "Виконано",
+                "MaxScore": "Максимальний бал",
+                "Status": "Статус",
+                "Editing": "Редагування",
+                "Creating": "Створення",
+                "Task": "Завдання",
+                "AttachedFiles": "Прикріплені файли",
+                "NoFiles": "Немає прикріплених файлів",
+                "AddFiles": "Додати файли",
+                "Submit": "Надіслати",
+                "Save": "Зберегти",
+                "TaskPlaceholder": "Завдання",
+                "DescriptionPlaceholder": "Опис",
+                "FileUploadError": "Не вдалося завантажити файл",
+                "CoverUploadError": "Не вдалося завантажити обкладинку",
+                "TaskCreatedSuccess": "Завдання було успішно створено",
+                "TaskCreationError": "Помилка при створенні домашнього завдання",
+                "TaskEditedSuccess": "Завдання було успішно змінено",
+                "TaskEditError": "Помилка при редагуванні домашнього завдання"
+            },
+            "ImageSelectionModal": {
+                "Title": "Виберіть обкладинку",
+                "UploadFromComputer": "Завантажити з комп'ютера",
+                "SelectImage": "Обрати зображення",
+                "LastUsedImage": "Останнє використане зображення",
+                "LastUsedImageAlt": "Останнє зображення",
+                "StandardCovers": "Стандартні обкладинки",
+                "StandardCoverAlt": "Стандартна обкладинка",
+                "Select": "Обрати",
+                "Loading": "Завантаження...",
+                "FetchLastImageError": "Помилка при отриманні останнього зображення",
+                "FileUploadError": "Не вдалося завантажити файл"
+            },
+            "SearchButton": {
+                "SearchPlaceholder": "Шукати"
+            },
+            "StandartInput": {
+                "Placeholder": {
+                    "Default": "Введіть значення",
+                    "AdditionalCommentOptional": "Додатковий коментар (необов'язково)"
+                },
+                "Errors": {
+                    "required": "Поле обов'язкове",
+                    "invalidEmail": "Невірний формат email",
+                    "minLength": "Занадто коротке значення",
+                    "maxLength": "Занадто довге значення"
+                }
+            },
+            "TaskCardBlock": {
+                "Issued": "Видано:",
+                "Due": "Виконати до:",
+                "Edit": "Змінити",
+                "BookCoverAlt": "Обкладинка завдання",
+                "DeleteSuccess": "Завдання було успішно видалено",
+                "DeleteError": "Не вдалося видалити домашнє завдання"
+            },
+            "TaskCardBlock2": {
+                "Issued": "Видано:",
+                "Due": "Виконати до:",
+                "TaskPreviewAlt": "Попередній перегляд завдання"
+            },
+            "TaskCardTile": {
+                "Issued": "Видано:",
+                "Due": "Виконати до:",
+                "Delete": "Видалити",
+                "Edit": "Змінити",
+                "DeleteSuccess": "Завдання було успішно видалено",
+                "DeleteError": "Не вдалося видалити домашнє завдання"
+            }
+        }
+    },
+    "HometaskStudent": {
+        "components": {
+            "page": {
+                "Tabs": {
+                    "ToDo": "До виконання",
+                    "Pending": "На перевірці",
+                    "Done": "Виконано"
+                },
+                "Filters": {
+                    "AllSubjects": "Усі предмети"
+                },
+                "Loading": "Завантаження...",
+                "NoTasks": "Нічого немає",
+                "SortOptions": {
+                    "NewestFirst": "Спочатку нові",
+                    "OldestFirst": "Спочатку старі",
+                    "Alphabetical": "За алфавітом"
+                },
+                "Messages": {
+                    "SendSuccess": "Домашнє завдання успішно відправлено!",
+                    "SendSuccessTitle": "Назва: {{title}}",
+                    "SendError": "Не вдалося відправити домашнє завдання. Спробуйте ще раз.",
+                    "CancelSuccess": "Відправлення домашнього завдання скасовано!",
+                    "CancelSuccessTitle": "Назва: {{title}}",
+                    "CancelError": "Не вдалося скасувати відправлення. Спробуйте ще раз."
+                },
+                "Errors": {
+                    "TokenDecode": "Помилка при розшифровці токена",
+                    "FetchStudentId": "Помилка при отриманні studentId",
+                    "FetchInitialData": "Помилка при початковому завантаженні даних",
+                    "FetchSubjects": "Помилка при отриманні предметів",
+                    "FetchTasks": "Помилка при отриманні даних",
+                    "FetchTeacher": "Помилка при отриманні даних про викладача (ID: {{id}})",
+                    "FetchSubject": "Помилка при отриманні даних про предмет (ID: {{id}})",
+                    "FetchHometask": "Помилка при отриманні даних про домашнє завдання (ID: {{id}})",
+                    "ParseData": "Помилка при обробці даних на сервері",
+                    "RefreshTasks": "Помилка при оновленні завдань",
+                    "UploadFile": "Помилка завантаження файлу: {{fileName}}",
+                    "IncompleteUpload": "Не всі файли були завантажені. Спробуйте ще раз."
+                }
+            },
+            "Dropdown": {
+                "AllSubjects": "Усі предмети",
+                "Errors": {
+                    "NoOptions": "Немає доступних предметів"
+                }
+            },
+            "HometaskCard": {
+                "StatusButton": {
+                    "Send": "Надіслати",
+                    "Cancel": "Повернути",
+                    "Default": "Кнопка"
+                },
+                "Issued": "Видано:",
+                "Done": "Виконано",
+                "Due": "Виконати до",
+                "ImageAlt": "Зображення завдання"
+            },
+            "HometaskModal": {
+                "TitlePrefix": "Завдання",
+                "Issued": "Видано",
+                "Due": "Виконати до",
+                "Done": "Виконано",
+                "MaxMark": "Максимальний бал",
+                "Status": "Статус",
+                "Task": "Завдання",
+                "AttachedFiles": "Прикріплені файли",
+                "Choose": "Обрати",
+                "ImageAlt": "Зображення завдання",
+                "StatusText": {
+                    "Pending": "На перевірці",
+                    "Done": "Виконано",
+                    "Default": "До виконання"
+                },
+                "Mark": "Оцінка:",
+                "Messages": {
+                    "NoFilesSelected": "Будь ласка, виберіть хоча б один файл.",
+                    "FileError": "Помилка при обробці файлу"
+                }
+            }
+        }
+    },
+    "CalendarTeacher": {
+        "components": {
+            "Messages": {
+                "FetchError": "Помилка при отриманні даних",
+                "WindowWidth": "Ширина вікна: {{width}} пікселів"
+            },
+            "AddDayModal": {
+                "UI": {
+                    "Title": "Додати подію",
+                    "SubjectLabel": "Предмет:",
+                    "DateLabel": "Дата:",
+                    "TimeLabel": "Початок та кінець заняття:",
+                    "From": "З",
+                    "To": "До",
+                    "GroupLabel": "Група:",
+                    "FormatLabel": "Формат проведення заняття:",
+                    "Offline": "Офлайн",
+                    "Online": "Онлайн",
+                    "SubjectPlaceholder": "Предмет",
+                    "MeetingLinkPlaceholder": "Посилання на зустріч",
+                    "AddressPlaceholder": "Адреса",
+                    "SelectGroup": "Виберіть групу",
+                    "LoadingGroups": "Завантаження груп...",
+                    "OneTime": "Разова подія",
+                    "Weekly": "Повторювати кожен тиждень",
+                    "Biweekly": "Повторювати кожні 2 тижні",
+                    "AddToSchedule": "Додати до розкладу"
+                },
+                "Messages": {
+                    "FetchGroupsError": "Помилка при отриманні груп",
+                    "GroupsLoadError": "Не вдалося завантажити список груп",
+                    "SelectGroupError": "Виберіть групу",
+                    "SubjectEmptyError": "Предмет не може бути порожнім",
+                    "DateEmptyError": "Дата не може бути порожньою",
+                    "DatePastError": "Дата не може бути раніше сьогоднішньої",
+                    "StartHourError": "Введіть коректний час початку (0-23)",
+                    "StartMinuteError": "Введіть коректні хвилини початку (0-59)",
+                    "EndHourError": "Введіть коректний час закінчення (0-23)",
+                    "EndMinuteError": "Введіть коректні хвилини закінчення (0-59)",
+                    "TimeOrderError": "Час закінчення має бути пізніше часу початку",
+                    "LinkEmptyError": "Посилання не може бути порожнім",
+                    "LinkInvalidError": "Введіть коректне посилання",
+                    "AddressEmptyError": "Адреса не може бути порожньою",
+                    "FormValidationError": "Будь ласка, виправте помилки у формі",
+                    "SaveEventError": "Не вдалося зберегти подію. Спробуйте ще раз.",
+                    "SaveEventSuccess": "Усі заняття успішно заплановано!"
+                }
+            },
+            "ChangeDayModal": {
+                "UI": {
+                    "Title": "Редагувати подію",
+                    "SubjectLabel": "Предмет:",
+                    "DateLabel": "Дата:",
+                    "TimeLabel": "Початок та кінець заняття:",
+                    "From": "З",
+                    "To": "До",
+                    "GroupLabel": "Група:",
+                    "FormatLabel": "Формат проведення заняття:",
+                    "Offline": "Офлайн",
+                    "Online": "Онлайн",
+                    "SubjectPlaceholder": "Предмет",
+                    "MeetingLinkPlaceholder": "Посилання на зустріч",
+                    "AddressPlaceholder": "Адреса",
+                    "SelectGroup": "Виберіть групу",
+                    "LoadingGroups": "Завантаження груп...",
+                    "SaveChanges": "Зберегти зміни",
+                    "DatesLabel": "Дата:",
+                    "TimeRangeLabel": "Час:",
+                    "FormatLabelSuccess": "Формат:"
+                },
+                "Messages": {
+                    "FetchGroupsError": "Помилка при отриманні груп",
+                    "GroupsLoadError": "Не вдалося завантажити список груп",
+                    "SelectGroupError": "Виберіть групу",
+                    "SubjectEmptyError": "Предмет не може бути порожнім",
+                    "DateEmptyError": "Дата не може бути порожньою",
+                    "DatePastError": "Дата не може бути раніше сьогоднішньої",
+                    "StartHourError": "Введіть коректний час початку (0-23)",
+                    "StartMinuteError": "Введіть коректні хвилини початку (0-59)",
+                    "EndHourError": "Введіть коректний час закінчення (0-23)",
+                    "EndMinuteError": "Введіть коректні хвилини закінчення (0-59)",
+                    "TimeOrderError": "Час закінчення має бути пізніше часу початку",
+                    "LinkEmptyError": "Посилання не може бути порожнім",
+                    "LinkInvalidError": "Введіть коректне посилання",
+                    "AddressEmptyError": "Адреса не може бути порожньою",
+                    "FormValidationError": "Будь ласка, виправте помилки у формі",
+                    "UpdateEventError": "Не вдалося оновити подію. Спробуйте ще раз.",
+                    "UpdateEventSuccess": "Заняття успішно оновлено!"
+                }
+            },
+            "ItemLesson": {
+                "UI": {
+                    "GroupLabel": "Група:",
+                    "LocationLabel": "Місце:",
+                    "LinkText": "Посилання",
+                    "NoLinkText": "Немає посилання",
+                    "NoAddressText": "Немає адреси",
+                    "DeleteButton": "Видалити",
+                    "EditButton": "Редагувати",
+                    "NoTitleText": "Без назви",
+                    "UnknownGroupText": "Невідома група",
+                    "SubjectLabel": "Предмет:",
+                    "DateLabel": "Дата:",
+                    "TimeLabel": "Час:"
+                },
+                "Messages": {
+                    "DeleteLessonError": "Помилка при видаленні заняття",
+                    "DeleteLessonFailed": "Не вдалося видалити заняття. Спробуйте ще раз.",
+                    "DeleteLessonSuccess": "Заняття успішно видалено!"
+                }
+            },
+            "Panel": {
+                "UI": {
+                    "Title": "Плануй маштабно!",
+                    "Subtitle": "Додавай курси до свого Google Календаря, плануй свій час маштабно.",
+                    "ButtonText": "Додати",
+                    "SoonLabel": "Скоро"
+                }
+            },
+            "PanelLessons": {
+                "UI": {
+                    "SortToday": "За сьогодні",
+                    "SortWeek": "За тиждень",
+                    "SortMonth": "За місяць",
+                    "SortSelectedPrefix": "За"
+                }
+            }
+        }
+    },
+    "CalendarStudent": {
+        "components": {
+            "page": {
+                "TokenDecodeError": "Помилка декодування токена",
+                "UserIdNotFoundError": "Ідентифікатор користувача не знайдено в токені",
+                "FetchLessonsError": "Помилка отримання занять"
+            },
+            "ItemLesson": {
+                "UI": {
+                    "NoTitleText": "Без назви",
+                    "TeacherLabel": "Вчитель:",
+                    "LocationLabel": "Місце:",
+                    "LinkText": "Посилання",
+                    "NoLinkText": "Немає посилання",
+                    "NoAddressText": "Немає адреси"
+                }
+            },
+            "PanelLessons": {
+                "UI": {
+                    "SortToday": "За сьогодні",
+                    "SortWeek": "За тиждень",
+                    "SortMonth": "За місяць",
+                    "SortSelectedPrefix": "За"
+                }
+            }
+        }
+    },
+    "Navbar": {
+        "Labels": {
+            "home": "Головна",
+            "hometasks": "Домашні завдання",
+            "tests": "Тести",
+            "calendar": "Календар",
+            "materials": "Матеріали",
+            "search": "Пошук",
+            "settings": "Налаштування",
+            "info": "Інформація",
+            "menu": "Меню",
+            "soon": "Скоро",
+            "balance": "Баланс",
+            "profile": "Профіль"
+        },
+        "NotificationList": {
+            "List": "Список повідомлень",
+            "NoNew": "Немає нових повідомлень",
+            "NotificationItem": {
+                "WantsToJoin": "Хоче приєднатися до курсу",
+                "Group": "група"
+            }
+        },
+        "Errors": {
+            "TokenDecode": "Помилка при розшифровці токена!",
+            "UserData": "Помилка при отриманні даних користувача чи балансу!",
+            "Notifications": "Не вдалося завантажити повідомлення. Спробуйте ще раз.",
+            "Request": "Не вдалося прийняти запит. Спробуйте ще раз.",
+            "Declining": "Не вдалося відхилити запит. Спробуйте ще раз.",
+            "Deleting": "Не вдалося видалити повідомлення. Спробуйте ще раз."
+        }
+    },
+    "EditProfile": {
+        "Validation": {
+            "ChooseImage": "Будь ласка, виберіть файл зображення",
+            "LastName": "Прізвище обов'язкове",
+            "FirstName": "Ім'я обов'язкове",
+            "PhoneNumber": "Номер телефону має містити мінімум 10 цифр",
+            "UploadImage": "Помилка завантаження зображення",
+            "initialImageFile": "Попереднє зображення",
+            "imageFile": "Нове зображення завантажено",
+            "noImage": "Без зображення"
+        },
+        "ChangedFields": "Змінені поля",
+        "ChangedFrom": "Змінено з",
+        "ChangedTo": "на",
+        "NoChanges": "Жодних змін не внесено.",
+        "Info": "Особиста інформація",
+        "Change": "Змінити",
+        "Placeholders": {
+            "LastName": "Прізвище",
+            "FirstName": "Ім'я"
+        },
+        "Buttons": {
+            "Credentials": "Змінити пароль та/або пошту",
+            "Save": "Зберегти зміни",
+            "Saving": "Збереження..."
+        },
+        "Errors": {
+            "ProfileUpdate": "Помилка при оновленні профілю"
+        }
+    },
+    "EditEmailAndPassword": {
+        "Validation": {
+            "PasswordLength": "Пароль має містити від 8 до 128 символів",
+            "PasswordLowercase": "Пароль має містити хоча б одну малу літеру",
+            "PasswordUppercase": "Пароль має містити хоча б одну велику літеру",
+            "PasswordDigit": "Пароль має містити хоча б одну цифру",
+            "PasswordSpecial": "Пароль має містити хоча б один спеціальний символ",
+            "PasswordInvalidChars": "Пароль містить недопустимі символи. Дозволені лише букви, цифри та спеціальні символи",
+            "EmailRequired": "Email обов'язковий",
+            "EmailInvalid": "Невірний формат email",
+            "PasswordsMismatch": "Паролі не співпадають"
+        },
+        "Messages": {
+            "NoChanges": "Жодних змін не внесено",
+            "CodeSent": "Код підтвердження надіслано на вашу пошту",
+            "SendCodeError": "Помилка при відправці коду",
+            "InvalidCode": "Невірний код підтвердження або термін його дії закінчився",
+            "ConfirmError": "Помилка при підтвердженні",
+            "UpdateSuccess": "Дані успішно оновлено"
+        },
+        "Placeholders": {
+            "Email": "Email",
+            "NewPassword": "Новий пароль",
+            "ConfirmPassword": "Підтвердження пароля"
+        },
+        "Buttons": {
+            "Save": "Зберегти зміни",
+            "Saving": "Збереження"
+        },
+        "Content": {
+            "Title": "Зміна пошти та паролю",
+            "CodeSentMessage": "Код підтвердження надіслано на вашу пошту",
+            "EnterCode": "Введіть код підтвердження",
+            "InvalidCodeMessage": "Код підтвердження не вірний, або термін його дії закінчився"
+        }
+    },
+    "ProfileStudent": {
+        "Messages": {
+            "TokenDecodeError": "Помилка при розшифровці токена"
+        },
+        "Buttons": {
+            "EditProfile": "Редагувати профіль",
+            "LearnMore": "Детальніше"
+        },
+        "Content": {
+            "RegisteredUser": "Зареєстрований користувач",
+            "LearnFull": "Навчай на повну",
+            "SubscriptionPrompt": "Оформлюй підписку для розширення можливостей"
+        },
+        "Stats": {
+            "Courses": "Курси",
+            "Rating": "Рейтинг",
+            "ByTrophies": "по трофеях",
+            "Trophies": "Трофеїв"
+        },
+        "GroupList": {
+            "Title": "Мої групи",
+            "TableHeaders": {
+                "Number": "№",
+                "GroupNumber": "№ групи",
+                "GroupName": "Назва групи",
+                "CourseName": "Назва курсу",
+                "Teacher": "Вчитель",
+                "Price": "Ціна"
+            },
+            "DefaultGroups": {
+                "MathName": "Математика",
+                "MathFormat": "Офлайн",
+                "MathType": "Індивідуально",
+                "MathTeacher": "Восьменко",
+                "PhysicsName": "Фізика",
+                "PhysicsFormat": "Онлайн",
+                "PhysicsType": "Груповий",
+                "PhysicsTeacher": "Іванов"
+            }
+        },
+        "Reviews": {
+            "Messages": {
+                "FetchReviewsError": "Помилка при отриманні відгуків"
+            },
+            "Title": {
+                "HasReviews": "Відгуки учнів",
+                "NoReviews": "Відгуки відсутні"
+            },
+            "Buttons": {
+                "LoadMore": "Читати більше коментарів",
+                "AddComment": "Додати коментар"
+            }
+        }
+    },
+    "ProfileTeacher": {
+        "Messages": {
+            "TokenDecodeError": "Помилка при розшифровці токена"
+        },
+        "Buttons": {
+            "EditProfile": "Редагувати профіль",
+            "LearnMore": "Детальніше"
+        },
+        "Content": {
+            "RegisteredUser": "Зареєстрований користувач",
+            "Subject": "Предмет",
+            "From": "від",
+            "LessonPrice": "Ціна за урок",
+            "LearnFull": "Навчай на повну",
+            "SubscriptionPrompt": "Оформлюй підписку для розширення можливостей"
+        },
+        "Stats": {
+            "Students": "Учнів",
+            "Rating": "Рейтинг",
+            "Materials": "Авторських навчальних матеріалів"
+        },
+        "CourseList": {
+            "Title": "Курси",
+            "TableHeaders": {
+                "GroupNumber": "№ групи",
+                "GroupName": "Назва групи",
+                "StudentsCount": "Кількість учнів",
+                "Price": "Ціна"
+            },
+            "Buttons": {
+                "EditCourses": "Редагувати курси",
+                "JoinCourse": "Записатися на курс"
+            },
+            "DefaultCourses": {
+                "Math": "Математика",
+                "Physics": "Фізика"
+            }
+        },
+        "AddReviewModal": {
+            "Messages": {
+                "ReviewSent": "Відгук відправлено",
+                "ReviewError": "Помилка при відправці відгуку"
+            },
+            "Title": "Коментар викладачу",
+            "Placeholder": "Введіть текст тут",
+            "Button": {
+                "Submit": "Відправити"
+            }
+        },
+        "Comment": {
+            "Content": {
+                "Course": "Курс"
+            },
+            "Button": {
+                "ShowLess": "Менше",
+                "ShowMore": "Більше"
+            }
+        }
+    },
+    "ProfileTeacher_forStudent": {
+        "Messages": {
+            "TokenError": "Ошибка при расшифровке токена"
+        },
+        "Info": {
+            "Subject": "Предмет",
+            "PricePerLesson": "Ціна за урок",
+            "RegisteredUser": "Зареєстрований користувач",
+            "PriceFrom": "від"
+        },
+        "Subscription": {
+            "Title": "Навчай на повну",
+            "Description": "Оформлюй підписку для розширення можливостей"
+        },
+        "Stats": {
+            "Students": "Учнів",
+            "Rating": "Рейтинг",
+            "Materials": "Авторських навчальних матеріалів"
+        }
+    },
+    "CourseJoinModal": {
+        "Messages": {
+            "FetchGroupsError": "Не вдалося завантажити інформацію про ваші групи. Спробуйте ще раз",
+            "RequestSuccess": "Запит надіслано",
+            "RequestError": "Не вдалося надіслати запит. Спробуйте ще раз"
+        },
+        "Stage1": {
+            "Title": "Запис на курс",
+            "SelectCourseLabel": "Оберіть курс",
+            "NoCoursesAvailable": "На жаль, немає доступних курсів для запису. Ви вже записані на всі доступні курси",
+            "SelectGroupLabel": "Оберіть групу",
+            "NoGroupsAvailable": "На жаль, немає доступних груп для цього курсу. Ви вже записані на всі доступні групи",
+            "NextButton": "Далі"
+        },
+        "Stage2": {
+            "Title": "Запис на курс",
+            "TeacherLabel": "Вчитель",
+            "CourseLabel": "Курс",
+            "GroupLabel": "Група",
+            "TypeLabel": "Вид",
+            "FormatLabel": "Формат",
+            "PriceLabel": "Ціна за заняття",
+            "SubmitButton": "Надіслати запит",
+            "NotSpecified": "Не вказано"
+        },
+        "Stage3": {
+            "Title": "Запит надіслано",
+            "Description": "Незабаром викладач додасть вас до курсу. Чекайте на сповіщення в повідомленнях",
+            "HomeButton": "На головну"
+        },
+        "Dropdown": {
+            "AllCourses": "Усі курси",
+            "AllGroups": "Усі групи"
+        }
+    },
+    "PasswordInput": {
+        "Placeholder": "Пароль",
+        "ValidationErrors": {
+            "EmptyField": "Це поле не може бути порожнім",
+            "Length": "Пароль повинен містити від {minLength} до {maxLength} символів",
+            "Lowercase": "Пароль повинен містити принаймні одну малу літеру",
+            "Uppercase": "Пароль повинен містити принаймні одну велику літеру",
+            "Digit": "Пароль повинен містити принаймні одну цифру",
+            "Special": "Пароль повинен містити принаймні один спеціальний символ",
+            "AllowedChars": "Пароль містить недопустимі символи. Дозволені лише літери, цифри та спеціальні символи"
+        }
+    },
+    "MaterialsStudent": {
+        "archive": "Архів",
+        "soon": "Скоро",
+        "shop": "Магазин",
+        "searchError": "Сталася помилка, спробуйте ще раз",
+        "noMaterials": "Жоден вчитель поки що не надав Вам доступ до своїх матеріалів :(",
+        "sortOptions": {
+            "alphabetical": "За алфавітом",
+            "newest": "Спочатку нові",
+            "oldest": "Спочатку старі"
+        },
+        "fileCategories": {
+            "allFormats": "Усі формати",
+            "presentations": "Презентації",
+            "documents": "Документи",
+            "textFiles": "Текстові файли",
+            "spreadsheets": "Таблиці",
+            "pdf": "PDF",
+            "images": "Зображення"
+        }
+    },
+    "MaterialsTeacher": {
+        "archive": "Архів",
+        "store": "Магазин",
+        "soon": "Скоро",
+        "searchPlaceholder": "Пошук",
+        "addFile": "Додати файл",
+        "createFolder": "Створити папку",
+        "sortAlphabetically": "За алфавітом",
+        "sortNewest": "Спочатку нові",
+        "sortOldest": "Спочатку старі",
+        "errorMessage": "Сталася помилка, спробуйте ще раз",
+        "allFormats": "Усі формати",
+        "presentations": "Презентації",
+        "documents": "Документи",
+        "textFiles": "Текстові файли",
+        "spreadsheets": "Таблиці",
+        "pdf": "PDF",
+        "images": "Зображення"
+    },
+    "MaterialComponents": {
+        "AccessManagementModal": {
+            "title": "Керування доступом до навчальних матеріалів",
+            "saveButton": "Зберегти",
+            "noCourses": "Немає доступних курсів",
+            "accessUpdated": "Доступ до матеріалу оновлено",
+            "errorMessage": "Сталася помилка, спробуйте ще раз"
+        },
+        "AddMaterialModal": {
+            "title": "Додати файл",
+            "selectFromComputer": "Обрати файл з комп'ютера",
+            "or": "або",
+            "dragAndDropText": "Перетягніть файли з комп'ютера у цю область",
+            "restrictions": "Обмеження: макс. 49MB, без TXT або BAT файлів",
+            "addFilesButton": "Додати файл(и)",
+            "uploading": "Завантаження...",
+            "successMessage": "Матеріали успішно додані",
+            "errorMessage": "Сталася помилка, спробуйте ще раз",
+            "fileSizeError": "Файл \"{{fileName}}\" перевищує максимальний розмір (49MB)",
+            "fileTypeError": "Файл \"{{fileName}}\" має заборонений формат ({{extension}})"
+        },
+        "FolderBlock": {
+            "folder": "Папка",
+            "delete": "Видалити",
+            "editName": "Змінити назву",
+            "manageAccess": "Керування доступом",
+            "enterNewName": "Введіть нову назву",
+            "toast": {
+                "folderNameChanged": "Назву папки змінено",
+                "newName": "Нова назва: {{name}}",
+                "confirmDelete": "Ви впевнені, що хочете видалити цю папку?",
+                "deleteButton": "Видалити",
+                "cancelButton": "Скасувати",
+                "folderDeleted": "Папка успішно видалена!",
+                "deletedName": "Назва: {{name}}"
+            }
+        },
+        "MaterialBlock": {
+            "materialNameChanged": "Назву матеріалу змінено",
+            "newName": "Нова назва: {{newName}}",
+            "confirmDelete": "Ви впевнені, що хочете видалити цей матеріал?",
+            "delete": "Видалити",
+            "cancel": "Скасувати",
+            "materialDeleted": "Матеріал успішно видалено!",
+            "name": "Назва: {{name}}",
+            "enterNewName": "Введіть нову назву",
+            "changeName": "Змінити назву",
+            "accessManagement": "Керування доступом"
+        },
+        "FolderCreateBlock": {
+            "placeholder": "Введіть назву",
+            "label": "Папка",
+            "successMessage": "Нову папку створено",
+            "errorMessage": "Сталася помилка, спробуйте ще раз"
+        },
+        "FolderCreateList": {
+            "placeholder": "Введіть назву",
+            "label": "Папка",
+            "successMessage": "Нову папку створено",
+            "errorMessage": "Сталася помилка, спробуйте ще раз"
+        },
+        "FolderList": {
+            "folderTypeLabel": "Папка",
+            "folderNameChanged": "Назву папки змінено",
+            "newName": "Нова назва: {{name}}",
+            "deleteConfirmation": "Ви впевнені, що хочете видалити цю папку?",
+            "deleteButton": "Видалити",
+            "cancelButton": "Скасувати",
+            "deletedSuccessfully": "Папка успішно видалена!",
+            "nameLabel": "Назва: {{name}}",
+            "inputPlaceholder": "Введіть нову назву",
+            "menuDelete": "Видалити",
+            "menuRename": "Змінити назву",
+            "menuAccessManagement": "Керування доступом"
+        },
+        "MaterialList": {
+            "nameChanged": "Назву матеріалу змінено",
+            "newName": "Нова назва",
+            "deleteConfirmation": "Ви впевнені, що хочете видалити цей матеріал?",
+            "delete": "Видалити",
+            "cancel": "Скасувати",
+            "deleteSuccess": "Матеріал успішно видалено!",
+            "name": "Назва",
+            "enterNewName": "Введіть нову назву",
+            "changeName": "Змінити назву",
+            "manageAccess": "Керування доступом"
+        },
+        "FolderUpBlock": {
+            "back": "Назад"
+        }
+    },
+    "Tests": {
+        "DoneTestStudent": {
+            "error": "Помилка:",
+            "loading": "Завантаження...",
+            "testTitle": "Тест |",
+            "topic": "Тема:",
+            "score": "Бал",
+            "result": "Результат:",
+            "questionsCount": "Кількість питань",
+            "correctAnswers": "Правильні відповіді",
+            "incorrectAnswers": "Неправильні відповіді",
+            "timeSpent": "Часу витрачено",
+            "attemptsUsed": "Витрачено спроб:",
+            "nextAttempt": "Наступна спроба",
+            "returnToTests": "Повернуться на тести",
+            "yourAnswer": "Ваша відповідь",
+            "correctAnswer": "Правильна відповідь"
+        },
+        "RunTestStudent": {
+            "errorFetchingTest": "Ошибка при получении тестов!",
+            "errorSubmittingTest": "Ошибка при отправке теста!",
+            "timeExpired": "Время окончено",
+            "loading": "Loading...",
+            "testCompleted": "Тест завершено. Дякуємо!",
+            "pleaseSelectAnswer": "Будь ласка, виберіть відповідь",
+            "imageAlt": "Иллюстрация к вопросу",
+            "nextButton": "Далі"
+        },
+        "TestStudent": {
+            "toComplete": "До виконання",
+            "completed": "Виконано",
+            "sortNewest": "Спочатку нові",
+            "sortOldest": "Спочатку старі",
+            "sortAlphabetical": "За алфавітом",
+            "errors": {
+                "tokenDecode": "Ошибка при расшифровке токена!",
+                "studentIdGet": "Ошибка при получении studentId!",
+                "testsGet": "Ошибка при получении тестов!"
+            }
+        },
+        "TestStudentComponents": {
+            "TestCard": {
+                "issued": "Видано:",
+                "completeBy": "Виконати до:",
+                "completed": "Виконано:",
+                "completeButton": "Виконати"
+            },
+            "TestModal": {
+                "issued": "Видано",
+                "score": "Бал",
+                "completeBy": "Виконати до",
+                "completed": "Виконано",
+                "maxScore": "Максимальний бал",
+                "status": "Статус",
+                "statusDone": "Виконано",
+                "statusToDo": "До виконання",
+                "attemptsCount": "Кількість спроб",
+                "attemptsUsed": "Виконано спроб",
+                "timeToComplete": "Час на виконання",
+                "minutesShort": "хв",
+                "questionsCount": "Кількість питань",
+                "resultButton": "Результат",
+                "startButton": "До виконання",
+                "retryButton": "Виконати повторно",
+                "createTestError": "Помилка при створенні тесту!"
+            }
+        },
+        "TestsTeacher": {
+            "allGroups": "Усі групи",
+            "allCourses": "Усі курси",
+            "assigned": "Назначені",
+            "loading": "Завантаження тестів...",
+            "error": "Помилка:",
+            "noTests": "Немає тестів",
+            "sadFace": ":(",
+            "course": "Курс:",
+            "create": "Створити"
+        },
+        "TestResults": {
+            "loading": "Завантаження...",
+            "error": "Помилка:",
+            "resultsTitle": "Результати тесту:",
+            "course": "Курс:",
+            "notAvailable": "N/A",
+            "group": "Група:",
+            "issued": "Видано:",
+            "deadline": "Термін до:",
+            "studentsDone": "Виконало учнів",
+            "studentsNotDone": "Не виконало учнів",
+            "deleteTest": "Видалити тест",
+            "noTestDetails": "Деталі тесту відсутні.",
+            "errorMessage": "Сталася помилка, спробуйте ще раз",
+            "testDeletedSuccess": "Тест успішно видалено!",
+            "title": "Назва:",
+            "unknown": "Невідома",
+            "deleteFailure": "Не вдалося видалити тест. Спробуйте ще раз."
+        },
+        "CreateTestAi": {
+            "decryptError": "Сталася помилка, спробуйте ще раз",
+            "fixFormErrors": "Будь ласка, виправте помилки у формі",
+            "generateBeforeSubmit": "Будь ласка, згенеруйте тест перед створенням.",
+            "generateSuccess": "Тест успішно згенеровано! Кількість питань: {{count}}",
+            "abortInfo": "Генерація була скасована",
+            "generateError": "Сталася помилка генерації, спробуйте ще раз",
+            "generateFail": "Не вдалося згенерувати тест: {{message}}",
+            "apiAuthError": "Помилка автентифікації API. Будь ласка, зв’яжіться з адміністратором.",
+            "testIdError": "Не вдалося отримати TestId",
+            "imageUploadError": "Не вдалося завантажити зображення: {{message}}",
+            "testQuestionIdError": "Не вдалося отримати TestQuestionId",
+            "testCreated": "Тест успішно створено!",
+            "testName": "Назва",
+            "createError": "Виникла помилка при створенні тесту",
+            "generate": "Згенерувати",
+            "regenerate": "Згенерувати заново",
+            "create": "Створити",
+            "generating": "Генерується...",
+            "saving": "Зберігається..."
+        },
+        "CreateTest": {
+            "errorDecryptGroup": "Сталася помилка, спробуйте ще раз",
+            "errorEmptySubject": "Тема тесту не може бути порожньою.",
+            "errorNumAttempts": "Кількість спроб має бути числом >= 1.",
+            "errorTimeFormat": "Некоректний формат часу. Використовуйте число (хвилини), MM:SS або HH:MM:SS.",
+            "errorNegativeTime": "Час виконання не може бути від’ємним.",
+            "errorMaxScore": "Максимальний бал має бути числом >= 0.",
+            "errorPastDeadline": "Дедлайн не може бути меншим за сьогоднішню дату.",
+            "errorEmptyDeadline": "Будь ласка, виберіть дедлайн.",
+            "errorNoQuestions": "Будь ласка, додайте хоча б одне заповнене питання.",
+            "errorEmptyQuestion": "Будь ласка, заповніть текст питання для завдання {{number}}.",
+            "errorNotEnoughOptions": "Питання {{number}} має мати принаймні 2 відповіді.",
+            "errorEmptyOption": "Відповідь {{index}} не може бути порожньою.",
+            "errorNoCorrectAnswer": "Будь ласка, виберіть правильну відповідь для питання {{number}}.",
+            "errorFixForm": "Будь ласка, виправте помилки у формі",
+            "errorMissingTestId": "Не вдалося отримати TestId",
+            "errorImageUpload": "Не вдалося завантажити зображення: {{error}}",
+            "errorMissingQuestionId": "Не вдалося отримати TestQuestionId",
+            "errorCreatingTest": "Виникла помилка при створенні тесту",
+            "success": "Тест успішно створено!",
+            "testName": "Назва",
+            "group": "Група",
+            "addQuestion": "Додати ще одне запитання",
+            "create": "Створити",
+            "saving": "Зберігається..."
+        },
+        "TestTeacherComponents": {
+            "CreateModal": {
+                "errorMessage": "Сталася помилка, спробуйте ще раз",
+                "loadingCourses": "Завантаження курсів...",
+                "loadingGroups": "Завантаження груп...",
+                "selectCourse": "Виберіть курс",
+                "selectGroup": "Виберіть групу",
+                "modalTitle": "Створення тесту",
+                "manualTestButton": "Створити тест самостійно",
+                "aiTestButton": "Тест від штучного інтелекту"
+            },
+            "AddQuestion": {
+                "addImage": "Додати зображення",
+                "deleteImage": "Видалити зображення",
+                "enterAnswer": "Введіть відповідь",
+                "enterOptions": "Введіть {{count}} відповіді вибору і позначте вірну відповідь.",
+                "enterTask": "Введіть завдання",
+                "imageFileType": "Будь ласка, виберіть файл зображення (JPEG, PNG тощо).",
+                "noImageSelected": "Зображення не вибрано.",
+                "questionPreview": "Попередній перегляд питання"
+            },
+            "TestForm": {
+                "subjectLabel": "Тема:",
+                "subjectPlaceholder": "Ввести текст тут",
+                "maxScoreLabel": "Максимальний бал",
+                "maxScorePlaceholder": "12",
+                "descriptionLabel": "Опис:",
+                "descriptionPlaceholder": "Ввести текст тут",
+                "numQuestionsLabel": "Кількість питань",
+                "numAttemptsLabel": "Кількість спроб",
+                "numAttemptsPlaceholder": "1",
+                "timeLabel": "Час на виконання",
+                "timePlaceholder": "00:10:00",
+                "deadlineLabel": "Дедлайн",
+                "showAnswersAfterTestLabel": "Показати учню усі відповіді після тесту.",
+                "validation": {
+                    "subjectEmpty": "Тема тесту не може бути порожньою.",
+                    "descriptionEmpty": "Опис тесту не може бути порожнім.",
+                    "numQuestionsInvalid": "Кількість питань має бути числом >= 1.",
+                    "numAttemptsInvalid": "Кількість спроб має бути числом >= 1.",
+                    "timeEmpty": "Час виконання не може бути порожнім.",
+                    "timeFormatInvalid": "Некоректний формат часу. Використовуйте число (хвилини), MM:SS або HH:MM:SS.",
+                    "timeNegative": "Час виконання не може бути від’ємним.",
+                    "maxScoreInvalid": "Максимальний бал має бути числом >= 0.",
+                    "deadlineEmpty": "Будь ласка, виберіть дедлайн.",
+                    "deadlinePast": "Дедлайн не може бути меншим за сьогоднішню дату."
+                }
+            },
+            "TestItem": {
+                "issued": "Видано:",
+                "completeBy": "Виконати до:",
+                "results": "Результати"
+            },
+            "WaitModal": {
+                "title": "Зачекайте будь ласка, йде генерація тесту по вашому запиту",
+                "description": "Після створення тесту перегляньте його вміст, при потребі редагуйте вміст, або запустіть генерацію знов.",
+                "buttonText": "Зупинити генерацію"
+            }
+        }
+    }
+}
