@@ -67,6 +67,7 @@
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@craco/craco": "^7.1.0",
+    "@tailwindcss/nesting": "^0.0.0-insiders.565cd3e",
     "ajv": "^7.2.4",
     "autoprefixer": "^10.4.21",
     "postcss": "^8.5.3",
