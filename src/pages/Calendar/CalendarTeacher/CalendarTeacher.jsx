@@ -60,16 +60,6 @@ const CalendarTeacher = () => {
 
   useEffect(() => {
     const checkIfMobile = () => {
-      toast.info(
-        t("CalendarTeacher.components.Messages.WindowWidth", {
-          width: window.innerWidth,
-        }),
-        {
-          position: "bottom-right",
-          autoClose: 5000,
-        }
-      );
-
       setIsMobile(window.innerWidth <= 1000);
     };
 
