@@ -17,7 +17,7 @@ const CourseModal = ({ isOpen, onClose, token, teacherId, onCourseCreated }) => 
     const fetchSubjects = async () => {
       try {
         setIsLoading(true);
-        const response = await axios.get('http://localhost:4000/api/subjects/', {
+        const response = await axios.get(`${process.env.REACT_APP_BASE_API_URL}/api/subjects/`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -54,7 +54,7 @@ const CourseModal = ({ isOpen, onClose, token, teacherId, onCourseCreated }) => 
     setIsSubmitting(true);
     try {
       const response = await axios.post(
-        'http://localhost:4000/api/courses/',
+        `${process.env.REACT_APP_BASE_API_URL}/api/courses/`,
         {
           CourseName: courseName,
           SubjectName: courseName,

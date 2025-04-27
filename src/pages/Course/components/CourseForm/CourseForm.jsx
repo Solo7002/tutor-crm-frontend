@@ -18,7 +18,7 @@ const CourseForm = ({ courseId, isSave, CourseName, onCourseUpdated }) => {
       try {
         setLoading(true);
         const response = await axios.get(
-          `http://localhost:4000/api/groups/groups-by-course/${courseId}`,
+          `${process.env.REACT_APP_BASE_API_URL}/api/groups/groups-by-course/${courseId}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -103,7 +103,7 @@ const CourseForm = ({ courseId, isSave, CourseName, onCourseUpdated }) => {
             CourseId: group.CourseId,
           };
           return axios.post(
-            `http://localhost:4000/api/groups/`,
+            `${process.env.REACT_APP_BASE_API_URL}/api/groups/`,
             newGroup,
             {
               headers: {
@@ -133,7 +133,7 @@ const CourseForm = ({ courseId, isSave, CourseName, onCourseUpdated }) => {
             ImageFilePath: group.ImageFilePath,
           };
           return axios.put(
-            `http://localhost:4000/api/groups/${updateGroup.GroupId}`,
+            `${process.env.REACT_APP_BASE_API_URL}/api/groups/${updateGroup.GroupId}`,
             updateGroup,
             {
               headers: {
@@ -155,7 +155,7 @@ const CourseForm = ({ courseId, isSave, CourseName, onCourseUpdated }) => {
       await Promise.all(
         deleted.map((group) => {
           return axios.delete(
-            `http://localhost:4000/api/groups/${group.GroupId}`,
+            `${process.env.REACT_APP_BASE_API_URL}/api/groups/${group.GroupId}`,
             {
               headers: {
                 Authorization: `Bearer ${token}`,

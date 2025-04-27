@@ -22,7 +22,7 @@ const CreateModal = ({ onClose, teacher_id, token }) => {
       setIsLoadingCourses(true);
       try {
         const response = await axios.get(
-          `http://localhost:4000/api/courses/courses-by-teacher/${teacher_id}`,
+          `${process.env.REACT_APP_BASE_API_URL}/api/courses/courses-by-teacher/${teacher_id}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -45,7 +45,7 @@ const CreateModal = ({ onClose, teacher_id, token }) => {
         setIsLoadingGroups(true);
         try {
           const response = await axios.get(
-            `http://localhost:4000/api/groups/groups-by-course/${selectedCourseId}`,
+            `${process.env.REACT_APP_BASE_API_URL}/api/groups/groups-by-course/${selectedCourseId}`,
             {
               headers: {
                 Authorization: `Bearer ${token}`,

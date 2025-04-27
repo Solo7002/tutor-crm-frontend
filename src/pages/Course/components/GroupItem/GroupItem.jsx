@@ -59,7 +59,7 @@ const GroupItem = ({ group, groupIndex, deleteGroup, onChange, editedGroup }) =>
     try {
       const token = localStorage.getItem("token");
       await axios.delete(
-        `http://localhost:4000/api/groupsStudents/${groupId}/${studentId}`,
+        `${process.env.REACT_APP_BASE_API_URL}/api/groupsStudents/${groupId}/${studentId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

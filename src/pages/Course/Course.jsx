@@ -23,7 +23,7 @@ const Course = () => {
       setToken(_token);
       const decoded = jwtDecode(_token);
 
-      axios.get(`http://localhost:4000/api/teachers/search?UserId=${decoded.id}`)
+      axios.get(`${process.env.REACT_APP_BASE_API_URL}/api/teachers/search?UserId=${decoded.id}`)
         .then((res) => {
           setTeacherId(res.data.data[0].TeacherId);
         })
@@ -40,7 +40,7 @@ const Course = () => {
       try {
         setLoading(true);
         const response = await axios.get(
-          `http://localhost:4000/api/courses/courses-by-teacher/${teacherId}`,
+          `${process.env.REACT_APP_BASE_API_URL}/api/courses/courses-by-teacher/${teacherId}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -118,7 +118,7 @@ const Course = () => {
 
   const handleDeleteCourse = async (courseId, courseName) => {
     try {
-      await axios.delete(`http://localhost:4000/api/courses/${courseId}`, {
+      await axios.delete(`${process.env.REACT_APP_BASE_API_URL}/api/courses/${courseId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
