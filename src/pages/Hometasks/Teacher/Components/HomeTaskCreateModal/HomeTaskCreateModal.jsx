@@ -39,7 +39,7 @@ const HomeTaskCreateModal = ({ isOpened, onClose, subject = "", group = "", sele
   const [description, setDescription] = useState('');
   const fileInputRef = useRef(null);
   const coverInputRef = useRef(null);
-  const token=sessionStorage.getItem("token");
+  const token = sessionStorage.getItem("token");
 
   const standardCovers = [
     'https://blobstorage226122007.blob.core.windows.net/blob-storage-container/hometask13042025_cover_1.png',
@@ -99,7 +99,7 @@ const HomeTaskCreateModal = ({ isOpened, onClose, subject = "", group = "", sele
         {
           headers: {
             'Content-Type': 'multipart/form-data',
-             Authorization: `Bearer ${token}`
+            Authorization: `Bearer ${token}`
           },
         }
       );
@@ -129,7 +129,7 @@ const HomeTaskCreateModal = ({ isOpened, onClose, subject = "", group = "", sele
         {
           headers: {
             'Content-Type': 'multipart/form-data',
-             Authorization: `Bearer ${token}`
+            Authorization: `Bearer ${token}`
           },
         }
       );
@@ -182,9 +182,9 @@ const HomeTaskCreateModal = ({ isOpened, onClose, subject = "", group = "", sele
     };
 
     try {
-      await axios.post(`${process.env.REACT_APP_BASE_API_URL}/api/hometasks`, homeTaskData,{
+      await axios.post(`${process.env.REACT_APP_BASE_API_URL}/api/hometasks`, homeTaskData, {
         headers: {
-           Authorization: `Bearer ${token}`
+          Authorization: `Bearer ${token}`
         },
       });
       onClose();
@@ -194,7 +194,7 @@ const HomeTaskCreateModal = ({ isOpened, onClose, subject = "", group = "", sele
       setCoverImage(null);
       setHeader("");
       setDescription("");
-      
+
       toast.success(t('HomeTaskTeacher.components.HomeTaskCreateModal.TaskCreatedSuccess'), {
         position: "bottom-right",
         autoClose: 3000,
@@ -228,9 +228,9 @@ const HomeTaskCreateModal = ({ isOpened, onClose, subject = "", group = "", sele
     };
 
     try {
-      await axios.put(`${process.env.REACT_APP_BASE_API_URL}/api/hometasks/${hometask.HometaskId}`, updatedHomeTaskData,{
+      await axios.put(`${process.env.REACT_APP_BASE_API_URL}/api/hometasks/${hometask.HometaskId}`, updatedHomeTaskData, {
         headers: {
-           Authorization: `Bearer ${token}`
+          Authorization: `Bearer ${token}`
         },
       });
       onClose();
@@ -261,19 +261,6 @@ const HomeTaskCreateModal = ({ isOpened, onClose, subject = "", group = "", sele
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 p-4">
-      <style>
-        {`
-        input[type="date"]::-webkit-calendar-picker-indicator {
-          display: none;
-        }
-        input[type="date"] {
-          -webkit-appearance: none;
-          -moz-appearance: textfield;
-          appearance: none;
-        }
-      `}
-      </style>
-
       <ImageSelectionModal
         isOpen={isImageModalOpen}
         onClose={() => setIsImageModalOpen(false)}
@@ -315,7 +302,7 @@ const HomeTaskCreateModal = ({ isOpened, onClose, subject = "", group = "", sele
               flex
               items-center
               justify-center
-              w-full
+              w-[150px]
               md:w-auto
               md:max-w-[182px]
               aspect-square
@@ -399,6 +386,8 @@ const HomeTaskCreateModal = ({ isOpened, onClose, subject = "", group = "", sele
                       p-0
                       mt-1
                       w-full
+                      [&::-webkit-calendar-picker-indicator]:opacity-100
+                      [&::-webkit-calendar-picker-indicator]:text-[#827ead]
                     "
                     placeholder="-- -- ----"
                   />

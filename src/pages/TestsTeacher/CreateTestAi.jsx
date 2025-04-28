@@ -148,6 +148,8 @@ const CreateTestAi = () => {
         ShowAnswers: formData.showAnswersAfterTest || false,
       };
 
+      console.log("testPayLoad: ", testPayload);
+
       const testResponse = await axios.post(`${process.env.REACT_APP_BASE_API_URL}/api/tests`, testPayload, {
         headers: { Authorization: `Bearer ${token}` },
       });
