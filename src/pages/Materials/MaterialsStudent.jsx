@@ -56,7 +56,7 @@ export default function MaterialsStudent() {
                 setMaterials(res.data);
             });
         } catch (error) {
-            toast.error(t('MaterialsStudent.searchError'));
+            // toast.error(t('MaterialsStudent.searchError'));
         }
     };
 
