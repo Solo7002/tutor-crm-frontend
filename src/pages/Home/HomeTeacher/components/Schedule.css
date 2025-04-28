@@ -2,6 +2,7 @@
     width: 100% !important;
     border: none;
     font-size: 14px;
+    max-width: 100%;
 }
 
 .react-calendar__navigation {
@@ -12,7 +13,7 @@
 }
 
 .react-calendar__navigation__label {
-    font-family: 'Lato', sans-serif;
+    font-family: 'Mulish', sans-serif;
     font-weight: 700;
     font-size: 1rem;
     line-height: 1.2;
@@ -49,24 +50,35 @@
     color: #8A48E6;
 }
 
+/* Calendar tiles */
 .react-calendar__tile {
     position: relative;
     text-align: center;
     border-radius: 50% !important;
-    width: 25px !important;
-    height: 25px !important;
-    min-width: 25px !important;
-    max-width: 25px !important;
     aspect-ratio: 1 !important;
     font-size: 0.75rem;
     font-family: 'Nunito', sans-serif;
     transition: background-color 0.3s ease;
     padding: 0 !important;
-    margin: 0 auto !important;
     display: flex;
     align-items: center;
     justify-content: center;
     box-sizing: border-box;
+    margin: 0 auto !important;
+    width: auto !important;
+    height: auto !important;
+    min-width: 0 !important;
+    max-width: none !important;
+}
+
+/* Responsive tile sizes */
+.react-calendar__tile abbr {
+    width: 25px;
+    height: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
 }
 
 .outside-month-tile {
@@ -77,14 +89,14 @@
     color: #120c38 !important;
 }
 
-.lesson-tile {
+.lesson-tile abbr {
     background-color: #8a48e6 !important;
     color: white !important;
 }
 
-.homework-tile {
+.homework-tile abbr {
     background-color: #88f2ff !important;
-    color: white !important;
+    color: #120c38 !important;
 }
 
 .react-calendar__month-view__days__day--weekend {
@@ -134,12 +146,31 @@
     text-decoration: none !important;
 }
 
+/* Responsive styles */
+@media (max-width: 320px) {
+    .react-calendar__tile abbr {
+        width: 20px;
+        height: 20px;
+        font-size: 0.7rem;
+    }
+    
+    .react-calendar__month-view__weekdays__weekday {
+        font-size: 0.7rem !important;
+    }
+}
+
+@media (min-width: 321px) and (max-width: 479px) {
+    .react-calendar__tile abbr {
+        width: 22px;
+        height: 22px;
+        font-size: 0.75rem;
+    }
+}
+
 @media (min-width: 480px) {
-    .react-calendar__tile {
-        width: 28px !important;
-        height: 28px !important;
-        min-width: 28px !important;
-        max-width: 28px !important;
+    .react-calendar__tile abbr {
+        width: 28px;
+        height: 28px;
         font-size: 0.8rem;
     }
     
@@ -153,11 +184,9 @@
 }
 
 @media (min-width: 768px) {
-    .react-calendar__tile {
-        width: 30px !important;
-        height: 30px !important;
-        min-width: 30px !important;
-        max-width: 30px !important;
+    .react-calendar__tile abbr {
+        width: 30px;
+        height: 30px;
         font-size: 0.9rem;
     }
     

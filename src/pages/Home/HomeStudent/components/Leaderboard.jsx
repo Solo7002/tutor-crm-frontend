@@ -44,7 +44,7 @@ const Leaderboard = ({ leaders }) => {
     }, [leaders, selectedSubject, t]);
 
     return (
-        <div className="flex-1 bg-white p-4 rounded-[20px] shadow-md h-full leaders">
+        <div className="flex-1 bg-white p-4 rounded-[20px] shadow-md h-[320px] leaders">
             {/* Filter by Subject */}
             <div className="flex justify-between">
                 <div
@@ -70,7 +70,7 @@ const Leaderboard = ({ leaders }) => {
             </div>
 
             {/* Leaderboard List */}
-            <ol className="mt-4 overflow-y-auto h-[calc(100%-60px)] pl-4">
+            <ol className="mt-4 overflow-y-auto h-[235px] pl-4">
                 {
                     filteredLeaders.length > 0
                         ?

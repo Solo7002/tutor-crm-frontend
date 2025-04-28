@@ -7,7 +7,7 @@ const NearestEvents = ({ events }) => {
   const { t } = useTranslation();
 
   return (
-    <div className="bg-white rounded-[20px] shadow-md h-[25vh] overflow-y-auto events relative">
+    <div className="bg-white rounded-[20px] shadow-md h-[255px] overflow-y-auto events relative">
       {/* Header */}
       <h2
         className="text-[#120c38] font-semibold sticky top-0 bg-white z-10 w-full py-4 px-4"

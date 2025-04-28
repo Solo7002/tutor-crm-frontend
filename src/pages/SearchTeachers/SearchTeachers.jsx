@@ -408,7 +408,7 @@ const SearchTeachers = () => {
 
                             <div className="flex items-center justify-between mt-auto">
                                 <div className="text-black text-xl font-bold font-['Nunito']">
-                                    {t("SearchTeachers.from")} {teacher.LessonPrice} {t("SearchTeachers.currency")}
+                                    {t("SearchTeachers.from")} {teacher.LessonPrice} ₴
                                 </div>
                                 <Link
                                     to={`/student/teacher_profile/${encryptData(teacher.TeacherId)}`}

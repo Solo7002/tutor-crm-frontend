@@ -5,7 +5,7 @@ const LatestActivity = ({ activities }) => {
   const { t } = useTranslation();
 
   return (
-    <div className="bg-white rounded-[20px] mb-4 sm:mb-6 shadow-md h-[25vh] sm:h-[30vh] overflow-y-auto relative">
+    <div className="bg-white rounded-[20px] mb-4 sm:mb-6 shadow-md h-[280px] overflow-y-auto relative">
       <h2
         className="text-[#120c38] text-base sm:text-lg md:text-xl font-bold font-['Nunito'] leading-normal tracking-[-0.5%] sticky top-0 bg-white z-10 w-full py-2 sm:py-4 p-3 sm:p-4"
       >

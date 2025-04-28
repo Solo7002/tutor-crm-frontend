@@ -93,7 +93,6 @@ const CalendarTeacher = () => {
           </div>
         </div>
       </div>
-      <ToastContainer />
     </div>
   );
 };

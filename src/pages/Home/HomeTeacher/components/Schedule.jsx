@@ -47,7 +47,7 @@ const Schedule = ({ days = [] }) => {
   };
 
   return (
-    <div className="bg-white p-2 sm:p-4 rounded-[20px] mb-4 sm:mb-6 shadow-md h-[26vh] sm:h-[28vh] justify-center items-start gap-2 sm:gap-[22.67px] overflow-hidden">
+    <div className="bg-white p-2 sm:p-4 rounded-[20px] mb-4 sm:mb-6 shadow-md h-auto min-h-[300px] sm:min-h-[28vh] flex flex-col">
       <h2
         className="text-base sm:text-lg md:text-xl font-semibold m-2 sm:m-3"
         style={{
@@ -63,29 +63,31 @@ const Schedule = ({ days = [] }) => {
           year: selectedDate.getFullYear(),
         })}
       </h2>
-      {days.length > 0 ? (
-        <Calendar
-          className="custom-calendar"
-          value={selectedDate}
-          onChange={() => navigate("/teacher/calendar")}
-          tileClassName={getTileClassName}
-          navigationLabel={({ date }) => formatMonthYear(null, date)}
-          showNavigation={false}
-          locale="en-US"
-          formatShortWeekday={formatShortWeekday}
-        />
-      ) : (
-        <div
-          className="text-sm sm:text-base text-center mt-10"
-          style={{
-            fontFamily: "Mulish",
-            letterSpacing: "-0.5%",
-            color: "#120C38",
-          }}
-        >
-          {t("HomeTeacher.Schedule.no_data")}
-        </div>
-      )}
+      <div className="flex-grow flex items-center justify-center">
+        {days.length > 0 ? (
+          <Calendar
+            className="custom-calendar"
+            value={selectedDate}
+            onChange={() => navigate("/teacher/calendar")}
+            tileClassName={getTileClassName}
+            navigationLabel={({ date }) => formatMonthYear(null, date)}
+            showNavigation={false}
+            locale="en-US"
+            formatShortWeekday={formatShortWeekday}
+          />
+        ) : (
+          <div
+            className="text-sm sm:text-base text-center"
+            style={{
+              fontFamily: "Mulish",
+              letterSpacing: "-0.5%",
+              color: "#120C38",
+            }}
+          >
+            {t("HomeTeacher.Schedule.no_data")}
+          </div>
+        )}
+      </div>
     </div>
   );
 };

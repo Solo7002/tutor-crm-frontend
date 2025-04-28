@@ -139,7 +139,7 @@ export default function HomeStudent() {
         <div className="w-full md:w-9/12 pr-4 mb-2 md:mb-0">
           <Greetings user={user} />
           {/* Graphic and leader flex box */}
-          <div className="flex flex-col md:flex-row gap-4 mb-6 h-[30vh]">
+          <div className="flex flex-col md:flex-row gap-4 mb-6">
             <Graphic chartData={grades} />
             <Leaderboard leaders={leaders} />
           </div>

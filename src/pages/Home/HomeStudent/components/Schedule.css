@@ -1,91 +1,182 @@
 .custom-calendar {
-    width: 100%;
-    border: none;
-  }
-  
-  .react-calendar__navigation {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 10px;
-  }
-  
-  .react-calendar__navigation__label {
-    font-family: 'Lato', sans-serif;
-    font-weight: 700;
-    font-size: 16pt;
-    line-height: 19.2px;
-    letter-spacing: 0.59px;
-    color: #120C38;
-    text-transform: uppercase;
-  }
-  
-  .react-calendar__month-view__weekdays {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    text-align: center;
-    margin-bottom: 10px;
+  width: 100% !important;
+  border: none;
+  max-width: 100%;
+}
+
+.react-calendar__navigation {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.react-calendar__navigation__label {
+  font-family: 'Mulish', sans-serif;
+  font-weight: 700;
+  font-size: 1rem;
+  line-height: 1.2;
+  letter-spacing: 0.59px;
+  color: #120C38;
+  text-transform: uppercase;
+}
+
+.react-calendar__month-view__weekdays {
+  display: grid !important;
+  grid-template-columns: repeat(7, 1fr) !important;
+  text-align: center;
+  margin-bottom: 6px;
+  justify-content: center !important;
+  gap: 2px !important;
+}
+
+.react-calendar__month-view__weekdays__weekday {
+  font-family: 'Nunito', sans-serif;
+  font-size: 0.75rem;
+  color: #8A48E6;
+  text-transform: uppercase;
+  text-decoration: none !important;
+  cursor: default;
+  outline: none !important;
+  border-bottom: none !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  box-sizing: border-box !important;
+}
+
+.react-calendar__month-view__weekdays__weekday::after,
+.react-calendar__month-view__weekdays__weekday::before {
+  content: none !important;
+}
+
+.react-calendar__month-view__weekdays__weekday a {
+  text-decoration: none !important;
+  color: #8A48E6;
+}
+
+/* Calendar tiles */
+.react-calendar__tile {
+  position: relative;
+  text-align: center;
+  border-radius: 50% !important;
+  aspect-ratio: 1 !important;
+  font-family: 'Nunito', sans-serif;
+  transition: background-color 0.3s ease;
+  padding: 0 !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  margin: 0 auto !important;
+  width: auto !important;
+  height: auto !important;
+  min-width: 0 !important;
+  max-width: none !important;
+}
+
+/* Responsive tile sizes */
+.react-calendar__tile abbr {
+  width: 25px;
+  height: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-size: 0.75rem;
+}
+
+.outside-month-tile abbr {
+  color: #ddc1f4 !important;
+}
+
+.react-calendar__tile:not(.outside-month-tile):not(.lesson-tile):not(.homework-tile) abbr {
+  color: #120c38 !important;
+}
+
+.lesson-tile abbr {
+  background-color: #8a48e6 !important;
+  color: white !important;
+}
+
+.homework-tile abbr {
+  background-color: #88f2ff !important;
+  color: #120c38 !important;
+}
+
+.react-calendar__month-view__days__day--weekend abbr {
+  color: #8a48e6;
+}
+
+.react-calendar__tile:disabled {
+  background-color: transparent;
+}
+
+.react-calendar__month-view__weekdays__weekday abbr {
+  text-decoration: none;
+}
+
+.react-calendar__month-view__days {
+  display: grid !important;
+  grid-template-columns: repeat(7, 1fr) !important;
+  justify-content: center !important;
+  gap: 2px !important;
+}
+
+/* Responsive styles */
+@media (max-width: 320px) {
+  .react-calendar__tile abbr {
+    width: 20px;
+    height: 20px;
+    font-size: 0.7rem;
   }
   
   .react-calendar__month-view__weekdays__weekday {
-    font-family: 'Nunito', sans-serif;
-    font-size: 15.65pt;
-    color: #8A48E6;
-    text-transform: uppercase;
-    text-decoration: none !important;
-    cursor: default;
-    outline: none !important;
-    border-bottom: none !important;
+    font-size: 0.7rem !important;
+  }
+}
+
+@media (min-width: 321px) and (max-width: 479px) {
+  .react-calendar__tile abbr {
+    width: 22px;
+    height: 22px;
+    font-size: 0.75rem;
+  }
+}
+
+@media (min-width: 480px) {
+  .react-calendar__tile abbr {
+    width: 28px;
+    height: 28px;
+    font-size: 0.8rem;
   }
   
-  .react-calendar__month-view__weekdays__weekday::after,
-  .react-calendar__month-view__weekdays__weekday::before {
-    content: none !important;
+  .react-calendar__month-view__weekdays__weekday {
+    font-size: 0.8rem !important;
   }
   
-  .react-calendar__month-view__weekdays__weekday a {
-    text-decoration: none !important;
-    color: #8A48E6;
+  .react-calendar__navigation__label {
+    font-size: 1.1rem;
   }
-  
-  .react-calendar__tile {
-    position: relative;
-    text-align: center;
-    border-radius: 9999px;
+}
+
+@media (min-width: 768px) {
+  .react-calendar__tile abbr {
     width: 30px;
     height: 30px;
-    font-size: 15pt;
-    font-family: 'Nunito', sans-serif;
-    transition: background-color 0.3s ease;
-    padding: 0;
+    font-size: 0.9rem;
   }
   
-  .outside-month-tile {
-    color: #ddc1f4 !important;
+  .react-calendar__month-view__weekdays__weekday {
+    font-size: 0.9rem !important;
   }
   
-  .react-calendar__tile:not(.outside-month-tile):not(.lesson-tile):not(.homework-tile) {
-    color: #120c38 !important;
+  .react-calendar__navigation__label {
+    font-size: 1.2rem;
   }
   
-  .lesson-tile {
-    background-color: #8a48e6 !important;
-    color: white !important;
+  .react-calendar__month-view__days,
+  .react-calendar__month-view__weekdays {
+    gap: 5px !important;
   }
-  
-  .homework-tile {
-    background-color: #88f2ff !important;
-    color: white !important;
-  }
-  
-  .react-calendar__month-view__days__day--weekend {
-    color: #8a48e6;
-  }
-  
-  .react-calendar__tile:disabled {
-    background-color: transparent;
-  }
-
-  .react-calendar__month-view__weekdays__weekday abbr{
-    text-decoration: none;
-  }
+}

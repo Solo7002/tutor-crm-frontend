@@ -84,8 +84,8 @@ const Productivity = ({ productivityData = {} }) => {
   );
 
   return (
-    <div className="flex-1 bg-white p-2 sm:p-4 rounded-[20px] shadow-md h-full overflow-hidden">
-      <div className="relative w-full h-full">
+    <div className="flex-1 bg-white p-2 sm:p-4 rounded-[20px] shadow-md h-[290px] overflow-hidden">
+      <div className="relative w-full h-[320px]">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 mb-2 sm:mb-4">
           <h2 className="text-[#120c38] font-bold font-['Nunito'] text-base sm:text-lg md:text-xl truncate max-w-[130px] sm:max-w-none">
           {t("HomeTeacher.Productivity.title")}

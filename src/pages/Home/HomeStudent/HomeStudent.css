@@ -2,6 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Background patterns */
 .bg-pattern {
     position: relative;
     background-color: #120C38;
@@ -21,7 +22,8 @@
     pointer-events: none;
 }
 
-  .custom-select {
+/* Custom Select Dropdown */
+.custom-select {
     position: relative;
     padding-right: 30px;
     padding-left: 10px;
@@ -43,204 +45,270 @@
     outline: none;
 }
 
+/* Scrollbar Styles */
 .no-scrollbar {
     overflow: hidden;
-  }
+}
   
-  .custom-scrollbar::-webkit-scrollbar {
+.custom-scrollbar::-webkit-scrollbar {
     width: 4px;
-  }
+}
   
-  .custom-scrollbar::-webkit-scrollbar-thumb {
+.custom-scrollbar::-webkit-scrollbar-thumb {
     background-color: #8A48E6;
     border-radius: 2px;
-  }
+}
   
-  .custom-scrollbar::-webkit-scrollbar-track {
+.custom-scrollbar::-webkit-scrollbar-track {
     background-color: #E0C8FF;
-  }
+}
+
+/* Marks Component Styles */
+.marks {
+    scroll-behavior: smooth;
+}
   
-  @media (max-width: 768px) {
+.marks .custom-scrollbar {
+    overflow-y: auto;
+    max-height: calc(100% - 60px);
+    padding-right: 4px;
+}
+  
+.marks .custom-scrollbar::-webkit-scrollbar {
+    width: 4px;
+}
+  
+.marks .custom-scrollbar::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+  
+.marks .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: #ddc1f4;
+    border-radius: 10px;
+}
+
+/* Responsive Mobile Styles */
+@media (max-width: 768px) {
+    /* Layout adjustments */
     .schedule-mobile-hidden {
-      display: none !important;
+        display: none;
     }
   
     .order-last {
-      order: 5 !important;
+        order: 5;
     }
   
     .flex.flex-col.w-full.md\\:hidden {
-      flex-direction: column !important;
+        flex-direction: column;
     }
   
     .min-h-\[90vh\] {
-      min-height: 100vh !important;
-      overflow-y: auto !important;
+        min-height: 100vh;
+        overflow-y: auto;
     }
   
     .flex.flex-col.gap-4.mb-6 {
-      flex-direction: column !important;
+        flex-direction: column;
     }
-    .greetings{
-      padding: 0px !important;
-      height: clamp(21vh, 2vw, 35vh) !important;
+    
+    /* Greetings Section */
+    .greetings {
+        padding: 0;
+        height: clamp(21vh, 25vh, 35vh);
     }
-    .greetings>div{
-      padding-right: 5px !important;
+    
+    .greetings > div {
+        padding-right: 5px;
     }
-    .greetings>div>div{
-      font-size: 20pt !important;
-      width: auto !important;
-      word-wrap: nowrap !important;
-      margin-bottom: 5px;
-      position: absolute;
+    
+    .greetings > div > div {
+        font-size: 1.25rem;
+        width: auto;
+        margin-bottom: 5px;
+        position: absolute;
     }
-    .greetings>div>p{
-      font-size: clamp(5pt, 2vw, 12pt) !important;
-      margin-bottom: 5px;
-      width: auto !important;
-      margin-top: clamp(40px, 2vw, 50px);
-      line-height: 12.55px;
-      width: clamp(40%, 2vw, 60%) !important;
-      position: absolute;
+    
+    .greetings > div > p {
+        font-size: clamp(0.75rem, 1vw, 0.9rem);
+        margin-bottom: 5px;
+        margin-top: clamp(40px, 5vh, 50px);
+        line-height: 1.2;
+        width: clamp(40%, 50%, 60%);
+        position: absolute;
     }
-    .greetings>svg{
-      margin-left: 20px !important;
-      margin-right: 0px;
-    }
-
-    .graphic{
-      margin-bottom: 24px;
-    }
-
-    .graphic>h2{
-      font-size: 20pt;
-      left: 30px;
+    
+    .greetings > svg {
+        margin-left: 20px;
+        margin-right: 0;
     }
 
-    .graphic .chart{
-      height: 90% !important;
+    /* Graphics Section */
+    .graphic {
+        margin-bottom: 24px;
     }
 
-    .graphic .apexcharts-legend-text{
-      font-size: 8pt !important;
-    }
-    .graphic .apexcharts-legend{
-      display: flex;
-      flex-direction: column;
+    .graphic > h2 {
+        font-size: 1.25rem;
+        left: 30px;
     }
 
-    .graphic tspan{
-      font-size: 8pt !important;
+    .graphic .chart {
+        height: 90%;
     }
 
-    .marks{
-      height: 40vh !important;
+    .graphic .apexcharts-legend-text {
+        font-size: 0.75rem;
+    }
+    
+    .graphic .apexcharts-legend {
+        display: flex;
+        flex-direction: column;
     }
 
+    .graphic tspan {
+        font-size: 0.75rem;
+    }
+
+    /* Marks Section */
+    .marks {
+        height: 40vh;
+    }
+
+    /* Events Section */
     .events {
-      margin-bottom: 24px;
-      height: 20vh !important;
+        margin-bottom: 24px;
+        height: 20vh;
     }
 
-    .leaders{
-      margin-bottom: 24px;
-      height: 50vh !important;
+    /* Leaders Section */
+    .leaders {
+        margin-bottom: 24px;
+        height: 50vh;
     }
 
-    .leaders>div>div{
-      padding-left: 0px;
-      word-wrap: nowrap;
-      font-size: clamp(14pt, 2pt, 18pt) !important;
+    .leaders > div > div {
+        padding-left: 0;
+        white-space: nowrap;
+        font-size: clamp(0.875rem, 1vw, 1.125rem);
     }
 
-    .leaders ol{
-      padding-left: 0px;
+    .leaders ol {
+        padding-left: 0;
     }
 
-    .search-teachers-last{
-      height: 70vh !important;
-      position: relative;
+    /* Search Teachers Section */
+    .search-teachers-last {
+        height: 70vh;
+        position: relative;
     }
 
-    .search-teachers-last .selects{
-      margin-top: 60px;
-      justify-content: center;
-      display: block;
+    .search-teachers-last .selects {
+        margin-top: 60px;
+        justify-content: center;
+        display: block;
     }
 
     .search-teachers-last select.custom-select {
-      width: 100% !important;
-      margin-bottom: 0;
+        width: 100%;
+        margin-bottom: 0;
     }
   
     .search-teachers-last .flex.p-4-lg {
-      display: flex !important;
-      align-items: center !important; 
-      padding: 10px !important;
+        display: flex;
+        align-items: center;
+        padding: 10px;
     }
 
-    .search-teachers-last .custom-select{
-      height: 48px !important;
-
+    .search-teachers-last .custom-select {
+        height: 48px;
     }
     
-    .search-teachers-last .find{
-      top: 10px;
+    .search-teachers-last .find {
+        top: 10px;
     }
 
-    .search-teachers-last .find>a>div{
-      width: 90% !important;
-      padding: 5px;
+    .search-teachers-last .find > a > div {
+        width: 90%;
+        padding: 5px;
     }
 
-    .search-teachers-last .find .find-text{
-      padding: 10px;
+    .search-teachers-last .find .find-text {
+        padding: 10px;
     }
 
-    .search-teachers-last .cards{
-      height: 60vh;
+    .search-teachers-last .cards {
+        height: 60vh;
     }
 
-    .search-teachers-last .cards .card-teacher{
-      height: 60vh;
+    .search-teachers-last .cards .card-teacher {
+        height: 60vh;
     }
 
-    .search-teachers-last .cards .card-teacher>div{
-      height: 228px;
+    .search-teachers-last .cards .card-teacher > div {
+        height: 228px;
     }
 
-    .search-teachers-last .cards .card-teacher .main-card-teacher{
-      height: 228px;
+    .search-teachers-last .cards .card-teacher .main-card-teacher {
+        height: 228px;
     }
 
-    .search-teachers-last .cards .card-teacher .about-teacher{
-      width: auto;
+    .search-teachers-last .cards .card-teacher .about-teacher {
+        width: auto;
     }
 
-    .search-teachers-last .cards .card-teacher .price-teacher{
-      left: -120px;
-      top: 175px !important;
-      font-size: 5vw;
+    .search-teachers-last .cards .card-teacher .price-teacher {
+        left: -120px;
+        top: 175px;
+        font-size: 5vw;
     }
 
-    .search-teachers-last .cards .card-teacher .card-btn{
-      width: 150px;
-      top: 170px !important;
+    .search-teachers-last .cards .card-teacher .card-btn {
+        width: 150px;
+        top: 170px;
     }
 
-    .search-teachers-last .cards .card-teacher .subjects-teacher{
-      width: 60% !important;
-      font-size: 4vw;
-      line-height: 15px;
-      margin-top: 5px;
+    .search-teachers-last .cards .card-teacher .subjects-teacher {
+        width: 60%;
+        font-size: 4vw;
+        line-height: 15px;
+        margin-top: 5px;
     }
 
-    .mobile-dropdown-student{
-      width: 35vw !important;
+    .mobile-dropdown-student {
+        width: 35vw;
     }
 
-    .search-teachers-last .mobile-dropdown-student{
-      width: 40vw !important;
+    .search-teachers-last .mobile-dropdown-student {
+        width: 40vw;
     }
-  }
+}
+
+/* Additional Responsive Breakpoints */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .marks {
+        height: 320px;
+    }
+    
+    .events {
+        height: 25vh;
+    }
+    
+    .leaders {
+        height: 55vh;
+    }
+}
+
+@media (min-width: 1025px) {
+    .marks {
+        height: 350px;
+    }
+    
+    .events {
+        height: 30vh;
+    }
+    
+    .leaders {
+        height: 60vh;
+    }
+}

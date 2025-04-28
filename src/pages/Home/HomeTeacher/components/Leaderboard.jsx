@@ -23,7 +23,7 @@ const Leaderboard = ({ leaders = [] }) => {
     }, [leaders, selectedGroup, t]);
 
     return (
-        <div className="flex-1 bg-white p-3 sm:p-4 rounded-[20px] shadow-md h-full overflow-hidden leaders">
+        <div className="flex-1 bg-white p-3 sm:p-4 rounded-[20px] shadow-md h-[290px] overflow-hidden leaders">
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 mb-2">
                 <div
                     className="text-base sm:text-lg md:text-xl font-semibold w-auto pl-0 sm:pl-3"

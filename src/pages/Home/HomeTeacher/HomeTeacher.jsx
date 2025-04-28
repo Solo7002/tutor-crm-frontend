@@ -169,7 +169,7 @@ export default function HomeTeacher() {
                             <Greetings user={user || {}} />
                         </div>
 
-                        <div className="flex flex-col md:flex-row gap-4 w-full h-[30vh]">
+                        <div className="flex flex-col md:flex-row gap-4 w-full">
                             <div className="w-full md:w-1/2">
                                 <Productivity productivityData={productivityData || {}} />
                             </div>

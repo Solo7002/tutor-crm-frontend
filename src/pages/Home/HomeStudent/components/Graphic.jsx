@@ -109,7 +109,7 @@ const Graphic = ({ chartData }) => {
       position: "top",
       horizontalAlign: "right",
       offsetY: 5,
-      fontSize: "15pt",
+      fontSize: "12pt",
       fontFamily: "Mulish",
       fontWeight: 400,
       markers: {
@@ -124,7 +124,7 @@ const Graphic = ({ chartData }) => {
   };
 
   return (
-    <div className="flex-1 bg-white p-4 rounded-[20px] shadow-md h-full relative graphic">
+    <div className="flex-1 bg-white p-4 rounded-[20px] shadow-md h-[320px] relative graphic">
       <h2
         className="text-[#120c38] text-2xl font-bold font-['Nunito'] absolute top-[18px] left-[40px]"
         style={{ marginTop: 0 }}
@@ -146,7 +146,7 @@ const Graphic = ({ chartData }) => {
         ]}
         type="line"
         width="100%"
-        height="280"
+        height="300"
       />
     </div>
   );
