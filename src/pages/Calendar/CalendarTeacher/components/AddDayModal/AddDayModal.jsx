@@ -220,30 +220,7 @@ const AddDayModal = ({ isOpen, onClose, token, teacherId, onRefresh }) => {
       }
       const groupName = groups.find((group) => group.GroupId === selectedGroupId)?.GroupName;
 
-      toast.success(
-        <div>
-          <p>{t("CalendarTeacher.components.AddDayModal.Messages.SaveEventSuccess")}</p>
-          <p>{t("CalendarTeacher.components.AddDayModal.UI.SubjectLabel")} {subject}</p>
-          <p>{t("CalendarTeacher.components.AddDayModal.UI.GroupLabel")} {groupName}</p>
-          <p>
-            {t("CalendarTeacher.components.AddDayModal.UI.DatesLabel")}{" "}
-            {lessonDates.map((lesson, index) => (
-              <span key={index}>
-                {moment(lesson.start).format("DD.MM.YYYY")}
-                {index < lessonDates.length - 1 ? ", " : ""}
-              </span>
-            ))}
-          </p>
-          <p>{t("CalendarTeacher.components.AddDayModal.UI.LessonCountLabel")} {lessonDates.length}</p>
-          <p>
-            {t("CalendarTeacher.components.AddDayModal.UI.FormatLabel")}{" "}
-            {format === "online"
-              ? t("CalendarTeacher.components.AddDayModal.UI.Online")
-              : t("CalendarTeacher.components.AddDayModal.UI.Offline")}
-          </p>
-        </div>,
-        { toastId: `summary-${moment().format("YYYY-MM-DD-HH-mm-ss")}`, autoClose: 4000 }
-      );
+      toast.success(t("CalendarTeacher.components.AddDayModal.Messages.SaveEventSuccess"));
       onClose();
       resetForm();
       onRefresh();

@@ -470,7 +470,8 @@
                     "OneTime": "Разова подія",
                     "Weekly": "Повторювати кожен тиждень",
                     "Biweekly": "Повторювати кожні 2 тижні",
-                    "AddToSchedule": "Додати до розкладу"
+                    "AddToSchedule": "Додати до розкладу",
+                    "LessonCountLabel": ""
                 },
                 "Messages": {
                     "FetchGroupsError": "Помилка при отриманні груп",
