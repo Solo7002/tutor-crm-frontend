@@ -318,7 +318,7 @@ const HomeTaskCreateModal = ({ isOpened, onClose, subject = "", group = "", sele
                 className="w-full h-full object-cover rounded-3xl"
               />
             ) : (
-              <svg width="46" height="46" viewBox="0 0 46 46" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <svg width="46" height="46" viewBox="0 0 46 46" fill="none" xmlns="http://www.w3.org/2000/svg" className='w-[182px]'>
                 <path d="M28.75 15.3333H28.7692M5.75 11.5C5.75 9.97501 6.3558 8.51247 7.43414 7.43414C8.51247 6.3558 9.97501 5.75 11.5 5.75H34.5C36.025 5.75 37.4875 6.3558 38.5659 7.43414C39.6442 8.51247 40.25 9.97501 40.25 11.5V34.5C40.25 36.025 39.6442 37.4875 38.5659 38.5659C37.4875 39.6442 36.025 40.25 34.5 40.25H11.5C9.97501 40.25 8.51247 39.6442 7.43414 38.5659C6.3558 37.4875 5.75 36.025 5.75 34.5V11.5Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                 <path d="M5.75 30.6668L15.3333 21.0835C17.112 19.3719 19.3047 19.3719 21.0833 21.0835L30.6667 30.6668" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                 <path d="M26.833 26.8332L28.7497 24.9165C30.5283 23.2049 32.721 23.2049 34.4997 24.9165L40.2497 30.6665" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
