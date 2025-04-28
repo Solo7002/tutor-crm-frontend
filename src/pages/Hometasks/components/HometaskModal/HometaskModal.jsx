@@ -31,7 +31,7 @@ export const HometaskModal = ({
   const handleFileChange = (event) => {
     const files = Array.from(event.target.files);
     setSelectedFiles(files);
-    toast.info(t("HometaskStudent.components.HometaskModal.Messages.FileError"), {
+    toast.success(t("HometaskStudent.components.HometaskModal.Messages.FileError"), {
       position: "bottom-right",
       autoClose: 5000,
     });
