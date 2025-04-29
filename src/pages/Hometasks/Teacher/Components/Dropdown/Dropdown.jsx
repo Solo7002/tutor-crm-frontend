@@ -15,16 +15,13 @@ export default function Dropdown({ options, onSelectSubject, selectedValue, notA
     } else {
       setSelected(selectedValue);
     }
-  }, [selectedValue, options, notAll]);
-
-  useEffect(() => {
-    if (!options || options.length === 0) {
+    if (!options) {
       toast.error(t('HometaskStudent.components.Dropdown.Errors.NoOptions'), {
         position: "bottom-right",
         autoClose: 5000,
       });
     }
-  }, [options, t]);
+  }, [selectedValue, options, notAll, t]);
 
   // Функция для отображения текущего выбранного значения
   const getDisplayValue = () => {
