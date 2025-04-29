@@ -148,8 +148,6 @@ const CreateTestAi = () => {
         ShowAnswers: formData.showAnswersAfterTest || false,
       };
 
-      console.log("testPayLoad: ", testPayload);
-
       const testResponse = await axios.post(`${process.env.REACT_APP_BASE_API_URL}/api/tests`, testPayload, {
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -259,7 +257,7 @@ const CreateTestAi = () => {
   }, []);
 
   return (
-    <div className="test-page-container">
+    <div className="test-page-container w-full max-w-[900px] mx-auto px-4 sm:px-6">
       <TestForm
         defaultNumQuestions="5"
         onFormChange={handleFormChange}
