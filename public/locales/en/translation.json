@@ -437,6 +437,8 @@
                     "Default": "To do"
                 },
                 "Mark": "Grade:",
+                "MaxSize": "Maximum file size is 49 MB.",
+                "FileSave": "Attention! Files are stored in the system for 90 days and then deleted.",
                 "Messages": {
                     "NoFilesSelected": "Please select at least one file.",
                     "FileError": "Error processing file"
@@ -567,7 +569,7 @@
                 "UI": {
                     "SortToday": "Today",
                     "SortWeek": "Week",
-                    "SortMonth": "Month " ,
+                    "SortMonth": "Month ",
                     "SortSelectedPrefix": "For"
                 }
             }

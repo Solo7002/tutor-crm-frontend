@@ -437,6 +437,8 @@
                     "Default": "Zu erledigen"
                 },
                 "Mark": "Note:",
+                "MaxSize": "Maximale Dateigröße beträgt 49 MB.",
+                "FileSave": "Achtung! Dateien werden 90 Tage im System gespeichert und anschließend gelöscht.",
                 "Messages": {
                     "NoFilesSelected": "Bitte wähle mindestens eine Datei aus.",
                     "FileError": "Fehler beim Verarbeiten der Datei"

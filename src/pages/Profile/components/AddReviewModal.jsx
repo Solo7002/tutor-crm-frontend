@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
+import { data } from 'autoprefixer';
 
 const AddReviewModal = ({ isOpened, onClose, userIdFor, userIdFrom, onRefreshReviews }) => {
   const { t } = useTranslation();
@@ -33,11 +34,13 @@ const AddReviewModal = ({ isOpened, onClose, userIdFor, userIdFrom, onRefreshRev
         UserIdFor: userIdFor,
       };
 
-      await axios.post(`${process.env.REACT_APP_BASE_API_URL}/api/userReviews`, {
+      await axios.post(`${process.env.REACT_APP_BASE_API_URL}/api/userReviews`,
+      {
         headers: {
             Authorization: `Bearer ${token}`
-        }
-    }, reviewData);
+        },
+        data:reviewData
+    });
       onClose();
       onRefreshReviews();
       toast.success(t('ProfileTeacher.AddReviewModal.Messages.ReviewSent'));

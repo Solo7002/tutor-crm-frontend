@@ -8,8 +8,7 @@ const GroupItem = ({ group, groupIndex, deleteGroup, onChange, editedGroup }) =>
   const [errors, setErrors] = useState({});
   const [touched, setTouched] = useState({});
 
-  const students = (group.Students || []).map(student => student.User).filter(Boolean);
-
+  const students = (group.Students || []).map(student => student.User || student).filter(Boolean);
   const validateGroupName = (value) => {
     return !value || value.trim() === '' ? 'Назва групи не може бути порожньою' : '';
   };
@@ -66,13 +65,22 @@ const GroupItem = ({ group, groupIndex, deleteGroup, onChange, editedGroup }) =>
           },
         }
       );
+     
+      const updatedGroup = { ...editedGroup };
+      if (updatedGroup.Students) {
+        updatedGroup.Students = updatedGroup.Students.filter(student => {
+          const studentUserId = student.User ? student.User.UserId : student.UserId;
+          return studentUserId !== studentId;
+        });
+      }
+      updatedGroup.studentCount = (updatedGroup.Students || []).length;
+      onChange(groupIndex, 'Students', updatedGroup.Students);
       toast.success(
         <div>
           <p>Учня успішно видалено з групи!</p>
         </div>,
         { autoClose: 5000 }
       );
-      onChange(groupIndex, 'Students', students.filter(s => s.UserId !== studentId));
     } catch (error) {
       console.error("Error deleting student from group:", error);
       toast.error(
