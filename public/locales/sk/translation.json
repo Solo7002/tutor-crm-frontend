@@ -437,6 +437,8 @@
                     "Default": "Na vykonanie"
                 },
                 "Mark": "Známka:",
+                "MaxSize": "Maximálna veľkosť súboru je 49 MB.",
+                "FileSave": "Pozor! Súbory sú v systéme uložené po dobu 90 dní a potom sú vymazané.",
                 "Messages": {
                     "NoFilesSelected": "Vyberte aspoň jeden súbor.",
                     "FileError": "Chyba pri spracovaní súboru"

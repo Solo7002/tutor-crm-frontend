@@ -460,6 +460,10 @@ export const HometaskModal = ({
             )}
           </div>
         </div>
+        <div className="text-red-500 text-xs font-normal font-['Mulish'] mt-2">
+          <div>{t("HometaskStudent.components.HometaskModal.MaxSize")}</div>
+          <div>{t("HometaskStudent.components.HometaskModal.FileSave")}</div>
+        </div>
       </div>
     </>
   );

@@ -67,6 +67,26 @@ const CourseForm = ({ courseId, isSave, CourseName, onCourseUpdated }) => {
         update[groupIndex].changeType === "created" ? "created" : "modified",
     };
     setEditedGroups(update);
+    if (field === 'Students') {
+      update[groupIndex] = {
+        ...update[groupIndex],
+        Students: value,
+        studentCount: value.length,
+        changeType:
+          update[groupIndex].changeType === "created" ? "created" : "modified",
+      };
+    } 
+    
+     
+    const updatedGroups = [...groups];
+    if (field === 'Students') {
+      updatedGroups[groupIndex] = {
+        ...updatedGroups[groupIndex],
+        Students: value,
+        studentCount: value.length
+      };
+    }
+    setGroups(updatedGroups);
   };
 
   const deleteGroup = (groupIndex) => {

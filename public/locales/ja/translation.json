@@ -437,6 +437,8 @@
                     "Default": "未完了"
                 },
                 "Mark": "評価：",
+                "MaxSize": "ファイルの最大サイズは49MBです。",
+                "FileSave": "ご注意！ファイルはシステムに90日間保存され、その後削除されます。",
                 "Messages": {
                     "NoFilesSelected": "少なくとも1つのファイルを選択してください。",
                     "FileError": "ファイル処理中にエラーが発生しました"
@@ -849,7 +851,7 @@
             "Title": "コースへの登録",
             "TeacherLabel": "教師",
             "CourseLabel": "コース",
-	"GroupLabel": "グループ",
+            "GroupLabel": "グループ",
             "TypeLabel": "種類",
             "FormatLabel": "形式",
             "PriceLabel": "授業料",
