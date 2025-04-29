@@ -33,9 +33,9 @@ const Register = () => {
     });
 
     const [step1Validation, setStep1Validation] = useState({
-        LastName: false,
-        FirstName: false,
-        Email: false,
+        LastName: queryParams.get("firstName") ? true : false,
+        FirstName: queryParams.get("lastName") ? true : false,
+        Email: queryParams.get("email") ? true : false,
         Password: false,
         confirmPassword: false,
     });

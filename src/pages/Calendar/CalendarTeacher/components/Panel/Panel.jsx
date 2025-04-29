@@ -16,7 +16,7 @@ const Panel = () => {
 
         {/* Кнопка */}
         <div className="panel-button-wrapper">
-          <button className="panel-button">
+          <button className="panel-button" disabled>
             {t("CalendarTeacher.components.Panel.UI.ButtonText")}
             <span className="soon-label">{t("CalendarTeacher.components.Panel.UI.SoonLabel")}</span>
           </button>

@@ -67,6 +67,7 @@ const LanguageSwitcher = () => {
   const changeLanguage = (langCode) => {
     i18n.changeLanguage(langCode);
     setIsOpen(false);
+    window.location.reload();
   };
 
   const [iconColor, setIconColor] = useState("#120C38");

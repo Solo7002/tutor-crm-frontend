@@ -41,11 +41,16 @@
     @apply flex justify-center relative;
 }
 .panel-button {
-    @apply w-28 sm:w-32 h-9 sm:h-10 px-4 py-2 bg-[#8a48e6] rounded-3xl text-white text-sm sm:text-base font-bold font-['Nunito'];
+    @apply w-28 sm:w-32 h-9 sm:h-10 px-4 py-2 bg-[#8a48e6] rounded-3xl text-white text-sm sm:text-base font-bold font-['Nunito'] cursor-not-allowed opacity-60 relative border border-dashed border-[#6e36b8];
+    transition: all 0.3s ease;
+}
+.panel-button:hover {
+    @apply bg-[#8a48e6] opacity-70;
 }
 .soon-label {
-    @apply absolute top-[-1px] text-[#8a48e6] px-1 text-xs bg-white  rounded-full font-bold;
+    @apply absolute -top-1 right-0 transform translate-x-1/4 text-[#8a48e6] px-2 py-0.5 text-xs bg-white rounded-full font-bold border border-[#8a48e6];
 }
+
 .panel-decor-left {
     @apply absolute left-0 top-0 sm:w-80;
 }

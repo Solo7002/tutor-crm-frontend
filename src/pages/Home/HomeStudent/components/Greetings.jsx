@@ -23,7 +23,7 @@ const Greetings = ({ user }) => {
         }}
       >
         <div
-          className="text-xl sm:text-2xl font-bold mb-2 sm:mb-6"
+          className="text-xl sm:text-2xl font-bold mb-2 sm:mb-4"
           style={{
             fontFamily: "Nunito",
             fontStyle: "normal",

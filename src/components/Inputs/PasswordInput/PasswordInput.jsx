@@ -35,7 +35,7 @@ const PasswordInput = ({
       errors.push(t('PasswordInput.ValidationErrors.EmptyField'));
     } else {
       if (password.length < minLength || password.length > maxLength) {
-        errors.push(t('PasswordInput.ValidationErrors.Length', { minLength, maxLength }));
+        errors.push(t('PasswordInput.ValidationErrors.Length'));
       }
       if (!hasLowercase) {
         errors.push(`${t('PasswordInput.ValidationErrors.Lowercase')} (a-z)`);
