@@ -2,14 +2,20 @@ import { useEffect, useState } from "react";
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 
-export default function Dropdown({ options, onSelectSubject, selectedValue }) {
+export default function Dropdown({ options, onSelectSubject, selectedValue, notAll }) {
   const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
-  const [selected, setSelected] = useState(selectedValue || t('HometaskStudent.components.Dropdown.AllSubjects'));
+  const [selected, setSelected] = useState(null);
 
   useEffect(() => {
-    setSelected(selectedValue || t('HometaskStudent.components.Dropdown.AllSubjects'));
-  }, [selectedValue, t]);
+    // Если notAll=true, выбираем первый вариант из списка options
+    // Если notAll=false или не указан, используем selectedValue или "все предметы" (null)
+    if (notAll) {
+      setSelected(selectedValue || options[0]);
+    } else {
+      setSelected(selectedValue);
+    }
+  }, [selectedValue, options, notAll]);
 
   useEffect(() => {
     if (!options || options.length === 0) {
@@ -20,6 +26,14 @@ export default function Dropdown({ options, onSelectSubject, selectedValue }) {
     }
   }, [options, t]);
 
+  // Функция для отображения текущего выбранного значения
+  const getDisplayValue = () => {
+    if (selected === null && !notAll) {
+      return t('HometaskStudent.components.Dropdown.AllSubjects');
+    }
+    return selected;
+  };
+
   return (
     <div className="relative w-[245px]">
       <button
@@ -27,7 +41,7 @@ export default function Dropdown({ options, onSelectSubject, selectedValue }) {
         className="w-full h-10 p-2 bg-white rounded-2xl border border-[#d7d7d7] flex justify-between items-center"
       >
         <span className="text-[#827ead] text-[15px] font-bold font-['Nunito']">
-          {selected || t('HometaskStudent.components.Dropdown.AllSubjects')}
+          {getDisplayValue()}
         </span>
         <svg
           width="24"
@@ -49,23 +63,34 @@ export default function Dropdown({ options, onSelectSubject, selectedValue }) {
 
       {isOpen && (
         <ul className="absolute w-full mt-1 bg-white border border-[#d7d7d7] rounded-2xl shadow-lg z-10">
-          {[t('HometaskStudent.components.Dropdown.AllSubjects'), ...options.map(op => op)].map((option) => (
-            option === selected
-              ? null
-              : (
-                <li
-                  key={option || t('HometaskStudent.components.Dropdown.AllSubjects')}
-                  onClick={() => {
-                    const value = option || t('HometaskStudent.components.Dropdown.AllSubjects');
-                    setSelected(value);
-                    setIsOpen(false);
-                    onSelectSubject(value);
-                  }}
-                  className="p-2 hover:bg-[#f4f4f5] hover:rounded-2xl cursor-pointer text-[#827ead] text-[15px]"
-                >
-                  {option || t('HometaskStudent.components.Dropdown.AllSubjects')}
-                </li>
-              )
+          {/* Добавляем опцию "все предметы" только если notAll=false */}
+          {!notAll && (
+            <li
+              onClick={() => {
+                setSelected(null);
+                setIsOpen(false);
+                onSelectSubject(null);
+              }}
+              className="p-2 hover:bg-[#f4f4f5] hover:rounded-2xl cursor-pointer text-[#827ead] text-[15px]"
+            >
+              {t('HometaskStudent.components.Dropdown.AllSubjects')}
+            </li>
+          )}
+          
+          {options.map((option) => (
+            option === selected ? null : (
+              <li
+                key={option}
+                onClick={() => {
+                  setSelected(option);
+                  setIsOpen(false);
+                  onSelectSubject(option);
+                }}
+                className="p-2 hover:bg-[#f4f4f5] hover:rounded-2xl cursor-pointer text-[#827ead] text-[15px]"
+              >
+                {option}
+              </li>
+            )
           ))}
         </ul>
       )}

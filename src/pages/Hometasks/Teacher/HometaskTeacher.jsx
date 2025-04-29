@@ -280,6 +280,7 @@ const HometaskTeacher = () => {
               setSelectedGroupName(newCurrentGroups.length > 0 ? newCurrentGroups[0].GroupName : null);
             }}
             selectedValue={selectedCourseName}
+            notAll={true}
           />
           <Dropdown
             options={groupOptions}
@@ -287,6 +288,7 @@ const HometaskTeacher = () => {
               setSelectedGroupName(groupName);
             }}
             selectedValue={selectedGroupName}
+            notAll={true}
           />
         </div>
         <div className="w-full sm:w-[210px] stroke-purple-600 hover:stroke-white mt-3 sm:mt-0">
